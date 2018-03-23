@@ -1,6 +1,6 @@
-import Scroll = require("..");
+import { Scroll } from "../src/scroll";
 
-const scroll = new Scroll();
+const scrollable = document.getElementById("scrollable");
+const scroll = new Scroll(scrollable);
 
-scroll.scrollToStart();
 scroll.scrollToEnd();
