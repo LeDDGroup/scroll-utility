@@ -3,5 +3,5 @@ export {
 };
 
 function scroll(dist: number) {
-    window.scrollBy(dist);
+    window.scrollBy(0, dist);
 }
