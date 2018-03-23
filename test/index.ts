@@ -1,3 +1,6 @@
-import scroll = require("..");
+import Scroll = require("..");
 
-scroll(123);
+const scroll = new Scroll();
+
+const amount: number = 200;
+scroll.dist(amount);
