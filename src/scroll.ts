@@ -8,11 +8,18 @@ class Scroll {
         window.scrollBy(0, value);
     }
     public scrollToEnd() {
-        const documentLength = document.body.scrollHeight;
-        const value = documentLength - window.scrollY;
+        const documentLength = this.getScrollHeight();
+        const scrollPosition = this.getScrollPosition();
+        const value = documentLength - scrollPosition;
         window.scrollBy(0, value);
     }
     public dist(value: number) {
         window.scrollBy(0, value);
+    }
+    private getScrollHeight(): number {
+        return document.body.scrollHeight;
+    }
+    private getScrollPosition(): number {
+        return window.scrollY;
     }
 }
