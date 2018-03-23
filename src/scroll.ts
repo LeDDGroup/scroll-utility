@@ -12,22 +12,24 @@ class Scroll {
         }
     }
     public scrollToStart() {
-        const value = this.getScrollPosition();
-        this.scrollable.scrollBy(0, -value);
+        const value = -this.getScrollPosition();
+        this.scrollAmount(value);
     }
     public scrollToEnd() {
         const documentLength = this.getScrollHeight();
         const scrollPosition = this.getScrollPosition();
         const value = documentLength - scrollPosition;
-        this.scrollable.scrollBy(0, value);
+        this.scrollAmount(value);
     }
-    public dist(value: number) {
+    public scrollAmount(value: number) {
         this.scrollable.scrollBy(0, value);
     }
     private getScrollHeight(): number {
-        return this.scrollable.scrollHeight;
+        const scrollHeight = this.scrollable.scrollHeight;
+        return scrollHeight;
     }
     private getScrollPosition(): number {
-        return this.scrollable.scrollTop;
+        const scrollPosition = this.scrollable.scrollTop;
+        return scrollPosition;
     }
 }
