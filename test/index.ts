@@ -1,7 +1,3 @@
-import a = require("..");
+import scroll = require("..");
 
-describe("module", () => {
-    it("should run", () => {
-        a();
-    });
-});
+scroll(123);
