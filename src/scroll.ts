@@ -1,7 +1,9 @@
 export {
-    scroll,
+    Scroll,
 };
 
-function scroll(dist: number) {
-    window.scrollBy(0, dist);
+class Scroll {
+    public dist(value: number) {
+        window.scrollBy(0, value);
+    }
 }

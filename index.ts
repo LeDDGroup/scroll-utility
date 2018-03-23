@@ -1,3 +1,3 @@
-import { scroll } from "./src/scroll";
+import { Scroll } from "./src/scroll";
 
-export = scroll;
+export = Scroll;
