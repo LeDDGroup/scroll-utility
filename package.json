@@ -1,0 +1,23 @@
+{
+  "name": "scroll-utility",
+  "version": "0.0.1",
+  "description": "Utility for scrolling to elements",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeDDGroup/scroll-utility.git"
+  },
+  "keywords": [
+    "scroll",
+    "smooth"
+  ],
+  "author": "David Perez Alvarez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LeDDGroup/scroll-utility/issues"
+  },
+  "homepage": "https://github.com/LeDDGroup/scroll-utility#readme"
+}
