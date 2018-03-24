@@ -1,5 +1,7 @@
-import { ScrollElement } from "./scrollElement";
 import { InnerElement } from "./innerElement";
+import { ScrollElement } from "./scrollElement";
+import { SmoothScroll } from "./smoothScroll";
+
 export {
     Scroll,
     IProps,
@@ -12,8 +14,10 @@ interface IProps {
 
 class Scroll {
     private scrollable: ScrollElement;
+    private smoothScroll: SmoothScroll;
     constructor(scrollable?: HTMLElement) {
         this.scrollable = new ScrollElement(scrollable);
+        this.smoothScroll = new SmoothScroll();
     }
     public scrollToElement(element: HTMLElement, props?: IProps) {
         const distToScroll = this.getDistToElement(element, props);
@@ -30,7 +34,8 @@ class Scroll {
         this.scrollAmount(value);
     }
     public scrollAmount(value: number) {
-        this.scrollable.scroll(value);
+        // this.scrollable.scroll(value);
+        this.smoothScroll.go(value);
     }
     private getScrollPosition(): number {
         const scrollPosition = this.scrollable.getY();
