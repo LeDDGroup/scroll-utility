@@ -12,6 +12,8 @@ interface IProps {
 const STEPS = 50;
 const DURATION = 750;
 
+const EASING = 10;
+
 class SmoothScroll {
     private steps: number;
     private duration: number;
@@ -29,7 +31,6 @@ class SmoothScroll {
         const stepDuration = this.duration / this.steps;
         for (let i = 0; i < this.steps; i++) {
             const multiplier = this.getMultiplier(i, this.steps);
-            console.log(multiplier);
             const timeout = stepDuration * i;
             this.timeouts.push(window.setTimeout(() => {
                 this.scrollBy(stepDistance * multiplier);
@@ -48,7 +49,8 @@ class SmoothScroll {
     private getMultiplier(current: number, total: number): number {
         const half = total / 2;
         const distToHalf = Math.abs(half - current);
-        let multiplier = Math.abs(half - distToHalf) / half + 0.5;
+        const basicMultiplier = Math.abs(half - distToHalf) / half + 0.5;
+        const multiplier = (((basicMultiplier - 1) * EASING) * 2 + EASING) / EASING;
         return multiplier;
     }
 }
