@@ -68,7 +68,6 @@ class ScrollElement {
     private scrollBy(value: number) {
         const x = this.getX();
         const y = this.getY() + value;
-        console.log(this.isWindow);
         if (this.isWindow) {
             window.scroll(x, y);
         } else {
