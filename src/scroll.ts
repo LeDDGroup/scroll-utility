@@ -1,5 +1,5 @@
 import { InnerElement } from "./innerElement";
-import { ScrollElement } from "./scrollElement";
+import { ScrollElement, IProps as IScrollProps } from "./scrollElement";
 
 export {
     Scroll,
@@ -9,6 +9,8 @@ export {
 interface IProps {
     center?: boolean;
     value?: number;
+    duration?: number;
+    steps?: number;
     smooth?: boolean;
 }
 
@@ -19,8 +21,7 @@ class Scroll {
     }
     public scrollToElement(element: HTMLElement, props: IProps = {}) {
         const distToScroll = this.getDistToElement(element, props);
-        const smooth = props.smooth;
-        this.scrollAmount(distToScroll, props.smooth);
+        this.scrollAmount(distToScroll, props);
     }
     public scrollToStart() {
         const value = -this.getScrollPosition();
@@ -32,8 +33,9 @@ class Scroll {
         const value = documentLength - scrollPosition;
         this.scrollAmount(value);
     }
-    public scrollAmount(value: number, smooth: boolean = false) {
-        this.scrollable.scroll(value, smooth);
+    public scrollAmount(value: number, props: IProps = {}) {
+        const mappedProps = this.mapProps(props);
+        this.scrollable.scroll(value, mappedProps);
     }
     private getScrollPosition(): number {
         const scrollPosition = this.scrollable.getY();
@@ -58,5 +60,13 @@ class Scroll {
             }
         }
         return distToScroll;
+    }
+    private mapProps(props: IProps): IScrollProps {
+        const mappedProps: IScrollProps = {
+            smooth: props.smooth,
+            duration: props.duration,
+            steps: props.steps,
+        };
+        return mappedProps;
     }
 }

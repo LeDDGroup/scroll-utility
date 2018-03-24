@@ -1,7 +1,14 @@
 import { SmoothScroll, IProps as ISmoothProps } from "./smoothScroll";
 
 export {
+    IProps,
     ScrollElement,
+}
+
+interface IProps {
+    duration?: number;
+    steps?: number;
+    smooth?: boolean;
 }
 
 class ScrollElement {
@@ -10,8 +17,8 @@ class ScrollElement {
     private smoothScroll: SmoothScroll;
     constructor(element: HTMLElement) {
         this.scrollBy = this.scrollBy.bind(this);
+        this.scrollable = element;
         if (!!element) {
-            this.scrollable = element;
         } else {
             this.isWindow = true;
         }
@@ -20,8 +27,14 @@ class ScrollElement {
         };
         this.smoothScroll = new SmoothScroll(props);
     }
-    public scroll(value: number, smooth: boolean = false) {
-        this.smoothScroll.go(value);
+    public scroll(value: number, props: IProps = {}) {
+        const smooth = !!props.smooth;
+        console.log(props);
+        if (smooth) {
+            this.smoothScroll.go(value);
+        } else {
+            this.scrollBy(value);
+        }
     }
     private scrollBy(value: number) {
         const x = this.getX();
