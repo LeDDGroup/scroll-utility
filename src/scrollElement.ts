@@ -30,10 +30,10 @@ class ScrollElement {
         };
         this.smoothScroll = new SmoothScroll(props);
     }
-    public scroll(value: number, props: IProps = {}) {
-        const smooth = !!props.smooth;
+    public scroll(value: number = 0, duration: number = 0) {
+        const smooth = duration > 0;
         if (smooth) {
-            this.smoothScroll.go(value);
+            this.smoothScroll.go(value, duration);
         } else {
             this.scrollBy(value);
         }

@@ -26,9 +26,9 @@ class SmoothScroll {
         this.steps = props.steps || STEPS;
         this.timeouts = [];
     }
-    public go(value: number) {
+    public go(value: number, duration: number) {
         const stepDistance = value / this.steps;
-        const stepDuration = this.duration / this.steps;
+        const stepDuration = duration / this.steps;
         for (let i = 0; i < this.steps; i++) {
             const multiplier = this.getMultiplier(i, this.steps);
             const timeout = stepDuration * i;

@@ -4,14 +4,16 @@ import { ScrollElement, IProps as IScrollProps } from "./scrollElement";
 export {
     Scroll,
     IProps,
+    IBasicModifiers,
 };
 
-interface IProps {
+interface IProps extends IBasicModifiers {
     center?: boolean;
+}
+
+interface IBasicModifiers {
     value?: number;
     duration?: number;
-    steps?: number;
-    smooth?: boolean;
 }
 
 class Scroll {
@@ -21,21 +23,24 @@ class Scroll {
     }
     public scrollToElement(element: HTMLElement, props: IProps = {}) {
         const distToScroll = this.getDistToElement(element, props);
-        this.scrollAmount(distToScroll, props);
+        const duration = props.duration;
+        this.scrollAmount(distToScroll, duration);
     }
-    public scrollToStart() {
+    public scrollToStart(props: IBasicModifiers = {}) {
         const value = -this.getScrollPosition();
-        this.scrollAmount(value);
+        this.scrollAmount(value, props.duration);
     }
-    public scrollToEnd() {
+    public scrollToEnd(props: IBasicModifiers = {}) {
         const documentLength = this.getScrollHeight();
         const scrollPosition = this.getScrollPosition();
         const value = documentLength - scrollPosition;
-        this.scrollAmount(value);
+        this.scrollAmount(value, props.duration);
     }
-    public scrollAmount(value: number, props: IProps = {}) {
-        const mappedProps = this.mapProps(props);
-        this.scrollable.scroll(value, mappedProps);
+    public scroll(value: number = 0, duration: number = 0) {
+        this.scrollAmount(value, duration);
+    }
+    private scrollAmount(value, duration) {
+        this.scrollable.scroll(value, duration);
     }
     private getScrollPosition(): number {
         const scrollPosition = this.scrollable.getY();
@@ -60,13 +65,5 @@ class Scroll {
             }
         }
         return distToScroll;
-    }
-    private mapProps(props: IProps): IScrollProps {
-        const mappedProps: IScrollProps = {
-            smooth: props.smooth,
-            duration: props.duration,
-            steps: props.steps,
-        };
-        return mappedProps;
     }
 }
