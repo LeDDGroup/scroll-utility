@@ -4,11 +4,12 @@ export {
 
 class Scroll {
     private scrollable: HTMLElement;
+    private isWindow: boolean;
     constructor(scrollable?: HTMLElement) {
         if (!!scrollable) {
             this.scrollable = scrollable;
         } else {
-            this.scrollable = document.body;
+            this.isWindow = true;
         }
     }
     public scrollToStart() {
@@ -22,14 +23,43 @@ class Scroll {
         this.scrollAmount(value);
     }
     public scrollAmount(value: number) {
-        this.scrollable.scrollBy(0, value);
+        const horizontalPosition = this.getHorizontalPosition();
+        const verticalPosition = this.getScrollTop();
+        if (this.isWindow) {
+            window.scroll(horizontalPosition, value + verticalPosition);
+        } else {
+            this.scrollable.scroll(horizontalPosition, value + verticalPosition);
+        }
     }
     private getScrollHeight(): number {
-        const scrollHeight = this.scrollable.scrollHeight;
+        let scrollHeight = null;
+        if (this.isWindow) {
+            scrollHeight = document.body.clientHeight;
+        } else {
+            scrollHeight = this.scrollable.scrollHeight;
+        }
         return scrollHeight;
     }
     private getScrollPosition(): number {
-        const scrollPosition = this.scrollable.scrollTop;
+        const scrollPosition = this.getScrollTop();
         return scrollPosition;
+    }
+    private getHorizontalPosition(): number {
+        let scrollLeft = null;
+        if (this.isWindow) {
+            scrollLeft = window.pageXOffset;
+        } else {
+            scrollLeft = this.scrollable.scrollLeft;
+        }
+        return scrollLeft;
+    }
+    private getScrollTop(): number {
+        let scrollTop = null;
+        if (this.isWindow) {
+            scrollTop = window.pageYOffset;
+        } else {
+            scrollTop = this.scrollable.scrollTop;
+        }
+        return scrollTop;
     }
 }
