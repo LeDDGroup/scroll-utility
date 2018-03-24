@@ -3,8 +3,10 @@ import { Scroll } from "../src/scroll";
 
 //inner element
 const scrollable = document.getElementById("scrollable");
-const scroll = new Scroll(scrollable);
-scroll.scrollToEnd();
-const randomValue = (Math.random() - 0.5) * 200;
-scroll.scrollAmount(randomValue);
-
+const scrollTo = document.getElementById("element1");
+const scroll = new Scroll();
+const props = {
+    center: true,
+    value: 20,
+}
+scroll.scrollToElement(scrollTo, props);
