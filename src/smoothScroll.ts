@@ -28,9 +28,11 @@ class SmoothScroll {
         const stepDistance = value / this.steps;
         const stepDuration = this.duration / this.steps;
         for (let i = 0; i < this.steps; i++) {
+            const multiplier = this.getMultiplier(i, this.steps);
+            console.log(multiplier);
             const timeout = stepDuration * i;
             this.timeouts.push(window.setTimeout(() => {
-                this.scrollBy(stepDistance);
+                this.scrollBy(stepDistance * multiplier);
             }, timeout));
         }
     }
@@ -42,5 +44,11 @@ class SmoothScroll {
     private static navigateWindow(value: number) {
         const dist = value + window.pageXOffset;
         window.scrollBy(window.pageXOffset, dist);
+    }
+    private getMultiplier(current: number, total: number): number {
+        const half = total / 2;
+        const distToHalf = Math.abs(half - current);
+        let multiplier = Math.abs(half - distToHalf) / half + 0.5;
+        return multiplier;
     }
 }
