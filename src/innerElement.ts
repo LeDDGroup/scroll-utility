@@ -40,7 +40,7 @@ class InnerElement {
     private get rect(): ClientRect {
         return this.element.getBoundingClientRect();
     }
-    private get windowHeight: number {
+    private get windowHeight(): number {
         return window.innerHeight;
     }
 }
