@@ -28,13 +28,15 @@ class Scroll {
             const duration = props.duration || 0;
             const scrollTop = this.getScrollPosition();
             const value = offset + percent;
-            this.scroll(value, duration);
+            const scrollPosition = this.getScrollPosition();
+            const distToScroll = value - scrollPosition;
+            this.scrollBy(distToScroll, duration);
         } else {
             console.warn("props should not be empty, no scroll action will be emitted")
         }
     }
-    private scroll(value, duration) {
-        this.scrollable.scrollTo(value, duration);
+    public scrollBy(value, duration) {
+        this.scrollable.scroll(value, duration);
     }
     private getScrollPosition(): number {
         const scrollPosition = this.scrollable.getY();
