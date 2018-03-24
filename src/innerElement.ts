@@ -1,11 +1,14 @@
 export {
-    innerElement,
+    InnerElement,
 }
 
-class innerElement {
+class InnerElement {
     private element: HTMLElement;
     constructor(element: HTMLElement) {
         this.element = element;
+    }
+    public getDistToScroll() {
+        return this.top;
     }
     private get top() {
         return this.rect.top;
