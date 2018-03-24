@@ -35,7 +35,7 @@ class Scroll {
             console.warn("props should not be empty, no scroll action will be emitted")
         }
     }
-    public scrollBy(value, duration) {
+    public scrollBy(value, duration = 0) {
         this.scrollable.scroll(value, duration);
     }
     private getScrollPosition(): number {
