@@ -8,7 +8,7 @@ class InnerElement {
         this.element = element;
     }
     public getMiddle() {
-        return this.top - (this.windowHeight - this.height) / 2;
+        return this.middleY - this.windowHeight / 2;
     }
     public getTop() {
         return this.top;
@@ -25,11 +25,11 @@ class InnerElement {
     private get right() {
         return this.rect.right;
     }
-    private get width() {
-        return this.right - this.left;
-    }
     private get height() {
         return this.bottom - this.top;
+    }
+    private get width() {
+        return this.right - this.left;
     }
     private get middleX() {
         return (this.rect.left + this.rect.right) / 2;
