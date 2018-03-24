@@ -38,6 +38,12 @@ class Scroll {
     // }
     public scrollTo(props: IProps) {
         if (!!props) {
+            const distToElement = this.getDistToElement(props.element);
+            const offset = props.offset || 0;
+            const percent = this.getPercentScroll(props.percent, props.element);
+            const value = distToElement + offset + percent;
+            const duration = props.duration || 0;
+            this.scrollAmount(value, duration);
         } else {
             console.warn("props should not be empty, no scroll action will be emitted")
         }
@@ -53,19 +59,21 @@ class Scroll {
         const scrollHeight = this.scrollable.getHeight();
         return scrollHeight;
     }
-    private getDistToElement(element: HTMLElement, props) {
+    private getDistToElement(element: HTMLElement) {
         let distToScroll = 0;
         if (element) {
             const innerElement = new InnerElement(element);
             distToScroll = innerElement.getTop();
-            if (props) {
-                if (!!props.center) {
-                    distToScroll = innerElement.getMiddle();
-                }
-                if (!!props.value) {
-                    distToScroll += props.value;
-                }
-            }
+        }
+        return distToScroll;
+    }
+    private getPercentScroll(percent: number = 0, element: HTMLElement) {
+        let distToScroll = 0;
+        if (element) {
+            const innerElement = new InnerElement(element);
+            distToScroll = innerElement.getPercentScroll(percent);
+        } else {
+            distToScroll = this.scrollable.getPercentScroll(percent);
         }
         return distToScroll;
     }
