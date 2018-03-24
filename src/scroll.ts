@@ -1,4 +1,5 @@
 import { ScrollElement } from "./scrollElement";
+import { InnerElement } from "./innerElement";
 export {
     Scroll,
 };
@@ -7,6 +8,13 @@ class Scroll {
     private scrollable: ScrollElement;
     constructor(scrollable?: HTMLElement) {
         this.scrollable = new ScrollElement(scrollable);
+    }
+    public scrollToElement(element: HTMLElement) {
+        if (element) {
+            const innerElement = new InnerElement(element);
+            const distToScroll = innerElement.getDistToScroll();
+            this.scrollable.scroll(distToScroll);
+        }
     }
     public scrollToStart() {
         const value = -this.getScrollPosition();
