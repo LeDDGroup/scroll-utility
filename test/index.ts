@@ -1,6 +1,10 @@
-import Scroll = require("..");
+import { Scroll } from "../src/scroll";
 
-const scroll = new Scroll();
 
-scroll.scrollToStart();
+//inner element
+const scrollable = document.getElementById("scrollable");
+const scroll = new Scroll(scrollable);
 scroll.scrollToEnd();
+const randomValue = (Math.random() - 0.5) * 200;
+scroll.scrollAmount(randomValue);
+
