@@ -1,6 +1,6 @@
 {
   "name": "scroll-utility",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Utility for scrolling to elements",
   "types": "dist/index.d.js",
   "main": "dist/index.js",
