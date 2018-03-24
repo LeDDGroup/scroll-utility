@@ -17,8 +17,11 @@ class ScrollElement {
     private smoothScroll: SmoothScroll;
     constructor(element: HTMLElement) {
         this.scrollBy = this.scrollBy.bind(this);
+        this.getY = this.getY.bind(this);
+        this.getX = this.getX.bind(this);
         this.scrollable = element;
         if (!!element) {
+            this.isWindow = false;
         } else {
             this.isWindow = true;
         }
@@ -29,20 +32,10 @@ class ScrollElement {
     }
     public scroll(value: number, props: IProps = {}) {
         const smooth = !!props.smooth;
-        console.log(props);
         if (smooth) {
             this.smoothScroll.go(value);
         } else {
             this.scrollBy(value);
-        }
-    }
-    private scrollBy(value: number) {
-        const x = this.getX();
-        const y = this.getY() + value;
-        if (this.isWindow) {
-            window.scroll(x, y);
-        } else {
-            this.scrollable.scroll(x, y);
         }
     }
     public getHeight(): number {
@@ -71,5 +64,15 @@ class ScrollElement {
             y = this.scrollable.scrollTop;
         }
         return y;
+    }
+    private scrollBy(value: number) {
+        const x = this.getX();
+        const y = this.getY() + value;
+        console.log(this.isWindow);
+        if (this.isWindow) {
+            window.scroll(x, y);
+        } else {
+            this.scrollable.scroll(x, y);
+        }
     }
 }
