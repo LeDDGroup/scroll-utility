@@ -30,11 +30,6 @@ class ScrollElement {
         };
         this.smoothScroll = new SmoothScroll(props);
     }
-    public scrollTo(value: number = 0, duration: number) {
-        const currentPosition = this.getY();
-        const distToScroll = (value - currentPosition);
-        this.scroll(distToScroll, duration);
-    }
     public scroll(value: number = 0, duration: number = 0) {
         const smooth = duration > 0;
         if (smooth) {
