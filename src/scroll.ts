@@ -4,15 +4,12 @@ import { ScrollElement, IProps as IScrollProps } from "./scrollElement";
 export {
     Scroll,
     IProps,
-    IBasicModifiers,
 };
 
-interface IProps extends IBasicModifiers {
-    center?: boolean;
-}
-
-interface IBasicModifiers {
-    value?: number;
+interface IProps {
+    element?: HTMLElement;
+    percent?: number;
+    offset?: number;
     duration?: number;
 }
 
@@ -21,48 +18,54 @@ class Scroll {
     constructor(scrollable?: HTMLElement) {
         this.scrollable = new ScrollElement(scrollable);
     }
-    public scrollToElement(element: HTMLElement, props: IProps = {}) {
-        const distToScroll = this.getDistToElement(element, props);
-        const duration = props.duration;
-        this.scrollAmount(distToScroll, duration);
+    public set steps(value: number) {
+        // this.scrollable.steps = value;
     }
-    public scrollToStart(props: IBasicModifiers = {}) {
-        const value = -this.getScrollPosition();
-        this.scrollAmount(value, props.duration);
+    public scrollTo(props: IProps) {
+        if (!!props) {
+            const offset = props.offset || 0;
+            const percent = this.getPercentScroll(props.percent, props.element);
+            const duration = props.duration || 0;
+            const scrollTop = this.getScrollPosition();
+            const value = offset + percent;
+            const scrollPosition = this.getScrollPosition();
+            const distToScroll = value - scrollPosition;
+            this.scrollBy(distToScroll, duration);
+        } else {
+            console.warn("props should not be empty, no scroll action will be emitted")
+        }
     }
-    public scrollToEnd(props: IBasicModifiers = {}) {
-        const documentLength = this.getScrollHeight();
-        const scrollPosition = this.getScrollPosition();
-        const value = documentLength - scrollPosition;
-        this.scrollAmount(value, props.duration);
-    }
-    public scroll(value: number = 0, duration: number = 0) {
-        this.scrollAmount(value, duration);
-    }
-    private scrollAmount(value, duration) {
+    public scrollBy(value, duration = 0) {
         this.scrollable.scroll(value, duration);
     }
     private getScrollPosition(): number {
         const scrollPosition = this.scrollable.getY();
         return scrollPosition;
     }
-    private getScrollHeight(): number {
+    private getHeight(): number {
         const scrollHeight = this.scrollable.getHeight();
         return scrollHeight;
     }
-    private getDistToElement(element: HTMLElement, props) {
+    private getScrollHeight(): number {
+        const scrollHeight = this.scrollable.getScrollHeight();
+        return scrollHeight;
+    }
+    private getPercentScroll(percent: number = 0, element: HTMLElement) {
         let distToScroll = 0;
         if (element) {
             const innerElement = new InnerElement(element);
-            distToScroll = innerElement.getTop();
-            if (props) {
-                if (!!props.center) {
-                    distToScroll = innerElement.getMiddle();
-                }
-                if (!!props.value) {
-                    distToScroll += props.value;
-                }
-            }
+            const scrollPosition = this.getScrollPosition();
+            const top = innerElement.getTop();
+            const posTop = scrollPosition + top;
+            const windowHeight = this.getHeight();
+            const height = innerElement.getHeight();
+            const value = (windowHeight - height) * (percent / 100);
+            distToScroll = posTop - value;
+        } else {
+            console.log("hi");
+            const documentLength = this.getScrollHeight();
+            const windowHeight = this.getHeight();
+            distToScroll = (documentLength - windowHeight) * percent / 100;
         }
         return distToScroll;
     }
