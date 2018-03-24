@@ -7,7 +7,10 @@ class InnerElement {
     constructor(element: HTMLElement) {
         this.element = element;
     }
-    public getDistToScroll() {
+    public getMiddle() {
+        return this.top - (this.windowHeight - this.height) / 2;
+    }
+    public getTop() {
         return this.top;
     }
     private get top() {
@@ -36,5 +39,8 @@ class InnerElement {
     }
     private get rect(): ClientRect {
         return this.element.getBoundingClientRect();
+    }
+    private get windowHeight: number {
+        return window.innerHeight;
     }
 }
