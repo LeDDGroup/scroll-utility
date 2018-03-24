@@ -1,16 +1,12 @@
+import { ScrollElement } from "./scrollElement";
 export {
     Scroll,
 };
 
 class Scroll {
-    private scrollable: HTMLElement;
-    private isWindow: boolean;
+    private scrollable: ScrollElement;
     constructor(scrollable?: HTMLElement) {
-        if (!!scrollable) {
-            this.scrollable = scrollable;
-        } else {
-            this.isWindow = true;
-        }
+        this.scrollable = new ScrollElement(scrollable);
     }
     public scrollToStart() {
         const value = -this.getScrollPosition();
@@ -23,43 +19,14 @@ class Scroll {
         this.scrollAmount(value);
     }
     public scrollAmount(value: number) {
-        const horizontalPosition = this.getHorizontalPosition();
-        const verticalPosition = this.getScrollTop();
-        if (this.isWindow) {
-            window.scroll(horizontalPosition, value + verticalPosition);
-        } else {
-            this.scrollable.scroll(horizontalPosition, value + verticalPosition);
-        }
-    }
-    private getScrollHeight(): number {
-        let scrollHeight = null;
-        if (this.isWindow) {
-            scrollHeight = document.body.clientHeight;
-        } else {
-            scrollHeight = this.scrollable.scrollHeight;
-        }
-        return scrollHeight;
+        this.scrollable.scroll(value);
     }
     private getScrollPosition(): number {
-        const scrollPosition = this.getScrollTop();
+        const scrollPosition = this.scrollable.getY();
         return scrollPosition;
     }
-    private getHorizontalPosition(): number {
-        let scrollLeft = null;
-        if (this.isWindow) {
-            scrollLeft = window.pageXOffset;
-        } else {
-            scrollLeft = this.scrollable.scrollLeft;
-        }
-        return scrollLeft;
-    }
-    private getScrollTop(): number {
-        let scrollTop = null;
-        if (this.isWindow) {
-            scrollTop = window.pageYOffset;
-        } else {
-            scrollTop = this.scrollable.scrollTop;
-        }
-        return scrollTop;
+    private getScrollHeight(): number {
+        const scrollHeight = this.scrollable.getHeight();
+        return scrollHeight;
     }
 }
