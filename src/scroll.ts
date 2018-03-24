@@ -62,7 +62,6 @@ class Scroll {
             const value = (windowHeight - height) * (percent / 100);
             distToScroll = posTop - value;
         } else {
-            console.log("hi");
             const documentLength = this.getScrollHeight();
             const windowHeight = this.getHeight();
             distToScroll = (documentLength - windowHeight) * percent / 100;
