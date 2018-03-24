@@ -30,6 +30,11 @@ class ScrollElement {
         };
         this.smoothScroll = new SmoothScroll(props);
     }
+    public scrollTo(value: number = 0, duration: number) {
+        const currentPosition = this.getY();
+        const distToScroll = (value - currentPosition);
+        this.scroll(distToScroll, duration);
+    }
     public scroll(value: number = 0, duration: number = 0) {
         const smooth = duration > 0;
         if (smooth) {
@@ -38,12 +43,21 @@ class ScrollElement {
             this.scrollBy(value);
         }
     }
+    public getScrollHeight(): number {
+        let scrollHeight = null;
+        if (this.isWindow) {
+            scrollHeight = document.body.clientHeight;
+        } else {
+            scrollHeight = this.scrollable.scrollHeight;
+        }
+        return scrollHeight;
+    }
     public getHeight(): number {
         let height = null;
         if (this.isWindow) {
-            height = document.body.clientHeight;
+            height = window.innerHeight;
         } else {
-            height = this.scrollable.scrollHeight;
+            height = this.scrollable.clientHeight;
         }
         return height;
     }

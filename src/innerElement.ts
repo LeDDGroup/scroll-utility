@@ -7,8 +7,8 @@ class InnerElement {
     constructor(element: HTMLElement) {
         this.element = element;
     }
-    public getMiddle() {
-        return this.middleY - this.windowHeight / 2;
+    public getHeight() {
+        return this.height;
     }
     public getTop() {
         return this.top;
@@ -39,8 +39,5 @@ class InnerElement {
     }
     private get rect(): ClientRect {
         return this.element.getBoundingClientRect();
-    }
-    private get windowHeight(): number {
-        return window.innerHeight;
     }
 }
