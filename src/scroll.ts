@@ -2,17 +2,31 @@ import { ScrollElement } from "./scrollElement";
 import { InnerElement } from "./innerElement";
 export {
     Scroll,
+    IProps,
 };
+
+interface IProps {
+    center?: boolean;
+    value?: number;
+}
 
 class Scroll {
     private scrollable: ScrollElement;
     constructor(scrollable?: HTMLElement) {
         this.scrollable = new ScrollElement(scrollable);
     }
-    public scrollToElement(element: HTMLElement) {
+    public scrollToElement(element: HTMLElement, props?: IProps) {
         if (element) {
             const innerElement = new InnerElement(element);
-            const distToScroll = innerElement.getDistToScroll();
+            let distToScroll = innerElement.getTop();
+            if (props) {
+                if (!!props.center) {
+                    distToScroll = innerElement.getMiddle();
+                }
+                if (!!props.value) {
+                    distToScroll += props.value;
+                }
+            }
             this.scrollable.scroll(distToScroll);
         }
     }
