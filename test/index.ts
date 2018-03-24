@@ -8,5 +8,7 @@ const scroll = new Scroll();
 const props = {
     center: true,
     value: 20,
+    smooth: true,
 }
+
 scroll.scrollToElement(scrollTo, props);
