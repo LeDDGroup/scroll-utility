@@ -21,21 +21,6 @@ class Scroll {
     public set steps(value: number) {
         // this.scrollable.steps = value;
     }
-    // public scrollToElement(element: HTMLElement, props: IProps = {}) {
-    //     const distToScroll = this.getDistToElement(element, props);
-    //     const duration = props.duration;
-    //     this.scrollAmount(distToScroll, duration);
-    // }
-    // public scrollToStart(props: IBasicModifiers = {}) {
-    //     const value = -this.getScrollPosition();
-    //     this.scrollAmount(value, props.duration);
-    // }
-    // public scrollToEnd(props: IBasicModifiers = {}) {
-    //     const documentLength = this.getScrollHeight();
-    //     const scrollPosition = this.getScrollPosition();
-    //     const value = documentLength - scrollPosition;
-    //     this.scrollAmount(value, props.duration);
-    // }
     public scrollTo(props: IProps) {
         if (!!props) {
             const offset = props.offset || 0;
