@@ -17,6 +17,7 @@ class ScrollElement {
     private smoothScroll: SmoothScroll;
     constructor(element: HTMLElement) {
         this.scrollBy = this.scrollBy.bind(this);
+        this.scrollTo = this.scrollTo.bind(this);
         this.getY = this.getY.bind(this);
         this.getX = this.getX.bind(this);
         this.scrollable = element;
@@ -26,14 +27,14 @@ class ScrollElement {
             this.isWindow = true;
         }
         const props: ISmoothProps = {
-            scrollBy: this.scrollBy,
+            scrollBy: this.scrollTo,
         };
         this.smoothScroll = new SmoothScroll(props);
     }
     public scroll(value: number = 0, duration: number = 0) {
         const smooth = duration > 0;
         if (smooth) {
-            this.smoothScroll.go(value, duration);
+            this.smoothScroll.go(value, duration, this.getY());
         } else {
             this.scrollBy(value);
         }
@@ -77,6 +78,15 @@ class ScrollElement {
     private scrollBy(value: number) {
         const x = this.getX();
         const y = this.getY() + value;
+        if (this.isWindow) {
+            window.scroll(x, y);
+        } else {
+            this.scrollable.scroll(x, y);
+        }
+    }
+    private scrollTo(position: number) {
+        const x = this.getX();
+        const y = position;
         if (this.isWindow) {
             window.scroll(x, y);
         } else {
