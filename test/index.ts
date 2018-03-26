@@ -6,6 +6,7 @@ const scroll = new Scroll(scrollable);
 const props: IProps = {
     element: scrollElement,
     percent: 100,
+    duration: 1000,
 }
 
 scroll.scrollTo(props);

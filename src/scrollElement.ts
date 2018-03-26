@@ -27,7 +27,7 @@ class ScrollElement {
             this.isWindow = true;
         }
         const props: ISmoothProps = {
-            scrollBy: this.scrollTo,
+            scrollTo: this.scrollTo,
         };
         this.smoothScroll = new SmoothScroll(props);
     }

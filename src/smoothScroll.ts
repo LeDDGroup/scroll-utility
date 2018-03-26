@@ -7,24 +7,18 @@ export {
 
 interface IProps {
     duration?: number;
-    scrollBy?: (value: number) => void;
+    scrollTo?: (value: number) => void;
     steps?: number;
 }
 
 const STEPS = 50;
-const DURATION = 750;
-
-const EASING = 10;
 
 class SmoothScroll {
     private steps: number;
-    private duration: number;
-    private scrollBy: (value: number) => void;
+    private scrollTo: (value: number) => void;
     private timeouts: number[];
-    private cb: (() => void)[];
     constructor(props: IProps = {}) {
-        this.scrollBy = props.scrollBy || SmoothScroll.navigateWindow;
-        this.duration = props.duration || DURATION;
+        this.scrollTo = props.scrollTo || SmoothScroll.navigateWindow;
         this.steps = props.steps || STEPS;
         this.timeouts = [];
     }
@@ -34,7 +28,7 @@ class SmoothScroll {
             const timeout = stepDuration * i;
             const position = this.getPosition(i, initialPosition, value, this.steps);
             this.timeouts.push(window.setTimeout(() => {
-                this.scrollBy(position);
+                this.scrollTo(position);
             }, timeout));
         }
     }
