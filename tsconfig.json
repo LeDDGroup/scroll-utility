@@ -5,7 +5,7 @@
         "moduleResolution": "node",
         "noImplicitAny": false,
         "noImplicitThis": true,
-        "noUnusedLocals": false,
+        "noUnusedLocals": true,
         "outDir": "./dist/",
         "rootDir": ".",
         "declaration": true,
