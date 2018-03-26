@@ -35,12 +35,12 @@ const easing = {
         },
     },
     out: {
-        easecirc: function(currentStep: number, offsetValue: number, distance: number, totalSteps: number) {
+        circ: function(currentStep: number, offsetValue: number, distance: number, totalSteps: number) {
             currentStep /= totalSteps;
             currentStep--;
             return distance * Math.sqrt(1 - currentStep * currentStep) + offsetValue;
         },
-        easeexpo: function(currentStep: number, offsetValue: number, distance: number, totalSteps: number) {
+        expo: function(currentStep: number, offsetValue: number, distance: number, totalSteps: number) {
             return distance * (-Math.pow(2, -10 * currentStep / totalSteps) + 1) + offsetValue;
         },
         sine: function(currentStep: number, offsetValue: number, distance: number, totalSteps: number) {

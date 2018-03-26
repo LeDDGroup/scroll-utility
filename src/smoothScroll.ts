@@ -47,6 +47,6 @@ class SmoothScroll {
         window.scroll(window.pageXOffset, value);
     }
     private getPosition(currentStep: number, offsetValue: number, distance: number, totalSteps: number) {
-        return easing.easeInOutCubic(currentStep, offsetValue, distance, totalSteps);
+        return easing.inOut.cubic(currentStep, offsetValue, distance, totalSteps);
     }
 }
