@@ -1,3 +1,5 @@
+import { easing } from "./easings"
+
 export {
     SmoothScroll,
     IProps,
@@ -44,9 +46,7 @@ class SmoothScroll {
     private static navigateWindow(value: number) {
         window.scroll(window.pageXOffset, value);
     }
-    private getPosition(t, b, c, d) {
-        t /= d;
-        t--;
-        return c * (t * t * t + 1) + b;
+    private getPosition(currentStep: number, offsetValue: number, distance: number, totalSteps: number) {
+        return easing.easeInOutCubic(currentStep, offsetValue, distance, totalSteps);
     }
 }
