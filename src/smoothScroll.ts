@@ -26,14 +26,13 @@ class SmoothScroll {
         this.steps = props.steps || STEPS;
         this.timeouts = [];
     }
-    public go(value: number, duration: number) {
-        const stepDistance = value / this.steps;
+    public go(value: number, duration: number, initialPosition) {
         const stepDuration = duration / this.steps;
-        for (let i = 0; i < this.steps; i++) {
-            const multiplier = this.getMultiplier(i, this.steps);
+        for (let i = 1; i <= this.steps; i++) {
             const timeout = stepDuration * i;
+            const position = this.getPosition(i, initialPosition, value, this.steps);
             this.timeouts.push(window.setTimeout(() => {
-                this.scrollBy(stepDistance * multiplier);
+                this.scrollBy(position);
             }, timeout));
         }
     }
@@ -43,14 +42,11 @@ class SmoothScroll {
         });
     }
     private static navigateWindow(value: number) {
-        const dist = value + window.pageXOffset;
-        window.scrollBy(window.pageXOffset, dist);
+        window.scroll(window.pageXOffset, value);
     }
-    private getMultiplier(current: number, total: number): number {
-        const half = total / 2;
-        const distToHalf = Math.abs(half - current);
-        const basicMultiplier = Math.abs(half - distToHalf) / half + 0.5;
-        const multiplier = (((basicMultiplier - 1) * EASING) * 2 + EASING) / EASING;
-        return multiplier;
+    private getPosition(t, b, c, d) {
+        t /= d;
+        t--;
+        return c * (t * t * t + 1) + b;
     }
 }
