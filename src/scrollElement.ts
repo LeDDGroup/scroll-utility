@@ -75,6 +75,13 @@ class ScrollElement {
         }
         return y;
     }
+    public getOffset() {
+        if (this.isWindow) {
+            return 0;
+        } else {
+            return - this.scrollable.getBoundingClientRect().top;
+        }
+    }
     private scrollBy(value: number) {
         const x = this.getX();
         const y = this.getY() + value;
