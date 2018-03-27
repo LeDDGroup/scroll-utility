@@ -11,22 +11,21 @@ interface IProps {
     steps?: number;
 }
 
-const STEPS = 50;
+const STEPS_PER_SECOND = 100;
 
 class SmoothScroll {
-    private steps: number;
     private scrollTo: (value: number) => void;
     private timeouts: number[];
     constructor(props: IProps = {}) {
         this.scrollTo = props.scrollTo || SmoothScroll.navigateWindow;
-        this.steps = props.steps || STEPS;
         this.timeouts = [];
     }
     public go(value: number, duration: number, initialPosition) {
-        const stepDuration = duration / this.steps;
-        for (let i = 1; i <= this.steps; i++) {
+        const steps = duration / 1000 * STEPS_PER_SECOND;
+        const stepDuration = duration / steps;
+        for (let i = 1; i <= steps; i++) {
             const timeout = stepDuration * i;
-            const position = this.getPosition(i, initialPosition, value, this.steps);
+            const position = this.getPosition(i, initialPosition, value, steps);
             this.timeouts.push(window.setTimeout(() => {
                 this.scrollTo(position);
             }, timeout));
