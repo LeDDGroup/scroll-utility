@@ -55,7 +55,8 @@ class Scroll {
             const innerElement = new InnerElement(element);
             const scrollPosition = this.getScrollPosition();
             const top = innerElement.getTop();
-            const posTop = scrollPosition + top;
+            const offset = this.scrollable.getOffset();
+            const posTop = scrollPosition + top + offset;
             const windowHeight = this.getHeight();
             const height = innerElement.getHeight();
             const value = (windowHeight - height) * (percent / 100);
@@ -65,7 +66,6 @@ class Scroll {
             const windowHeight = this.getHeight();
             distToScroll = (documentLength - windowHeight) * percent / 100;
         }
-        const offset = this.scrollable.getOffset();
-        return distToScroll + offset;
+        return distToScroll;
     }
 }
