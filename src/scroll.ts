@@ -65,7 +65,7 @@ class Scroll {
             const windowHeight = this.getHeight();
             distToScroll = (documentLength - windowHeight) * percent / 100;
         }
-        const offset = window.pageYOffset;
+        const offset = this.scrollable.getOffset();
         return distToScroll + offset;
     }
 }
