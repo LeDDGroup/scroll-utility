@@ -10,8 +10,6 @@ $ npm install --save scroll-utility
 ## Usage
 
 ### Generally scrolling (scrollBy)
-#### 1st param: distance
-#### 2nd param: duration(ms)
 ```js
 const Scroll = require("scroll-utility");
 
