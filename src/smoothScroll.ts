@@ -1,3 +1,5 @@
+import { easing } from "./easings"
+
 export {
     SmoothScroll,
     IProps,
@@ -5,35 +7,27 @@ export {
 
 interface IProps {
     duration?: number;
-    scrollBy?: (value: number) => void;
+    scrollTo?: (value: number) => void;
     steps?: number;
 }
 
-const STEPS = 50;
-const DURATION = 750;
-
-const EASING = 10;
+const STEPS_PER_SECOND = 100;
 
 class SmoothScroll {
-    private steps: number;
-    private duration: number;
-    private scrollBy: (value: number) => void;
+    private scrollTo: (value: number) => void;
     private timeouts: number[];
-    private cb: (() => void)[];
     constructor(props: IProps = {}) {
-        this.scrollBy = props.scrollBy || SmoothScroll.navigateWindow;
-        this.duration = props.duration || DURATION;
-        this.steps = props.steps || STEPS;
+        this.scrollTo = props.scrollTo || SmoothScroll.navigateWindow;
         this.timeouts = [];
     }
-    public go(value: number, duration: number) {
-        const stepDistance = value / this.steps;
-        const stepDuration = duration / this.steps;
-        for (let i = 0; i < this.steps; i++) {
-            const multiplier = this.getMultiplier(i, this.steps);
+    public go(value: number, duration: number, initialPosition) {
+        const steps = duration / 1000 * STEPS_PER_SECOND;
+        const stepDuration = duration / steps;
+        for (let i = 1; i <= steps; i++) {
             const timeout = stepDuration * i;
+            const position = this.getPosition(i, initialPosition, value, steps);
             this.timeouts.push(window.setTimeout(() => {
-                this.scrollBy(stepDistance * multiplier);
+                this.scrollTo(position);
             }, timeout));
         }
     }
@@ -43,14 +37,9 @@ class SmoothScroll {
         });
     }
     private static navigateWindow(value: number) {
-        const dist = value + window.pageXOffset;
-        window.scrollBy(window.pageXOffset, dist);
+        window.scroll(window.pageXOffset, value);
     }
-    private getMultiplier(current: number, total: number): number {
-        const half = total / 2;
-        const distToHalf = Math.abs(half - current);
-        const basicMultiplier = Math.abs(half - distToHalf) / half + 0.5;
-        const multiplier = (((basicMultiplier - 1) * EASING) * 2 + EASING) / EASING;
-        return multiplier;
+    private getPosition(currentStep: number, offsetValue: number, distance: number, totalSteps: number) {
+        return easing.inOut.cubic(currentStep, offsetValue, distance, totalSteps);
     }
 }

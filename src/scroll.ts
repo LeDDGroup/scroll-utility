@@ -1,5 +1,5 @@
 import { InnerElement } from "./innerElement";
-import { ScrollElement, IProps as IScrollProps } from "./scrollElement";
+import { ScrollElement } from "./scrollElement";
 
 export {
     Scroll,
@@ -26,7 +26,6 @@ class Scroll {
             const offset = props.offset || 0;
             const percent = this.getPercentScroll(props.percent, props.element);
             const duration = props.duration || 0;
-            const scrollTop = this.getScrollPosition();
             const value = offset + percent;
             const scrollPosition = this.getScrollPosition();
             const distToScroll = value - scrollPosition;
