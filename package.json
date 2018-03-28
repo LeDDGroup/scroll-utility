@@ -5,8 +5,9 @@
   "types": "dist/index.d.js",
   "main": "dist/index.js",
   "scripts": {
-      "build": "tsc -p .",
-      "test": "mocha ./dist/test/test.js"
+    "build": "tsc -p .",
+    "build-test": "parcel build ./test/index.html -d ./dist/test/",
+    "test": "mocha ./dist/test/test.js"
   },
   "repository": {
     "type": "git",
@@ -25,9 +26,12 @@
   "devDependencies": {
     "@types/chai": "^4.1.0",
     "@types/mocha": "^2.2.48",
+    "@types/node": "^9.6.0",
     "chai": "^4.1.2",
+    "connect": "^3.6.6",
     "mocha": "^4.1.0",
     "parcel-bundler": "^1.6.2",
+    "serve-static": "^1.13.2",
     "typescript": "^2.7.2",
     "zombie": "^5.0.8"
   }

@@ -1,9 +1,7 @@
 import { Scroll, IProps } from "../src/scroll";
-import { getBody } from "./body";
 
 
 window.onload = () => {
-    document.body.innerHTML = getBody();
     const scrollable = document.getElementById("scrollable");
     const scrollElement = document.getElementById("element");
     const scroll = new Scroll(scrollable);
