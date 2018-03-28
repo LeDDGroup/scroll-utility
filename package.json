@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc -p .",
     "build-test": "parcel build ./test/index.html -d ./dist/test/",
-    "test": "mocha ./dist/test/test.js"
+    "test": "mocha ./dist/test/test.js --timeout 5000"
   },
   "repository": {
     "type": "git",

@@ -2,8 +2,8 @@ import Browser = require("zombie");
 import * as connect from "connect";
 import * as http from "http";
 import * as serveStatic from "serve-static";
-
-declare const __dirname;
+import { build } from "./bundle";
+const Path = require('path');
 
 describe("basic", function() {
 
@@ -12,10 +12,12 @@ describe("basic", function() {
     let server = null;
 
     before(function(done) {
-        const app = connect().use(serveStatic(__dirname))
-        server = http.createServer(app);
-        server.listen(8080, () => {
-            browser.visit("/", done);
+        build(() => {
+            const app = connect().use(serveStatic(Path.join(__dirname, './index.html')));
+            server = http.createServer(app);
+            server.listen(8080, () => {
+                browser.visit("/", done);
+            });
         });
     });
 
