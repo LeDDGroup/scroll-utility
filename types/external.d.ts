@@ -4,6 +4,7 @@ declare module "zombie" {
         visit(url: string, cb);
         assert;
         window: Window;
+        $;
     }
     export = Zombie;
 }
