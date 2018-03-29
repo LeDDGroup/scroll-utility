@@ -1,9 +1,11 @@
 import * as puppeteer from "puppeteer";
 
 export {
+    page,
     load,
     close,
     evaluate,
+    retrieve,
 }
 
 let browser;
@@ -14,12 +16,16 @@ async function load() {
         // headless: false,
     });
     page = await browser.newPage();
-    page.goto("localhost:8080");
+    await page.goto("http://127.0.0.1:8080/");
 }
 
-function evaluate(cb: () => void) {
-    return page.evaluate(cb);
+function evaluate(cb, ...args) {
+    return page.evaluate(cb, ...args);
 }
 function close() {
-    browser.close()
+    browser.close();
+}
+
+function retrieve(path: string) {
+    return page.$(path);
 }
