@@ -5,7 +5,6 @@ export {
     build,
 }
 
-
 const file = Path.join(__dirname, './index.html');
 
 async function build() {
