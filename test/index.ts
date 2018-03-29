@@ -1,11 +1,11 @@
-import * as assert from "assert";
+import { expect } from "chai";
 import * as connect from "connect";
 import * as http from "http";
 import * as serveStatic from "serve-static";
 // import { Scroll } from "../src/scroll";
 import { build } from "./bundle";
 const Path = require('path');
-import { load, close, evaluate } from "./server";
+import { load, close, page } from "./server";
 
 describe("basic", function() {
 
@@ -25,12 +25,8 @@ describe("basic", function() {
         await server.close();
     });
 
-    it("should have correct title", async function() {
-        await console.log(evaluate(() => {
-            return document.title;
-        }));
-        await assert(evaluate(() => {
-            return document.title;
-        }), "Testing");
+    it("should load test page", async function() {
+        const pageTitle = await page.title();
+        expect(pageTitle).to.be.equal("Testing")
     });
 });

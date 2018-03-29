@@ -6,6 +6,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc -p .",
+    "dev": "tsc -p . -w",
     "build-test": "parcel build ./test/index.html -d ./dist/test/",
     "test": "mocha ./dist/test/index.js --timeout 10000"
   },
