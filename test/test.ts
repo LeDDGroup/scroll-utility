@@ -1,34 +1,19 @@
-import Browser = require("zombie");
-import * as connect from "connect";
-import * as http from "http";
-import * as serveStatic from "serve-static";
-import { build } from "./bundle";
-const Path = require('path');
-
-describe("basic", function() {
+// import { Scroll, IProps } from "../src/scroll";
 
 
-    const browser = new Browser({ site: "http://localhost:8080" });
-    let server = null;
+// const scrollable = document.getElementById("scrollable");
+// const scrollElement = document.getElementById("element");
+// const scroll = new Scroll(scrollable);
+// const props: IProps = {
+//     element: scrollElement,
+//     percent: 50,
+//     duration: 1000,
+// }
 
-    before(function(done) {
-        build(() => {
-            const app = connect().use(serveStatic(Path.join(__dirname, './index.html')));
-            server = http.createServer(app);
-            server.listen(8080, () => {
-                browser.visit("/", done);
-            });
-        });
-    });
-
-
-    after(function(done) {
-        server.close()
-        browser.window.close();
-        done();
-    });
-
-    it("should have correct title", function() {
-        browser.assert.text("title", "Testing");
-    });
-});
+// const windowScroll = new Scroll();
+// scroll.scrollTo(props);
+// windowScroll.scrollTo({
+//     element: scrollable,
+//     percent: 50,
+//     duration: 1000,
+// });

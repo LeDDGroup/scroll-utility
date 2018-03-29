@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc -p .",
     "build-test": "parcel build ./test/index.html -d ./dist/test/",
-    "test": "mocha ./dist/test/test.js --timeout 5000"
+    "test": "mocha ./dist/test/index.js --timeout 10000"
   },
   "repository": {
     "type": "git",
@@ -31,6 +31,7 @@
     "connect": "^3.6.6",
     "mocha": "^4.1.0",
     "parcel-bundler": "^1.6.2",
+    "puppeteer": "^1.2.0",
     "serve-static": "^1.13.2",
     "typescript": "^2.7.2",
     "zombie": "^5.0.8"
