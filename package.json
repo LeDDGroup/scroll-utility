@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc -p .",
-    "dev": "tsc -p . -w",
+    "dev": "tsc -p ./tsconfig.test.json",
     "build-test": "parcel build ./test/index.html -d ./dist/test/",
     "test": "mocha ./dist/test/index.js --timeout 10000"
   },
@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/LeDDGroup/scroll-utility#readme",
   "devDependencies": {
-    "@types/chai": "^4.1.0",
+    "@types/chai": "^4.1.2",
     "@types/mocha": "^2.2.48",
     "@types/node": "^9.6.0",
     "chai": "^4.1.2",
