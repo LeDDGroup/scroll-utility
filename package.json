@@ -5,9 +5,9 @@
   "types": "dist/index.d.js",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc -p .",
-    "dev": "tsc -p ./tsconfig.test.json",
-    "build-test": "parcel build ./test/index.html -d ./dist/test/",
+    "build": "tsc -p ./tsconfig.build.json",
+    "build-test": "tsc -p .",
+    "dev": "parcel build ./test/index.html -d ./dist/test/",
     "test": "mocha ./dist/test/index.js --timeout 10000"
   },
   "repository": {
