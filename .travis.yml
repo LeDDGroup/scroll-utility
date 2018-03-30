@@ -8,4 +8,5 @@ deploy:
   provider: npm
   email: "davidpa9708@gmail.com"
 
-script: echo "npm test temporarily disabled"
+before_script:
+  - npm run build-test

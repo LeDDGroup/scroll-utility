@@ -31,11 +31,27 @@ describe("scroll", function() {
         const firstPosition = await page.evaluate(() => {
             return window.pageYOffset;
         })
-        const last = await page.evaluate(() => {
+        const distToScroll = 100;
+        const last = await page.evaluate((distToScroll) => {
             const scroll = new window.Scroll()
-            scroll.scrollBy(100);
+            scroll.scrollBy(distToScroll);
+            return window.pageYOffset;
+        }, distToScroll)
+        expect(last - distToScroll).to.be.equal(firstPosition)
+    });
+
+    it("should do exact amount of scroll", async function() {
+        const page = getPage();
+        const firstPosition = await page.evaluate(() => {
             return window.pageYOffset;
         })
-        expect(last).to.be.gt(firstPosition)
+        const distToScroll = 100;
+        const last = await page.evaluate((distToScroll) => {
+            const scroll = new window.Scroll()
+            scroll.scrollBy(distToScroll);
+            return window.pageYOffset;
+        }, distToScroll)
+        expect(last - distToScroll).to.be.equal(firstPosition)
     });
+
 });
