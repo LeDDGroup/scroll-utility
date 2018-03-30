@@ -8,7 +8,8 @@ import * as Path from "path";
 export {
     load,
     close,
-    getPage,
+    evaluate,
+    page,
 }
 
 let server;
@@ -27,11 +28,12 @@ async function load() {
     page = browser.page;
 }
 
-function getPage() {
-    return page;
-}
-
 async function close() {
     await browser.close();
     server.close();
+}
+
+async function evaluate(cb: () => void): Promise<any> {
+    const value = page.evaluate(cb);
+    return value;
 }

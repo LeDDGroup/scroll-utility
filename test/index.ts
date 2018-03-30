@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { Scroll } from "../src/scroll";
-import { load, close, getPage } from "./setup/index";
+import { load, close, evaluate } from "./setup/index";
 
 // const delay = ms => new Promise(r => setTimeout(r, ms));
 
@@ -20,34 +20,26 @@ describe("scroll", function() {
         await close();
     });
 
-    it("should load test page", async function() {
-        const page = getPage();
-        const pageTitle = await page.title();
-        expect(pageTitle).to.be.equal("Testing")
-    });
-
     it("should do scroll", async function() {
-        const page = getPage();
-        await page.evaluate(() => { window.scrollTo(0, 0); })
-        const firstPosition = await page.evaluate(() => {
+        await evaluate(() => { window.scrollTo(0, 0); })
+        const firstPosition = await evaluate(() => {
             return window.pageYOffset;
         })
         const distToScroll = 100;
-        const last = await page.evaluate((distToScroll) => {
+        const last = await evaluate(() => {
             const scroll = new window.Scroll()
-            scroll.scrollBy(distToScroll);
+            scroll.scrollBy(100);
             return window.pageYOffset;
-        }, distToScroll)
+        });
         expect(last - distToScroll).to.be.equal(firstPosition)
     });
 
     it("should do exact amount of scroll", async function() {
-        const page = getPage();
-        await page.evaluate(() => { window.scrollTo(0, 0); })
-        const firstPosition = await page.evaluate(() => {
+        await evaluate(() => { window.scrollTo(0, 0); })
+        const firstPosition = await evaluate(() => {
             return window.pageYOffset;
         })
-        const last = await page.evaluate((distToScroll) => {
+        const last = await evaluate(() => {
             const scroll = new window.Scroll()
             scroll.scrollTo({
                 offset: 100,
@@ -58,9 +50,8 @@ describe("scroll", function() {
     });
 
     it("should scroll to half", async function() {
-        const page = getPage();
-        await page.evaluate(() => { window.scrollTo(0, 0); })
-        const position = await page.evaluate(() => {
+        await evaluate(() => { window.scrollTo(0, 0); })
+        const position = await evaluate(() => {
             const scroll = new window.Scroll()
             scroll.scrollTo({
                 percent: 50,
@@ -68,7 +59,7 @@ describe("scroll", function() {
             });
             return window.pageYOffset;
         })
-        const scrollHeight = await page.evaluate(() => {
+        const scrollHeight = await evaluate(() => {
             return document.body.scrollHeight
         })
         expect(position * 2).to.be.equal(scrollHeight);
