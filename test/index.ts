@@ -51,18 +51,45 @@ describe("scroll", function() {
 
     it("should scroll to half", async function() {
         await evaluate(() => { window.scrollTo(0, 0); })
-        const position = await evaluate(() => {
+        const { position, scrollHeight } = await evaluate(() => {
             const scroll = new window.Scroll()
             scroll.scrollTo({
                 percent: 50,
-                offset: window.innerHeight / 2,
             });
-            return window.pageYOffset;
-        })
-        const scrollHeight = await evaluate(() => {
-            return document.body.scrollHeight
+            return {
+                position: window.pageYOffset + window.innerHeight / 2,
+                scrollHeight: document.body.scrollHeight,
+            };
         })
         expect(position * 2).to.be.equal(scrollHeight);
     });
 
+    it("should scroll to end", async function() {
+        await evaluate(() => { window.scrollTo(0, 0); })
+        const { position, scrollHeight } = await evaluate(() => {
+            const scroll = new window.Scroll()
+            scroll.scrollTo({
+                percent: 100,
+            });
+            return {
+                position: window.pageYOffset + window.innerHeight,
+                scrollHeight: document.body.scrollHeight,
+            };
+        })
+        expect(position).to.be.equal(scrollHeight);
+    });
+
+    it("should scroll to element", async function() {
+        await evaluate(() => { window.scrollTo(0, 0); })
+        const elementTop = await evaluate(() => {
+            const scroll = new window.Scroll()
+            const element = document.getElementById("element1");
+            scroll.scrollTo({
+                element,
+            });
+            return element.getBoundingClientRect().top;
+        })
+        console.log(elementTop);
+        expect(elementTop).to.be.equal(0);
+    });
 });
