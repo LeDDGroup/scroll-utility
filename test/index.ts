@@ -28,6 +28,7 @@ describe("scroll", function() {
 
     it("should do scroll", async function() {
         const page = getPage();
+        await page.evaluate(() => { window.scrollTo(0, 0); })
         const firstPosition = await page.evaluate(() => {
             return window.pageYOffset;
         })
@@ -42,16 +43,35 @@ describe("scroll", function() {
 
     it("should do exact amount of scroll", async function() {
         const page = getPage();
+        await page.evaluate(() => { window.scrollTo(0, 0); })
         const firstPosition = await page.evaluate(() => {
             return window.pageYOffset;
         })
-        const distToScroll = 100;
         const last = await page.evaluate((distToScroll) => {
             const scroll = new window.Scroll()
-            scroll.scrollBy(distToScroll);
+            scroll.scrollTo({
+                offset: 100,
+            });
             return window.pageYOffset;
-        }, distToScroll)
-        expect(last - distToScroll).to.be.equal(firstPosition)
+        })
+        expect(last - 100).to.be.equal(firstPosition)
+    });
+
+    it("should scroll to half", async function() {
+        const page = getPage();
+        await page.evaluate(() => { window.scrollTo(0, 0); })
+        const position = await page.evaluate(() => {
+            const scroll = new window.Scroll()
+            scroll.scrollTo({
+                percent: 50,
+                offset: window.innerHeight / 2,
+            });
+            return window.pageYOffset;
+        })
+        const scrollHeight = await page.evaluate(() => {
+            return document.body.scrollHeight
+        })
+        expect(position * 2).to.be.equal(scrollHeight);
     });
 
 });
