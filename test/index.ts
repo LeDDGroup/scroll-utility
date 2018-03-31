@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { Scroll } from "../src/scroll";
 import { load, close, evaluate } from "./setup/index";
 
-// const delay = ms => new Promise(r => setTimeout(r, ms));
+const delay = ms => new Promise(r => setTimeout(r, ms));
 
 interface IScrollWindow extends Window {
     Scroll: typeof Scroll;
@@ -89,7 +89,25 @@ describe("scroll", function() {
             });
             return element.getBoundingClientRect().top;
         })
-        console.log(elementTop);
         expect(elementTop).to.be.equal(0);
     });
+
+    it("should do scroll with duration", async function() {
+        await evaluate(() => { window.scrollTo(0, 0); })
+        await evaluate(() => {
+            const scroll = new window.Scroll()
+            const element = document.getElementById("element1");
+            scroll.scrollTo({
+                element,
+                duration: 1000,
+            });
+        })
+        await delay(1000);
+        const elementTop = await evaluate(() => {
+            const element = document.getElementById("element1");
+            return element.getBoundingClientRect().top;
+        });
+        expect(elementTop).to.be.equal(0);
+    });
+
 });
