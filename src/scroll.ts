@@ -1,16 +1,21 @@
 import { InnerElement } from "./innerElement";
 import { ScrollElement } from "./scrollElement";
 
+
 export {
     Scroll,
     IProps,
+    ICallback,
 };
+
+type ICallback = () => void
 
 interface IProps {
     element?: HTMLElement;
     percent?: number;
     offset?: number;
     duration?: number;
+    cb?: ICallback;
 }
 
 class Scroll {
@@ -29,13 +34,17 @@ class Scroll {
             const value = offset + percent;
             const scrollPosition = this.getScrollPosition();
             const distToScroll = value - scrollPosition;
-            this.scrollBy(distToScroll, duration);
+            this.scroll(distToScroll, duration, props.cb);
         } else {
             console.warn("props should not be empty, no scroll action will be emitted")
         }
     }
-    public scrollBy(value, duration = 0) {
-        this.scrollable.scroll(value, duration);
+    public scrollBy(value, duration?: number, cb?: ICallback) {
+        this.scroll(value, duration, cb);
+    }
+    private scroll(value, duration = 0, cb?: ICallback) {
+        cb = cb || (() => null);
+        this.scrollable.scroll(value, duration, cb);
     }
     private getScrollPosition(): number {
         const scrollPosition = this.scrollable.getY();

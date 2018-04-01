@@ -1,4 +1,5 @@
 import { easing } from "./easings"
+import { ICallback } from "./scroll";
 
 export {
     SmoothScroll,
@@ -20,14 +21,18 @@ class SmoothScroll {
         this.scrollTo = props.scrollTo || SmoothScroll.navigateWindow;
         this.timeouts = [];
     }
-    public go(value: number, duration: number, initialPosition) {
+    public go(value: number, duration: number, initialPosition, cb: ICallback) {
         const steps = duration / 1000 * STEPS_PER_SECOND;
         const stepDuration = duration / steps;
         for (let i = 1; i <= steps; i++) {
             const timeout = stepDuration * i;
             const position = this.getPosition(i, initialPosition, value, steps);
+            const lastStep = i === steps;
             this.timeouts.push(window.setTimeout(() => {
                 this.scrollTo(position);
+                if (lastStep) {
+                    cb();
+                }
             }, timeout));
         }
     }
