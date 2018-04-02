@@ -1,5 +1,5 @@
 # scroll-utiliy
-A highly customizable yet simple utility for scrolling around the page.
+A simple scroll utility for scrolling the page, inside an element, centering elements, and smooth scroll animations.
 
 ## Installation
 
@@ -9,78 +9,49 @@ $ npm install --save scroll-utility
 
 ## Usage
 
-### Generally scrolling (scrollBy)
+### Scroll inside window
 ```js
 const Scroll = require("scroll-utility");
 
 const scrollManger = new Scroll();
-scrollManger.scrollBy(500, 1000);
+scrollManger.scrollTo(props);
 ```
 
-That will make scroll in the window 500 units during 1s.
-If you want instant scroll don't pass the duration param.
-
-### Div scrolling
+### Scroll inside element
+Alternatively you can define the object in wich the scroll will take place:
 ```js
 const scrollable = document.getElementById("scrollable");
+
 const scrollManger = new Scroll(scrollable);
-scrollManger.scrollBy(500, 500);
+scrollManger.scrollTo(props);
 ```
 
-That will make scroll in the "#scrollable" element 500 units during 0.5s.
-It will not move the window scroll, just the #scrollable scroll, must likely an element with the `overflow` property and a fixed height;
-
-### Advance scrolling (scrollTo)
-#### Scrolling to an element
-```js
-const scrollManger = new Scroll();
-const element = document.getElementById("some_element");
-scrollManger.scrollTo({
-  element,
+### Props
+```
+scrollManager.scrollTo({
+  offset?: number;
+  duration?: number;
+  element?: HTMLElement;
+  percent?: number;
+  cb?: () => void;
 });
 ```
-#### Using percent
-##### Without element
-```js
-  scrollManger.scrollTo({
-    percent: 50,
-  });
-```
-Using percent 50 will scroll till the center of the page is reached.
-With 0 will scroll to top. And with 100 will scroll to bottom.
-20 will go to 1 / 5, 25 to 1 / 4...
 
-##### With element
-```js
-  scrollManger.scrollTo({
-    element,
-    percent: 50,
-  });
-```
-Using percent 50 will scroll till the element is centered on the page.
-With 0 will scroll till the element is in the top...
-#### Using offset
-```js
-  scrollManger.scrollTo({
-    offset: 250,
-  });
-```
-Using offset 250 will scroll 250 units from current position.
-If used with `element` or `percent` it will offset the final scroll position
-#### Using duration
-```js
-  scrollManger.scrollTo({
-    offset: 500,
-    duration: 1000,
-  });
-```
-Using duration 1000 will scroll during 1s.
-It should be in company of `offset`, `elment`, or `percent`; otherwise it will not do any scroll
+`offset`: will offset the final position certain amount.
+`duration`: (in ms) will be the duration of the scroll.
+`element`: if specify will scroll to the element.
+`percent`: 
+- will set the scroll in a percent relative the it height.
+- if an `element` is specified it will scroll to the element an position it in a percent relative to the window.
+`cb`: a callback after the scroll ends. Generally used with a `duration`.
 
-#### Default Values
-For `scrollTo` props, default values are not always 0
-If props are empty, or only with `duration`, it will not do any scroll
-`offset`'s default value is 0
-If there's an `element` specified, `percent`'s default value will be 0;
-Otherwise it will not interfere with scroll action.
-`duration` it's 0 if not specified. In this case scroll will be instantaneous.
+If no `duration` then it will be like 0.
+If no `offset` then it will be like 0.
+If no `percent` it will not be like 0, just will not affect scroll.
+If no `element` it will not affect scroll.
+
+
+## Pending features
+The default animation used is `easeInOutCubic`. In the future it will be configurable as a parameter.
+
+If have any issue or feature request notify me via [github](https://github.com/LeDDGroup/scroll-utility/issues).
