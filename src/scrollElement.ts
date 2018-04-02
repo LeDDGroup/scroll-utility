@@ -1,4 +1,5 @@
 import { SmoothScroll, IProps as ISmoothProps } from "./smoothScroll";
+import { ICallback } from "./scroll";
 
 export {
     IProps,
@@ -31,12 +32,12 @@ class ScrollElement {
         };
         this.smoothScroll = new SmoothScroll(props);
     }
-    public scroll(value: number = 0, duration: number = 0) {
+    public scroll(value: number = 0, duration: number = 0, cb: ICallback) {
         const smooth = duration > 0;
         if (smooth) {
-            this.smoothScroll.go(value, duration, this.getY());
+            this.smoothScroll.go(value, duration, this.getY(), cb);
         } else {
-            this.scrollBy(value);
+            this.scrollBy(value, cb);
         }
     }
     public getScrollHeight(): number {
@@ -82,7 +83,7 @@ class ScrollElement {
             return - this.scrollable.getBoundingClientRect().top;
         }
     }
-    private scrollBy(value: number) {
+    private scrollBy(value: number, cb: ICallback) {
         const x = this.getX();
         const y = this.getY() + value;
         if (this.isWindow) {
@@ -90,6 +91,7 @@ class ScrollElement {
         } else {
             this.scrollable.scroll(x, y);
         }
+        cb();
     }
     private scrollTo(position: number) {
         const x = this.getX();
