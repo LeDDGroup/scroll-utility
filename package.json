@@ -1,6 +1,6 @@
 {
   "name": "scroll-utility",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Utility for scrolling to elements",
   "types": "dist/index.d.js",
   "main": "dist/index.js",
@@ -8,7 +8,7 @@
     "build": "tsc -p ./tsconfig.build.json",
     "build-test": "tsc -p .",
     "dev": "parcel build ./test/index.html -d ./dist/test/",
-      "test": "mocha ./dist/test/index.js --timeout 10000",
+    "test": "mocha ./dist/test/index.js --timeout 10000",
     "test-local": "parcel ./test/local/index.html"
   },
   "repository": {
