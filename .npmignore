@@ -1,9 +1,8 @@
 .cache
-src
+/src/*
 test
 index.ts
 index.html
 tsconfig.build.json
 tsconfig.json
 .travis.yml
-.gitignore
