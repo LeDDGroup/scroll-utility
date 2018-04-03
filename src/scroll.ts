@@ -38,10 +38,6 @@ class Scroll {
             console.warn("props should not be empty, no scroll action will be emitted")
         }
     }
-    public scrollBy(value, duration?: number, cb?: ICallback) {
-        console.warn("`scrollBy` is deprecated and it will not be supported in the future. Use `scrollto` with offset instead.");
-        this.scroll(value, duration, cb);
-    }
     private scroll(value, duration = 0, cb?: ICallback) {
         cb = cb || (() => null);
         this.scrollable.scroll(value, duration, cb);
