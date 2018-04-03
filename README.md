@@ -61,7 +61,3 @@ If no `element` it will not affect scroll.
 The default animation used is `easeInOutCubic`. In the future it will be configurable as a parameter.
 
 If have any issue or feature request notify me via [github](https://github.com/LeDDGroup/scroll-utility/issues).
-
-
-## scrollBy
-`scrollBy` function is deprecated. It is still supported but it will not be in following releases
