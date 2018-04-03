@@ -1,5 +1,3 @@
 import { Scroll } from "./src/scroll";
 
-export {
-    Scroll,
-};
+export default Scroll;
