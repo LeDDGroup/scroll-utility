@@ -28,7 +28,9 @@ describe("scroll", function() {
         const distToScroll = 100;
         const last = await evaluate(() => {
             const scroll = new window.Scroll()
-            scroll.scrollBy(100);
+            scroll.scrollTo({
+                offset: 100,
+            })
             return window.pageYOffset;
         });
         expect(last - distToScroll).to.be.equal(firstPosition)
@@ -96,18 +98,19 @@ describe("scroll", function() {
         await evaluate(() => { window.scrollTo(0, 0); })
         await evaluate(() => {
             const scroll = new window.Scroll()
-            const element = document.getElementById("element1");
+            // const element = document.getElementById("element1");
             scroll.scrollTo({
-                element,
+                offset: 1000,
                 duration: 1000,
             });
         })
         await delay(1000);
         const elementTop = await evaluate(() => {
-            const element = document.getElementById("element1");
-            return element.getBoundingClientRect().top;
+            // const element = document.getElementById("element1");
+            // return element.getBoundingClientRect().top;
+            return window.pageYOffset;
         });
-        expect(elementTop).to.be.equal(0);
+        expect(elementTop).to.be.equal(1000);
     });
 
 });
