@@ -22,6 +22,7 @@ class SmoothScroll {
         this.timeouts = [];
     }
     public go(value: number, duration: number, initialPosition, cb: ICallback) {
+        this.stop();
         const steps = duration / 1000 * STEPS_PER_SECOND;
         const stepDuration = duration / steps;
         for (let i = 1; i <= steps; i++) {
