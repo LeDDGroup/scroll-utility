@@ -29,13 +29,14 @@ class ScrollElement {
         }
         const props: ISmoothProps = {
             scrollTo: this.scrollTo,
+            getCurrentPosition: this.getY,
         };
         this.smoothScroll = new SmoothScroll(props);
     }
     public scroll(value: number = 0, duration: number = 0, cb: ICallback) {
         const smooth = duration > 0;
         if (smooth) {
-            this.smoothScroll.go(value, duration, this.getY(), cb);
+            this.smoothScroll.go(value, duration, cb);
         } else {
             this.scrollBy(value, cb);
         }
@@ -101,5 +102,6 @@ class ScrollElement {
         } else {
             this.scrollable.scroll(x, y);
         }
+        return this.getY();
     }
 }
