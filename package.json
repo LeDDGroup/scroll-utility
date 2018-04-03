@@ -1,10 +1,11 @@
 {
   "name": "scroll-utility",
-  "version": "0.2.8",
+  "version": "0.2.7",
   "description": "Utility for scrolling to elements",
   "types": "dist/index.d.js",
   "main": "dist/index.js",
   "scripts": {
+    "prepublishOnly": "npm run build",
     "build": "tsc -p ./tsconfig.build.json",
     "build-test": "tsc -p .",
     "dev": "parcel build ./test/index.html -d ./dist/test/",
