@@ -46,10 +46,10 @@ class Scroll {
         cb = cb || (() => null);
         this.scrollable.scroll(value, duration, cb);
     }
-    private getScrollPosition(): number {
-        const scrollPosition = this.scrollable.getY();
-        return scrollPosition;
-    }
+    // private getScrollPosition(): number {
+    //     const scrollPosition = this.scrollable.getY();
+    //     return scrollPosition;
+    // }
     private getHeight(): number {
         const scrollHeight = this.scrollable.getHeight();
         return scrollHeight;
