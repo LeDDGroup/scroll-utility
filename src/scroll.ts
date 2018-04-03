@@ -46,10 +46,10 @@ class Scroll {
         cb = cb || (() => null);
         this.scrollable.scroll(value, duration, cb);
     }
-    // private getScrollPosition(): number {
-    //     const scrollPosition = this.scrollable.getY();
-    //     return scrollPosition;
-    // }
+    private getScrollPosition(): number {
+        const scrollPosition = this.scrollable.getY();
+        return scrollPosition;
+    }
     private getHeight(): number {
         const scrollHeight = this.scrollable.getHeight();
         return scrollHeight;
@@ -60,26 +60,26 @@ class Scroll {
     }
     private getPercentScroll(percent, element: HTMLElement) {
         let distToScroll = 0;
+        const percentToScroll = percent ? percent : 0;
         if (element) {
             const innerElement = new InnerElement(element);
-            // const scrollPosition = this.getScrollPosition();
             const top = innerElement.getTop();
             const offset = this.scrollable.getOffset();
             const posTop = top + offset;
             const windowHeight = this.getHeight();
             const height = innerElement.getHeight();
-            const value = (windowHeight - height) * (percent || 0 / 100);
+            const value = (windowHeight - height) * percentToScroll / 100;
             distToScroll = posTop - value;
-            // if (percent !== null && percent !== undefined) {
-            // distToScroll -= scrollPosition;
-            // }
         } else {
             if (percent === null || percent === undefined) {
                 distToScroll = 0;
             } else {
                 const documentLength = this.getScrollHeight();
                 const windowHeight = this.getHeight();
-                distToScroll = (documentLength - windowHeight) * percent || 0 / 100;
+                distToScroll = (documentLength - windowHeight) * percentToScroll / 100;
+                console.log(distToScroll);
+                const scrollPosition = this.getScrollPosition();
+                distToScroll -= scrollPosition;
             }
         }
         return distToScroll;
