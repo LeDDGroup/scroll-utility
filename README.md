@@ -11,7 +11,9 @@ $ npm install --save scroll-utility
 
 ### Scroll inside window
 ```js
-import Scroll from "scroll-utility";
+const Scroll = require("scroll-utility");
+// or from typescript
+// import Scroll from "scroll-utility";
 
 const scrollManger = new Scroll();
 scrollManger.scrollTo(props);
