@@ -9,7 +9,8 @@
     "build": "tsc -p ./tsconfig.build.json",
     "build-test": "tsc -p .",
     "dev": "parcel build ./test/index.html -d ./dist/test/",
-    "test": "mocha ./dist/test/index.js --timeout 10000",
+    "watch-test": "tsc -p . -w",
+    "test": "mocha ./dist/test/index.js",
     "test-local": "parcel ./test/local/index.html"
   },
   "repository": {
