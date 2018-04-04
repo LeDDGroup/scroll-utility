@@ -5,17 +5,24 @@ export = Scroll;
 const scrollable = document.getElementById("scrollable");
 const element = document.getElementById("element");
 const windowScroll = new Scroll();
-windowScroll.scrollTo({
-    offset: -200,
-    element: scrollable,
-    duration: 1000,
-})
 const scroll = new Scroll(scrollable);
-scroll.scrollTo({
-    element: element,
-    duration: 1000,
-})
 
-window.setTimeout(() => {
-    console.log(window.pageYOffset);
-}, 1002);
+window.onkeydown = (ev) => {
+    if (ev.key === "ArrowUp" || ev.key === "ArrowDown") {
+        ev.preventDefault();
+    }
+};
+window.onkeyup = (ev) => {
+    if (ev.key === "ArrowUp") {
+        windowScroll.scrollTo({
+            offset: -100,
+            duration: 1000,
+        });
+    }
+    if (ev.key === "ArrowDown") {
+        windowScroll.scrollTo({
+            offset: 100,
+            duration: 1000,
+        });
+    }
+}
