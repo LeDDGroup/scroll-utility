@@ -8,31 +8,43 @@ export {
 
 interface IProps {
     duration?: number;
-    scrollTo?: (value: number) => void;
+    scrollTo?: (value: number) => number;
     steps?: number;
+    getCurrentPosition?: () => number;
 }
 
 const STEPS_PER_SECOND = 100;
 
 class SmoothScroll {
+    private getCurrentPosition: () => number;
+    private lastScrollPosition: number;
     private scrollTo: (value: number) => void;
     private timeouts: number[];
     constructor(props: IProps = {}) {
         this.scrollTo = props.scrollTo || SmoothScroll.navigateWindow;
         this.timeouts = [];
+        this.getCurrentPosition = props.getCurrentPosition;
     }
-    public go(value: number, duration: number, initialPosition, cb: ICallback) {
+    public go(value: number, duration: number, cb: ICallback) {
         this.stop();
         const steps = duration / 1000 * STEPS_PER_SECOND;
         const stepDuration = duration / steps;
+        const initialPosition = this.getCurrentPosition();
+        this.lastScrollPosition = initialPosition;
         for (let i = 1; i <= steps; i++) {
             const timeout = stepDuration * i;
-            const position = this.getPosition(i, initialPosition, value, steps);
+            const position = this.getNextPosition(i, initialPosition, value, steps);
             const lastStep = i === steps;
             this.timeouts.push(window.setTimeout(() => {
-                this.scrollTo(position);
-                if (lastStep) {
-                    cb();
+                const scrollPosition = this.getCurrentPosition();
+                if (this.lastScrollPosition !== scrollPosition) {
+                    this.stop();
+                } else {
+                    this.scrollTo(position);
+                    this.lastScrollPosition = this.getCurrentPosition();
+                    if (lastStep) {
+                        cb();
+                    }
                 }
             }, timeout));
         }
@@ -44,8 +56,9 @@ class SmoothScroll {
     }
     private static navigateWindow(value: number) {
         window.scroll(window.pageXOffset, value);
+        return window.pageYOffset;
     }
-    private getPosition(currentStep: number, offsetValue: number, distance: number, totalSteps: number) {
+    private getNextPosition(currentStep: number, offsetValue: number, distance: number, totalSteps: number) {
         return easing.inOut.cubic(currentStep, offsetValue, distance, totalSteps);
     }
 }
