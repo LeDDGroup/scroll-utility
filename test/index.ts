@@ -1,6 +1,10 @@
 import { load, close, evaluate } from "./setup/index";
 import test1 from "./test1";
 
+export {
+    evaluate,
+}
+
 describe("scroll", function() {
 
     before(async function() {
@@ -12,11 +16,8 @@ describe("scroll", function() {
     });
 
     beforeEach(async function() {
-        this.timeout(500);
         await evaluate(() => { window.scrollTo(0, 0); })
     })
 
     test1();
-
 });
-
