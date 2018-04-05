@@ -1,5 +1,9 @@
 import { load, close, evaluate } from "./setup/index";
 import offsetTest from "./offsetTest";
+import elementScroll from "./elementScroll";
+import percentScroll from "./percentScroll";
+
+declare module "./globals";
 
 export {
     evaluate,
@@ -23,4 +27,6 @@ describe("scroll-utility", function() {
     })
 
     offsetTest();
+    elementScroll();
+    percentScroll();
 });
