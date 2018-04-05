@@ -1,12 +1,11 @@
 import { load, close, evaluate } from "./setup/index";
-import test1 from "./test1";
+import offsetTest from "./offsetTest";
 
 export {
     evaluate,
 }
 
-describe("scroll", function() {
-
+describe("scroll-utility", function() {
     before(async function() {
         await load();
     });
@@ -19,5 +18,5 @@ describe("scroll", function() {
         await evaluate(() => { window.scrollTo(0, 0); })
     })
 
-    test1();
+    offsetTest();
 });
