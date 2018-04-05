@@ -1,12 +1,8 @@
-// import { Scroll as IScroll } from "../src/scroll";
 import * as delay from "delay";
 import { evaluate } from "./index";
 import { expect } from "chai";
 
-declare module "./globals";
-
 export default offsetTest;
-
 
 function offsetTest() {
     describe("offset", function() {
