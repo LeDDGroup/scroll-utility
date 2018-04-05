@@ -2,10 +2,7 @@ import { Scroll } from "../../src/scroll";
 
 export = Scroll;
 
-const scrollable = document.getElementById("scrollable");
-const element = document.getElementById("element");
 const windowScroll = new Scroll();
-const scroll = new Scroll(scrollable);
 
 window.onkeydown = (ev) => {
     if (ev.key === "ArrowUp" || ev.key === "ArrowDown") {
