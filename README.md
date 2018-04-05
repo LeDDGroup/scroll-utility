@@ -1,4 +1,9 @@
-# [scroll-utiliy](https://github.com/LeDDGroup/scroll-utility)
+# scroll-utiliy
+[![Travis](https://travis-ci.org/LeDDGroup/scroll-utility.svg?branch=master)](https://github.com/LeDDGroup/scroll-utility)
+
+https://github.com/LeDDGroup/scroll-utility
+
+
 A simple scroll utility for scrolling the page, inside an element, centering elements, and smooth scroll animations.
 
 ## Installation
@@ -46,7 +51,7 @@ scrollManager.scrollTo({
 `element`: if specify will scroll to the element.
 
 `percent`: 
-- will set the scroll in a percent relative the it height.
+- will set the scroll in a percent relative to its height.
 - if an `element` is specified it will scroll to the element an position it in a percent relative to the window.
 
 `cb`: a callback after the scroll ends. Generally used with a `duration`.
