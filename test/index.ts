@@ -9,15 +9,12 @@ export {
     evaluate,
 }
 
+before(async function() {
+    this.timeout(20000);
+    await load();
+})
+
 describe("scroll-utility", function() {
-    before(async function() {
-        await load();
-    });
-
-    after(async function() {
-        await close();
-    });
-
     beforeEach(async function() {
         await evaluate(() => {
             const scrollable = document.getElementById("scrollable");
@@ -30,3 +27,8 @@ describe("scroll-utility", function() {
     elementScroll();
     percentScroll();
 });
+
+after(async function() {
+    await close();
+});
+
