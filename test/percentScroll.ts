@@ -27,7 +27,7 @@ function percentScroll() {
                         documentHeight: document.body.scrollHeight - window.innerHeight,
                     };
                 });
-                expect(scrollPosition).to.be.closeTo(documentHeight / 2, 1);
+                expect(scrollPosition).to.be.eq(documentHeight / 2);
             });
 
             it("should scroll to end", async function() {
@@ -40,7 +40,7 @@ function percentScroll() {
                         documentHeight: document.body.scrollHeight - window.innerHeight,
                     };
                 });
-                expect(scrollPosition).to.be.closeTo(documentHeight, 1);
+                expect(scrollPosition).to.be.eq(documentHeight);
             });
 
             it("should scroll with offset to half", async function() {
@@ -54,7 +54,7 @@ function percentScroll() {
                         documentHeight: document.body.scrollHeight - window.innerHeight,
                     };
                 });
-                expect(scrollPosition + 100).to.be.closeTo(documentHeight / 2, 1);
+                expect(scrollPosition + 100).to.be.eq(documentHeight / 2);
             });
 
             it("should scroll with duration to half", async function() {
@@ -71,7 +71,7 @@ function percentScroll() {
                         documentHeight: document.body.scrollHeight - window.innerHeight,
                     };
                 });
-                expect(scrollPosition).to.be.closeTo(documentHeight / 2, 1);
+                expect(scrollPosition).to.be.eq(documentHeight / 2);
             });
 
             describe("scroll to element", () => {
@@ -99,7 +99,7 @@ function percentScroll() {
                             windowHeight: window.innerHeight,
                         };
                     });
-                    expect(elementHalf).to.be.closeTo(windowHeight / 2, 1);
+                    expect(elementHalf).to.be.eq(windowHeight / 2);
                 });
 
                 it("should scroll to end", async function() {
@@ -139,7 +139,7 @@ function percentScroll() {
                         documentHeight: scrollable.scrollHeight - scrollable.getBoundingClientRect().height,
                     };
                 });
-                expect(scrollPosition).to.be.closeTo(documentHeight / 2, 1);
+                expect(scrollPosition).to.be.eq(documentHeight / 2);
             });
 
             it("should scroll to end", async function() {
@@ -152,7 +152,7 @@ function percentScroll() {
                         documentHeight: scrollable.scrollHeight - scrollable.getBoundingClientRect().height,
                     };
                 });
-                expect(scrollPosition).to.be.closeTo(documentHeight, 1);
+                expect(scrollPosition).to.be.eq(documentHeight);
             });
 
             it("should scroll with offset to half", async function() {
@@ -166,7 +166,7 @@ function percentScroll() {
                         documentHeight: scrollable.scrollHeight - scrollable.getBoundingClientRect().height,
                     };
                 });
-                expect(scrollPosition + 100).to.be.closeTo(documentHeight / 2, 1);
+                expect(scrollPosition + 100).to.be.eq(documentHeight / 2);
             });
 
             it("should scroll with duration to half", async function() {
@@ -183,7 +183,7 @@ function percentScroll() {
                         documentHeight: scrollable.scrollHeight - scrollable.getBoundingClientRect().height,
                     };
                 });
-                expect(scrollPosition).to.be.closeTo(documentHeight / 2, 1);
+                expect(scrollPosition).to.be.eq(documentHeight / 2);
             });
 
             describe("scroll to element", () => {
@@ -195,7 +195,7 @@ function percentScroll() {
                         });
                         return element.getBoundingClientRect().top - scrollable.getBoundingClientRect().top;
                     });
-                    expect(elementTop).to.be.closeTo(0, 1);
+                    expect(elementTop).to.be.eq(0);
                 });
 
                 it("should scroll to half", async function() {
@@ -208,10 +208,10 @@ function percentScroll() {
                         const elementHalf = (bounding.top + bounding.bottom) / 2 - scrollable.getBoundingClientRect().top;
                         return {
                             elementHalf,
-                            windowHeight: window.innerHeight,
+                            windowHeight: scrollable.getBoundingClientRect().height,
                         };
                     });
-                    expect(elementHalf).to.be.closeTo(windowHeight / 2, 1);
+                    expect(elementHalf).to.be.eq(windowHeight / 2);
                 });
 
                 it("should scroll to end", async function() {
@@ -222,10 +222,10 @@ function percentScroll() {
                         });
                         return {
                             elementBottom: element.getBoundingClientRect().bottom - scrollable.getBoundingClientRect().top,
-                            windowHeight: window.innerHeight,
+                            windowHeight: scrollable.getBoundingClientRect().height,
                         };
                     });
-                    expect(elementBottom).to.be.closeTo(windowHeight, 1);
+                    expect(elementBottom).to.be.eq(windowHeight);
                 });
             });
         });
