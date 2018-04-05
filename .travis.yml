@@ -4,9 +4,5 @@ node_js:
   - "node"
   - "8"
 
-deploy:
-  provider: npm
-  email: "davidpa9708@gmail.com"
-
 before_script:
   - npm run build-test
