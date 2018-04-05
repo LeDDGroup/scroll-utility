@@ -18,7 +18,6 @@ let page;
 const dist = Path.join(__dirname, '../../');
 
 async function load() {
-
     await build();
     console.log(dist);
     const app = await connect().use(serveStatic(dist));
