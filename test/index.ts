@@ -15,7 +15,11 @@ describe("scroll-utility", function() {
     });
 
     beforeEach(async function() {
-        await evaluate(() => { window.scrollTo(0, 0); })
+        await evaluate(() => {
+            const scrollable = document.getElementById("scrollable");
+            scrollable.scrollTo(0, 0);
+            window.scrollTo(0, 0);
+        })
     })
 
     offsetTest();

@@ -1,9 +1,14 @@
 import { Scroll } from "../src/scroll";
 
 interface IScrollWindow extends Window {
-    Scroll,
+    divScroll: Scroll;
+    Scroll: Scroll;
+    scrollable: HTMLElement;
 }
 
 declare const window: IScrollWindow;
 
-window.Scroll = Scroll;
+const scrollable = document.getElementById("scrollable");
+window.divScroll = new Scroll(scrollable);
+window.Scroll = new Scroll();
+window.scrollable = scrollable;
