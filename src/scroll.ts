@@ -63,7 +63,7 @@ class Scroll {
             const posTop = top + offset;
             const windowHeight = this.getHeight();
             const height = innerElement.getHeight();
-            const value = (windowHeight - height) * percent || 0 / 100;
+            const value = (windowHeight - height) * (percent || 0) / 100;
             distToScroll = posTop - value;
         } else {
             if (percent !== null && percent !== undefined) {
