@@ -26,3 +26,4 @@ class InnerElement {
         return this.element.getBoundingClientRect();
     }
 }
+

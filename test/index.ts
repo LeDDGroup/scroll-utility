@@ -1,116 +1,34 @@
-import { expect } from "chai";
-import { Scroll } from "../src/scroll";
 import { load, close, evaluate } from "./setup/index";
+import offsetTest from "./offsetTest";
+import elementScroll from "./elementScroll";
+import percentScroll from "./percentScroll";
 
-const delay = ms => new Promise(r => setTimeout(r, ms));
+declare module "./globals";
 
-interface IScrollWindow extends Window {
-    Scroll: typeof Scroll;
+export {
+    evaluate,
 }
 
-declare const window: IScrollWindow;
+before(async function() {
+    this.timeout(20000);
+    await load();
+})
 
-describe("scroll", function() {
-
-    before(async function() {
-        await load();
-    });
-
-    after(async function() {
-        await close();
-    });
-
-    it("should do scroll", async function() {
-        await evaluate(() => { window.scrollTo(0, 0); })
-        const firstPosition = await evaluate(() => {
-            return window.pageYOffset;
-        })
-        const distToScroll = 100;
-        const last = await evaluate(() => {
-            const scroll = new window.Scroll()
-            scroll.scrollTo({
-                offset: 100,
-            })
-            return window.pageYOffset;
-        });
-        expect(last - distToScroll).to.be.equal(firstPosition)
-    });
-
-    it("should do exact amount of scroll", async function() {
-        await evaluate(() => { window.scrollTo(0, 0); })
-        const firstPosition = await evaluate(() => {
-            return window.pageYOffset;
-        })
-        const last = await evaluate(() => {
-            const scroll = new window.Scroll()
-            scroll.scrollTo({
-                offset: 100,
-            });
-            return window.pageYOffset;
-        })
-        expect(last - 100).to.be.equal(firstPosition)
-    });
-
-    it("should scroll to half", async function() {
-        await evaluate(() => { window.scrollTo(0, 0); })
-        const { position, scrollHeight } = await evaluate(() => {
-            const scroll = new window.Scroll()
-            scroll.scrollTo({
-                percent: 50,
-            });
-            return {
-                position: window.pageYOffset + window.innerHeight / 2,
-                scrollHeight: document.body.scrollHeight,
-            };
-        })
-        expect(position * 2).to.be.equal(scrollHeight);
-    });
-
-    it("should scroll to end", async function() {
-        await evaluate(() => { window.scrollTo(0, 0); })
-        const { position, scrollHeight } = await evaluate(() => {
-            const scroll = new window.Scroll()
-            scroll.scrollTo({
-                percent: 100,
-            });
-            return {
-                position: window.pageYOffset + window.innerHeight,
-                scrollHeight: document.body.scrollHeight,
-            };
-        })
-        expect(position).to.be.equal(scrollHeight);
-    });
-
-    it("should scroll to element", async function() {
-        await evaluate(() => { window.scrollTo(0, 0); })
-        const elementTop = await evaluate(() => {
-            const scroll = new window.Scroll()
-            const element = document.getElementById("element1");
-            scroll.scrollTo({
-                element,
-            });
-            return element.getBoundingClientRect().top;
-        })
-        expect(elementTop).to.be.equal(0);
-    });
-
-    it("should do scroll with duration", async function() {
-        await evaluate(() => { window.scrollTo(0, 0); })
+describe("scroll-utility", function() {
+    beforeEach(async function() {
         await evaluate(() => {
-            const scroll = new window.Scroll()
-            // const element = document.getElementById("element1");
-            scroll.scrollTo({
-                offset: 1000,
-                duration: 1000,
-            });
+            const scrollable = document.getElementById("scrollable");
+            scrollable.scrollTo(0, 0);
+            window.scrollTo(0, 0);
         })
-        await delay(1000);
-        const elementTop = await evaluate(() => {
-            // const element = document.getElementById("element1");
-            // return element.getBoundingClientRect().top;
-            return window.pageYOffset;
-        });
-        expect(elementTop).to.be.equal(1000);
-    });
+    })
 
+    offsetTest();
+    elementScroll();
+    percentScroll();
 });
+
+after(async function() {
+    await close();
+});
+
