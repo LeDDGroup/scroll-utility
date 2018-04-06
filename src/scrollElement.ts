@@ -51,7 +51,15 @@ class ScrollElement {
             cb();
         }
     }
-    public getScrollWidth(): number {
+
+    getScrollSize(horizontal: boolean): number {
+        if (horizontal) {
+            return this.scrollWidth;
+        } else {
+            return this.scrollHeight;
+        }
+    }
+    private get scrollWidth(): number {
         let scrollWidth = null;
         if (this.isWindow) {
             scrollWidth = document.body.clientWidth;
@@ -60,7 +68,7 @@ class ScrollElement {
         }
         return scrollWidth;
     }
-    public getScrollHeight(): number {
+    private get scrollHeight(): number {
         let scrollHeight = null;
         if (this.isWindow) {
             scrollHeight = document.body.clientHeight;
@@ -69,7 +77,14 @@ class ScrollElement {
         }
         return scrollHeight;
     }
-    public getHeight(): number {
+    public getSize(horizontal: boolean): number {
+        if (horizontal) {
+            return this.width;
+        } else {
+            return this.height;
+        }
+    }
+    private get height(): number {
         let height = null;
         if (this.isWindow) {
             height = window.innerHeight;
@@ -78,7 +93,7 @@ class ScrollElement {
         }
         return height;
     }
-    public getWidth(): number {
+    private get width(): number {
         let width = null;
         if (this.isWindow) {
             width = window.innerWidth;
@@ -105,14 +120,21 @@ class ScrollElement {
         }
         return y;
     }
-    public getOffset() {
+    public getOffset(horizontal: boolean) {
+        if (horizontal) {
+            return this.offsetX;
+        } else {
+            return this.offsetY;
+        }
+    }
+    private get offsetY() {
         if (this.isWindow) {
             return 0;
         } else {
             return - this.scrollable.getBoundingClientRect().top;
         }
     }
-    public getOffsetX() {
+    private get offsetX() {
         if (this.isWindow) {
             return 0;
         } else {
