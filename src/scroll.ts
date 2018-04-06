@@ -34,8 +34,8 @@ class Scroll {
             const hasX = direction === "horizontal" || direction === "both";
             const hasY = direction === "vertical" || direction === "both";
             const offset = props.offset || 0;
-            const percentX = this.getPercentScrollX(props.percent, props.element);
-            const percentY = this.getPercentScrollY(props.percent, props.element);
+            const percentX = this.getPercentScroll(props.percent, props.element, true);
+            const percentY = this.getPercentScroll(props.percent, props.element, false);
             const duration = props.duration || 0;
             const x = hasX ? offset + percentX : 0;
             const y = hasY ? offset + percentY : 0;
@@ -48,67 +48,36 @@ class Scroll {
         cb = cb || (() => null);
         this.scrollable.scroll(x, y, duration, cb);
     }
-    private getScrollPosition(): number {
-        const scrollPosition = this.scrollable.getY();
-        return scrollPosition;
-    }
-    private getXScrollPosition(): number {
-        const scrollPosition = this.scrollable.getX();
-        return scrollPosition;
-    }
-    private getHeight(): number {
-        const height = this.scrollable.getHeight();
-        return height;
-    }
-    private getWidth(): number {
-        const width = this.scrollable.getWidth();
-        return width;
-    }
-    private getScrollHeight(): number {
-        const scrollHeight = this.scrollable.getScrollHeight();
-        return scrollHeight;
-    }
-    private getScrollWidth(): number {
-        const scrollWidth = this.scrollable.getScrollWidth();
-        return scrollWidth;
-    }
-    private getPercentScrollY(percent, element: HTMLElement) {
-        let distToScroll = 0;
-        const windowHeight = this.getHeight();
-        if (element) {
-            const innerElement = new InnerElement(element);
-            const top = innerElement.getTop();
-            const offset = this.scrollable.getOffset();
-            const posTop = top + offset;
-            const height = innerElement.getHeight();
-            const value = (windowHeight - height) * (percent || 0) / 100;
-            distToScroll = posTop - value;
+    private getScrollPosition(horizontal: boolean): number {
+        if (horizontal) {
+            return this.scrollable.getX();
         } else {
-            if (percent !== null && percent !== undefined) {
-                const documentLength = this.getScrollHeight();
-                distToScroll = (documentLength - windowHeight) * percent / 100;
-                const scrollPosition = this.getScrollPosition();
-                distToScroll -= scrollPosition;
-            }
+            return this.scrollable.getY();
         }
-        return distToScroll;
     }
-    private getPercentScrollX(percent, element: HTMLElement) {
+    private getSize(horizontal): number {
+        const size = this.scrollable.getSize(horizontal);
+        return size;
+    }
+    private getScrollSize(horizontal): number {
+        const scrollSize = this.scrollable.getScrollSize(horizontal);
+        return scrollSize;
+    }
+    private getPercentScroll(percent, element: HTMLElement, horizontal: boolean = false) {
         let distToScroll = 0;
-        const windowWidth = this.getWidth();
+        const windowSize = this.getSize(horizontal);
         if (element) {
             const innerElement = new InnerElement(element);
-            const left = innerElement.getLeft();
-            const offset = this.scrollable.getOffsetX();
-            const posLeft = left + offset;
-            const width = innerElement.getWidth();
-            const value = (windowWidth - width) * (percent || 0) / 100;
-            distToScroll = posLeft - value;
+            const pos = innerElement.getPos(horizontal);
+            const offset = this.scrollable.getOffset(horizontal);
+            const size = innerElement.getSize(horizontal);
+            const value = (windowSize - size) * (percent || 0) / 100;
+            distToScroll = pos + offset - value;
         } else {
             if (percent !== null && percent !== undefined) {
-                const documentLength = this.getScrollWidth();
-                distToScroll = (documentLength - windowWidth) * percent / 100;
-                const scrollPosition = this.getXScrollPosition();
+                const documentLength = this.getScrollSize(horizontal);
+                distToScroll = (documentLength - windowSize) * percent / 100;
+                const scrollPosition = this.getScrollPosition(horizontal);
                 distToScroll -= scrollPosition;
             }
         }

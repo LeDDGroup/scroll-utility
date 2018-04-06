@@ -7,17 +7,19 @@ class InnerElement {
     constructor(element: HTMLElement) {
         this.element = element;
     }
-    public getHeight() {
-        return this.height;
+    public getSize(horizontal: boolean) {
+        if (horizontal) {
+            return this.width;
+        } else {
+            return this.height;
+        }
     }
-    public getWidth() {
-        return this.width;
-    }
-    public getTop() {
-        return this.top;
-    }
-    public getLeft() {
-        return this.left;
+    public getPos(horizontal: boolean) {
+        if (horizontal) {
+            return this.left;
+        } else {
+            return this.top;
+        }
     }
     private get top() {
         return this.rect.top;
