@@ -1,6 +1,5 @@
-import { SmoothScroll, IProps as ISmoothProps } from "./smoothScroll";
+import { SmoothScroll } from "./smoothScroll";
 import { ICallback } from "./scroll";
-
 export {
     IProps,
     ScrollElement,
@@ -12,12 +11,14 @@ interface IProps {
     smooth?: boolean;
 }
 
+
 class ScrollElement {
     private scrollable: HTMLElement;
     private isWindow: boolean;
-    private smoothScroll: SmoothScroll;
+    private smoothScrollX: SmoothScroll;
+    private smoothScrollY: SmoothScroll;
     constructor(element: HTMLElement) {
-        this.scrollBy = this.scrollBy.bind(this);
+        this.scrollByY = this.scrollByY.bind(this);
         this.scrollTo = this.scrollTo.bind(this);
         this.getY = this.getY.bind(this);
         this.getX = this.getX.bind(this);
@@ -27,19 +28,32 @@ class ScrollElement {
         } else {
             this.isWindow = true;
         }
-        const props: ISmoothProps = {
-            scrollTo: this.scrollTo,
-            getCurrentPosition: this.getY,
-        };
-        this.smoothScroll = new SmoothScroll(props);
+        this.smoothScrollX = new SmoothScroll({
+            scrollBy: this.scrollByX,
+        });
+        this.smoothScrollY = new SmoothScroll({
+            scrollBy: this.scrollByY,
+        });
     }
-    public scroll(value: number = 0, duration: number = 0, cb: ICallback) {
+    public scroll(x: number, y: number, duration: number = 0, cb: ICallback) {
         const smooth = duration > 0;
         if (smooth) {
-            this.smoothScroll.go(value, duration, cb);
+            this.smoothScrollX.go(x, duration, cb);
+            this.smoothScrollY.go(y, duration, cb);
         } else {
-            this.scrollBy(value, cb);
+            this.scrollByX(x);
+            this.scrollByY(y);
+            cb();
         }
+    }
+    public getScrollWidth(): number {
+        let scrollWidth = null;
+        if (this.isWindow) {
+            scrollWidth = document.body.clientWidth;
+        } else {
+            scrollWidth = this.scrollable.scrollWidth;
+        }
+        return scrollWidth;
     }
     public getScrollHeight(): number {
         let scrollHeight = null;
@@ -58,6 +72,15 @@ class ScrollElement {
             height = this.scrollable.clientHeight;
         }
         return height;
+    }
+    public getWidth(): number {
+        let width = null;
+        if (this.isWindow) {
+            width = window.innerWidth;
+        } else {
+            width = this.scrollable.clientWidth;
+        }
+        return width;
     }
     public getX(): number {
         let x = null;
@@ -84,24 +107,28 @@ class ScrollElement {
             return - this.scrollable.getBoundingClientRect().top;
         }
     }
-    private scrollBy(value: number, cb: ICallback) {
+    public getOffsetX() {
+        if (this.isWindow) {
+            return 0;
+        } else {
+            return - this.scrollable.getBoundingClientRect().left;
+        }
+    }
+    private scrollByX(value: number) {
+        const x = this.getX() + value;
+        const y = this.getY();
+        this.scrollTo(x, y);
+    }
+    private scrollByY(value: number) {
         const x = this.getX();
         const y = this.getY() + value;
-        if (this.isWindow) {
-            window.scroll(x, y);
-        } else {
-            this.scrollable.scroll(x, y);
-        }
-        cb();
+        this.scrollTo(x, y);
     }
-    private scrollTo(position: number) {
-        const x = this.getX();
-        const y = position;
+    private scrollTo(x, y): void {
         if (this.isWindow) {
             window.scroll(x, y);
         } else {
             this.scrollable.scroll(x, y);
         }
-        return this.getY();
     }
 }
