@@ -8,9 +8,9 @@ export {
 
 interface IProps {
     duration?: number;
-    scrollBy: (value: number) => void;
+    scrollTo: (value: number) => void;
     steps?: number;
-    getCurrentPosition?: () => number;
+    getCurrentPosition: () => number;
 }
 
 const STEPS_PER_SECOND = 100;
@@ -18,11 +18,11 @@ const STEPS_PER_SECOND = 100;
 class SmoothScroll {
     private getCurrentPosition: () => number;
     private lastScrollPosition: number;
-    private scrollBy: (value: number) => void;
+    private scrollTo: (value: number) => void;
     private timeouts: number[];
     constructor(props: IProps) {
-        this.scrollBy = props.scrollBy;
         this.timeouts = [];
+        this.scrollTo = props.scrollTo;
         this.getCurrentPosition = props.getCurrentPosition;
     }
     public go(value: number, duration: number, cb: ICallback) {
@@ -40,7 +40,7 @@ class SmoothScroll {
                 if (this.lastScrollPosition !== scrollPosition) {
                     this.stop();
                 } else {
-                    this.scrollBy(position);
+                    this.scrollTo(position);
                     this.lastScrollPosition = this.getCurrentPosition();
                     if (lastStep) {
                         cb();
