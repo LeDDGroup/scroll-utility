@@ -8,9 +8,9 @@ export {
 
 interface IProps {
     duration?: number;
-    scrollTo?: (value: number) => number;
+    scrollTo: (value: number) => void;
     steps?: number;
-    getCurrentPosition?: () => number;
+    getCurrentPosition: () => number;
 }
 
 const STEPS_PER_SECOND = 100;
@@ -20,9 +20,9 @@ class SmoothScroll {
     private lastScrollPosition: number;
     private scrollTo: (value: number) => void;
     private timeouts: number[];
-    constructor(props: IProps = {}) {
-        this.scrollTo = props.scrollTo || SmoothScroll.navigateWindow;
+    constructor(props: IProps) {
         this.timeouts = [];
+        this.scrollTo = props.scrollTo;
         this.getCurrentPosition = props.getCurrentPosition;
     }
     public go(value: number, duration: number, cb: ICallback) {
@@ -53,10 +53,6 @@ class SmoothScroll {
         this.timeouts.forEach((timeout: number) => {
             window.clearTimeout(timeout);
         });
-    }
-    private static navigateWindow(value: number) {
-        window.scroll(window.pageXOffset, value);
-        return window.pageYOffset;
     }
     private getNextPosition(currentStep: number, offsetValue: number, distance: number, totalSteps: number) {
         return easing.inOut.cubic(currentStep, offsetValue, distance, totalSteps);

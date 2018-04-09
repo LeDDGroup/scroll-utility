@@ -1,7 +1,7 @@
 import { load, close, evaluate } from "./setup/index";
-import offsetTest from "./offsetTest";
-import elementScroll from "./elementScroll";
-import percentScroll from "./percentScroll";
+import offsetTest from "./tests/offsetTest";
+import elementScroll from "./tests/elementScroll";
+import percentScroll from "./tests/percentScroll";
 
 declare module "./globals";
 
