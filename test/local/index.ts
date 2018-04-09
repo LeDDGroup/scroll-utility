@@ -23,3 +23,14 @@ window.onkeyup = (ev) => {
         });
     }
 }
+
+const scrollable = document.getElementById("scrollable");
+const divScroll = new Scroll(scrollable);
+divScroll.scrollTo({
+    percent: 0,
+    direction: "horizontal",
+})
+windowScroll.scrollTo({
+    element: scrollable,
+    direction: "both",
+})
