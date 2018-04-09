@@ -1,8 +1,6 @@
-# scroll-utiliy
+# [scroll-utiliy](https://github.com/LeDDGroup/scroll-utility)
+
 [![Travis](https://travis-ci.org/LeDDGroup/scroll-utility.svg?branch=master)](https://github.com/LeDDGroup/scroll-utility)
-
-https://github.com/LeDDGroup/scroll-utility
-
 
 A simple scroll utility for scrolling the page, inside an element, centering elements, and smooth scroll animations.
 
@@ -41,6 +39,7 @@ scrollManager.scrollTo({
   element?: HTMLElement;
   percent?: number;
   cb?: () => void;
+  direction?: "vertical" | "horizontal" | "both";
 });
 ```
 
@@ -56,6 +55,8 @@ scrollManager.scrollTo({
 
 `cb`: a callback after the scroll ends. Generally used with a `duration`.
 
+`direction` is the direction of the scroll action. Vertically or(and) horizontally. Default vertical.
+
 If no `duration` then it will be like 0.
 
 If no `offset` then it will be like 0.
@@ -64,7 +65,6 @@ If no `percent` it will not be like 0, just will not affect scroll.
 
 If no `element` it will not affect scroll.
 
-## Pending features
-The default animation used is `easeInOutCubic`. In the future it will be configurable as a parameter.
+## Github
 
 If have any issue or feature request notify me via [github](https://github.com/LeDDGroup/scroll-utility/issues).
