@@ -163,7 +163,13 @@ class ScrollElement {
         if (this.isWindow) {
             window.scroll(x, y);
         } else {
-            this.scrollable.scroll(x, y);
+            console.log(x, y);
+            if (!!this.scrollable.scroll) {
+                this.scrollable.scroll(x, y);
+            } else {
+                this.scrollable.scrollLeft = x;
+                this.scrollable.scrollTop = y;
+            }
         }
     }
 }
