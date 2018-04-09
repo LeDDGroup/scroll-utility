@@ -1,0 +1,38 @@
+body {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    height: 1000vh;
+    width: 1000vh;
+}
+
+#scrollable {
+    background: black;
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    height: 80vh;
+    width: 80vw;
+    overflow: scroll;
+}
+#scrollable::after {
+    content: "";
+    position: absolute;
+    width: 1000vw;
+    height: 1000vh;
+}
+
+#element, #element1 {
+    background: yellow;
+    position: absolute;
+    height: 50vh;
+    width: 50vw;
+}
+#element {
+    top: 300vh;
+    left: 300vw;
+}
+#element1  {
+    top: 60%;
+    left: 60%;
+}
