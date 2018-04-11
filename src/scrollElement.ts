@@ -24,7 +24,8 @@ class ScrollElement {
     private smoothScrollY: SmoothScroll;
     private isUserScrolling: boolean;
     private isAutoScrolling: boolean;
-    private scrollTimeoutManager: TimeoutManager;
+    private autoScrollTimeout: TimeoutManager;
+    private userScrollTimeout: TimeoutManager;
     private eventManager: EventManager;
     constructor(element: HTMLElement) {
         this.getX = this.getX.bind(this);
@@ -43,25 +44,43 @@ class ScrollElement {
             this.isWindow = true;
         }
         this.smoothScrollX = new SmoothScroll({
-            scrollTo: this.scrollToX,
+            scrollTo: (val) => {
+                this.autoScrolled();
+                this.scrollToX(val);
+            },
             getCurrentPosition: this.getX,
         });
         this.smoothScrollY = new SmoothScroll({
-            scrollTo: this.scrollToY,
+            scrollTo: (val) => {
+                this.autoScrolled();
+                this.scrollToY(val);
+            },
             getCurrentPosition: this.getY,
         });
         const scrollableElement = element || window;
         this.eventManager = new EventManager();
-        this.scrollTimeoutManager = new TimeoutManager({
+        this.autoScrollTimeout = new TimeoutManager({
+            cb: () => {
+                this.isAutoScrolling = false;
+            },
+            duration: DURATION,
+        });
+        this.userScrollTimeout = new TimeoutManager({
             cb: () => {
                 this.isUserScrolling = false;
             },
             duration: DURATION,
         });
         this.eventManager.addEvent(scrollableElement, "scroll", () => {
-            this.isUserScrolling = true;
-            this.scrollTimeoutManager.call();
+            if (!this.isAutoScrolling) {
+                this.isUserScrolling = true;
+                this.userScrollTimeout.call();
+            }
         });
+    }
+    private autoScrolled() {
+        this.isAutoScrolling = true;
+        this.autoScrollTimeout.call();
     }
     public scroll(x: number, y: number, duration: number = 0, cb: ICallback) {
         const smooth = duration > 0;
