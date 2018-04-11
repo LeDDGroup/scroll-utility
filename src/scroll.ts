@@ -6,10 +6,16 @@ export {
     IProps,
     ICallback,
     IDirection,
+    IScrolling,
 };
 
 type IDirection = "horizontal" | "vertical" | "both";
 type ICallback = () => void
+interface IScrolling {
+    user: boolean,
+    auto: boolean,
+    any: boolean,
+}
 
 interface IProps {
     element?: HTMLElement;
@@ -43,6 +49,9 @@ class Scroll {
         } else {
             console.warn("props should not be empty, no scroll action will be emitted")
         }
+    }
+    public get isScrolling(): IScrolling {
+        return this.scrollable.isScrolling;
     }
     private scroll(x: number, y: number, duration = 0, cb?: ICallback) {
         cb = cb || (() => null);
