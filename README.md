@@ -40,7 +40,7 @@ scrollManager.scrollTo({
   percent?: number;
   cb?: () => void;
   direction?: "vertical" | "horizontal" | "both";
-  interruptScroll?: boolean;
+  noStop?: boolean;
 });
 ```
 
@@ -58,7 +58,7 @@ scrollManager.scrollTo({
 
 `direction` is the direction of the scroll action. Vertically or(and) horizontally. Default vertical.
 
-`interruptScroll`: whether or not to interrupt a smooth scroll on user scroll or any other scroll that occurs.
+`noStop`: whether or not to interrupt a smooth scroll on user scroll or any other scroll that occurs. If false or not specified, it will stop scroll animation.
 
 If no `duration` then it will be 0.
 
@@ -68,7 +68,7 @@ If no `percent` it will not be like 0, just will not affect scroll.
 
 If no `element` it will not affect scroll.
 
-If no `interruptScroll` it will be true by default.
+If no `noStop` it will be false by default.
 
 ### Detecting if is scrolling
 You can get if its currently scrolling:
