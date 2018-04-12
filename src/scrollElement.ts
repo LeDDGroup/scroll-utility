@@ -44,17 +44,11 @@ class ScrollElement {
             this.isWindow = true;
         }
         this.smoothScrollX = new SmoothScroll({
-            scrollTo: (val) => {
-                this.autoScrolled();
-                this.scrollToX(val);
-            },
+            scrollTo: this.scrollToX,
             getCurrentPosition: this.getX,
         });
         this.smoothScrollY = new SmoothScroll({
-            scrollTo: (val) => {
-                this.autoScrolled();
-                this.scrollToY(val);
-            },
+            scrollTo: this.scrollToY,
             getCurrentPosition: this.getY,
         });
         const scrollableElement = element || window;
@@ -210,6 +204,7 @@ class ScrollElement {
         this.scrollTo(x, y);
     }
     private scrollTo(x, y): void {
+        this.autoScrolled();
         if (this.isWindow) {
             window.scroll(x, y);
         } else {
