@@ -76,11 +76,11 @@ class ScrollElement {
         this.isAutoScrolling = true;
         this.autoScrollTimeout.call();
     }
-    public scroll(x: number, y: number, duration: number = 0, cb: ICallback) {
+    public scroll(x: number, y: number, duration: number = 0, cb: ICallback, noStop: boolean) {
         const smooth = duration > 0;
         if (smooth) {
-            this.smoothScrollX.go(x, duration, cb);
-            this.smoothScrollY.go(y, duration, cb);
+            this.smoothScrollX.go(x, duration, cb, noStop);
+            this.smoothScrollY.go(y, duration, cb, noStop);
         } else {
             this.scrollByX(x);
             this.scrollByY(y);
@@ -170,6 +170,10 @@ class ScrollElement {
         } else {
             return this.offsetY;
         }
+    }
+    public stop() {
+        this.smoothScrollX.stop();
+        this.smoothScrollY.stop();
     }
     private get offsetY() {
         if (this.isWindow) {

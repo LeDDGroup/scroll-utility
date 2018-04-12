@@ -24,6 +24,7 @@ interface IProps {
     duration?: number;
     cb?: ICallback;
     direction?: IDirection;
+    noStop?: boolean;
 }
 
 class Scroll {
@@ -36,6 +37,8 @@ class Scroll {
     }
     public scrollTo(props: IProps) {
         if (!!props) {
+            const cb = props.cb || (() => null);
+            const noStop = props.noStop || false;
             const direction = props.direction || "vertical";
             const hasX = direction === "horizontal" || direction === "both";
             const hasY = direction === "vertical" || direction === "both";
@@ -45,7 +48,7 @@ class Scroll {
             const duration = props.duration || 0;
             const x = hasX ? offset + percentX : 0;
             const y = hasY ? offset + percentY : 0;
-            this.scroll(x, y, duration, props.cb);
+            this.scroll(x, y, duration, cb, noStop);
         } else {
             console.warn("props should not be empty, no scroll action will be emitted")
         }
@@ -53,9 +56,11 @@ class Scroll {
     public get isScrolling(): IScrolling {
         return this.scrollable.isScrolling;
     }
-    private scroll(x: number, y: number, duration = 0, cb?: ICallback) {
-        cb = cb || (() => null);
-        this.scrollable.scroll(x, y, duration, cb);
+    public stop() {
+        this.scrollable.stop();
+    }
+    private scroll(x: number, y: number, duration = 0, cb: ICallback, noStop: boolean) {
+        this.scrollable.scroll(x, y, duration, cb, noStop);
     }
     private getScrollPosition(horizontal: boolean): number {
         if (horizontal) {
