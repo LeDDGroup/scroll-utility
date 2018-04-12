@@ -65,6 +65,14 @@ If no `percent` it will not be like 0, just will not affect scroll.
 
 If no `element` it will not affect scroll.
 
+### Detecting if is scrolling
+You can get if its currently scrolling:
+```js
+scrollManger.isScrolling.user // returns true if user trigger scroll or via js
+scrollManger.isScrolling.auto // returns true if element trigger scroll using `scrollTo`
+scrollManger.isScrolling.any // returns true if any of above
+```
+
 ## Github
 
 If have any issue or feature request notify me via [github](https://github.com/LeDDGroup/scroll-utility/issues).
