@@ -25,7 +25,7 @@ class SmoothScroll {
         this.scrollTo = props.scrollTo;
         this.getCurrentPosition = props.getCurrentPosition;
     }
-    public go(value: number, duration: number, cb: ICallback) {
+    public go(value: number, duration: number, cb: ICallback, noStop: boolean) {
         this.stop();
         const steps = duration / 1000 * STEPS_PER_SECOND;
         const stepDuration = duration / steps;
@@ -37,7 +37,7 @@ class SmoothScroll {
             const lastStep = i === steps;
             this.timeouts.push(window.setTimeout(() => {
                 const scrollPosition = this.getCurrentPosition();
-                if (this.lastScrollPosition !== scrollPosition) {
+                if (!noStop && this.lastScrollPosition !== scrollPosition) {
                     this.stop();
                 } else {
                     this.scrollTo(position);
