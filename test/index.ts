@@ -3,6 +3,7 @@ import offsetTest from "./tests/offsetTest";
 import elementScroll from "./tests/elementScroll";
 import percentScroll from "./tests/percentScroll";
 import isScrollingTest from "./tests/isScrolling";
+import stopScrollTest from "./tests/stopScroll";
 
 declare module "./globals";
 
@@ -28,6 +29,7 @@ describe("scroll-utility", function() {
     elementScroll();
     percentScroll();
     isScrollingTest();
+    stopScrollTest();
 });
 
 after(async function() {
