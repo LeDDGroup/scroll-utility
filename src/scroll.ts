@@ -53,6 +53,9 @@ class Scroll {
     public get isScrolling(): IScrolling {
         return this.scrollable.isScrolling;
     }
+    public stop() {
+        this.scrollable.stop();
+    }
     private scroll(x: number, y: number, duration = 0, cb?: ICallback) {
         cb = cb || (() => null);
         this.scrollable.scroll(x, y, duration, cb);
