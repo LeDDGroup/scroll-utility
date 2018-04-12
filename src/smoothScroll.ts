@@ -26,7 +26,9 @@ class SmoothScroll {
         this.getCurrentPosition = props.getCurrentPosition;
     }
     public go(value: number, duration: number, cb: ICallback, noStop: boolean) {
-        this.stop();
+        if (!noStop) {
+            this.stop();
+        }
         const steps = duration / 1000 * STEPS_PER_SECOND;
         const stepDuration = duration / steps;
         const initialPosition = this.getCurrentPosition();
