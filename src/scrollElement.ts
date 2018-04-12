@@ -171,6 +171,10 @@ class ScrollElement {
             return this.offsetY;
         }
     }
+    public stop() {
+        this.smoothScrollX.stop();
+        this.smoothScrollY.stop();
+    }
     private get offsetY() {
         if (this.isWindow) {
             return 0;
