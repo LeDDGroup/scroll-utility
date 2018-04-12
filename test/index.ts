@@ -2,6 +2,7 @@ import { load, close, evaluate } from "./setup/index";
 import offsetTest from "./tests/offsetTest";
 import elementScroll from "./tests/elementScroll";
 import percentScroll from "./tests/percentScroll";
+import isScrollingTest from "./tests/isScrolling";
 
 declare module "./globals";
 
@@ -26,6 +27,7 @@ describe("scroll-utility", function() {
     offsetTest();
     elementScroll();
     percentScroll();
+    isScrollingTest();
 });
 
 after(async function() {

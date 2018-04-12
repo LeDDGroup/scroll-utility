@@ -41,5 +41,9 @@
     "serve-static": "^1.13.2",
     "typescript": "^2.7.2",
     "zombie": "^5.0.8"
+  },
+  "dependencies": {
+    "event-utility": "0.0.3",
+    "timeout-utility": "0.0.3"
   }
 }
