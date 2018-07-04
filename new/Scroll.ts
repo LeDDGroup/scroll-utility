@@ -6,7 +6,6 @@ export {
 
 interface IOptions {
   offset?: number;
-  percentOffset?: number;
   duration?: number;
 }
 
@@ -30,7 +29,7 @@ class Scroll {
   }
   public doScroll(options: IOptions): ScrollInstance {
     return new ScrollInstance({
-      distToScroll: () => 0,
+      distToScroll: () => options.offset,
       duration: options.duration,
     });
   }
