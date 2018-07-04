@@ -17,13 +17,22 @@ class Scroll {
     this.isWindow = element === undefined || element === null;
   }
   public scrollToElement(element: HTMLElement, options?: IOptions): ScrollInstance {
-    return new ScrollInstance;
+    return new ScrollInstance({
+      distToScroll: () => 0,
+      duration: options.duration,
+    });
   }
   public scrollToPercent(percent: number, options?: IOptions): ScrollInstance {
-    return new ScrollInstance;
+    return new ScrollInstance({
+      distToScroll: () => 0,
+      duration: options.duration,
+    });
   }
   public doScroll(options: IOptions): ScrollInstance {
-    return new ScrollInstance;
+    return new ScrollInstance({
+      distToScroll: () => 0,
+      duration: options.duration,
+    });
   }
   private get scrollHeight(): number {
     return this.isWindow ? document.body.clientHeight : this.element.scrollHeight;
