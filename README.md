@@ -87,10 +87,10 @@ scrollManger.stop(); // It will stop currently scroll animatmion
 
 If have any issue or feature request notify me via [github](https://github.com/LeDDGroup/scroll-utility/issues).
 
-## [License](./LICENSE.md): MIT
-
 ## Browser tested
 
 Test are made using automate testing [Browserstack](https://www.browserstack.com) [for open source](https://www.browserstack.com/open-source?ref=pricing).
 
 <img src="./assets/BrowserStack-Logo/BrowserStack - Logo/Browserstack-logo@2x.png" alt="Browserstack logo" style="height: 60px" >
+
+## [License](./LICENSE.md): MIT
