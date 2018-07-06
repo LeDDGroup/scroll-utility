@@ -2,6 +2,7 @@ import {ScrollInstance} from "./ScrollTo";
 
 export {
   Scroll,
+  IOptions,
 }
 
 interface IOptions {
@@ -10,7 +11,6 @@ interface IOptions {
 }
 
 class Scroll {
-  private scrollElement: any = {};
   private isWindow = false;
   constructor(private element?: HTMLElement) {
     this.isWindow = element === undefined || element === null;
@@ -21,9 +21,11 @@ class Scroll {
       duration: options.duration,
     });
   }
-  public scrollToPercent(percent: number, options?: IOptions): ScrollInstance {
+  public scrollToPercent(percent: number = 0, options?: IOptions): ScrollInstance {
+    const offset = options.offset || 0;
+    const dist = ((this.scrollHeight - this.height) * percent) / 100 - this.y + offset;
     return new ScrollInstance({
-      distToScroll: () => 0,
+      distToScroll: () => dist,
       duration: options.duration,
     });
   }
@@ -44,5 +46,11 @@ class Scroll {
   }
   private get width(): number {
     return this.isWindow ? window.innerWidth : this.element.clientWidth;
+  }
+  private get y(): number {
+    return this.isWindow ? window.pageYOffset : this.element.scrollTop;
+  }
+  private get x(): number {
+    return this.isWindow ? window.pageXOffset : this.element.scrollLeft;
   }
 }
