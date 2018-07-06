@@ -16,8 +16,10 @@ class Scroll {
     this.isWindow = element === undefined || element === null;
   }
   public scrollToElement(element: HTMLElement, options?: IOptions): ScrollInstance {
+    const offset = options.offset || 0;
+    const distToElement = element.getBoundingClientRect().top - this.top + offset;
     return new ScrollInstance({
-      distToScroll: () => 0,
+      distToScroll: () => distToElement,
       duration: options.duration,
     });
   }
@@ -52,5 +54,11 @@ class Scroll {
   }
   private get x(): number {
     return this.isWindow ? window.pageXOffset : this.element.scrollLeft;
+  }
+  private get top(): number {
+    return this.isWindow ? 0 : this.element.getBoundingClientRect().top;
+  }
+  private get left(): number {
+    return this.isWindow ? 0 : this.element.getBoundingClientRect().left;
   }
 }
