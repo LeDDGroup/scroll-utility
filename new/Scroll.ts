@@ -8,7 +8,9 @@ interface IOptions {
 }
 
 class Scroll {
+  private animations: ScrollAnimation[] = [];
   constructor(private element?: HTMLElement) {
+    window.requestAnimationFrame(this.onAnimationFrame);
   }
   public scrollToElement(element: HTMLElement, options?: IOptions) {
     const offset = options.offset || 0;
@@ -70,5 +72,13 @@ class Scroll {
   }
   private get isWindow(): boolean {
     return !!this.element;
+  }
+  private onAnimationFrame() {
+    let distToScroll = 0;
+    this.animations.forEach((animation, index) => {
+      distToScroll += animation.distance;
+    });
+    window.scrollTo(0, distToScroll);
+    window.requestAnimationFrame(this.onAnimationFrame);
   }
 }
