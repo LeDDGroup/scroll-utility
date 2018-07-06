@@ -3,9 +3,9 @@ import { easing } from "../src/easings";
 export { Animation, ScrollInstanceProps };
 
 interface ScrollInstanceProps {
-  element?: HTMLElement;
   duration: number;
   distToScroll: () => number;
+  stop: () => void,
 }
 
 type DOMHighResTimeStamp = number;
@@ -33,5 +33,6 @@ class Animation {
   }
   public stop() {
     this.active = false;
+    this.options.stop();
   }
 }

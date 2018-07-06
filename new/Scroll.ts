@@ -8,28 +8,26 @@ interface IOptions {
 }
 
 class Scroll {
-  private isWindow = false;
   constructor(private element?: HTMLElement) {
-    this.isWindow = element === undefined || element === null;
   }
-  public scrollToElement(element: HTMLElement, options?: IOptions): ScrollAnimation {
+  public scrollToElement(element: HTMLElement, options?: IOptions) {
     const offset = options.offset || 0;
     const distToElement = element.getBoundingClientRect().top - this.top + offset;
-    return new ScrollAnimation({
+    this.createScrollAnimation({
       distToScroll: () => distToElement,
       duration: options.duration,
     });
   }
-  public scrollToPercent(percent: number = 0, options?: IOptions): ScrollAnimation {
+  public scrollToPercent(percent: number = 0, options?: IOptions) {
     const offset = options.offset || 0;
     const dist = ((this.scrollHeight - this.height) * percent) / 100 - this.y + offset;
-    return new ScrollAnimation({
+    this.createScrollAnimation({
       distToScroll: () => dist,
       duration: options.duration,
     });
   }
-  public doScroll(options: IOptions): ScrollAnimation {
-    return new ScrollAnimation({
+  public doScroll(options: IOptions) {
+    this.createScrollAnimation({
       distToScroll: () => options.offset,
       duration: options.duration,
     });
@@ -57,5 +55,20 @@ class Scroll {
   }
   private get left(): number {
     return this.isWindow ? 0 : this.element.getBoundingClientRect().left;
+  }
+  private createScrollAnimation(options: {
+    distToScroll: () => number;
+    duration: number;
+  }): ScrollAnimation {
+    const animation = new ScrollAnimation({
+      distToScroll: options.distToScroll,
+      duration: options.duration,
+      stop: () => null,
+    });
+    this.animations.push(animation);
+    return animation;
+  }
+  private get isWindow(): boolean {
+    return !!this.element;
   }
 }
