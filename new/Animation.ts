@@ -23,13 +23,11 @@ class Animation {
       const last = currentDuration >= this.options.duration;
       if (last) {
         this.stop();
-        return this.options.distToScroll();
       } else {
         return easing.linear(currentDuration, 0, this.options.distToScroll(), this.options.duration);
       }
-    } else {
-      return 0;
     }
+    return this.options.distToScroll();
   }
   public stop() {
     this.active = false;
