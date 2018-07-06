@@ -9,8 +9,9 @@ interface IOptions {
 
 class Scroll {
   private animations: ScrollAnimation[] = [];
+  private scrollChanged: number = 0;
   constructor(private element?: HTMLElement) {
-    window.requestAnimationFrame(this.onAnimationFrame);
+    this.onAnimationFrame = this.onAnimationFrame.bind(this);
   }
   public scrollToElement(element: HTMLElement, options?: IOptions) {
     const offset = options.offset || 0;
@@ -62,12 +63,19 @@ class Scroll {
     distToScroll: () => number;
     duration: number;
   }): ScrollAnimation {
+    const firstAnimation = this.animations.every(() => false);
+    const index = this.animations.length;
     const animation = new ScrollAnimation({
       distToScroll: options.distToScroll,
       duration: options.duration,
-      stop: () => null,
+      stop: () => {
+        delete this.animations[index];
+      },
     });
     this.animations.push(animation);
+    if (firstAnimation) {
+      window.requestAnimationFrame(this.onAnimationFrame);
+    }
     return animation;
   }
   private get isWindow(): boolean {
@@ -75,10 +83,17 @@ class Scroll {
   }
   private onAnimationFrame() {
     let distToScroll = 0;
+    // window.scrollTo(0, window.pageYOffset - this.scrollChanged);
+    const currentScrollPosition = window.pageYOffset;
     this.animations.forEach((animation, index) => {
       distToScroll += animation.distance;
     });
-    window.scrollTo(0, distToScroll);
-    window.requestAnimationFrame(this.onAnimationFrame);
+    window.scrollTo(0, distToScroll + window.pageYOffset - this.scrollChanged);
+    this.scrollChanged = window.pageYOffset - currentScrollPosition;
+    if (this.animations.every(() => false)) {
+      this.scrollChanged = 0;
+    } else {
+      window.requestAnimationFrame(this.onAnimationFrame);
+    }
   }
 }
