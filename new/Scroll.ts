@@ -1,9 +1,6 @@
-import {ScrollInstance} from "./ScrollTo";
+import { Animation as ScrollAnimation } from "./Animation";
 
-export {
-  Scroll,
-  IOptions,
-}
+export { Scroll, IOptions };
 
 interface IOptions {
   offset?: number;
@@ -15,24 +12,24 @@ class Scroll {
   constructor(private element?: HTMLElement) {
     this.isWindow = element === undefined || element === null;
   }
-  public scrollToElement(element: HTMLElement, options?: IOptions): ScrollInstance {
+  public scrollToElement(element: HTMLElement, options?: IOptions): ScrollAnimation {
     const offset = options.offset || 0;
     const distToElement = element.getBoundingClientRect().top - this.top + offset;
-    return new ScrollInstance({
+    return new ScrollAnimation({
       distToScroll: () => distToElement,
       duration: options.duration,
     });
   }
-  public scrollToPercent(percent: number = 0, options?: IOptions): ScrollInstance {
+  public scrollToPercent(percent: number = 0, options?: IOptions): ScrollAnimation {
     const offset = options.offset || 0;
     const dist = ((this.scrollHeight - this.height) * percent) / 100 - this.y + offset;
-    return new ScrollInstance({
+    return new ScrollAnimation({
       distToScroll: () => dist,
       duration: options.duration,
     });
   }
-  public doScroll(options: IOptions): ScrollInstance {
-    return new ScrollInstance({
+  public doScroll(options: IOptions): ScrollAnimation {
+    return new ScrollAnimation({
       distToScroll: () => options.offset,
       duration: options.duration,
     });
