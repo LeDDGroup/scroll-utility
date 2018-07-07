@@ -5,7 +5,7 @@ export { Animation, ScrollInstanceProps };
 interface ScrollInstanceProps {
   duration: number;
   distToScroll: () => number;
-  stop: () => void,
+  stop: () => void;
 }
 
 type DOMHighResTimeStamp = number;
@@ -24,7 +24,12 @@ class Animation {
       if (last) {
         this.stop();
       } else {
-        return easing.linear(currentDuration, 0, this.options.distToScroll(), this.options.duration);
+        return easing.linear(
+          currentDuration,
+          0,
+          this.options.distToScroll(),
+          this.options.duration,
+        );
       }
     }
     return this.options.distToScroll();

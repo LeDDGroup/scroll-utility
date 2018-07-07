@@ -37,48 +37,49 @@ class Scroll {
     const horizontal = false;
     return {
       toElement: (element: HTMLElement, duration: number) => {
-        this.scrollToElement(element, horizontal, duration)
+        this.scrollToElement(element, horizontal, duration);
       },
       toPercent: (percent: number, duration: number) => {
-        this.scrollToPercent(percent, horizontal, duration)
+        this.scrollToPercent(percent, horizontal, duration);
       },
       do: (amount: number, duration: number) => {
-        this.doScroll(amount, horizontal, duration)
+        this.doScroll(amount, horizontal, duration);
       },
-    }
+    };
   }
   public get horizontalScroll() {
     const horizontal = true;
     return {
       toElement: (element: HTMLElement, duration: number) => {
-        this.scrollToElement(element, horizontal, duration)
+        this.scrollToElement(element, horizontal, duration);
       },
       toPercent: (percent: number, duration: number) => {
-        this.scrollToPercent(percent, horizontal, duration)
+        this.scrollToPercent(percent, horizontal, duration);
       },
       do: (amount: number, duration: number) => {
-        this.doScroll(amount, horizontal, duration)
+        this.doScroll(amount, horizontal, duration);
       },
-    }
+    };
   }
   public get scroll() {
     return {
       toElement: (element: HTMLElement, duration: number) => {
-        this.scrollToElement(element, false, duration)
-        this.scrollToElement(element, true, duration)
+        this.scrollToElement(element, false, duration);
+        this.scrollToElement(element, true, duration);
       },
       toPercent: (percent: number, duration: number) => {
-        this.scrollToPercent(percent, false, duration)
-        this.scrollToPercent(percent, true, duration)
+        this.scrollToPercent(percent, false, duration);
+        this.scrollToPercent(percent, true, duration);
       },
       do: (amount: number, duration: number) => {
-        this.doScroll(amount, false, duration)
-        this.doScroll(amount, true, duration)
+        this.doScroll(amount, false, duration);
+        this.doScroll(amount, true, duration);
       },
-    }
+    };
   }
   private scrollToElement(element: HTMLElement, horizontal: boolean, duration: number) {
-    const distToElement = element.getBoundingClientRect()[horizontal ? "left" : "top"] - this.offset(horizontal);
+    const distToElement =
+      element.getBoundingClientRect()[horizontal ? "left" : "top"] - this.offset(horizontal);
     this.createScrollAnimation({
       distToScroll: () => distToElement,
       duration,
@@ -86,7 +87,9 @@ class Scroll {
     });
   }
   private scrollToPercent(percent: number = 0, horizontal: boolean, duration: number) {
-    const dist = ((this.scrollSize(horizontal) - this.size(horizontal)) * percent) / 100 - this.position(horizontal);
+    const dist =
+      ((this.scrollSize(horizontal) - this.size(horizontal)) * percent) / 100 -
+      this.position(horizontal);
     this.createScrollAnimation({
       distToScroll: () => dist,
       duration,
@@ -104,25 +107,40 @@ class Scroll {
     return !this.element;
   }
   private scrollSize(horizontal: boolean) {
-    return horizontal ?
-      this.isWindow ? document.body.clientWidth : this.element.scrollWidth:
-    this.isWindow ? document.body.clientHeight : this.element.scrollHeight;
+    return horizontal
+      ? this.isWindow
+        ? document.body.clientWidth
+        : this.element.scrollWidth
+      : this.isWindow
+        ? document.body.clientHeight
+        : this.element.scrollHeight;
   }
   private size(horizontal: boolean) {
-    return horizontal ?
-      this.isWindow ? window.innerWidth : this.element.clientWidth:
-    this.isWindow ? window.innerHeight : this.element.clientHeight;
+    return horizontal
+      ? this.isWindow
+        ? window.innerWidth
+        : this.element.clientWidth
+      : this.isWindow
+        ? window.innerHeight
+        : this.element.clientHeight;
   }
   private position(horizontal: boolean) {
-    return horizontal ?
-      this.isWindow ? window.pageXOffset : this.element.scrollLeft:
-    this.isWindow ? window.pageYOffset : this.element.scrollTop;
+    return horizontal
+      ? this.isWindow
+        ? window.pageXOffset
+        : this.element.scrollLeft
+      : this.isWindow
+        ? window.pageYOffset
+        : this.element.scrollTop;
   }
   private offset(horizontal: boolean) {
-    return horizontal ?
-      this.isWindow ? 0 : this.element.getBoundingClientRect().left
-    :
-    this.isWindow ? 0 : this.element.getBoundingClientRect().top;
+    return horizontal
+      ? this.isWindow
+        ? 0
+        : this.element.getBoundingClientRect().left
+      : this.isWindow
+        ? 0
+        : this.element.getBoundingClientRect().top;
   }
   private createScrollAnimation(options: {
     distToScroll: () => number;
@@ -167,7 +185,7 @@ class Scroll {
     return {
       x: this.getDistToScroll(true),
       y: this.getDistToScroll(false),
-    }
+    };
   }
   private getDistToScroll(horizontal: boolean): number {
     let distToScroll = 0;
