@@ -88,6 +88,13 @@ class Scroll {
       };
     },
   };
+  public stopAllAnimations() {
+    this.animations = 0;
+    this.scrollAnimation = {
+      vertical: [],
+      horizontal: [],
+    };
+  }
   private scrollToElement(
     element: HTMLElement,
     horizontal: boolean,
