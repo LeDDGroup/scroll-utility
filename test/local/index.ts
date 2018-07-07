@@ -4,19 +4,25 @@ export = Scroll;
 
 const windowScroll = new Scroll();
 
-window.onkeydown = (ev) => {
-  if (ev.key === "ArrowUp" || ev.key === "ArrowDown") {
+window.onkeydown = ev => {
+  if (ev.key === "ArrowUp" || ev.key === "ArrowDown"|| ev.key === "ArrowRight"|| ev.key === "ArrowLeft") {
     ev.preventDefault();
   }
 };
-window.onkeyup = (ev) => {
+window.onkeyup = ev => {
   if (ev.key === "ArrowUp") {
     windowScroll.verticalScroll.do(-500, 1000);
   }
   if (ev.key === "ArrowDown") {
     windowScroll.verticalScroll.do(500, 1000);
   }
-}
+  if (ev.key === "ArrowLeft") {
+    windowScroll.horizontalScroll.do(-500, 1000);
+  }
+  if (ev.key === "ArrowRight") {
+    windowScroll.horizontalScroll.do(500, 1000);
+  }
+};
 
 const scrollable = document.getElementById("scrollable");
 const element = document.getElementById("element");
