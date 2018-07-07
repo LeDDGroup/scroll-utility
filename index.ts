@@ -1,4 +1,4 @@
-import { Scroll } from "./src/scroll";
+import { Scroll } from "./src/Scroll";
 
 export default Scroll;
 module.exports = Scroll

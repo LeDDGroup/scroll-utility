@@ -1,4 +1,4 @@
-import { easing } from "../src/easings";
+import { easing } from "./easings";
 
 export { Animation, ScrollInstanceProps };
 
@@ -24,7 +24,7 @@ class Animation {
       if (last) {
         this.stop();
       } else {
-        return easing.linear(
+        return easing.inOut.quad(
           currentDuration,
           0,
           this.options.distToScroll(),

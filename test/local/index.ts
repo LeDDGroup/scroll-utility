@@ -1,4 +1,4 @@
-import { Scroll } from "../../new/Scroll";
+import { Scroll } from "../../src/Scroll";
 
 export = Scroll;
 

@@ -6,11 +6,7 @@
   "main": "dist/index.js",
   "scripts": {
     "prepublishOnly": "npm run build",
-    "build": "rm -rf ./dist && tsc -p ./tsconfig.build.json",
-    "build-test": "tsc -p .",
-    "dev": "parcel build ./test/index.html -d ./dist/test/",
-    "watch-test": "tsc -p . -w",
-    "test": "mocha ./dist/test/index.js",
+    "build": "rm -rf ./dist && tsc -p ./tsconfig.json",
     "test-local": "parcel ./test/local/index.html"
   },
   "repository": {
