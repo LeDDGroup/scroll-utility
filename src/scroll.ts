@@ -1,4 +1,4 @@
-import { Animation as ScrollAnimation } from "./Animation";
+import { Animation as ScrollAnimation } from "./animation";
 
 export { Scroll };
 
