@@ -8,14 +8,20 @@ interface ScrollInstanceProps {
   stop: () => void;
 }
 
+type EasingFunction  = (currentStep: number, offsetValue: number, distance: number, totalSteps: number) => number;
+
 type DOMHighResTimeStamp = number;
 
 class Animation {
   private initialTime: DOMHighResTimeStamp;
   private active: boolean = true;
   private lastDistanceScrolled: number = 0;
+  private easingFunction: EasingFunction = easing.inOut.quad;
   public readonly api = {
     stop: () => this.stop(),
+    easing: (funct: EasingFunction) => {
+      this.easingFunction = funct
+    },
   }
   constructor(private options: ScrollInstanceProps) {
     this.initialTime = performance.now();
@@ -27,7 +33,7 @@ class Animation {
       const last = currentDuration >= this.options.duration;
       this.lastDistanceScrolled = last
         ? this.options.distToScroll()
-        : easing.inOut.quad(currentDuration, 0, this.options.distToScroll(), this.options.duration);
+        : this.easingFunction(currentDuration, 0, this.options.distToScroll(), this.options.duration);
       if (last) {
         this.stop();
       }

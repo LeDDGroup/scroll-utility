@@ -1,6 +1,7 @@
 import { Animation as ScrollAnimation } from "./animation";
+import { easing } from "./easings";
 
-export { Scroll };
+export { Scroll, easing };
 
 interface Point {
   x: number;
