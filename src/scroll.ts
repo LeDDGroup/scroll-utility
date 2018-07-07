@@ -46,6 +46,10 @@ class Scroll {
         horizontal && this.scrollToPercent(percent, true, duration);
         vertical && this.scrollToPercent(percent, false, duration);
       },
+      toPosition: (position: number, duration: number) => {
+        horizontal && this.scrollToPosition(position, true, duration);
+        vertical && this.scrollToPosition(position, false, duration);
+      },
       do: (amount: number, duration: number) => {
         horizontal && this.doScroll(amount, true, duration);
         vertical && this.doScroll(amount, false, duration);
@@ -72,10 +76,18 @@ class Scroll {
       horizontal,
     });
   }
-  private scrollToPercent(percent: number = 0, horizontal: boolean, duration: number) {
+  private scrollToPercent(percent: number, horizontal: boolean, duration: number) {
     const dist =
       ((this.scrollSize(horizontal) - this.size(horizontal)) * percent) / 100 -
       this.position(horizontal);
+    this.createScrollAnimation({
+      distToScroll: () => dist,
+      duration,
+      horizontal,
+    });
+  }
+  private scrollToPosition(position: number, horizontal: boolean, duration: number) {
+    const dist = position - this.position(horizontal);
     this.createScrollAnimation({
       distToScroll: () => dist,
       duration,
