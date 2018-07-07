@@ -13,6 +13,7 @@ type DOMHighResTimeStamp = number;
 class Animation {
   private initialTime: DOMHighResTimeStamp;
   private active: boolean = true;
+  private lastDistanceScrolled: number = 0;
   constructor(private options: ScrollInstanceProps) {
     this.initialTime = performance.now();
   }
@@ -21,21 +22,21 @@ class Animation {
       const currentTime = performance.now();
       const currentDuration = currentTime - this.initialTime;
       const last = currentDuration >= this.options.duration;
+      this.lastDistanceScrolled = last
+        ? this.options.distToScroll()
+        : easing.inOut.quad(currentDuration, 0, this.options.distToScroll(), this.options.duration);
       if (last) {
         this.stop();
-      } else {
-        return easing.inOut.quad(
-          currentDuration,
-          0,
-          this.options.distToScroll(),
-          this.options.duration,
-        );
       }
+      return this.lastDistanceScrolled;
     }
-    return this.options.distToScroll();
+    return this.lastDistanceScrolled;
   }
   public stop() {
     this.active = false;
     this.options.stop();
+  }
+  public get isActive() {
+    return this.active;
   }
 }
