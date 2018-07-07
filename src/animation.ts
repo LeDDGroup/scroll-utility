@@ -14,6 +14,9 @@ class Animation {
   private initialTime: DOMHighResTimeStamp;
   private active: boolean = true;
   private lastDistanceScrolled: number = 0;
+  public readonly api = {
+    stop: () => this.stop(),
+  }
   constructor(private options: ScrollInstanceProps) {
     this.initialTime = performance.now();
   }

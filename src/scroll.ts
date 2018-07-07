@@ -111,7 +111,7 @@ class Scroll {
     const dist =
       ((this.scrollSize(horizontal) - this.size(horizontal)) * percent) / 100 -
       this.position(horizontal);
-    this.createScrollAnimation({
+    return this.createScrollAnimation({
       distToScroll: () => dist,
       duration,
       horizontal,
@@ -119,14 +119,14 @@ class Scroll {
   }
   private scrollToPosition(position: number, horizontal: boolean, duration: number) {
     const dist = position - this.position(horizontal);
-    this.createScrollAnimation({
+    return this.createScrollAnimation({
       distToScroll: () => dist,
       duration,
       horizontal,
     });
   }
   private doScroll(amount, horizontal, duration) {
-    this.createScrollAnimation({
+    return this.createScrollAnimation({
       distToScroll: () => amount,
       duration,
       horizontal,
@@ -193,7 +193,7 @@ class Scroll {
     if (this.animations === 1) {
       window.requestAnimationFrame(this.onAnimationFrame);
     }
-    return animation;
+    return animation.api;
   }
   private onAnimationFrame() {
     if (this.animations === 0) {
