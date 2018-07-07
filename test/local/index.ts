@@ -11,26 +11,9 @@ window.onkeydown = (ev) => {
 };
 window.onkeyup = (ev) => {
     if (ev.key === "ArrowUp") {
-        windowScroll.doScroll({
-          offset: -500,
-          duration: 1000,
-        });
+      windowScroll.verticalScroll().do(-500, 1000);
     }
     if (ev.key === "ArrowDown") {
-      windowScroll.doScroll({
-        offset: 500,
-        duration: 1000,
-      });
+      windowScroll.verticalScroll().do(500, 1000);
     }
 }
-
-// const scrollable = document.getElementById("scrollable");
-// const divScroll = new Scroll(scrollable);
-// divScroll.scrollTo({
-//     percent: 0,
-//     direction: "horizontal",
-// })
-// windowScroll.scrollTo({
-//     element: scrollable,
-//     direction: "both",
-// })
