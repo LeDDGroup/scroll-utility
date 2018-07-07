@@ -5,7 +5,12 @@ export = Scroll;
 const windowScroll = new Scroll();
 
 window.onkeydown = ev => {
-  if (ev.key === "ArrowUp" || ev.key === "ArrowDown"|| ev.key === "ArrowRight"|| ev.key === "ArrowLeft") {
+  if (
+    ev.key === "ArrowUp" ||
+    ev.key === "ArrowDown" ||
+    ev.key === "ArrowRight" ||
+    ev.key === "ArrowLeft"
+  ) {
     ev.preventDefault();
   }
 };
@@ -27,7 +32,7 @@ window.onkeyup = ev => {
 const scrollable = document.getElementById("scrollable");
 const element = document.getElementById("element");
 const element1 = document.getElementById("element1");
-const animation = windowScroll.scroll.toElement(element1, 5000)
+const animation = windowScroll.scroll.toElement(element1, 5000);
 window.setTimeout(() => {
   animation.vertical.stop();
 }, 4000);
