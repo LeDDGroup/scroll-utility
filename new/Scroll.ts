@@ -133,7 +133,8 @@ class Scroll {
     distToScroll: () => number;
     duration: number;
     horizontal: boolean;
-  }): ScrollAnimation {
+  }) {
+    this.animations++;
     const direction = options.horizontal ? "horizontal" : "vertical";
     const index = this.scrollAnimation[direction].length;
     const animation = new ScrollAnimation({
@@ -149,7 +150,6 @@ class Scroll {
     if (this.animations === 1) {
       window.requestAnimationFrame(this.onAnimationFrame);
     }
-    return animation;
   }
   private onAnimationFrame() {
     if (this.animations === 0) {
@@ -178,10 +178,11 @@ class Scroll {
     let distToScroll = 0;
     const direction = horizontal ? "horizontal" : "vertical";
     this.lastPosition[direction] = this.position(horizontal);
+    const initial = this.position(horizontal) - this.scrollChanged[direction];
     this.scrollAnimation[direction].forEach((animation, index) => {
       distToScroll += animation.distance;
     });
-    distToScroll += this.position(horizontal) - this.scrollChanged[direction];
+    distToScroll += initial;
     return distToScroll;
   }
 }
