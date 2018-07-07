@@ -35,27 +35,27 @@ class Scroll {
     this.onAnimationFrame = this.onAnimationFrame.bind(this);
   }
   public horizontalScroll = {
-    toElement: (element: HTMLElement, duration: number, center: number = 0) => {
+    toElement: (element: HTMLElement, duration: number = 0, center: number = 0) => {
       return this.scrollToElement(element, true, duration, center);
     },
-    toPercent: (percent: number, duration: number) => {
+    toPercent: (percent: number, duration: number = 0) => {
       return this.scrollToPercent(percent, true, duration);
     },
-    toPosition: (position: number, duration: number) => {
+    toPosition: (position: number, duration: number = 0) => {
       return this.scrollToPosition(position, true, duration);
     },
-    do: (amount: number, duration: number) => {
+    do: (amount: number, duration: number = 0) => {
       return this.doScroll(amount, true, duration);
     },
   };
   public verticalScroll = {
-    toElement: (element: HTMLElement, duration: number, center: number = 0) => {
+    toElement: (element: HTMLElement, duration: number = 0, center: number = 0) => {
       return this.scrollToElement(element, false, duration, center);
     },
-    toPercent: (percent: number, duration: number) => {
+    toPercent: (percent: number, duration: number = 0) => {
       return this.scrollToPercent(percent, false, duration);
     },
-    toPosition: (position: number, duration: number) => {
+    toPosition: (position: number, duration: number = 0) => {
       return this.scrollToPosition(position, false, duration);
     },
     do: (amount: number, duration: number) => {
@@ -63,7 +63,7 @@ class Scroll {
     },
   };
   public scroll = {
-    toElement: (element: HTMLElement, duration: number, center: number = 0) => {
+    toElement: (element: HTMLElement, duration: number = 0, center: number = 0) => {
       return {
         horizontal: this.scrollToElement(element, true, duration, center),
         vertical: this.scrollToElement(element, false, duration, center),
