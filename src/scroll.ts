@@ -39,8 +39,11 @@ class Scroll {
   private generalScroll(horizontal: boolean, vertical: boolean) {
     return {
       toElement: (element: HTMLElement, duration: number, center: number = 0) => {
-        horizontal && this.scrollToElement(element, true, duration, center);
-        vertical && this.scrollToElement(element, false, duration, center);
+        const animations = [
+          horizontal && this.scrollToElement(element, true, duration, center),
+          vertical && this.scrollToElement(element, false, duration, center),
+        ];
+        return animations;
       },
       toPercent: (percent: number, duration: number) => {
         horizontal && this.scrollToPercent(percent, true, duration);
@@ -70,7 +73,7 @@ class Scroll {
       element.getBoundingClientRect()[horizontal ? "left" : "top"] -
       this.offset(horizontal) -
       screenOffset;
-    this.createScrollAnimation({
+    return this.createScrollAnimation({
       distToScroll: () => distToElement,
       duration,
       horizontal,
@@ -162,6 +165,7 @@ class Scroll {
     if (this.animations === 1) {
       window.requestAnimationFrame(this.onAnimationFrame);
     }
+    return animation;
   }
   private onAnimationFrame() {
     if (this.animations === 0) {
