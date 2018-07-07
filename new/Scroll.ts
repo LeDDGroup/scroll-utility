@@ -33,7 +33,7 @@ class Scroll {
   constructor(private element?: HTMLElement) {
     this.onAnimationFrame = this.onAnimationFrame.bind(this);
   }
-  public verticalScroll() {
+  public get verticalScroll() {
     const horizontal = false;
     return {
       toElement: (element: HTMLElement, duration: number) => {
@@ -47,7 +47,7 @@ class Scroll {
       },
     }
   }
-  public horizontalScroll() {
+  public get horizontalScroll() {
     const horizontal = true;
     return {
       toElement: (element: HTMLElement, duration: number) => {
@@ -61,7 +61,7 @@ class Scroll {
       },
     }
   }
-  public scroll() {
+  public get scroll() {
     return {
       toElement: (element: HTMLElement, duration: number) => {
         this.scrollToElement(element, false, duration)
@@ -78,7 +78,7 @@ class Scroll {
     }
   }
   private scrollToElement(element: HTMLElement, horizontal: boolean, duration: number) {
-    const distToElement = this.getBounding(horizontal) - this.offset(horizontal);
+    const distToElement = element.getBoundingClientRect()[horizontal ? "left" : "top"] - this.offset(horizontal);
     this.createScrollAnimation({
       distToScroll: () => distToElement,
       duration,
@@ -102,11 +102,6 @@ class Scroll {
   }
   private get isWindow(): boolean {
     return !this.element;
-  }
-  private getBounding(horizontal: boolean) {
-    return horizontal ?
-      this.isWindow ? 0 : element.getBoundingClientRect().left:
-    this.isWindow ? 0 : element.getBoundingClientRect().top;
   }
   private scrollSize(horizontal: boolean) {
     return horizontal ?
