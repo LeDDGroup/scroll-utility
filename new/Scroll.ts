@@ -38,9 +38,9 @@ class Scroll {
   public scroll = this.generalScroll(true, true);
   private generalScroll(horizontal: boolean, vertical: boolean) {
     return {
-      toElement: (element: HTMLElement, duration: number) => {
-        horizontal && this.scrollToElement(element, true, duration);
-        vertical && this.scrollToElement(element, false, duration);
+      toElement: (element: HTMLElement, duration: number, center: number) => {
+        horizontal && this.scrollToElement(element, true, duration, center);
+        vertical && this.scrollToElement(element, false, duration, center);
       },
       toPercent: (percent: number, duration: number) => {
         horizontal && this.scrollToPercent(percent, true, duration);
@@ -52,9 +52,20 @@ class Scroll {
       },
     };
   }
-  private scrollToElement(element: HTMLElement, horizontal: boolean, duration: number) {
+  private scrollToElement(
+    element: HTMLElement,
+    horizontal: boolean,
+    duration: number,
+    center: number,
+  ) {
+    const screenOffset =
+      ((this.size(horizontal) - element.getBoundingClientRect()[horizontal ? "width" : "height"]) *
+        center) /
+      100;
     const distToElement =
-      element.getBoundingClientRect()[horizontal ? "left" : "top"] - this.offset(horizontal);
+      element.getBoundingClientRect()[horizontal ? "left" : "top"] -
+      this.offset(horizontal) -
+      screenOffset;
     this.createScrollAnimation({
       distToScroll: () => distToElement,
       duration,
