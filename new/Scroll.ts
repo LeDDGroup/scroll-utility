@@ -38,7 +38,7 @@ class Scroll {
   public scroll = this.generalScroll(true, true);
   private generalScroll(horizontal: boolean, vertical: boolean) {
     return {
-      toElement: (element: HTMLElement, duration: number, center: number) => {
+      toElement: (element: HTMLElement, duration: number, center: number = 0) => {
         horizontal && this.scrollToElement(element, true, duration, center);
         vertical && this.scrollToElement(element, false, duration, center);
       },
@@ -133,12 +133,13 @@ class Scroll {
     duration: number;
     horizontal: boolean;
   }) {
+    const duration = !!options.duration ? options.duration : 1;
     this.animations++;
     const direction = options.horizontal ? "horizontal" : "vertical";
     const index = this.scrollAnimation[direction].length;
     const animation = new ScrollAnimation({
       distToScroll: options.distToScroll,
-      duration: options.duration,
+      duration,
       stop: () => {
         this.scrollChanged[direction] -= this.scrollAnimation[direction][index].distance;
         this.animations--;
