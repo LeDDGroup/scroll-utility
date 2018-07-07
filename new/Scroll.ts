@@ -33,47 +33,22 @@ class Scroll {
   constructor(private element?: HTMLElement) {
     this.onAnimationFrame = this.onAnimationFrame.bind(this);
   }
-  public get verticalScroll() {
-    const horizontal = false;
+  public horizontalScroll = this.generalScroll(true, false);
+  public verticalScroll = this.generalScroll(false, true);
+  public scroll = this.generalScroll(true, true);
+  private generalScroll(horizontal: boolean, vertical: boolean) {
     return {
       toElement: (element: HTMLElement, duration: number) => {
-        this.scrollToElement(element, horizontal, duration);
+        horizontal && this.scrollToElement(element, true, duration);
+        vertical && this.scrollToElement(element, false, duration);
       },
       toPercent: (percent: number, duration: number) => {
-        this.scrollToPercent(percent, horizontal, duration);
+        horizontal && this.scrollToPercent(percent, true, duration);
+        vertical && this.scrollToPercent(percent, false, duration);
       },
       do: (amount: number, duration: number) => {
-        this.doScroll(amount, horizontal, duration);
-      },
-    };
-  }
-  public get horizontalScroll() {
-    const horizontal = true;
-    return {
-      toElement: (element: HTMLElement, duration: number) => {
-        this.scrollToElement(element, horizontal, duration);
-      },
-      toPercent: (percent: number, duration: number) => {
-        this.scrollToPercent(percent, horizontal, duration);
-      },
-      do: (amount: number, duration: number) => {
-        this.doScroll(amount, horizontal, duration);
-      },
-    };
-  }
-  public get scroll() {
-    return {
-      toElement: (element: HTMLElement, duration: number) => {
-        this.scrollToElement(element, false, duration);
-        this.scrollToElement(element, true, duration);
-      },
-      toPercent: (percent: number, duration: number) => {
-        this.scrollToPercent(percent, false, duration);
-        this.scrollToPercent(percent, true, duration);
-      },
-      do: (amount: number, duration: number) => {
-        this.doScroll(amount, false, duration);
-        this.doScroll(amount, true, duration);
+        horizontal && this.doScroll(amount, true, duration);
+        vertical && this.doScroll(amount, false, duration);
       },
     };
   }
