@@ -2,33 +2,79 @@ import { Animation as ScrollAnimation } from "./Animation";
 
 export { Scroll };
 
+interface Point {
+  x: number;
+  y: number;
+}
+
 class Scroll {
-  private verticalScrollAnimation: ScrollAnimation[] = [];
-  private horizontalScrollAnimation: ScrollAnimation[] = [];
-  private scrollChanged: number = 0;
+  private scrollAnimation: {
+    vertical: ScrollAnimation[];
+    horizontal: ScrollAnimation[];
+  } = {
+    vertical: [],
+    horizontal: [],
+  };
+  private lastPosition: {
+    horizontal: number;
+    vertical: number;
+  } = {
+    horizontal: 0,
+    vertical: 0,
+  };
+  private scrollChanged: {
+    horizontal: number;
+    vertical: number;
+  } = {
+    horizontal: 0,
+    vertical: 0,
+  };
   private animations: number = 0;
   constructor(private element?: HTMLElement) {
     this.onAnimationFrame = this.onAnimationFrame.bind(this);
   }
   public verticalScroll() {
+    const horizontal = false;
     return {
-      toElement: () => null,
-      toPercent: () => null,
-      do: () => null,
+      toElement: (element: HTMLElement, duration: number) => {
+        this.scrollToElement(element, horizontal, duration)
+      },
+      toPercent: (percent: number, duration: number) => {
+        this.scrollToPercent(percent, horizontal, duration)
+      },
+      do: (amount: number, duration: number) => {
+        this.doScroll(amount, horizontal, duration)
+      },
     }
   }
   public horizontalScroll() {
+    const horizontal = true;
     return {
-      toElement: () => null,
-      toPercent: () => null,
-      do: () => null,
+      toElement: (element: HTMLElement, duration: number) => {
+        this.scrollToElement(element, horizontal, duration)
+      },
+      toPercent: (percent: number, duration: number) => {
+        this.scrollToPercent(percent, horizontal, duration)
+      },
+      do: (amount: number, duration: number) => {
+        this.doScroll(amount, horizontal, duration)
+      },
     }
   }
   public scroll() {
     return {
-      toElement: () => null,
-      toPercent: () => null,
-      do: () => null,
+      toElement: (element: HTMLElement, duration: number) => {
+        this.scrollToElement(element, false, duration)
+        this.scrollToElement(element, true, duration)
+      },
+      toPercent: (percent: number, duration: number) => {
+        this.scrollToPercent(percent, false, duration)
+        this.scrollToPercent(percent, true, duration)
+      },
+      do: (amount: number, duration: number) => {
+        this.doScroll(amount, false, duration)
+        this.doScroll(amount, true, duration)
+      },
     }
   }
   private scrollToElement(element: HTMLElement, horizontal: boolean, duration: number) {
@@ -88,18 +134,18 @@ class Scroll {
     duration: number;
     horizontal: boolean;
   }): ScrollAnimation {
-    const container = options.horizontal ? this.horizontalScrollAnimation : this.verticalScrollAnimation;
-    const index = container.length;
+    const direction = options.horizontal ? "horizontal" : "vertical";
+    const index = this.scrollAnimation[direction].length;
     const animation = new ScrollAnimation({
       distToScroll: options.distToScroll,
       duration: options.duration,
       stop: () => {
-        this.scrollChanged -= container[index].distance;
+        this.scrollChanged[direction] -= this.scrollAnimation[direction][index].distance;
         this.animations--;
-        delete container[index];
+        delete this.scrollAnimation[direction][index];
       },
     });
-    container.push(animation);
+    this.scrollAnimation[direction].push(animation);
     if (this.animations === 1) {
       window.requestAnimationFrame(this.onAnimationFrame);
     }
@@ -107,19 +153,35 @@ class Scroll {
   }
   private onAnimationFrame() {
     if (this.animations === 0) {
-      this.scrollChanged = 0;
+      this.scrollChanged = {
+        horizontal: 0,
+        vertical: 0,
+      };
     } else {
-      let distToScroll = 0;
-      const scrollPosition = this.y;
-      const initial = this.y - this.scrollChanged;
-      this.animations.forEach((animation, index) => {
-        distToScroll += animation.distance;
-      });
-      distToScroll += initial;
-      this.isWindow ? window.scroll(0, distToScroll) : this.element.scroll(0, distToScroll);
-      this.scrollChanged += this.y - scrollPosition;
+      const distToScroll = this.distToScroll;
+      this.scrollTo(distToScroll.x, distToScroll.y);
+      this.scrollChanged.horizontal += this.position(true) - this.lastPosition.horizontal;
+      this.scrollChanged.vertical += this.position(false) - this.lastPosition.vertical;
       window.requestAnimationFrame(this.onAnimationFrame);
     }
-    console.log(this.y);
+  }
+  private scrollTo(x: number, y: number) {
+    this.isWindow ? window.scroll(x, y) : this.element.scroll(x, y);
+  }
+  private get distToScroll(): Point {
+    return {
+      x: this.getDistToScroll(true),
+      y: this.getDistToScroll(false),
+    }
+  }
+  private getDistToScroll(horizontal: boolean): number {
+    let distToScroll = 0;
+    const direction = horizontal ? "horizontal" : "vertical";
+    this.lastPosition[direction] = this.position(horizontal);
+    this.scrollAnimation[direction].forEach((animation, index) => {
+      distToScroll += animation.distance;
+    });
+    distToScroll += this.position(horizontal) - this.scrollChanged[direction];
+    return distToScroll;
   }
 }
