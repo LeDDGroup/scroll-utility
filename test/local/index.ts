@@ -27,6 +27,11 @@ window.onkeyup = ev => {
 const scrollable = document.getElementById("scrollable");
 const element = document.getElementById("element");
 const element1 = document.getElementById("element1");
-windowScroll.scroll.toElement(element1, 1000)
-const elementScroll = new Scroll(scrollable);
-elementScroll.scroll.toElement(element, 1000);
+const animation = windowScroll.scroll.toElement(element1, 5000)
+console.log(animation.vertical.isActive);
+window.setTimeout(() => {
+  animation.vertical.stop();
+  console.log(animation.vertical.isActive);
+}, 4000);
+// const elementScroll = new Scroll(scrollable);
+// elementScroll.scroll.toElement(element, 1000);
