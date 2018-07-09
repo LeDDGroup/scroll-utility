@@ -9,12 +9,12 @@
         "outDir": "./dist/",
         "rootDir": ".",
         "declaration": true,
-        "target": "es6",
+        "target": "ES2017",
         "paths": {
             "*": [
                 "node_modules/*"
             ]
-        }
+        },
     },
     "include": [
         "./index.ts"

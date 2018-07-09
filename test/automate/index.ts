@@ -3,15 +3,21 @@ import * as webdriver from "selenium-webdriver";
 
 const cap = capabilities.window.chrome;
 
-describe("client", function(this) {
+let browser: any;
+
+before(async () => {
+  browser = await new webdriver.Builder()
+    .usingServer("http://hub-cloud.browserstack.com/wd/hub")
+    .withCapabilities(cap)
+    .build();
+});
+
+describe("client", async () => {
   let browser: webdriver.WebDriver = (null as any) as webdriver.WebDriver;
-  before(function () {
-    browser = new webdriver.Builder()
-      .usingServer("http://hub-cloud.browserstack.com/wd/hub")
-      .withCapabilities(cap)
-      .build();
+  describe("first test", () => {
   });
-  after(function () {
-    browser.quit();
-  });
+});
+
+after(async () => {
+  await browser.quit();
 });
