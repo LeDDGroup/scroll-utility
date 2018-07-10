@@ -14,9 +14,10 @@
             "*": [
                 "node_modules/*"
             ]
-        },
+        }
     },
     "include": [
-        "./index.ts"
+        "./index.ts",
+        "./test/automate/index.ts"
     ]
 }
