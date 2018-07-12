@@ -1,5 +1,7 @@
 import { Scroll } from "./src/scroll";
+import { easing } from "./src/easings";
 
-export default Scroll;
-module.exports = Scroll
-module.exports.default = Scroll;
+export {
+  Scroll,
+  easing,
+};

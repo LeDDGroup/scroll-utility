@@ -1,96 +1,131 @@
-# [scroll-utiliy](https://github.com/LeDDGroup/scroll-utility)
+# scroll-utiliy #
 
-[![Travis](https://travis-ci.org/LeDDGroup/scroll-utility.svg?branch=master)](https://github.com/LeDDGroup/scroll-utility)
+
 
 A simple scroll utility for scrolling the page, inside an element, centering elements, and smooth scroll animations.
 
-## Installation
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [scroll-utiliy](#scroll-utiliy)
+    - [Installation](#installation)
+    - [Usage](#usage)
+        - [Creating a scroll scope](#creating-a-scroll-scope)
+        - [Offsetting scroll position](#offsetting-scroll-position)
+        - [Setting a duration](#setting-a-duration)
+        - [ScrollTo](#scrollto)
+            - [ScrollToPosition](#scrolltoposition)
+            - [ScrollToPercent](#scrolltopercent)
+            - [ScrollToElement](#scrolltoelement)
+        - [Setting a direction](#setting-a-direction)
+    - [Github](#github)
+    - [Browser tested](#browser-tested)
+    - [[License](./LICENSE.md): MIT](#licenselicensemd-mit)
+
+<!-- markdown-toc end -->
+
+
+## Installation ##
 
 ```console
 $ npm install --save scroll-utility 
 ```
 
-## Usage
+## Usage ##
 
-### Scroll inside window
 ```js
-const Scroll = require("scroll-utility");
-// or from typescript
-// import Scroll from "scroll-utility";
+const { Scroll } = require("scroll-utility");
 
-const scrollManger = new Scroll();
-scrollManger.scrollTo(props);
+const ScrollManager = new Scroll();
 ```
 
-### Scroll inside element
-Alternatively you can define the object in wich the scroll will take place:
+### Creating a scroll scope ###
+
+By default, if no element is specified, the scroll will take place in the window object.
+
 ```js
-const scrollable = document.getElementById("scrollable");
+const { Scroll } = require("scroll-utility");
 
-const scrollManger = new Scroll(scrollable);
-scrollManger.scrollTo(props);
+const element = document.getElementById("my-scrollable-element"); // assuming that "my-scrollable-element" exists
+
+const WindowScroll = new Scroll(); // Do this to scroll inside window
+const ElementScroll = new Scroll(element); // Do this to scroll inside an element
 ```
 
-### Props
-```
-scrollManager.scrollTo({
-  offset?: number;
-  duration?: number;
-  element?: HTMLElement;
-  percent?: number;
-  cb?: () => void;
-  direction?: "vertical" | "horizontal" | "both";
-  noStop?: boolean;
-});
-```
+In this way with `ElementScroll` you can scroll inside the `#my-scrollable-element`, instead of inside the page
 
-`offset`: will offset the final position certain amount.
+### Offsetting scroll position ###
 
-`duration`: (in ms) will be the duration of the scroll.
-
-`element`: if specify will scroll to the element.
-
-`percent`: 
-- will set the scroll in a percent relative to its height.
-- if an `element` is specified it will scroll to the element an position it in a percent relative to the window.
-
-`cb`: a callback after the scroll ends. Generally used with a `duration`.
-
-`direction` is the direction of the scroll action. Vertically or(and) horizontally. Default vertical.
-
-`noStop`: whether or not to interrupt a smooth scroll on user scroll or any other scroll that occurs. If false or not specified, it will stop scroll animation.
-
-If no `duration` then it will be 0.
-
-If no `offset` then it will be 0.
-
-If no `percent` it will not be like 0, just will not affect scroll.
-
-If no `element` it will not affect scroll.
-
-If no `noStop` it will be false by default.
-
-### Detecting if is scrolling
-You can get if its currently scrolling:
 ```js
-scrollManger.isScrolling.user // returns true if user trigger scroll or via js
-scrollManger.isScrolling.auto // returns true if element trigger scroll using `scrollTo`
-scrollManger.isScrolling.any // returns true if any of above
+const { Scroll } = require("scroll-utility");
+const WindowScroll = new Scroll();
+
+WindowScroll.scroll.offset(100); // This will offset the scroll position 100px
 ```
 
-### Stop scroll animation
+### Setting a duration ###
+
+The second parameter specifies a duration (in ms).
+
 ```js
-scrollManger.stop(); // It will stop currently scroll animatmion
+const { Scroll } = require("scroll-utility");
+const WindowScroll = new Scroll();
+
+WindowScroll.scroll.offset(100, 1000); // scroll for a second
 ```
 
-## Github
+If *duration* is  `0` (or not specified), it will scroll instantly
+
+### ScrollTo ###
+
+In addition of offsetting the scroll, you can also scroll to certain position, given by either an element, percent, or position(px)
+
+#### ScrollToPosition ####
+
+```js
+const { Scroll } = require("scroll-utility");
+const WindowScroll = new Scroll();
+
+WindowScroll.scroll.toPosition(100); // Scroll to 100px past the start of the page
+```
+
+#### ScrollToPercent ####
+
+```js
+const { Scroll } = require("scroll-utility");
+const WindowScroll = new Scroll();
+
+WindowScroll.scroll.toPercent(0); // It will scroll to the start of the page
+// WindowScroll.scroll.toPercent(50); // It will scroll to the middle of the page
+// WindowScroll.scroll.toPercent(100); // It will scroll to the end of the page
+```
+
+#### ScrollToElement ####
+
+```js
+const { Scroll } = require("scroll-utility");
+const WindowScroll = new Scroll();
+
+const element = document.getELementById("some-element");
+windowScroll.scroll.toElement(element, 0, 1000); // The element will end at the start of the window screen
+windowScroll.scroll.toElement(element, 50, 1000); // The element will end at the middle of the window screen
+windowScroll.scroll.toElement(element, 100, 1000); // The element will end at the end of the window screen
+```
+
+Here, the 1st argument is the element to scroll to,  
+the 2nd is the percent in wich the element will be centered,  
+and 3rd is the duration of the scroll animation.  
+
+### Setting a direction ###
+
+## Github ##
 
 If have any issue or feature request notify me via [github](https://github.com/LeDDGroup/scroll-utility/issues).
 
-## Browser tested
+## Browser tested ##
 
 Test are made using automate testing [Browserstack](https://www.browserstack.com) [for open source](https://www.browserstack.com/open-source?ref=pricing).
 
 <img src="./assets/BrowserStack-Logo/BrowserStack - Logo/Browserstack-logo@2x.png" alt="Browserstack logo" style="height: 60px" >
 
-## [License](./LICENSE.md): MIT
+## [License](./LICENSE.md): MIT ##

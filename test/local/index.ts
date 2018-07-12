@@ -16,16 +16,16 @@ window.onkeydown = ev => {
 };
 window.onkeyup = ev => {
   if (ev.key === "ArrowUp") {
-    windowScroll.verticalScroll.do(-500, 1000);
+    windowScroll.scroll.offset(-500, 1000).horizontal.stop();
   }
   if (ev.key === "ArrowDown") {
-    windowScroll.verticalScroll.do(500, 1000);
+    windowScroll.scroll.offset(500, 1000).horizontal.stop();
   }
   if (ev.key === "ArrowLeft") {
-    windowScroll.horizontalScroll.do(-500, 1000);
+    windowScroll.scroll.offset(-500, 1000).vertical.stop();
   }
   if (ev.key === "ArrowRight") {
-    windowScroll.horizontalScroll.do(500, 1000);
+    windowScroll.scroll.offset(500, 1000).vertical.stop();
   }
 };
 
@@ -36,5 +36,5 @@ const animation = windowScroll.scroll.toElement(element1, 5000);
 window.setTimeout(() => {
   animation.vertical.stop();
 }, 4000);
-// const elementScroll = new Scroll(scrollable);
-// elementScroll.scroll.toElement(element, 1000);
+
+windowScroll.scroll.offset(100, 1000);

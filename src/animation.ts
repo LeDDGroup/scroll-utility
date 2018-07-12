@@ -1,6 +1,11 @@
 import { easing } from "./easings";
 
-export { Animation, ScrollInstanceProps };
+export { Animation, ScrollInstanceProps, AnimationApi, EasingFunction };
+
+interface AnimationApi {
+  stop: () => void;
+  easing: (funct: EasingFunction) => void;
+}
 
 interface ScrollInstanceProps {
   duration: number;
@@ -22,7 +27,7 @@ class Animation {
   private active: boolean = true;
   private lastDistanceScrolled: number = 0;
   private easingFunction: EasingFunction = easing.inOut.quad;
-  public readonly api = {
+  public readonly api: AnimationApi = {
     stop: () => this.stop(),
     easing: (funct: EasingFunction) => {
       this.easingFunction = funct;
