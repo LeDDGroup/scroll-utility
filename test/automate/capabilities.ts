@@ -1,4 +1,4 @@
-// declare const ENV: any;
+declare const ENV: any;
 
 const browserstackUser = "davidperezalvare2";
 // const browserstackKey = "";

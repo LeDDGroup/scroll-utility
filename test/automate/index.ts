@@ -3,11 +3,9 @@ import * as webdriver from "selenium-webdriver";
 import { expect } from "chai";
 import { readFileSync } from "fs";
 import { join } from "path";
-import { Scroll } from "../../index";
+import { Scroll as ScrollManager } from "../../index";
 
-declare const window: Window & {
-  Scroll: typeof Scroll,
-};
+declare const Scroll: typeof ScrollManager;
 
 const scrollScript = readFileSync(join(__dirname, "../../dist/automate/index.js")).toString();
 
@@ -34,12 +32,20 @@ describe("client", async function() {
     it("should insert scroll script successfully", async () => {
       await browser.executeScript(scrollScript);
       const windowScroll = await browser.executeScript(() => {
-        return window.Scroll;
+        return Scroll;
       });
       expect(!!windowScroll).eq(true);
     });
   });
   describe("basic test", () => {
+    it("should do scroll with offset", async () => {
+      const pageOffset = await browser.executeScript(() => {
+        const windowManager =  new Scroll();
+        windowManager.scroll.offset(1000, 1000);
+        return window.pageYOffset;
+      });
+      expect(pageOffset).to.be.eq(0);
+    })
   });
 });
 
