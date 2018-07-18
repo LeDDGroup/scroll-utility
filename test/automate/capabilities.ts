@@ -1,13 +1,8 @@
-declare const ENV: any;
-
 const browserstackUser = "davidperezalvare2";
-// const browserstackKey = "";
 
 const basicCap = {
   "browserstack.user": browserstackUser,
-  // "browserstack.key": browserstackKey,
-  "browserstack.local": "true",
-  "browserstack.localIdentifier": ENV['BROWSERSTACK_LOCAL_IDENTIFIER'],
+  "browserstack.key": process.env["BROWSERSTACK_ACCESS_KEY"],
 };
 
 const windowCap = {
