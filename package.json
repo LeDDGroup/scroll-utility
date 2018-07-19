@@ -32,18 +32,11 @@
     "@types/selenium-webdriver": "^3.0.10",
     "chai": "^4.1.2",
     "clockit": "^1.0.1",
-    "connect": "^3.6.6",
     "delay": "^2.0.0",
     "mocha": "^4.1.0",
     "parcel-bundler": "^1.6.2",
     "selenium-webdriver": "^4.0.0-alpha.1",
-    "serve-static": "^1.13.2",
     "ts-node": "^6.0.0",
-    "typescript": "^2.7.2",
-    "zombie": "^5.0.8"
-  },
-  "dependencies": {
-    "event-utility": "0.0.3",
-    "timeout-utility": "0.0.3"
+    "typescript": "^2.7.2"
   }
 }
