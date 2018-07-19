@@ -15,7 +15,7 @@ function scope(getBrowser: () => WebDriver) {
         new Scroll();
       });
     });
-    it("should create a scope for scrolling in window", async () => {
+    it("should create a scope for scrolling in an element", async () => {
       const browser = getBrowser();
       await browser.executeScript(() => {
         new Scroll(document.getElementById("element") as HTMLElement);

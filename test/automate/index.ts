@@ -15,8 +15,10 @@ const cap = capabilities.window.chrome;
 
 let browser: webdriver.WebDriver = (null as any) as webdriver.WebDriver;
 
+const generalTimeout = 0;
+
 before(async function() {
-  this.timeout(10000);
+  this.timeout(generalTimeout);
   browser = await new webdriver.Builder()
     .usingServer("http://hub-cloud.browserstack.com/wd/hub")
     .withCapabilities(cap)
@@ -24,7 +26,7 @@ before(async function() {
 });
 
 describe("client", async function() {
-  this.timeout(20000);
+  this.timeout(generalTimeout);
   describe("Browser setup", () => {
     it("Should navigate to *scroll-example*", async () => {
       await browser.get("https://leddgroup.com/scroll-example");
