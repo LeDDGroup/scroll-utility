@@ -5,6 +5,8 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import { Scroll as ScrollManager } from "../../index";
 
+import { scenarios } from "./scenarios";
+
 declare const Scroll: typeof ScrollManager;
 
 const scrollScript = readFileSync(join(__dirname, "./setup/index.js")).toString();
@@ -37,18 +39,11 @@ describe("client", async function() {
       expect(!!windowScroll).eq(true);
     });
   });
-  describe("basic test", () => {
-    it("should do scroll with offset", async () => {
-      const pageOffset = await browser.executeScript(() => {
-        const windowManager =  new Scroll();
-        windowManager.scroll.offset(1000, {
-          duration: 500,
-        });
-        return window.pageYOffset;
-      });
-      expect(pageOffset).to.be.eq(0);
-    })
-  });
+  describe("Scenarios", () => {
+    for (let scenario of scenarios) {
+      scenario(() => browser);
+    }
+  })
 });
 
 after(async function() {

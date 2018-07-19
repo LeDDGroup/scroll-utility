@@ -17,6 +17,6 @@
         }
     },
     "include": [
-        "./automate/index.ts",
+        "./**/*.ts",
     ]
 }
