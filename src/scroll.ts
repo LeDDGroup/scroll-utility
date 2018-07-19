@@ -43,16 +43,16 @@ class Scroll {
     this.onAnimationFrame = this.onAnimationFrame.bind(this);
   }
   public scroll = {
-    toElement: (element: HTMLElement, options: IToElementOptions) => {
+    toElement: (element: HTMLElement, options: IToElementOptions = {}) => {
       return this.scrollToElement(element, options);
     },
-    toPercent: (percent: number, options: IOptions) => {
+    toPercent: (percent: number, options: IOptions = {}) => {
       return this.scrollToPercent(percent, options);
     },
-    toPosition: (position: number, options: IOptions) => {
+    toPosition: (position: number, options: IOptions = {}) => {
       return this.scrollToPosition(position, options);
     },
-    offset: (amount: number, options: IOptions) => {
+    offset: (amount: number, options: IOptions = {}) => {
       return this.doScroll(amount, options);
     },
   };
