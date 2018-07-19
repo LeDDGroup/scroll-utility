@@ -7,7 +7,7 @@ import { Scroll as ScrollManager } from "../../index";
 
 declare const Scroll: typeof ScrollManager;
 
-const scrollScript = readFileSync(join(__dirname, "../../dist/automate/index.js")).toString();
+const scrollScript = readFileSync(join(__dirname, "./setup/index.js")).toString();
 
 const cap = capabilities.window.chrome;
 

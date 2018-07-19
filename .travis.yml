@@ -3,9 +3,6 @@ node_js:
   - node
   - "8"
 
-before_script:
-  - npm run build-setup
-
 addons:
   browserstack:
     username: "davidperezalvare2"
