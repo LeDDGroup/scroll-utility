@@ -41,7 +41,9 @@ describe("client", async function() {
     it("should do scroll with offset", async () => {
       const pageOffset = await browser.executeScript(() => {
         const windowManager =  new Scroll();
-        windowManager.scroll.offset(1000, 1000);
+        windowManager.scroll.offset(1000, {
+          duration: 500,
+        });
         return window.pageYOffset;
       });
       expect(pageOffset).to.be.eq(0);
