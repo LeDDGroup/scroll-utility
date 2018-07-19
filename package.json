@@ -7,7 +7,9 @@
   "scripts": {
     "prepublishOnly": "npm run build",
     "build": "rm -rf ./dist && tsc -p ./tsconfig.json",
-    "test-local": "parcel ./test/local/index.html"
+    "test": "mocha -r ts-node/register ./test/automate/index.ts",
+    "dev": "parcel ./test/local/index.html",
+    "build-setup": "parcel build ./test/automate/setup/index.ts -d ./test/automate/setup"
   },
   "repository": {
     "type": "git",
@@ -27,11 +29,14 @@
     "@types/chai": "^4.1.2",
     "@types/mocha": "^2.2.48",
     "@types/node": "^9.6.0",
+    "@types/selenium-webdriver": "^3.0.10",
     "chai": "^4.1.2",
     "clockit": "^1.0.1",
     "delay": "^2.0.0",
     "mocha": "^4.1.0",
     "parcel-bundler": "^1.6.2",
-    "typescript": "^2.7.2",
-  },
+    "selenium-webdriver": "^4.0.0-alpha.1",
+    "ts-node": "^6.0.0",
+    "typescript": "^2.7.2"
+  }
 }
