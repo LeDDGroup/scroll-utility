@@ -3,13 +3,12 @@
         "baseUrl": ".",
         "module": "commonjs",
         "moduleResolution": "node",
-        "noImplicitAny": false,
-        "noImplicitThis": true,
-        "noUnusedLocals": true,
         "outDir": "./dist/",
         "rootDir": ".",
         "declaration": true,
         "target": "ES2017",
+        "skipLibCheck": true,
+        "noImplicitAny": false,
         "paths": {
             "*": [
                 "node_modules/*"
