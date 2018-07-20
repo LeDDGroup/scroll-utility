@@ -1,3 +1,4 @@
+import { scrollToPercent } from "./scrollToPercent";
 import { scrollToPosition } from "./scrollToPosition";
 import { scope } from "./scope";
 import { offset } from "./offset";
@@ -13,6 +14,7 @@ function testScenarios(getBrowser: () => WebDriver) {
   scope(browser);
   offset(browser);
   scrollToPosition(browser);
+  scrollToPercent(browser);
 }
 
 class Scenario {
@@ -27,6 +29,16 @@ class Scenario {
   public getYOffset(): Promise<number> {
     return this.evaluate(() => {
       return window.pageYOffset;
+    }) as Promise<number>;
+  }
+  public getScrollHeight(): Promise<number> {
+    return this.evaluate(() => {
+      return document.body.scrollHeight;
+    }) as Promise<number>;
+  }
+  public getWindowHeight(): Promise<number> {
+    return this.evaluate(() => {
+      return window.innerHeight;
     }) as Promise<number>;
   }
 }
