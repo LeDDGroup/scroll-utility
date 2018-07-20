@@ -5,7 +5,7 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import { Scroll as ScrollManager } from "../../index";
 
-import { scenarios } from "./scenarios";
+import { testScenarios } from "./scenarios";
 
 declare const Scroll: typeof ScrollManager;
 
@@ -42,9 +42,7 @@ describe("client", async function() {
     });
   });
   describe("Scenarios", () => {
-    for (let scenario of scenarios) {
-      scenario(() => browser);
-    }
+    testScenarios(() => browser);
   })
 });
 

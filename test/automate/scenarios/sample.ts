@@ -1,21 +1,13 @@
-import { Scroll as ScrollManager } from "../../../index";
-import { WebDriver } from "selenium-webdriver";
-// import { expect } from "chai";
-
-declare const Scroll: typeof ScrollManager;
+import { Scenario } from ".";
 
 export {
   sample,
 }
 
-function sample(getBrowser: () => WebDriver) {
+function sample(browser: Scenario) {
   describe("sample scenario description", () => {
     it("should do something", async () => {
-      const browser = getBrowser();
-
-      await browser.executeScript(() => {
-        const windowManager =  new Scroll();
-        windowManager.scroll.toPercent(100, {});
+      await browser.evaluate(() => {
       });
 
     })

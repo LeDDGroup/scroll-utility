@@ -1,5 +1,5 @@
 import { Scroll as ScrollManager } from "../../../index";
-import { WebDriver } from "selenium-webdriver";
+import { Scenario } from ".";
 
 declare const Scroll: typeof ScrollManager;
 
@@ -7,17 +7,15 @@ export {
   scope,
 }
 
-function scope(getBrowser: () => WebDriver) {
+function scope(browser: Scenario) {
   describe("creating a scope", () => {
     it("should create a scope for scrolling in window", async () => {
-      const browser = getBrowser();
-      await browser.executeScript(() => {
+      await browser.evaluate(() => {
         new Scroll();
       });
     });
     it("should create a scope for scrolling in an element", async () => {
-      const browser = getBrowser();
-      await browser.executeScript(() => {
+      await browser.evaluate(() => {
         new Scroll(document.getElementById("element") as HTMLElement);
       });
     });
