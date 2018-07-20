@@ -23,6 +23,14 @@ class Scenario {
   private get browser() {
     return this.getBrowser();
   }
+  public define(bar: string, val: any) {
+    return this.evaluate(() => {
+      const bar = arguments[arguments.length - 2];
+      const val = arguments[arguments.length - 1];
+      window[bar] = val;
+      return window[bar];
+    }, bar, val)
+  }
   public evaluate(funct: () => void, ...args): Promise<any> {
     return this.browser.executeScript(funct, ...args) as Promise<any>;
   }

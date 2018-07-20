@@ -10,29 +10,34 @@ export {
 }
 
 function scrollToPercent(browser: Scenario) {
+  function expectedPosition(pageYOffset: number, windowHeight: number, scrollPercent: number, scrollHeight: number) {
+    const ratio = scrollPercent / 100;
+    expect(pageYOffset + windowHeight * ratio).to.be.eq(scrollHeight * ratio);
+  }
   describe("scroll to percent", () => {
-    const duration = 500;
     it("should scroll to the end of the page", async () => {
-      const scrollPercent = 100;
-      await browser.evaluate(() => {
-        const scrollDistance = arguments[arguments.length - 2];
-        const duration = arguments[arguments.length - 1];
+      const duration = await browser.define("duration", 500);
+      const scrollPercent = await browser.define("scrollPercent", 100);
 
+      await browser.evaluate(() => {
         const windowManager = new Scroll();
-        windowManager.scroll.toPercent(scrollDistance, {
+        windowManager.scroll.toPercent(scrollPercent, {
           duration,
         });
-      }, scrollPercent, duration);
+      });
       await delay(duration);
       const scrollHeight = await browser.getScrollHeight();
       const windowHeight = await browser.getWindowHeight();
       const pageYOffset = await browser.getYOffset();
-      expect(pageYOffset + windowHeight).to.be.eq(scrollHeight);
+      expectedPosition(pageYOffset, windowHeight, scrollPercent, scrollHeight);
     });
     it("should scroll to the middle of the page", async () => {
+      const duration = await browser.define("duration", 500);
+      const scrollPercent = await browser.define("scrollPercent", 50);
+
       await browser.evaluate(() => {
         const windowManager =  new Scroll();
-        windowManager.scroll.toPercent(50, {
+        windowManager.scroll.toPercent(scrollPercent, {
           duration,
         });
       });
@@ -40,12 +45,15 @@ function scrollToPercent(browser: Scenario) {
       const scrollHeight = await browser.getScrollHeight();
       const windowHeight = await browser.getWindowHeight();
       const pageYOffset = await browser.getYOffset();
-      expect(pageYOffset + windowHeight / 2).to.be.eq(scrollHeight / 2);
+      expectedPosition(pageYOffset, windowHeight, scrollPercent, scrollHeight);
     });
     it("should scroll to the start of the page", async () => {
+      const duration = await browser.define("duration", 500);
+      const scrollPercent = await browser.define("scrollPercent", 0);
+
       await browser.evaluate(() => {
         const windowManager =  new Scroll();
-        windowManager.scroll.toPercent(0, {
+        windowManager.scroll.toPercent(scrollPercent, {
           duration,
         });
       });
@@ -53,7 +61,7 @@ function scrollToPercent(browser: Scenario) {
       const scrollHeight = await browser.getScrollHeight();
       const windowHeight = await browser.getWindowHeight();
       const pageYOffset = await browser.getYOffset();
-      expect(pageYOffset).to.be.eq(0);
+      expectedPosition(pageYOffset, windowHeight, scrollPercent, scrollHeight);
     });
   });
 }

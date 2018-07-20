@@ -12,15 +12,18 @@ export {
 function scrollToPosition(browser: Scenario) {
   describe("scroll to position", () => {
     it("should scroll to certian position", async () => {
+      const duration = await browser.define("duration", 500);
+      const scrollPosition = await browser.define("scrollPosition", 1500);
+
       await browser.evaluate(() => {
         const windowManager =  new Scroll();
-        windowManager.scroll.toPosition(1500, {
-          duration: 500,
+        windowManager.scroll.toPosition(scrollPosition, {
+          duration,
         });
       });
-      await delay(500);
+      await delay(duration);
       const lastOffset = await browser.getYOffset();
-      expect(lastOffset).to.be.eq(1500);
+      expect(lastOffset).to.be.eq(scrollPosition);
     })
   });
 }
