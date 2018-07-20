@@ -1,6 +1,8 @@
 import { Scroll as ScrollManager } from "../../../index";
 import { WebDriver } from "selenium-webdriver";
 import { expect } from "chai";
+import * as delay from "delay";
+import * as utils from "./utils";
 
 declare const Scroll: typeof ScrollManager;
 
@@ -13,15 +15,16 @@ function offset(getBrowser: () => WebDriver) {
     it("should do scroll with offset", async () => {
       const browser = getBrowser();
 
-      const pageOffset = await browser.executeScript(() => {
+      const initialOffset = await utils.getYOffset(browser);
+      await browser.executeScript(() => {
         const windowManager =  new Scroll();
         windowManager.scroll.offset(1000, {
           duration: 500,
         });
-        return window.pageYOffset;
       });
-      expect(pageOffset).to.be.eq(0);
+      await delay(1000);
+      const lastOffset = await utils.getYOffset(browser);
+      expect(initialOffset).to.be.eq(lastOffset);
     })
   });
 }
-
