@@ -11,14 +11,19 @@ export {
 
 function scrollToPercent(browser: Scenario) {
   describe("scroll to percent", () => {
+    const duration = 500;
     it("should scroll to the end of the page", async () => {
+      const scrollPercent = 100;
       await browser.evaluate(() => {
-        const windowManager =  new Scroll();
-        windowManager.scroll.toPercent(100, {
-          duration: 500,
+        const scrollDistance = arguments[arguments.length - 2];
+        const duration = arguments[arguments.length - 1];
+
+        const windowManager = new Scroll();
+        windowManager.scroll.toPercent(scrollDistance, {
+          duration,
         });
-      });
-      await delay(500);
+      }, scrollPercent, duration);
+      await delay(duration);
       const scrollHeight = await browser.getScrollHeight();
       const windowHeight = await browser.getWindowHeight();
       const pageYOffset = await browser.getYOffset();
@@ -28,10 +33,10 @@ function scrollToPercent(browser: Scenario) {
       await browser.evaluate(() => {
         const windowManager =  new Scroll();
         windowManager.scroll.toPercent(50, {
-          duration: 500,
+          duration,
         });
       });
-      await delay(500);
+      await delay(duration);
       const scrollHeight = await browser.getScrollHeight();
       const windowHeight = await browser.getWindowHeight();
       const pageYOffset = await browser.getYOffset();
@@ -41,10 +46,10 @@ function scrollToPercent(browser: Scenario) {
       await browser.evaluate(() => {
         const windowManager =  new Scroll();
         windowManager.scroll.toPercent(0, {
-          duration: 500,
+          duration,
         });
       });
-      await delay(500);
+      await delay(duration);
       const scrollHeight = await browser.getScrollHeight();
       const windowHeight = await browser.getWindowHeight();
       const pageYOffset = await browser.getYOffset();

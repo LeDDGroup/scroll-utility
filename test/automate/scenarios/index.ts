@@ -23,8 +23,8 @@ class Scenario {
   private get browser() {
     return this.getBrowser();
   }
-  public evaluate(funct: () => void): Promise<any> {
-    return this.browser.executeScript(funct) as Promise<any>;
+  public evaluate(funct: () => void, ...args): Promise<any> {
+    return this.browser.executeScript(funct, ...args) as Promise<any>;
   }
   public getYOffset(): Promise<number> {
     return this.evaluate(() => {
