@@ -1,5 +1,3 @@
-import { easing } from "./easings";
-
 export { Animation, ScrollInstanceProps, AnimationApi, EasingFunction };
 
 interface AnimationApi {
@@ -26,7 +24,7 @@ class Animation {
   private initialTime: DOMHighResTimeStamp;
   private active: boolean = true;
   private lastDistanceScrolled: number = 0;
-  private easingFunction: EasingFunction = easing.inOut.quad;
+  private easingFunction: EasingFunction = Animation.EasingFunction;
   public readonly api: AnimationApi = {
     stop: () => this.stop(),
     easing: (funct: EasingFunction) => {
@@ -63,4 +61,11 @@ class Animation {
   public get isActive() {
     return this.active;
   }
+  private static EasingFunction(currentStep: number, offsetValue: number, distance: number, totalSteps: number) {
+    currentStep /= totalSteps / 2;
+    if (currentStep < 1) return (distance / 2) * currentStep * currentStep + offsetValue;
+    currentStep--;
+    return (-distance / 2) * (currentStep * (currentStep - 2) - 1) + offsetValue;
+  }
 }
+
