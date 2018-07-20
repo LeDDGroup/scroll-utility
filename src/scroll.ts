@@ -1,8 +1,8 @@
 import { Animation as ScrollAnimation, AnimationApi } from "./animation";
 
-export { Scroll, AnimationApi as AnimationScroll, IOptions, IToElementOptions };
+export { Scroll, AnimationApi as AnimationScroll, IOptions, IScrollToElementOptions };
 
-interface IToElementOptions extends IOptions {
+interface IScrollToElementOptions extends IOptions {
   center?: number;
 }
 
