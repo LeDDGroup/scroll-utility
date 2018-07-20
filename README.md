@@ -2,24 +2,14 @@
 
 [![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=QmJOaDZzS3BBOWUrem1PMWw1K29CZjByZjNBcTNyYlE0LzVYZEhFYVg1ST0tLXBOR05wTitscU1PM2FvQ0NrOUlHbHc9PQ==--70960e59e91fc8efc3dced4f2cebeff5665746ca)](https://www.browserstack.com/automate/public-build/QmJOaDZzS3BBOWUrem1PMWw1K29CZjByZjNBcTNyYlE0LzVYZEhFYVg1ST0tLXBOR05wTitscU1PM2FvQ0NrOUlHbHc9PQ==--70960e59e91fc8efc3dced4f2cebeff5665746ca)
 
-
-
-A simple scroll utility for scrolling the page, inside an element, centering elements, and smooth scroll animations.
-
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
 - [scroll-utiliy](#scroll-utiliy)
     - [Installation](#installation)
     - [Usage](#usage)
-        - [Creating a scroll scope](#creating-a-scroll-scope)
-        - [Offsetting scroll position](#offsetting-scroll-position)
-        - [Setting a duration](#setting-a-duration)
-        - [ScrollTo](#scrollto)
-            - [ScrollToPosition](#scrolltoposition)
-            - [ScrollToPercent](#scrolltopercent)
-            - [ScrollToElement](#scrolltoelement)
-        - [Setting a direction](#setting-a-direction)
+        - [Options](#options)
+    - [Examples](#examples)
     - [Github](#github)
     - [Browser tested](#browser-tested)
     - [[License](./LICENSE.md): MIT](#licenselicensemd-mit)
@@ -35,90 +25,53 @@ $ npm install --save scroll-utility
 
 ## Usage ##
 
-```js
-const { Scroll } = require("scroll-utility");
+```ts
+import { Scroll, IOptions, IScrollToElementOptions } from "scroll-utility";
 
-const ScrollManager = new Scroll();
+// declare scroll manager instance
+
+const scrollManager = new Scroll(); // create a scroll instance for window for scrolling the page
+const elementScrollManager = new Scroll(element: HTMLElement); // for scrolling inside element instead of window
+
+// start a scroll animation
+
+scrollManager.scroll.offset(value: number, options?: IOptions); // offset current scroll position by "value"
+scrollManager.scroll.scrollToPosition(position: number, options?: IOptions); // scroll to position "position"
+scrollManager.scroll.scrollToPercent(percent: number, options?: IOptions); // scroll to position given by "percent"
+scrollManager.scroll.scrollToElement(element: HTMLElement, options?: IScrollToElementOptions); // scroll to element "element"
+
+// stopping animations
+
+scrollManager.stopAnimations(); // stop all animation in "scrollManager"
+const animation = scrollManager.scroll.offset(10); // capture animation
+animation.stop(); // stop animation
+
 ```
 
-### Creating a scroll scope ###
+### Options ###
 
-By default, if no element is specified, the scroll will take place in the window object.
+From the definition:
 
-```js
-const { Scroll } = require("scroll-utility");
+```ts
+interface IOptions {
+  duration?: number;
+  horizontal?: boolean;
+}
 
-const element = document.getElementById("my-scrollable-element"); // assuming that "my-scrollable-element" exists
-
-const WindowScroll = new Scroll(); // Do this to scroll inside window
-const ElementScroll = new Scroll(element); // Do this to scroll inside an element
+interface IScrollToElementOptions extends IOptions {
+  center?: number;
+}
 ```
 
-In this way with `ElementScroll` you can scroll inside the `#my-scrollable-element`, instead of inside the page
+*duration* will be the duration of the scroll animation, default to 0, instant.  
+*horizontal* by default the animation will be vertically, so if *horizontal* is set to `true`, it will be horizontally otherwise.  
 
-### Offsetting scroll position ###
+*IScrollToElementOptions* interface is for the *scrollToElement* function, it is the same as in other functions, but also a  
+*center*, which is a percent (a number from `0` to `100`)
 
-```js
-const { Scroll } = require("scroll-utility");
-const WindowScroll = new Scroll();
+## Examples
 
-WindowScroll.scroll.offset(100); // This will offset the scroll position 100px
-```
-
-### Setting a duration ###
-
-The second parameter specifies a duration (in ms).
-
-```js
-const { Scroll } = require("scroll-utility");
-const WindowScroll = new Scroll();
-
-WindowScroll.scroll.offset(100, 1000); // scroll for a second
-```
-
-If *duration* is  `0` (or not specified), it will scroll instantly
-
-### ScrollTo ###
-
-In addition of offsetting the scroll, you can also scroll to certain position, given by either an element, percent, or position(px)
-
-#### ScrollToPosition ####
-
-```js
-const { Scroll } = require("scroll-utility");
-const WindowScroll = new Scroll();
-
-WindowScroll.scroll.toPosition(100); // Scroll to 100px past the start of the page
-```
-
-#### ScrollToPercent ####
-
-```js
-const { Scroll } = require("scroll-utility");
-const WindowScroll = new Scroll();
-
-WindowScroll.scroll.toPercent(0); // It will scroll to the start of the page
-// WindowScroll.scroll.toPercent(50); // It will scroll to the middle of the page
-// WindowScroll.scroll.toPercent(100); // It will scroll to the end of the page
-```
-
-#### ScrollToElement ####
-
-```js
-const { Scroll } = require("scroll-utility");
-const WindowScroll = new Scroll();
-
-const element = document.getELementById("some-element");
-windowScroll.scroll.toElement(element, 0, 1000); // The element will end at the start of the window screen
-windowScroll.scroll.toElement(element, 50, 1000); // The element will end at the middle of the window screen
-windowScroll.scroll.toElement(element, 100, 1000); // The element will end at the end of the window screen
-```
-
-Here, the 1st argument is the element to scroll to,  
-the 2nd is the percent in wich the element will be centered,  
-and 3rd is the duration of the scroll animation.  
-
-### Setting a direction ###
+TODO
 
 ## Github ##
 

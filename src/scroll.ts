@@ -1,8 +1,8 @@
-import { Animation as ScrollAnimation, AnimationApi } from "./animation";
+import { Animation, AnimationApi } from "./animation";
 
-export { Scroll, AnimationApi as AnimationScroll, IOptions, IToElementOptions };
+export { Scroll, AnimationApi as AnimationScroll, IOptions, IScrollToElementOptions };
 
-interface IToElementOptions extends IOptions {
+interface IScrollToElementOptions extends IOptions {
   center?: number;
 }
 
@@ -18,8 +18,8 @@ interface Point {
 
 class Scroll {
   private scrollAnimation: {
-    vertical: ScrollAnimation[];
-    horizontal: ScrollAnimation[];
+    vertical: Animation[];
+    horizontal: Animation[];
   } = {
     vertical: [],
     horizontal: [],
@@ -43,16 +43,16 @@ class Scroll {
     this.onAnimationFrame = this.onAnimationFrame.bind(this);
   }
   public scroll = {
-    toElement: (element: HTMLElement, options: IToElementOptions) => {
+    toElement: (element: HTMLElement, options: IScrollToElementOptions = {}) => {
       return this.scrollToElement(element, options);
     },
-    toPercent: (percent: number, options: IOptions) => {
+    toPercent: (percent: number, options: IOptions = {}) => {
       return this.scrollToPercent(percent, options);
     },
-    toPosition: (position: number, options: IOptions) => {
+    toPosition: (position: number, options: IOptions = {}) => {
       return this.scrollToPosition(position, options);
     },
-    offset: (amount: number, options: IOptions) => {
+    offset: (amount: number, options: IOptions = {}) => {
       return this.doScroll(amount, options);
     },
   };
@@ -65,7 +65,7 @@ class Scroll {
   }
   private scrollToElement(
     element: HTMLElement,
-    options: IToElementOptions,
+    options: IScrollToElementOptions,
   ) {
     const center = options.center || 0;
     const duration = options.duration || 0;
@@ -163,7 +163,7 @@ class Scroll {
     this.animations++;
     const direction = options.horizontal ? "horizontal" : "vertical";
     const index = this.scrollAnimation[direction].length;
-    const animation = new ScrollAnimation({
+    const animation = new Animation({
       distToScroll: options.distToScroll,
       duration,
       stop: () => {
