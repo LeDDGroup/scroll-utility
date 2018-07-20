@@ -47,6 +47,6 @@ describe("client", async function() {
 });
 
 after(async function() {
-  this.timeout(10000);
+  this.timeout(generalTimeout);
   await browser.quit();
 });

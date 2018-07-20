@@ -1,3 +1,4 @@
+import { scrollToPosition } from "./scrollToPosition";
 import { scope } from "./scope";
 import { offset } from "./offset";
 import { WebDriver } from "selenium-webdriver";
@@ -9,8 +10,9 @@ export {
 
 function testScenarios(getBrowser: () => WebDriver) {
   const browser = new Scenario(getBrowser);
-  offset(browser);
   scope(browser);
+  offset(browser);
+  scrollToPosition(browser);
 }
 
 class Scenario {
@@ -19,12 +21,12 @@ class Scenario {
   private get browser() {
     return this.getBrowser();
   }
-  public async evaluate(funct: () => void) {
-    return await this.browser.executeScript(funct);
+  public evaluate(funct: () => void): Promise<any> {
+    return this.browser.executeScript(funct) as Promise<any>;
   }
-  public async getYOffset() {
-    return await this.browser.executeScript(() => {
+  public getYOffset(): Promise<number> {
+    return this.evaluate(() => {
       return window.pageYOffset;
-    })
+    }) as Promise<number>;
   }
 }

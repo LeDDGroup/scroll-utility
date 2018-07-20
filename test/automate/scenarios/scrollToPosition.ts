@@ -6,22 +6,21 @@ import { Scenario } from ".";
 declare const Scroll: typeof ScrollManager;
 
 export {
-  offset,
+  scrollToPosition,
 }
 
-function offset(browser: Scenario) {
-  describe("offset scroll position", () => {
-    it("should do scroll with offset", async () => {
-      const initialOffset = await browser.getYOffset();
+function scrollToPosition(browser: Scenario) {
+  describe("scroll to position", () => {
+    it("should scroll to certian position", async () => {
       await browser.evaluate(() => {
         const windowManager =  new Scroll();
-        windowManager.scroll.offset(1000, {
+        windowManager.scroll.toPosition(1500, {
           duration: 500,
         });
       });
       await delay(500);
       const lastOffset = await browser.getYOffset();
-      expect(lastOffset - initialOffset).to.be.eq(1000);
+      expect(lastOffset).to.be.eq(1500);
     })
   });
 }
