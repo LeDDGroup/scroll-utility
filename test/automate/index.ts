@@ -3,22 +3,21 @@ import * as webdriver from "selenium-webdriver";
 import { expect } from "chai";
 import { readFileSync } from "fs";
 import { join } from "path";
-import { Scroll as ScrollManager } from "../../index";
+import { Scroll as ScrollManager } from "../../";
 
 import { testScenarios } from "./scenarios";
-
 declare const Scroll: typeof ScrollManager;
 
+const testing_site_url = "https://leddgroup.com/scroll-example";
 const scrollScript = readFileSync(join(__dirname, "./setup/index.js")).toString();
-
 const cap = capabilities.window.chrome;
-
 let browser: webdriver.WebDriver = (null as any) as webdriver.WebDriver;
 
-const generalTimeout = 0;
+const to_ms = (ms: number) => ms * Math.pow(10, 3);
+const long_timeout = to_ms(0);
 
 before(async function() {
-  this.timeout(generalTimeout);
+  this.timeout(long_timeout);
   browser = await new webdriver.Builder()
     .usingServer("http://hub-cloud.browserstack.com/wd/hub")
     .withCapabilities(cap)
@@ -26,10 +25,10 @@ before(async function() {
 });
 
 describe("client", async function() {
-  this.timeout(generalTimeout);
+  this.timeout(long_timeout);
   describe("Browser setup", () => {
     it("Should navigate to *scroll-example*", async () => {
-      await browser.get("https://leddgroup.com/scroll-example");
+      await browser.get(testing_site_url);
       const title = await browser.getTitle();
       expect(title).to.be.eq("Testing");
     })
@@ -47,6 +46,6 @@ describe("client", async function() {
 });
 
 after(async function() {
-  this.timeout(generalTimeout);
+  this.timeout(long_timeout);
   await browser.quit();
 });

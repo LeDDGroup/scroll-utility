@@ -3,21 +3,20 @@ const browserstackUser = "davidperezalvare2";
 const basicCap = {
   "browserstack.user": browserstackUser,
   "browserstack.key": process.env["BROWSERSTACK_ACCESS_KEY"],
-  "project" : "scroll-utility",
+  project : "scroll-utility",
+  resolution: "1024x768",
 };
 
 const windowCap = {
     ...basicCap,
     os: "Windows",
     os_version: "10",
-    resolution: "1024x768",
 };
 
 const macCap = {
     ...basicCap,
     os: "OS X",
     os_version: "High Sierra",
-    resolution: "1024x768",
 };
 
 const capabilities = {

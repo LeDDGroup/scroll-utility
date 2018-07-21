@@ -1,4 +1,4 @@
-import { Scroll as ScrollManager } from "../../../index";
+import { Scroll as ScrollManager } from "../../../";
 import { expect } from "chai";
 import * as delay from "delay";
 import { Scenario } from ".";
@@ -21,8 +21,9 @@ function scrollToPosition(browser: Scenario) {
           duration,
         });
       });
+
       await delay(duration);
-      const lastOffset = await browser.getYOffset();
+      const lastOffset = await browser.getPageYOffset();
       expect(lastOffset).to.be.eq(scrollPosition);
     })
   });

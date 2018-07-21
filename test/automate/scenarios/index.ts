@@ -3,6 +3,7 @@ import { scrollToPosition } from "./scrollToPosition";
 import { scope } from "./scope";
 import { offset } from "./offset";
 import { WebDriver } from "selenium-webdriver";
+import { Scroll } from "../../../";
 
 export {
   testScenarios,
@@ -18,8 +19,7 @@ function testScenarios(getBrowser: () => WebDriver) {
 }
 
 class Scenario {
-  constructor (private getBrowser: () => WebDriver) {
-  }
+  constructor (private getBrowser: () => WebDriver) {}
   private get browser() {
     return this.getBrowser();
   }
@@ -34,7 +34,7 @@ class Scenario {
   public evaluate(funct: () => void, ...args): Promise<any> {
     return this.browser.executeScript(funct, ...args) as Promise<any>;
   }
-  public getYOffset(): Promise<number> {
+  public getPageYOffset(): Promise<number> {
     return this.evaluate(() => {
       return window.pageYOffset;
     }) as Promise<number>;

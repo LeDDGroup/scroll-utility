@@ -1,4 +1,4 @@
-import { Scroll as ScrollManager } from "../../../index";
+import { Scroll as ScrollManager } from "../../../";
 import { expect } from "chai";
 import * as delay from "delay";
 import { Scenario } from ".";
@@ -11,14 +11,14 @@ export {
 
 function scrollToPercent(browser: Scenario) {
   describe("scroll to percent", () => {
-    let duration = null;
+    let duration: number = 500;
 
     before("define global scroll duration", async () => {
       duration = await browser.define("duration", 500);
     });
 
     async function scrollToPercentTest(scrollPercent: number) {
-      await browser.define("scrollPercent", 100);
+      await browser.define("scrollPercent", scrollPercent);
 
       await browser.evaluate(() => {
         const windowManager = new Scroll();
@@ -30,19 +30,13 @@ function scrollToPercent(browser: Scenario) {
       const ratio = scrollPercent / 100;
       const scrollHeight = await browser.getScrollHeight();
       const windowHeight = await browser.getWindowHeight();
-      const pageYOffset = await browser.getYOffset();
+      const pageYOffset = await browser.getPageYOffset();
 
       expect(pageYOffset + windowHeight * ratio).to.be.eq(scrollHeight * ratio);
     }
 
-    it("should scroll to the end of the page", async () => {
-      scrollToPercentTest(100);
-    });
-    it("should scroll to the middle of the page", async () => {
-      scrollToPercentTest(50);
-    });
-    it("should scroll to the start of the page", async () => {
-      scrollToPercentTest(0);
-    });
+    it("should scroll to the end of the page", async () => scrollToPercentTest(100));
+    it("should scroll to the middle of the page", async () => scrollToPercentTest(50));
+    it("should scroll to the start of the page", async () => scrollToPercentTest(0));
   });
 }

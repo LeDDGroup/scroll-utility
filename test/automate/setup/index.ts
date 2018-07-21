@@ -1,4 +1,4 @@
-import { Scroll } from "../../../index";
+import { Scroll } from "../../../";
 
 declare const window: Window & {
   Scroll: typeof Scroll,

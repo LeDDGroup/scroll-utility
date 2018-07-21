@@ -1,4 +1,4 @@
-import { Scroll as ScrollManager } from "../../../index";
+import { Scroll as ScrollManager } from "../../../";
 import { Scenario } from ".";
 
 declare const Scroll: typeof ScrollManager;
