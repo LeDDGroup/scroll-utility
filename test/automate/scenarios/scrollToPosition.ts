@@ -1,26 +1,23 @@
-import { Scroll as ScrollManager } from "../../../";
 import { expect } from "chai";
 import * as delay from "delay";
 import { Scenario } from ".";
-
-declare const Scroll: typeof ScrollManager;
 
 export {
   scrollToPosition,
 }
 
 function scrollToPosition(browser: Scenario) {
+  const duration = 500;
+  const scrollPosition = 1500;
   describe("scroll to position", () => {
     it("should scroll to certian position", async () => {
-      const duration = await browser.define("duration", 500);
-      const scrollPosition = await browser.define("scrollPosition", 1500);
 
-      await browser.evaluate(() => {
+      await browser.evaluate(`
         const windowManager =  new Scroll();
-        windowManager.scroll.toPosition(scrollPosition, {
-          duration,
+        windowManager.scroll.toPosition(${scrollPosition}, {
+          duration: ${duration},
         });
-      });
+      `);
 
       await delay(duration);
       const lastOffset = await browser.getPageYOffset();

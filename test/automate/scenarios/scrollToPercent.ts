@@ -1,31 +1,22 @@
-import { Scroll as ScrollManager } from "../../../";
 import { expect } from "chai";
 import * as delay from "delay";
 import { Scenario } from ".";
-
-declare const Scroll: typeof ScrollManager;
 
 export {
   scrollToPercent,
 }
 
 function scrollToPercent(browser: Scenario) {
+  const duration = 500;
   describe("scroll to percent", () => {
-    let duration: number = 500;
-
-    before("define global scroll duration", async () => {
-      duration = await browser.define("duration", 500);
-    });
-
     async function scrollToPercentTest(scrollPercent: number) {
-      await browser.define("scrollPercent", scrollPercent);
 
-      await browser.evaluate(() => {
+      await browser.evaluate(`
         const windowManager = new Scroll();
-        windowManager.scroll.toPercent(scrollPercent, {
-          duration,
+        windowManager.scroll.toPercent(${scrollPercent}, {
+          duration: ${duration},
         });
-      });
+      `);
       await delay(duration);
       const ratio = scrollPercent / 100;
       const scrollHeight = await browser.getScrollHeight();
