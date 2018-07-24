@@ -3,6 +3,9 @@ const browserstackUser = "davidperezalvare2";
 const basicCap = {
   "browserstack.user": browserstackUser,
   "browserstack.key": process.env["BROWSERSTACK_ACCESS_KEY"],
+  "browserstack.local": true,
+  "browserstack.localIdentifier": process.env["BROWSERSTACK_LOCAL_IDENTIFIER"],
+  "browserstack.debug": true,
   project : "scroll-utility",
   resolution: "1024x768",
 };

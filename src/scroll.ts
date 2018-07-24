@@ -85,10 +85,11 @@ class Scroll {
     });
   }
   private scrollToPercent(percent: number, options: IOptions) {
+    const ratio = percent / 100;
     const duration = options.duration || 0;
     const horizontal = !!options.horizontal;
     const dist =
-      ((this.scrollSize(horizontal) - this.size(horizontal)) * percent) / 100 -
+      ((this.scrollSize(horizontal) - this.size(horizontal))) * ratio -
       this.position(horizontal);
     return this.createScrollAnimation({
       distToScroll: () => dist,
