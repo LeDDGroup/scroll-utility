@@ -1,27 +1,27 @@
 import { expect } from "chai";
 import * as delay from "delay";
-import { Scenario } from ".";
+import { Scenario, IOptions } from ".";
 
 export {
   offset,
 }
 
-function offset(browser: Scenario, horizontal: boolean = false) {
+function offset(browser: Scenario, options: IOptions = {}) {
   describe("offset scroll position", () => {
     async function offsetTest() {
       const duration = 500;
       const scrollDistance = 1000;
-
-      const initialOffset = await browser.getPageYOffset();
+      const initialOffset = await browser.getOffset(options);
+      const initialize = browser.getManagerInit(options.elementScroll)
       await browser.evaluate(`
-        const windowManager =  new Scroll();
-        windowManager.scroll.offset(${scrollDistance}, {
+        ${initialize}
+        scrollManager.scroll.offset(${scrollDistance}, {
           duration: ${duration},
-          horizontal: ${horizontal},
+          horizontal: ${options.horizontal},
         });
       `);
       await delay(duration);
-      const lastOffset = await browser.getPageYOffset();
+      const lastOffset = await browser.getOffset(options);
       expect(lastOffset - initialOffset).to.be.eq(scrollDistance);
     }
 

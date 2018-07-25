@@ -1,3 +1,4 @@
+import * as http  from "http";
 import * as Bundler from "parcel-bundler";
 import * as express from "express";
 import * as delay from "delay";
@@ -8,7 +9,7 @@ export {
 }
 
 class Server {
-  private app;
+  private server: http.Server = null as any as http.Server;
   constructor() {}
   public async start() {
 
@@ -25,10 +26,11 @@ class Server {
     app.use(bundler.middleware());
 
     // Listen on port 8080
-    this.app = app.listen(8080);
+    this.server = http.createServer(app);
+    this.server.listen(8080)
     return delay(5000);
   }
   public stop() {
-    this.app.close();
+    this.server.close();
   }
 }

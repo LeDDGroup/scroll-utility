@@ -1,29 +1,31 @@
 import { expect } from "chai";
 import * as delay from "delay";
-import { Scenario } from ".";
+import { Scenario, IOptions } from ".";
 
 export {
   scrollToPercent,
 }
 
-function scrollToPercent(browser: Scenario) {
+function scrollToPercent(browser: Scenario, options: IOptions= {}) {
   const duration = 500;
+  const horizontal = options && options.horizontal;
+  const initialize = browser.getManagerInit(options.elementScroll)
   describe("scroll to percent", () => {
     async function scrollToPercentTest(scrollPercent: number) {
-
       await browser.evaluate(`
-        const windowManager = new Scroll();
-        windowManager.scroll.toPercent(${scrollPercent}, {
+        ${initialize}
+        scrollManager.scroll.toPercent(${scrollPercent}, {
           duration: ${duration},
+          horizontal: ${horizontal}
         });
       `);
       await delay(duration);
       const ratio = scrollPercent / 100;
-      const scrollHeight = await browser.getScrollHeight();
-      const windowHeight = await browser.getWindowHeight();
-      const pageYOffset = await browser.getPageYOffset();
+      const scrollHeight = await browser.getScrollSize(options);
+      const windowHeight = await browser.getSize(options);
+      const pageYOffset = await browser.getOffset(options);
 
-      expect(pageYOffset + windowHeight * ratio).to.be.eq(scrollHeight * ratio);
+      expect(pageYOffset + windowHeight * ratio).to.be.closeTo(scrollHeight * ratio, 0.5);
     }
 
     it("should scroll to the end of the page", async () => scrollToPercentTest(100));
