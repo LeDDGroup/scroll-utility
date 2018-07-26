@@ -6,6 +6,8 @@ const basicCap = {
   "browserstack.local": true,
   "browserstack.localIdentifier": process.env["BROWSERSTACK_LOCAL_IDENTIFIER"],
   "browserstack.debug": true,
+  build: process.env["TRAVIS_BUILD_NUMBER"] || "general-build",
+  name: "general-test",
   project : "scroll-utility",
   resolution: "1024x768",
 };
