@@ -8,6 +8,8 @@
         "rootDir": ".",
         "declaration": true,
         "target": "ES2017",
+        "skipLibCheck": true,
+        "noImplicitAny": false,
         "paths": {
             "*": [
                 "node_modules/*"

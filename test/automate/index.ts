@@ -1,57 +1,44 @@
 import capabilities from "./capabilities";
 import * as webdriver from "selenium-webdriver";
 import { expect } from "chai";
-import { readFileSync } from "fs";
-import { join } from "path";
-import { Scroll as ScrollManager } from "../../index";
+import { Server } from "./setup/index";
 
-declare const Scroll: typeof ScrollManager;
+import { testScenarios } from "./scenaries";
 
-const scrollScript = readFileSync(join(__dirname, "./setup/index.js")).toString();
-
+const local_testing_site_url = "http://localhost:8080/";
 const cap = capabilities.window.chrome;
-
 let browser: webdriver.WebDriver = (null as any) as webdriver.WebDriver;
 
+const to_ms = (ms: number) => ms * Math.pow(10, 3);
+const long_timeout = to_ms(0);
+
+let server = new Server();
+
 before(async function() {
-  this.timeout(10000);
+  this.timeout(long_timeout);
+  await server.start();
   browser = await new webdriver.Builder()
-    .usingServer("http://hub-cloud.browserstack.com/wd/hub")
+    .usingServer("https://hub-cloud.browserstack.com/wd/hub")
     .withCapabilities(cap)
     .build();
 });
 
 describe("client", async function() {
-  this.timeout(20000);
+  this.timeout(long_timeout);
   describe("Browser setup", () => {
-    it("Should navigate to *scroll-example*", async () => {
-      await browser.get("https://leddgroup.com/scroll-example");
+    it("Should navigate to local environment", async () => {
+      await browser.get(local_testing_site_url);
       const title = await browser.getTitle();
       expect(title).to.be.eq("Testing");
     })
-    it("should insert scroll script successfully", async () => {
-      await browser.executeScript(scrollScript);
-      const windowScroll = await browser.executeScript(() => {
-        return Scroll;
-      });
-      expect(!!windowScroll).eq(true);
-    });
   });
-  describe("basic test", () => {
-    it("should do scroll with offset", async () => {
-      const pageOffset = await browser.executeScript(() => {
-        const windowManager =  new Scroll();
-        windowManager.scroll.offset(1000, {
-          duration: 500,
-        });
-        return window.pageYOffset;
-      });
-      expect(pageOffset).to.be.eq(0);
-    })
-  });
+  describe("Scenarios", () => {
+    testScenarios(() => browser);
+  })
 });
 
 after(async function() {
-  this.timeout(10000);
+  this.timeout(long_timeout);
+  server.stop();
   await browser.quit();
 });

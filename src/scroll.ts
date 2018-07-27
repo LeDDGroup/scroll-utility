@@ -84,6 +84,7 @@ class Scroll {
     });
   }
   private scrollToPercent(percent: number, options: IOptions) {
+    const ratio = percent / 100;
     const duration = options.duration || 0;
     const horizontal = !!options.horizontal;
     const dist =
