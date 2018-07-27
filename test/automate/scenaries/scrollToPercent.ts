@@ -29,7 +29,9 @@ function scrollToPercent(browser: Scenario, options: IOptions= {}) {
     }
 
     it("should scroll to the end of the page", async () => scrollToPercentTest(100));
+    it("should scroll to 3 / 4", async () => scrollToPercentTest(75));
     it("should scroll to the middle of the page", async () => scrollToPercentTest(50));
+    it("should scroll to 1 / 4", async () => scrollToPercentTest(25));
     it("should scroll to the start of the page", async () => scrollToPercentTest(0));
   });
 }
