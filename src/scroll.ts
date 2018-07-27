@@ -70,14 +70,13 @@ class Scroll {
     const center = options.center || 0;
     const duration = options.duration || 0;
     const horizontal = !!options.horizontal;
+    const ratio = center / 100;
     const screenOffset =
-      ((this.size(horizontal) - element.getBoundingClientRect()[horizontal ? "width" : "height"]) *
-       center) /
-      100;
-    const distToElement =
-      element.getBoundingClientRect()[horizontal ? "left" : "top"] -
-      this.offset(horizontal) -
-      screenOffset;
+      (this.size(horizontal) - element.getBoundingClientRect()[horizontal ? "width" : "height"]) * ratio;
+    const elementPosition = element.getBoundingClientRect()[horizontal ? "left" : "top"] - this.offset(horizontal);
+    console.log(elementPosition);
+    const distToElement = elementPosition - screenOffset;
+
     return this.createScrollAnimation({
       distToScroll: () => distToElement,
       duration,
@@ -88,8 +87,7 @@ class Scroll {
     const duration = options.duration || 0;
     const horizontal = !!options.horizontal;
     const dist =
-      ((this.scrollSize(horizontal) - this.size(horizontal)) * percent) / 100 -
-      this.position(horizontal);
+      ((this.scrollSize(horizontal) - this.size(horizontal))) * ratio - this.position(horizontal);
     return this.createScrollAnimation({
       distToScroll: () => dist,
       duration,
@@ -121,20 +119,22 @@ class Scroll {
   private scrollSize(horizontal: boolean) {
     return horizontal
       ? this.isWindow
-      ? document.body.clientWidth
+      ? document.documentElement.scrollWidth // || document.body.clientWidth
       : this.element!.scrollWidth
     : this.isWindow
-      ? document.body.clientHeight
-      : this.element!.scrollHeight;
+      ? document.documentElement.scrollHeight // || document.body.clientHeight
+      : this.element!.scrollHeight
+    ;
   }
   private size(horizontal: boolean) {
     return horizontal
       ? this.isWindow
-      ? window.innerWidth
+      ? document.documentElement.clientWidth // || window.innerWidth
       : this.element!.clientWidth
     : this.isWindow
-      ? window.innerHeight
-      : this.element!.clientHeight;
+      ? document.documentElement.clientHeight // || window.innerHeight
+      : this.element!.clientHeight
+    ;
   }
   private position(horizontal: boolean) {
     return horizontal
@@ -143,7 +143,8 @@ class Scroll {
       : this.element!.scrollLeft
     : this.isWindow
       ? window.pageYOffset
-      : this.element!.scrollTop;
+      : this.element!.scrollTop
+    ;
   }
   private offset(horizontal: boolean) {
     return horizontal
@@ -152,7 +153,8 @@ class Scroll {
       : this.element!.getBoundingClientRect().left
     : this.isWindow
       ? 0
-      : this.element!.getBoundingClientRect().top;
+      : this.element!.getBoundingClientRect().top
+    ;
   }
   private createScrollAnimation(options: {
     distToScroll: () => number;
