@@ -21,11 +21,13 @@ function scrollToPercent(browser: Scenario, options: IOptions= {}) {
       `);
       await delay(duration);
       const ratio = scrollPercent / 100;
-      const scrollHeight = await browser.getScrollSize(options);
-      const windowHeight = await browser.getSize(options);
-      const pageYOffset = await browser.getOffset(options);
+      const scrollSize = await browser.getScrollSize(options);
+      const size = await browser.getSize(options);
+      const offset = await browser.getOffset(options);
 
-      expect(pageYOffset + windowHeight * ratio).to.be.closeTo(scrollHeight * ratio, 0.5);
+      const expectedPosition = Math.floor((scrollSize - size) * ratio); // Some browsers don't scroll to floating values
+
+      expect(offset).to.be.closeTo(expectedPosition, 0.5);
     }
 
     it("should scroll to the end of the page", async () => scrollToPercentTest(100));
