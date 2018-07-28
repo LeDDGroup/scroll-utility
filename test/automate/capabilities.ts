@@ -1,12 +1,17 @@
 const browserstackUser = "davidperezalvare2";
 
+const branchName = process.env["TRAVIS_BRANCH"] || process.env["LOCAL_BRANCH_NAME"] || "";
+const buildName =  !!branchName
+  ? branchName + (process.env["TRAVIS_BUILD_NUMBER"] || "")
+  : "general-build";
+
 const basicCap = {
   "browserstack.user": browserstackUser,
   "browserstack.key": process.env["BROWSERSTACK_ACCESS_KEY"],
   "browserstack.local": true,
   "browserstack.localIdentifier": process.env["BROWSERSTACK_LOCAL_IDENTIFIER"],
   "browserstack.debug": true,
-  build: process.env["TRAVIS_BUILD_NUMBER"] || "general-build",
+  build: buildName,
   name: "general-test",
   project : "scroll-utility",
   resolution: "1024x768",
