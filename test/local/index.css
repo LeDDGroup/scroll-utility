@@ -38,3 +38,19 @@ body {
     top: 60%;
     left: 60%;
 }
+
+body > h1 {
+    position: sticky;
+    z-index: 2;
+    width: 100vw;
+    top: 10vh;
+    left: 40vw;
+}
+
+#scrollable > h1  {
+    position: sticky;
+    z-index: 1;
+    width: 100%;
+    top: 10%;
+    left: 20%;
+}
