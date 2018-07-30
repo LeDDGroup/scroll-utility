@@ -27,8 +27,8 @@ function scrollToPercent(browser: Scenario, options: IOptions= {}) {
 
       const expectedPosition = Math.floor((scrollSize - size) * ratio); // Some browsers don't scroll to floating values
 
-      browser.browser.takeScreenshot();
-      expect(offset).to.be.closeTo(expectedPosition, 0.5);
+      await browser.browser.takeScreenshot();
+      expect(offset).to.be.eq(expectedPosition);
     }
 
     it("should scroll to the end of the page", async () => scrollToPercentTest(100));
