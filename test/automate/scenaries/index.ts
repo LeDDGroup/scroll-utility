@@ -64,7 +64,7 @@ class Scenario {
   static elementSelector = "document.getElementById('scrollable')";
   static elementClientRect = `${Scenario.elementSelector}.getBoundingClientRect()`;
 
-  private get browser() {
+  public get browser() {
     return this.getBrowser();
   }
   public evaluate(funct: (() => void) | string, ...args): Promise<any> {

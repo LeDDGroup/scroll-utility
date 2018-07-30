@@ -24,6 +24,7 @@ function scrollToPosition(browser: Scenario, options: IOptions = {}) {
 
       const expectedPosition = Math.floor(scrollPosition);
 
+      browser.browser.takeScreenshot();
       expect(lastOffset).to.be.eq(expectedPosition);
     }
     it("should scroll to certain position", async () => scrollToPositionTest(1500))
