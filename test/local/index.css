@@ -7,6 +7,7 @@ body {
 }
 
 #scrollable {
+    color: white;
     background: black;
     position: absolute;
     top: 30%;
@@ -23,6 +24,7 @@ body {
 }
 
 #element, #element1 {
+    color: black;
     background: yellow;
     position: absolute;
     height: 50vh;
