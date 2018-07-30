@@ -62,11 +62,11 @@ const capabilities = {
             browserName: "Safari",
             browser_version: "11.1",
         },
-        opera: {
-            ...macCap,
-            browserName: "Opera",
-            browser_version: "12.15",
-        },
+        // opera: {
+        //     ...macCap,
+        //     browserName: "Opera",
+        //     browser_version: "12.15",
+        // },
     },
 };
 
