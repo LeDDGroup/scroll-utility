@@ -120,10 +120,10 @@ class Scroll {
   private scrollSize(horizontal: boolean) {
     return horizontal
       ? this.isWindow
-      ? document.body.clientWidth // || document.documentElement.scrollWidth
+      ? document.body.scrollWidth // || document.documentElement.scrollWidth
       : this.element!.scrollWidth
     : this.isWindow
-      ? document.body.clientHeight // || document.documentElement.scrollHeight
+      ? document.body.scrollHeight // || document.documentElement.scrollHeight
       : this.element!.scrollHeight
     ;
   }
