@@ -1,7 +1,7 @@
 const browserstackUser = "davidperezalvare2";
 
-const buildName = !!process.env["TRAVIS_BRANCH"]
-  ? process.env["TRAVIS_BRANCH"] + ": " + process.env["TRAVIS_BUILD_NUMBER"]
+const buildName = process.env["CI"]
+  ? process.env["TRAVIS_BUILD_NUMBER"] as string + process.env["TRAVIS_BRANCH"] as string
   : "general-build";
 
 const basicCap = {
