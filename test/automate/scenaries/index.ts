@@ -76,7 +76,7 @@ class Scenario {
   public getOffset(options: IOptions): Promise<number> {
     return this.getValue(
       options.horizontal
-      ? options.elementScroll
+        ? options.elementScroll
         ? `${Scenario.elementSelector}.scrollLeft`
         : "window.pageXOffset"
       : options.elementScroll

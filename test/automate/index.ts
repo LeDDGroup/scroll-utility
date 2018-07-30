@@ -17,7 +17,10 @@ describe("client tests ", async function() {
   this.timeout(long_timeout);
   for (const os in capabilities) {
     for (const browser in capabilities[os]) {
-      test(os, browser);
+      const cap = capabilities[os][browser];
+      describe(`testing in ${os} ${browser}`, async function() {
+        test(cap);
+      });
     }
   }
 });
@@ -26,31 +29,25 @@ after(async function() {
   await server.stop();
 });
 
-function test(os: string, browserId: string) {
-  describe(`testing in ${os} ${browserId}`, async function() {
-    this.timeout(long_timeout);
-    const cap = capabilities[os][browserId];
-    let browser: webdriver.WebDriver = (null as any) as webdriver.WebDriver;
-    before(async function() {
-      this.timeout(long_timeout);
-      browser = await new webdriver.Builder()
-        .usingServer("https://hub-cloud.browserstack.com/wd/hub")
-        .withCapabilities(cap)
-        .build();
-    });
-    describe("Browser setup", () => {
-      it("Should navigate to local environment", async () => {
-        await browser.get(local_testing_site_url);
-        const title = await browser.getTitle();
-        expect(title).to.be.eq("Testing");
-      })
-    });
-    describe("Scenarios", () => {
-      testScenarios(() => browser);
+function test(cap) {
+  let browser: webdriver.WebDriver = (null as any) as webdriver.WebDriver;
+  before(async function() {
+    browser = await new webdriver.Builder()
+      .usingServer("https://hub-cloud.browserstack.com/wd/hub")
+      .withCapabilities(cap)
+      .build();
+  });
+  describe("Browser setup", () => {
+    it("Should navigate to local environment", async () => {
+      await browser.get(local_testing_site_url);
+      const title = await browser.getTitle();
+      expect(title).to.be.eq("Testing");
     })
-    after(async function() {
-      this.timeout(long_timeout);
-      await browser.quit();
-    });
+  });
+  describe("Scenarios", () => {
+    testScenarios(() => browser);
+  })
+  after(async function() {
+    await browser.quit();
   });
 }
