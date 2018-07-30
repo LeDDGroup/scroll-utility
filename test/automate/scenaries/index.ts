@@ -78,10 +78,10 @@ class Scenario {
       options.horizontal
       ? options.elementScroll
         ? `${Scenario.elementSelector}.scrollLeft`
-        : "document.documentElement.scrollLeft"
+        : "window.pageXOffset"
       : options.elementScroll
         ? `${Scenario.elementSelector}.scrollTop`
-        : "document.documentElement.scrollTop"
+        : "window.pageYOffset"
     ) as Promise<number>;
   }
   public getSize(options: IOptions): Promise<number> {
@@ -89,10 +89,10 @@ class Scenario {
       options.horizontal
         ? options.elementScroll
         ? `${Scenario.elementSelector}.clientWidth`
-        : "document.documentElement.clientWidth"
+        : "window.innerWidth"
       : options.elementScroll
         ? `${Scenario.elementSelector}.clientHeight`
-        : "document.documentElement.clientHeight"
+        : "window.innerHeight"
     ) as Promise<number>;
   }
   public getScrollSize(options: IOptions): Promise<number> {
@@ -100,10 +100,10 @@ class Scenario {
       options.horizontal
         ? options.elementScroll
         ? `${Scenario.elementSelector}.scrollWidth`
-        : "document.documentElement.scrollWidth"
+        : "document.body.scrollWidth"
       : options.elementScroll
         ? `${Scenario.elementSelector}.scrollHeight`
-        : "document.documentElement.scrollHeight"
+        : "document.body.scrollHeight"
     ) as Promise<number>;
   }
   public getManagerInit(elementScroll?: boolean) {
