@@ -22,7 +22,7 @@ function offset(browser: Scenario, options: IOptions = {}) {
       await delay(duration);
       const lastOffset = await browser.getOffset(options);
 
-      const expectedPosition = Math.floor(scrollDistance + initialOffset);
+      const expectedPosition = Math.round(scrollDistance + initialOffset);
 
       await browser.browser.takeScreenshot();
       expect(lastOffset).to.be.eq(expectedPosition);

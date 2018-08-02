@@ -196,11 +196,13 @@ class Scroll {
     }
   }
   private scrollTo(x: number, y: number) {
+    const X = Math.round(x);
+    const Y = Math.round(y);
     if (this.isWindow) {
-      window.scroll(x, y);
+      window.scroll(X, Y);
     } else {
-      this.element!.scrollTop = y;
-      this.element!.scrollLeft = x;
+      this.element!.scrollTop = Y;
+      this.element!.scrollLeft = X;
     }
   }
   private get distToScroll(): Point {

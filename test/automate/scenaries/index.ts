@@ -1,3 +1,4 @@
+import { scrollToElement } from "./scrollToElement";
 import { scrollToPercent } from "./scrollToPercent";
 import { scrollToPosition } from "./scrollToPosition";
 import { scope } from "./scope";
@@ -23,7 +24,7 @@ function testScenarios(getBrowser: () => WebDriver) {
   const browser = new Scenario(getBrowser);
   function optionTest(options: IOptions) {
 
-    const tests = [scope, offset, scrollToPosition, scrollToPercent];
+    const tests = [scope, offset, scrollToPosition, scrollToPercent, scrollToElement];
     tests.forEach((test) => {
       test(browser, Object.assign({}, options));
     });
@@ -61,6 +62,8 @@ function testScenarios(getBrowser: () => WebDriver) {
 
 class Scenario {
   constructor (private getBrowser: () => WebDriver) {}
+  static element = "document.getElementById('element')";
+  static element1 = "document.getElementById('element1')";
   static elementSelector = "document.getElementById('scrollable')";
   static elementClientRect = `${Scenario.elementSelector}.getBoundingClientRect()`;
 
@@ -106,9 +109,47 @@ class Scenario {
         : "document.body.scrollHeight"
     ) as Promise<number>;
   }
+  public getElementToScroll(elementScroll?: boolean) {
+    return elementScroll
+      ? Scenario.element
+      : Scenario.element1;
+  }
   public getManagerInit(elementScroll?: boolean) {
     return elementScroll
       ? `const scrollManager = new Scroll(${Scenario.elementSelector});`
       : "const scrollManager = new Scroll();";
+  }
+  public getScrollOffset(options: IOptions): Promise<number> {
+    return this.getValue(
+      options.horizontal
+        ? options.elementScroll
+        ? `${Scenario.elementSelector}.getBoundingClientRect().left`
+        : "0"
+      : options.elementScroll
+        ? `${Scenario.elementSelector}.getBoundingClientRect().top`
+        : "0"
+    ) as Promise<number>;
+  }
+  public getElementScrollOffset(options: IOptions): Promise<number> {
+    return this.getValue(
+      options.horizontal
+        ? options.elementScroll
+        ? `${Scenario.element}.getBoundingClientRect().left`
+        : `${Scenario.element1}.getBoundingClientRect().left`
+      : options.elementScroll
+        ? `${Scenario.element}.getBoundingClientRect().top`
+        : `${Scenario.element1}.getBoundingClientRect().top`
+    ) as Promise<number>;
+  }
+  public getElementSize(options: IOptions): Promise<number> {
+    return this.getValue(
+      options.horizontal
+        ? options.elementScroll
+        ? `${Scenario.element}.getBoundingClientRect().width`
+        : `${Scenario.element1}.getBoundingClientRect().width`
+      : options.elementScroll
+        ? `${Scenario.element}.getBoundingClientRect().height`
+        : `${Scenario.element1}.getBoundingClientRect().height`
+    ) as Promise<number>;
   }
 }
