@@ -5,7 +5,7 @@
   "types": "dist/index.d.js",
   "main": "dist/index.js",
   "scripts": {
-    "prepublishOnly": "npm run build",
+    "prepare": "npm run build",
     "build": "rm -rf ./dist && tsc -p ./tsconfig.json",
     "test": "mocha --exit -r ts-node/register ./test/automate/index.ts",
     "dev": "parcel ./test/local/index.html"
