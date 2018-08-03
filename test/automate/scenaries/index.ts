@@ -48,10 +48,10 @@ function testScenarios(getBrowser: () => WebDriver) {
     myDirectionDescribe();
   })
   myDescribe("in element", "elementScroll", true, () => {
-    before(() => {
+    before(async () => {
       const initialize = browser.getManagerInit(false);
-      browser.evaluate(`${initialize}; scrollManager.scroll.toElement(${Scenario.elementSelector})`);
-      browser.evaluate(`${initialize}; scrollManager.scroll.toElement(${Scenario.elementSelector}, { horizontal: true})`);
+      await browser.evaluate(`${initialize}; scrollManager.scroll.toElement(${Scenario.elementSelector}, { horizontal: false, center: 50})`);
+      await browser.evaluate(`${initialize}; scrollManager.scroll.toElement(${Scenario.elementSelector}, { horizontal: true, center: 50})`);
     })
     myDirectionDescribe();
   })
