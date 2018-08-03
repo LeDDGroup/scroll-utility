@@ -6,4 +6,5 @@ index.html
 tsconfig.build.json
 tsconfig.json
 .travis.yml
-assets
+appveyor.yml
+BrowserStackLocal
