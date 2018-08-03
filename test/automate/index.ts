@@ -6,39 +6,40 @@ import { Server } from "./setup/index";
 import { testScenarios } from "./scenaries";
 
 const local_testing_site_url = "http://localhost:8080/";
-const cap = capabilities.window.chrome;
-let browser: webdriver.WebDriver = (null as any) as webdriver.WebDriver;
-
-const to_ms = (ms: number) => ms * Math.pow(10, 3);
-const long_timeout = to_ms(0);
+const long_timeout = 0;
 
 let server = new Server();
-
 before(async function() {
   this.timeout(long_timeout);
   await server.start();
-  browser = await new webdriver.Builder()
-    .usingServer("https://hub-cloud.browserstack.com/wd/hub")
-    .withCapabilities(cap)
-    .build();
 });
-
-describe("client", async function() {
+describe("client tests ", async function() {
   this.timeout(long_timeout);
-  describe("Browser setup", () => {
-    it("Should navigate to local environment", async () => {
-      await browser.get(local_testing_site_url);
-      const title = await browser.getTitle();
-      expect(title).to.be.eq("Testing");
-    })
-  });
-  describe("Scenarios", () => {
-    testScenarios(() => browser);
-  })
+  for (const os in capabilities) {
+    for (const browser in capabilities[os]) {
+      const cap = capabilities[os][browser];
+      describe(`${os} ${browser}`, async function() {
+        test(cap);
+      });
+    }
+  }
 });
-
 after(async function() {
   this.timeout(long_timeout);
-  server.stop();
-  await browser.quit();
+  await server.stop();
 });
+
+function test(cap) {
+  let browser: webdriver.WebDriver = (null as any) as webdriver.WebDriver;
+  before(async function() {
+    browser = await new webdriver.Builder()
+      .usingServer("https://hub-cloud.browserstack.com/wd/hub")
+      .withCapabilities(cap)
+      .build();
+    await browser.get(local_testing_site_url);
+  });
+  testScenarios(() => browser);
+  after(async function() {
+    await browser.quit();
+  });
+}

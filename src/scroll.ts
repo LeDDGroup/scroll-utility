@@ -120,20 +120,20 @@ class Scroll {
   private scrollSize(horizontal: boolean) {
     return horizontal
       ? this.isWindow
-      ? document.documentElement.scrollWidth // || document.body.clientWidth
+      ? document.body.scrollWidth // || document.documentElement.scrollWidth
       : this.element!.scrollWidth
     : this.isWindow
-      ? document.documentElement.scrollHeight // || document.body.clientHeight
+      ? document.body.scrollHeight // || document.documentElement.scrollHeight
       : this.element!.scrollHeight
     ;
   }
   private size(horizontal: boolean) {
     return horizontal
       ? this.isWindow
-      ? document.documentElement.clientWidth // || window.innerWidth
+      ? window.innerWidth // || document.documentElement.clientWidth
       : this.element!.clientWidth
     : this.isWindow
-      ? document.documentElement.clientHeight // || window.innerHeight
+      ? window.innerHeight // || document.documentElement.clientHeight
       : this.element!.clientHeight
     ;
   }
@@ -196,7 +196,14 @@ class Scroll {
     }
   }
   private scrollTo(x: number, y: number) {
-    this.isWindow ? window.scroll(x, y) : this.element!.scroll(x, y);
+    const X = Math.round(x);
+    const Y = Math.round(y);
+    if (this.isWindow) {
+      window.scroll(X, Y);
+    } else {
+      this.element!.scrollTop = Y;
+      this.element!.scrollLeft = X;
+    }
   }
   private get distToScroll(): Point {
     return {

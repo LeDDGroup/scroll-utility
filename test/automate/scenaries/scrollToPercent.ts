@@ -21,15 +21,20 @@ function scrollToPercent(browser: Scenario, options: IOptions= {}) {
       `);
       await delay(duration);
       const ratio = scrollPercent / 100;
-      const scrollHeight = await browser.getScrollSize(options);
-      const windowHeight = await browser.getSize(options);
-      const pageYOffset = await browser.getOffset(options);
+      const scrollSize = await browser.getScrollSize(options);
+      const size = await browser.getSize(options);
+      const offset = await browser.getOffset(options);
 
-      expect(pageYOffset + windowHeight * ratio).to.be.closeTo(scrollHeight * ratio, 0.5);
+      const expectedPosition = Math.round((scrollSize - size) * ratio); // Some browsers don't scroll to floating values
+
+      await browser.browser.takeScreenshot();
+      expect(offset).to.be.eq(expectedPosition);
     }
 
     it("should scroll to the end of the page", async () => scrollToPercentTest(100));
+    it("should scroll to 3 / 4", async () => scrollToPercentTest(75));
     it("should scroll to the middle of the page", async () => scrollToPercentTest(50));
+    it("should scroll to 1 / 4", async () => scrollToPercentTest(25));
     it("should scroll to the start of the page", async () => scrollToPercentTest(0));
   });
 }

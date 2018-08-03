@@ -8,10 +8,9 @@ export {
 
 function scrollToPosition(browser: Scenario, options: IOptions = {}) {
   const duration = 500;
-  const scrollPosition = 1500;
   const initialize = browser.getManagerInit(options.elementScroll);
   describe("scroll to position", () => {
-    it("should scroll to certian position", async () => {
+    async function scrollToPositionTest(scrollPosition: number) {
       await browser.evaluate(`
         ${initialize}
         scrollManager.scroll.toPosition(${scrollPosition}, {
@@ -22,7 +21,13 @@ function scrollToPosition(browser: Scenario, options: IOptions = {}) {
 
       await delay(duration);
       const lastOffset = await browser.getOffset(options);
-      expect(lastOffset).to.be.eq(scrollPosition);
-    })
+
+      const expectedPosition = Math.round(scrollPosition);
+
+      await browser.browser.takeScreenshot();
+      expect(lastOffset).to.be.eq(expectedPosition);
+    }
+    it("should scroll to certain position", async () => scrollToPositionTest(1500))
+    it("should scroll to a floating value", async () => scrollToPositionTest(511.8124567))
   });
 }

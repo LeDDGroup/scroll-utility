@@ -8,9 +8,8 @@ export {
 
 function offset(browser: Scenario, options: IOptions = {}) {
   describe("offset scroll position", () => {
-    async function offsetTest() {
+    async function offsetTest(scrollDistance: number) {
       const duration = 500;
-      const scrollDistance = 1000;
       const initialOffset = await browser.getOffset(options);
       const initialize = browser.getManagerInit(options.elementScroll)
       await browser.evaluate(`
@@ -22,9 +21,15 @@ function offset(browser: Scenario, options: IOptions = {}) {
       `);
       await delay(duration);
       const lastOffset = await browser.getOffset(options);
-      expect(lastOffset - initialOffset).to.be.eq(scrollDistance);
+
+      const expectedPosition = Math.round(scrollDistance + initialOffset);
+
+      await browser.browser.takeScreenshot();
+      expect(lastOffset).to.be.eq(expectedPosition);
     }
 
-    it("should do scroll with offset", async () => offsetTest())
+    it("should do scroll with offset fixed", async () => offsetTest(1000))
+    it("should do scroll with offset some floating", async () => offsetTest(-16.76))
+    it("should do scroll with offset some floating again", async () => offsetTest(16))
   });
 }
