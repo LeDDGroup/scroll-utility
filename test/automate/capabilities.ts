@@ -29,7 +29,7 @@ const macCap = {
 };
 
 const capabilities = {
-  window: {
+  Windows: {
     chrome: {
       ...windowCap,
       browserName: "Chrome",

@@ -36,25 +36,22 @@ function testScenarios(getBrowser: () => WebDriver) {
     });
   }
   function myDirectionDescribe() {
-    myDescribe("vertical scroll", "horizontal", false, () => {
+    myDescribe("vertically", "horizontal", false, () => {
       optionTest(options);
     })
-    myDescribe("horizontal scroll", "horizontal", true, () => {
+    myDescribe("horizontally", "horizontal", true, () => {
       optionTest(options);
     })
   }
 
-  myDescribe("window scroll", "elementScroll", false, () => {
+  myDescribe("in window", "elementScroll", false, () => {
     myDirectionDescribe();
   })
-  myDescribe("element scroll", "elementScroll", true, () => {
-    describe("scroll to element", () => {
-      it("should scroll to element", () => {
-        const initialize = browser.getManagerInit(false);
-        browser.evaluate(`${initialize}; scrollManager.scroll.toElement(${Scenario.elementSelector})`);
-        browser.evaluate(`${initialize}; scrollManager.scroll.toElement(${Scenario.elementSelector}, { horizontal: true})`);
-        expect(true).to.be.eq(true);
-      })
+  myDescribe("in element", "elementScroll", true, () => {
+    before(() => {
+      const initialize = browser.getManagerInit(false);
+      browser.evaluate(`${initialize}; scrollManager.scroll.toElement(${Scenario.elementSelector})`);
+      browser.evaluate(`${initialize}; scrollManager.scroll.toElement(${Scenario.elementSelector}, { horizontal: true})`);
     })
     myDirectionDescribe();
   })

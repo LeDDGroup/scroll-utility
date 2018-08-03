@@ -18,7 +18,7 @@ describe("client tests ", async function() {
   for (const os in capabilities) {
     for (const browser in capabilities[os]) {
       const cap = capabilities[os][browser];
-      describe(`testing in ${os} ${browser}`, async function() {
+      describe(`${os} ${browser}`, async function() {
         test(cap);
       });
     }
@@ -36,17 +36,9 @@ function test(cap) {
       .usingServer("https://hub-cloud.browserstack.com/wd/hub")
       .withCapabilities(cap)
       .build();
+    await browser.get(local_testing_site_url);
   });
-  describe("Browser setup", () => {
-    it("Should navigate to local environment", async () => {
-      await browser.get(local_testing_site_url);
-      const title = await browser.getTitle();
-      expect(title).to.be.eq("Testing");
-    })
-  });
-  describe("Scenarios", () => {
-    testScenarios(() => browser);
-  })
+  testScenarios(() => browser);
   after(async function() {
     await browser.quit();
   });
