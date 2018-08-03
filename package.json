@@ -35,7 +35,7 @@
     "delay": "^2.0.0",
     "express": "^4.16.3",
     "mocha": "^4.1.0",
-    "parcel-bundler": "^1.6.2",
+    "parcel-bundler": "^1.9.7",
     "selenium-webdriver": "^4.0.0-alpha.1",
     "ts-node": "^6.0.0",
     "typescript": "^2.7.2"

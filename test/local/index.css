@@ -50,7 +50,7 @@ body > h1 {
 #scrollable > h1  {
     position: sticky;
     z-index: 1;
-    width: 100%;
+    width: 50vw;
     top: 10%;
     left: 20%;
 }
