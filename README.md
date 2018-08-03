@@ -2,20 +2,42 @@
 
 [![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=QmJOaDZzS3BBOWUrem1PMWw1K29CZjByZjNBcTNyYlE0LzVYZEhFYVg1ST0tLXBOR05wTitscU1PM2FvQ0NrOUlHbHc9PQ==--70960e59e91fc8efc3dced4f2cebeff5665746ca)](https://www.browserstack.com/automate/public-build/QmJOaDZzS3BBOWUrem1PMWw1K29CZjByZjNBcTNyYlE0LzVYZEhFYVg1ST0tLXBOR05wTitscU1PM2FvQ0NrOUlHbHc9PQ==--70960e59e91fc8efc3dced4f2cebeff5665746ca)
 
+______________
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
 - [scroll-utiliy](#scroll-utiliy)
+    - [Goal](#goal)
     - [Installation](#installation)
     - [Usage](#usage)
         - [Options](#options)
+    - [Cross-browser compatibility](#cross-browser-compatibility)
     - [Examples](#examples)
     - [Github](#github)
-    - [Browser tested](#browser-tested)
-    - [[License](./LICENSE.md): MIT](#licenselicensemd-mit)
+    - [Liscense](#liscense)
 
 <!-- markdown-toc end -->
+______________
 
+**Check out the live demo**
+
+## Goal ##
+* [x] **Scroll to an element, and center it**
+* [x] **Animate the scrollbar position of any element, including the window**
+* [x] **Scroll animations with durations**
+* [ ] Others...
+  * [x] Performance aware
+  * [x] Stop an animation at any moment
+  * [x] Doing multiple scroll animation together
+  * [ ] Differentiate between user interaction scroll and this scroll
+* [ ] Cross-browser compatibility
+  *  [x] Chrome
+  *  [?] Firefox
+  *  [x] MS Edge
+  *  [x] Safari
+  *  [?] Opera
+  *  [?] IE
+  * Tests are made with Browserstack check them out here
 
 ## Installation ##
 
@@ -69,18 +91,23 @@ interface IScrollToElementOptions extends IOptions {
 *IScrollToElementOptions* interface is for the *scrollToElement* function, it is the same as in other functions, but also a  
 *center*, which is a percent (a number from `0` to `100`)
 
-## Examples
+See the examples for more information
 
-TODO
+## Cross-browser compatibility ##
+
+<span style="float: right; margin-right: 10px; text-align: middle">  <img src="./assets/BrowserStack-Logo/BrowserStack - Logo/Browserstack-logo@2x.png" alt="Browserstack logo" style="height: 60px" > </span>
+
+Test are made using automate testing with [Browserstack](https://www.browserstack.com) [for open source](https://www.browserstack.com/open-source?ref=pricing).
+
+Check out the tests results here!
+
+## Examples
 
 ## Github ##
 
-If have any issue or feature request notify me via [github](https://github.com/LeDDGroup/scroll-utility/issues).
+If have any issue or feature request notify me via [github](https://github.com/LeDDGroup/scroll-utility/issues).  
 
-## Browser tested ##
+Or just leave a star if you think is worth it.
 
-Test are made using automate testing [Browserstack](https://www.browserstack.com) [for open source](https://www.browserstack.com/open-source?ref=pricing).
-
-<img src="./assets/BrowserStack-Logo/BrowserStack - Logo/Browserstack-logo@2x.png" alt="Browserstack logo" style="height: 60px" >
-
-## [License](./LICENSE.md): MIT ##
+## Liscense ##
+[MIT](./LICENSE.md)
