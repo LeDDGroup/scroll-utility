@@ -95,7 +95,7 @@ See the examples for more information
 
 ## Cross-browser compatibility ##
 
-<span style="float: right; margin-right: 10px; text-align: middle">  <img  height="50" src="./assets/BrowserStack-logo.png" alt="Browserstack logo"> </span>
+<img  height="50" src="./assets/BrowserStack-logo.png" alt="Browserstack logo" style="float: right; margin-right: 10px; text-align: middle">
 
 Test are made using automate testing with [Browserstack](https://www.browserstack.com) [for open source](https://www.browserstack.com/open-source?ref=pricing).
 
