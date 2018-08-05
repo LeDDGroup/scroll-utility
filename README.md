@@ -1,5 +1,7 @@
 # scroll-utiliy #
 
+[![Travis](https://travis-ci.org/LeDDGroup/scroll-utility.svg?branch=master)](https://github.com/LeDDGroup/scroll-utility)
+
 [![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=QmJOaDZzS3BBOWUrem1PMWw1K29CZjByZjNBcTNyYlE0LzVYZEhFYVg1ST0tLXBOR05wTitscU1PM2FvQ0NrOUlHbHc9PQ==--70960e59e91fc8efc3dced4f2cebeff5665746ca)](https://www.browserstack.com/automate/public-build/QmJOaDZzS3BBOWUrem1PMWw1K29CZjByZjNBcTNyYlE0LzVYZEhFYVg1ST0tLXBOR05wTitscU1PM2FvQ0NrOUlHbHc9PQ==--70960e59e91fc8efc3dced4f2cebeff5665746ca)
 
 ______________
@@ -12,14 +14,11 @@ ______________
     - [Usage](#usage)
         - [Options](#options)
     - [Cross-browser compatibility](#cross-browser-compatibility)
-    - [Examples](#examples)
     - [Github](#github)
     - [Liscense](#liscense)
 
 <!-- markdown-toc end -->
 ______________
-
-**Check out the live demo**
 
 ## Goal ##
 * [x] **Scroll to an element, and center it**
@@ -32,7 +31,7 @@ ______________
   * [ ] Differentiate between user interaction scroll and this scroll
 * [ ] Cross-browser compatibility
   *  [x] Chrome
-  *  [?] Firefox
+  *  [x] Firefox
   *  [x] MS Edge
   *  [x] Safari
   *  [?] Opera
@@ -91,23 +90,17 @@ interface IScrollToElementOptions extends IOptions {
 *IScrollToElementOptions* interface is for the *scrollToElement* function, it is the same as in other functions, but also a  
 *center*, which is a percent (a number from `0` to `100`)
 
-See the examples for more information
-
 ## Cross-browser compatibility ##
 
 <img  height="50" src="./assets/BrowserStack-logo.png" alt="Browserstack logo" style="float: right; margin-right: 10px; text-align: middle">
 
 Test are made using automate testing with [Browserstack](https://www.browserstack.com) [for open source](https://www.browserstack.com/open-source?ref=pricing).
 
-Check out the tests results here!
-
-## Examples
+<!-- Check out the tests results here! -->
 
 ## Github ##
 
 If have any issue or feature request notify me via [github](https://github.com/LeDDGroup/scroll-utility/issues).  
-
-Or just leave a star if you think is worth it.
 
 ## Liscense ##
 [MIT](./LICENSE.md)

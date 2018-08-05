@@ -8,3 +8,4 @@ tsconfig.json
 .travis.yml
 appveyor.yml
 BrowserStackLocal
+assets
