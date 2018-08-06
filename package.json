@@ -1,7 +1,7 @@
 {
   "name": "scroll-utility",
   "version": "1.0.0",
-  "description": "Utility for scrolling to elements",
+  "description": "A simple to use scroll utility package for centering elements, and smooth animations",
   "types": "dist/index.d.js",
   "main": "dist/index.js",
   "scripts": {
