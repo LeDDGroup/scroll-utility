@@ -9,7 +9,6 @@ ______________
 **Table of Contents**
 
 - [scroll-utiliy](#scroll-utiliy)
-    - [Goal](#goal)
     - [Installation](#installation)
     - [Usage](#usage)
         - [Options](#options)
@@ -76,15 +75,41 @@ interface IScrollToElementOptions extends IOptions {
 
 ## Cross-browser compatibility ##
 
-<img  height="50" src="./assets/BrowserStack-logo.png" alt="Browserstack logo" style="float: right; margin-right: 10px; text-align: middle">
+<img  height="50" src="https://raw.githubusercontent.com/LeDDGroup/scroll-utility/master/assets/BrowserStack-logo.png" alt="Browserstack logo" style="float: right; margin-right: 10px; text-align: middle">
 
 Test are made using automate testing with [Browserstack](https://www.browserstack.com) [for open source](https://www.browserstack.com/open-source?ref=pricing).
 
+
 Check out the tests results [here](https://www.browserstack.com/automate/public-build/QmJOaDZzS3BBOWUrem1PMWw1K29CZjByZjNBcTNyYlE0LzVYZEhFYVg1ST0tLXBOR05wTitscU1PM2FvQ0NrOUlHbHc9PQ==--70960e59e91fc8efc3dced4f2cebeff5665746ca)
+
+## Local Testing ##
+
+If you want to test it you can clone the repo and try this:
+```sh
+git clone https://github.com/LeDDGroup/scroll-utility.git
+cd scroll-utility
+npm install
+npm run dev
+```
+Navigate to http://localhost:1234  
+Then just type in the browsers console, (`Scroll` is exported global,) so you can do something like this:  
+```js
+const windowScroll = new Scroll()
+const scrollable = document.querySelector("#scrollable")
+const element = document.querySelector("#element")
+const elementScroll = new Scroll(scrollable)
+
+windowScroll.scrollToElement(scrollable, { horizontal: false, center: 50 })
+windowScroll.scrollToElement(scrollable, { horizontal: true, center: 50 })
+
+elementScroll.scrollToElement(element, { horizontal: false, center: 100 })
+elementScroll.scrollToElement(element, { horizontal: true, center: 100 })
+```
 
 ## Github ##
 
 If have any issue or feature request notify me via [github](https://github.com/LeDDGroup/scroll-utility/issues).  
+
 
 ## Liscense ##
 [MIT](./LICENSE.md)
