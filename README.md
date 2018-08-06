@@ -19,7 +19,7 @@ ______________
 <!-- markdown-toc end -->
 ______________
 
-<!-- Checkout the live [demo](https://leddgroup.com/scroll-example) (just type in the console, `Scroll` constructor is global)   -->
+<!-- Checkout the live [demo](https://leddgroup.com/scroll-example)  -->
 
 ## Installation ##
 
