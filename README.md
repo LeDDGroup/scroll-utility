@@ -20,23 +20,7 @@ ______________
 <!-- markdown-toc end -->
 ______________
 
-## Goal ##
-* [x] **Scroll to an element, and center it**
-* [x] **Animate the scrollbar position of any element, including the window**
-* [x] **Scroll animations with durations**
-* [ ] Others...
-  * [x] Performance aware
-  * [x] Stop an animation at any moment
-  * [x] Doing multiple scroll animation together
-  * [ ] Differentiate between user interaction scroll and this scroll
-* [ ] Cross-browser compatibility
-  *  [x] Chrome
-  *  [x] Firefox
-  *  [x] MS Edge
-  *  [x] Safari
-  *  [?] Opera
-  *  [?] IE
-  * Tests are made with Browserstack check them out here
+<!-- Checkout the live [demo](https://leddgroup.com/scroll-example) (just type in the console, `Scroll` constructor is global)   -->
 
 ## Installation ##
 
@@ -96,7 +80,7 @@ interface IScrollToElementOptions extends IOptions {
 
 Test are made using automate testing with [Browserstack](https://www.browserstack.com) [for open source](https://www.browserstack.com/open-source?ref=pricing).
 
-<!-- Check out the tests results here! -->
+Check out the tests results [here](https://www.browserstack.com/automate/public-build/QmJOaDZzS3BBOWUrem1PMWw1K29CZjByZjNBcTNyYlE0LzVYZEhFYVg1ST0tLXBOR05wTitscU1PM2FvQ0NrOUlHbHc9PQ==--70960e59e91fc8efc3dced4f2cebeff5665746ca)
 
 ## Github ##
 
