@@ -9,3 +9,4 @@ tsconfig.json
 appveyor.yml
 BrowserStackLocal
 assets
+global-scroll.ts
