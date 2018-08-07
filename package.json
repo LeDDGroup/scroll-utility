@@ -2,7 +2,7 @@
   "name": "scroll-utility",
   "version": "1.0.0",
   "description": "A simple to use scroll utility package for centering elements, and smooth animations",
-  "types": "dist/index.d.js",
+  "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "scripts": {
     "build": "rm -rf ./dist && tsc -p ./tsconfig.json",
