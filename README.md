@@ -9,10 +9,12 @@ ____
 **Table of Contents**
 
 - [scroll-utiliy](#scroll-utiliy)
+    - [Checkout a simple [demo](https://leddgroup.com/scroll-example)](#checkout-a-simple-demohttpsleddgroupcomscroll-example)
     - [Installation](#installation)
     - [Usage](#usage)
         - [Options](#options)
     - [Cross-browser compatibility](#cross-browser-compatibility)
+    - [Local Testing](#local-testing)
     - [Github](#github)
     - [Liscense](#liscense)
 
@@ -27,11 +29,11 @@ ____
 $ npm install --save scroll-utility 
 ```
 
-Or from a cdn at https://cdn.jsdelivr.net/npm/scroll-utility@1.0.3/dist/global-scroll.js
-```html
-<script src="https://cdn.jsdelivr.net/npm/scroll-utility@1.0.5/dist/global-scroll.js"></script>
-```
-In this case `Scroll` will be a global variable as `__Scroll`
+<!-- Or from a cdn at https://cdn.jsdelivr.net/npm/scroll-utility@1.0.3/dist/global-scroll.js -->
+<!-- ```html -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/scroll-utility@1.0.5/dist/global-scroll.js"></script> -->
+<!-- ``` -->
+<!-- In this case `Scroll` will be a global variable as `__Scroll` -->
 
 ## Usage ##
 
