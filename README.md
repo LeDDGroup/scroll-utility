@@ -29,7 +29,7 @@ $ npm install --save scroll-utility
 
 Or from a cdn at https://cdn.jsdelivr.net/npm/scroll-utility@1.0.3/dist/global-scroll.js
 ```html
-<script src="https://cdn.jsdelivr.net/npm/scroll-utility@1.0.1/dist/global-scroll.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/scroll-utility@1.0.5/dist/global-scroll.js"></script>
 ```
 In this case `Scroll` will be a global variable as `__Scroll`
 
