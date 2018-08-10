@@ -9,7 +9,7 @@ ____
 **Table of Contents**
 
 - [scroll-utiliy](#scroll-utiliy)
-    - [Checkout a simple [demo](https://leddgroup.com/scroll-example)](#checkout-a-simple-demohttpsleddgroupcomscroll-example)
+    - [Checkout a simple demo](#checkout-a-simple-demohttpsleddgroupcomscroll-example)
     - [Installation](#installation)
     - [Usage](#usage)
         - [Options](#options)
