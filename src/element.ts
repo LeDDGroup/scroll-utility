@@ -39,8 +39,8 @@ class ScrollElement {
         : element.getBoundingClientRect().top
 
       this.scrollTo = (x: number, y: number) => {
-        element.scrollTop = x;
-        element.scrollLeft = y;
+        element.scrollLeft = x;
+        element.scrollTop = y;
       }
     }
   }

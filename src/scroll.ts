@@ -116,7 +116,7 @@ class Scroll {
   }) {
     const duration = !!options.duration ? options.duration : 1;
     this.animations++;
-    const direction = toDirection(!!options.horizontal);
+    const direction = toDirection(options.horizontal);
     const index = this.scrollAnimation[direction].length;
     const animation = new Animation({
       distToScroll: options.distToScroll,
@@ -158,7 +158,7 @@ class Scroll {
   }
   private getDistToScroll(horizontal: boolean): number {
     let distToScroll = 0;
-    const direction = toDirection(!!horizontal);
+    const direction = toDirection(horizontal);
     this.lastPosition[direction] = this.position(horizontal);
     const initial = this.position(horizontal) - this.scrollChanged[direction];
     this.scrollAnimation[direction].forEach((animation) => {
