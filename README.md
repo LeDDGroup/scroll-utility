@@ -8,11 +8,12 @@ ____
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
+- [Live demo](#checkout-a-simple-demohttpsleddgroupcomscroll-example)
 - [Installation](#installation)
 - [Usage](#usage)
     - [Options](#options)
 - [Cross-browser compatibility](#cross-browser-compatibility)
-- [demo](#example-app-with-scroll-utility)
+- [Example app](#example-app-with-scroll-utility)
 - [Github](#github)
 - [Liscense](#liscense)
 
