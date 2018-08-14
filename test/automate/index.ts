@@ -1,6 +1,5 @@
 import capabilities from "./capabilities";
 import * as webdriver from "selenium-webdriver";
-import { expect } from "chai";
 import { Server } from "./setup/index";
 
 import { testScenarios } from "./scenaries";

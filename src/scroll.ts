@@ -1,6 +1,18 @@
 import { Animation, AnimationApi } from "./animation";
+import { ScrollElement } from "./element";
 
 export { Scroll, AnimationApi as AnimationScroll, IOptions, IScrollToElementOptions };
+
+function toDirection(horizontal: boolean): "horizontal" | "vertical" {
+  return horizontal ? "horizontal" : "vertical";
+}
+
+interface IHorizontal<T> {
+  vertical: T;
+  horizontal: T;
+}
+
+// https://stackoverflow.com/questions/3437786/get-the-size-of-the-screen-current-web-page-and-browser-window
 
 interface IScrollToElementOptions extends IOptions {
   center?: number;
@@ -17,64 +29,35 @@ interface Point {
 }
 
 class Scroll {
-  private scrollAnimation: {
-    vertical: Animation[];
-    horizontal: Animation[];
-  } = {
-    vertical: [],
-    horizontal: [],
-  };
-  private lastPosition: {
-    horizontal: number;
-    vertical: number;
-  } = {
-    horizontal: 0,
-    vertical: 0,
-  };
-  private scrollChanged: {
-    horizontal: number;
-    vertical: number;
-  } = {
-    horizontal: 0,
-    vertical: 0,
-  };
+  private element: ScrollElement;
+  private scrollAnimation: IHorizontal<Animation[]> = {vertical: [], horizontal: []};
+  private lastPosition: IHorizontal<number> = {horizontal: 0, vertical: 0};
+  private scrollChanged: IHorizontal<number> = {horizontal: 0, vertical: 0};
   private animations: number = 0;
-  constructor(private element?: HTMLElement) {
-    this.onAnimationFrame = this.onAnimationFrame.bind(this);
+  constructor(element?: HTMLElement | null) {
+    this.element = new ScrollElement(element);
   }
   public scroll = {
-    toElement: (element: HTMLElement, options: IScrollToElementOptions = {}) => {
-      return this.scrollToElement(element, options);
-    },
-    toPercent: (percent: number, options: IOptions = {}) => {
-      return this.scrollToPercent(percent, options);
-    },
-    toPosition: (position: number, options: IOptions = {}) => {
-      return this.scrollToPosition(position, options);
-    },
-    offset: (amount: number, options: IOptions = {}) => {
-      return this.doScroll(amount, options);
-    },
+    toElement: (element: HTMLElement, options: IScrollToElementOptions = {}) => this.scrollToElement(element, options) ,
+    toPercent: (percent: number, options: IOptions = {}) => this.scrollToPercent(percent, options),
+    toPosition: (position: number, options: IOptions = {}) => this.scrollToPosition(position, options),
+    offset: (amount: number, options: IOptions = {}) => this.doScroll(amount, options),
   };
   public stopAllAnimations() {
     this.animations = 0;
-    this.scrollAnimation = {
-      vertical: [],
-      horizontal: [],
-    };
+    this.scrollAnimation = {vertical: [], horizontal: []};
   }
   private scrollToElement(
-    element: HTMLElement,
+    elementToScroll: HTMLElement,
     options: IScrollToElementOptions,
   ) {
     const center = options.center || 0;
     const duration = options.duration || 0;
     const horizontal = !!options.horizontal;
     const ratio = center / 100;
-    const screenOffset =
-      (this.size(horizontal) - element.getBoundingClientRect()[horizontal ? "width" : "height"]) * ratio;
-    const elementPosition = element.getBoundingClientRect()[horizontal ? "left" : "top"] - this.offset(horizontal);
-    console.log(elementPosition);
+    const element = new ScrollElement(elementToScroll);
+    const screenOffset = (this.size(horizontal) - element.size(horizontal)) * ratio;
+    const elementPosition = element.offset(horizontal) - this.offset(horizontal);
     const distToElement = elementPosition - screenOffset;
 
     return this.createScrollAnimation({
@@ -114,48 +97,17 @@ class Scroll {
       horizontal,
     });
   }
-  private get isWindow(): boolean {
-    return !this.element;
-  }
   private scrollSize(horizontal: boolean) {
-    return horizontal
-      ? this.isWindow
-      ? document.body.scrollWidth // || document.documentElement.scrollWidth
-      : this.element!.scrollWidth
-    : this.isWindow
-      ? document.body.scrollHeight // || document.documentElement.scrollHeight
-      : this.element!.scrollHeight
-    ;
+    return this.element.scrollSize(horizontal);
   }
   private size(horizontal: boolean) {
-    return horizontal
-      ? this.isWindow
-      ? window.innerWidth // || document.documentElement.clientWidth
-      : this.element!.clientWidth
-    : this.isWindow
-      ? window.innerHeight // || document.documentElement.clientHeight
-      : this.element!.clientHeight
-    ;
+    return this.element.size(horizontal);
   }
   private position(horizontal: boolean) {
-    return horizontal
-      ? this.isWindow
-      ? window.pageXOffset
-      : this.element!.scrollLeft
-    : this.isWindow
-      ? window.pageYOffset
-      : this.element!.scrollTop
-    ;
+    return this.element.position(horizontal);
   }
   private offset(horizontal: boolean) {
-    return horizontal
-      ? this.isWindow
-      ? 0
-      : this.element!.getBoundingClientRect().left
-    : this.isWindow
-      ? 0
-      : this.element!.getBoundingClientRect().top
-    ;
+    return this.element.offset(horizontal);
   }
   private createScrollAnimation(options: {
     distToScroll: () => number;
@@ -164,7 +116,7 @@ class Scroll {
   }) {
     const duration = !!options.duration ? options.duration : 1;
     this.animations++;
-    const direction = options.horizontal ? "horizontal" : "vertical";
+    const direction = toDirection(!!options.horizontal);
     const index = this.scrollAnimation[direction].length;
     const animation = new Animation({
       distToScroll: options.distToScroll,
@@ -181,7 +133,7 @@ class Scroll {
     }
     return animation.api;
   }
-  private onAnimationFrame() {
+  private onAnimationFrame = () => {
     if (this.animations === 0) {
       this.scrollChanged = {
         horizontal: 0,
@@ -196,14 +148,7 @@ class Scroll {
     }
   }
   private scrollTo(x: number, y: number) {
-    const X = Math.round(x);
-    const Y = Math.round(y);
-    if (this.isWindow) {
-      window.scroll(X, Y);
-    } else {
-      this.element!.scrollTop = Y;
-      this.element!.scrollLeft = X;
-    }
+    this.element.scrollTo(Math.round(x), Math.round(y));
   }
   private get distToScroll(): Point {
     return {
@@ -213,10 +158,10 @@ class Scroll {
   }
   private getDistToScroll(horizontal: boolean): number {
     let distToScroll = 0;
-    const direction = horizontal ? "horizontal" : "vertical";
+    const direction = toDirection(!!horizontal);
     this.lastPosition[direction] = this.position(horizontal);
     const initial = this.position(horizontal) - this.scrollChanged[direction];
-    this.scrollAnimation[direction].forEach((animation, index) => {
+    this.scrollAnimation[direction].forEach((animation) => {
       distToScroll += animation.distance;
     });
     distToScroll += initial;

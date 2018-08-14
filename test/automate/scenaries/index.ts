@@ -4,9 +4,6 @@ import { scrollToPosition } from "./scrollToPosition";
 import { scope } from "./scope";
 import { offset } from "./offset";
 import { WebDriver } from "selenium-webdriver";
-import { Scroll } from "../../../";
-
-import { expect } from "chai";
 
 export {
   testScenarios,
@@ -89,10 +86,10 @@ class Scenario {
       options.horizontal
         ? options.elementScroll
         ? `${Scenario.elementSelector}.clientWidth`
-        : "window.innerWidth"
+        : "document.documentElement.clientWidth || document.body.clientWidth || window.innerWidth"
       : options.elementScroll
         ? `${Scenario.elementSelector}.clientHeight`
-        : "window.innerHeight"
+        : "document.documentElement.clientHeight || document.body.clientHeight || window.innerHeight"
     ) as Promise<number>;
   }
   public getScrollSize(options: IOptions): Promise<number> {
@@ -100,10 +97,11 @@ class Scenario {
       options.horizontal
         ? options.elementScroll
         ? `${Scenario.elementSelector}.scrollWidth`
-        : "document.body.scrollWidth"
+        : "Math.max(document.body.scrollWidth, document.body.offsetWidth, document.documentElement.clientWidth, document.documentElement.scrollWidth, document.documentElement.offsetWidth)"
+
       : options.elementScroll
         ? `${Scenario.elementSelector}.scrollHeight`
-        : "document.body.scrollHeight"
+        : "Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight)"
     ) as Promise<number>;
   }
   public getElementToScroll(elementScroll?: boolean) {

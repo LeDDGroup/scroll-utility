@@ -9,7 +9,7 @@ export {
 function offset(browser: Scenario, options: IOptions = {}) {
   describe("offset scroll position", () => {
     async function offsetTest(scrollDistance: number) {
-      const duration = 500;
+      const duration = 0;
       const initialOffset = await browser.getOffset(options);
       const initialize = browser.getManagerInit(options.elementScroll)
       await browser.evaluate(`

@@ -1,22 +1,25 @@
 {
-    "compilerOptions": {
-        "baseUrl": ".",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "strict": true,
-        "outDir": "./dist/",
-        "rootDir": ".",
-        "declaration": true,
-        "target": "ES2017",
-        "skipLibCheck": true,
-        "noImplicitAny": false,
-        "paths": {
-            "*": [
-                "node_modules/*"
-            ]
-        }
-    },
-    "include": [
-        "./index.ts",
-    ]
+  "compilerOptions": {
+    "baseUrl": ".",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "strict": true,
+    "outDir": "./dist/",
+    "rootDir": ".",
+    "declaration": true,
+    "target": "ES2017",
+    "noImplicitAny": false,
+    "noUnusedLocals": true,                /* Report errors on unused locals. */
+    "noUnusedParameters": true,            /* Report errors on unused parameters. */
+    "noImplicitReturns": true,             /* Report error when not all code paths in function return a value. */
+    "noFallthroughCasesInSwitch": true,    /* Report errors for fallthrough cases in switch statement. */
+    "paths": {
+      "*": [
+        "node_modules/*"
+      ]
+    }
+  },
+  "include": [
+    "./index.ts",
+  ]
 }

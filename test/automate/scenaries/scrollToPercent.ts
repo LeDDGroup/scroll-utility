@@ -7,7 +7,7 @@ export {
 }
 
 function scrollToPercent(browser: Scenario, options: IOptions= {}) {
-  const duration = 500;
+  const duration = 0;
   const horizontal = options && options.horizontal;
   const initialize = browser.getManagerInit(options.elementScroll)
   describe("scroll to percent", () => {

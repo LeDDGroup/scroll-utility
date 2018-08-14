@@ -7,7 +7,7 @@ export {
 }
 
 function scrollToPosition(browser: Scenario, options: IOptions = {}) {
-  const duration = 500;
+  const duration = 0;
   const initialize = browser.getManagerInit(options.elementScroll);
   describe("scroll to position", () => {
     async function scrollToPositionTest(scrollPosition: number) {

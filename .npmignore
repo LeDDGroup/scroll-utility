@@ -10,3 +10,5 @@ appveyor.yml
 BrowserStackLocal
 assets
 global-scroll.ts
+demo
+webpack.config.js

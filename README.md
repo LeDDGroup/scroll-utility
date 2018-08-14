@@ -8,15 +8,13 @@ ____
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
-- [scroll-utiliy](#scroll-utiliy)
-    - [Checkout a simple demo](#checkout-a-simple-demohttpsleddgroupcomscroll-example)
-    - [Installation](#installation)
-    - [Usage](#usage)
-        - [Options](#options)
-    - [Cross-browser compatibility](#cross-browser-compatibility)
-    - [Local Testing](#local-testing)
-    - [Github](#github)
-    - [Liscense](#liscense)
+- [Installation](#installation)
+- [Usage](#usage)
+    - [Options](#options)
+- [Cross-browser compatibility](#cross-browser-compatibility)
+- [demo](#example-app-with-scroll-utility)
+- [Github](#github)
+- [Liscense](#liscense)
 
 <!-- markdown-toc end -->
 ____
@@ -90,29 +88,16 @@ Test are made using automate testing with [Browserstack](https://www.browserstac
 
 Check out the tests results [here](https://www.browserstack.com/automate/public-build/QmJOaDZzS3BBOWUrem1PMWw1K29CZjByZjNBcTNyYlE0LzVYZEhFYVg1ST0tLXBOR05wTitscU1PM2FvQ0NrOUlHbHc9PQ==--70960e59e91fc8efc3dced4f2cebeff5665746ca)
 
-## Local Testing ##
+## Example app with scroll-utility ##
 
-If you want to test it you can clone the repo and try this:
+To see a example with react, clone this repo and see its [demo](https://leddgroup.com/scroll-example)
 ```sh
 git clone https://github.com/LeDDGroup/scroll-utility.git
 cd scroll-utility
 npm install
-npm run dev
+npm run start-demo
 ```
-Navigate to http://localhost:1234  
-Then just type in the browsers console, (`Scroll` is exported global,) so you can do something like this:  
-```js
-const windowScroll = new Scroll()
-const scrollable = document.querySelector("#scrollable")
-const element = document.querySelector("#element")
-const elementScroll = new Scroll(scrollable)
-
-windowScroll.scrollToElement(scrollable, { horizontal: false, center: 50 })
-windowScroll.scrollToElement(scrollable, { horizontal: true, center: 50 })
-
-elementScroll.scrollToElement(element, { horizontal: false, center: 100 })
-elementScroll.scrollToElement(element, { horizontal: true, center: 100 })
-```
+Navigate to http://localhost:8080  
 
 ## Github ##
 
