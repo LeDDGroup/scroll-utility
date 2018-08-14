@@ -16,6 +16,10 @@ module.exports = {
         use: "ts-loader",
         exclude: /node_modules/,
       },
+      {
+        test: /\.css$/,
+        use: ["css-loader"],
+      },
     ],
   },
   resolve: {
@@ -27,7 +31,7 @@ module.exports = {
   plugins: [
     new FriendlyErrorsWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: "public/index.html",
+      template: "src/index.html",
     }),
   ],
 }

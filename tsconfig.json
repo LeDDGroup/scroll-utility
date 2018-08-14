@@ -5,7 +5,7 @@
     "moduleResolution": "node",
     "strict": true,
     "outDir": "./dist/",
-    "rootDir": ".",
+    "rootDir": "./src",
     "declaration": true,
     "target": "ES2017",
     "noImplicitAny": false,
@@ -20,6 +20,6 @@
     }
   },
   "include": [
-    "./index.ts",
+    "src"
   ]
 }
