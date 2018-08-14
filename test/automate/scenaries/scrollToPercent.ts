@@ -6,7 +6,7 @@ export {
   scrollToPercent,
 }
 
-function scrollToPercent(browser: Scenario, options: IOptions= {}) {
+function scrollToPercent(browser: Scenario, options: IOptions = {}) {
   const duration = 0;
   const horizontal = options && options.horizontal;
   const initialize = browser.getManagerInit(options.elementScroll)
@@ -31,10 +31,17 @@ function scrollToPercent(browser: Scenario, options: IOptions= {}) {
       expect(offset).to.be.eq(expectedPosition);
     }
 
-    it("should scroll to the end of the page", async () => scrollToPercentTest(100));
-    it("should scroll to 3 / 4", async () => scrollToPercentTest(75));
-    it("should scroll to the middle of the page", async () => scrollToPercentTest(50));
-    it("should scroll to 1 / 4", async () => scrollToPercentTest(25));
-    it("should scroll to the start of the page", async () => scrollToPercentTest(0));
+    const values = [
+      0,
+      25,
+      50,
+      75,
+      100
+    ]
+
+    for (const val of values) {
+      it(`should scroll ${val}%`, async () => scrollToPercentTest(val));
+    }
+
   });
 }

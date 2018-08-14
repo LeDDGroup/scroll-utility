@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import * as delay from "delay";
-import { Scenario, IOptions} from ".";
+import { Scenario, IOptions } from ".";
 
 export {
   scrollToPosition,

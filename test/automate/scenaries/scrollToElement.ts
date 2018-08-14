@@ -6,7 +6,7 @@ export {
   scrollToElement,
 }
 
-function scrollToElement(browser: Scenario, options: IOptions= {}) {
+function scrollToElement(browser: Scenario, options: IOptions = {}) {
   const duration = 0;
   const horizontal = options && options.horizontal;
   const initialize = browser.getManagerInit(options.elementScroll);
@@ -29,13 +29,14 @@ function scrollToElement(browser: Scenario, options: IOptions= {}) {
       const elementSize = await browser.getElementSize(options);
 
       await browser.browser.takeScreenshot();
+      console.log(otherElementOffset - elementOffset, (size - elementSize) * ratio)
       expect(Math.round(otherElementOffset - elementOffset - (size - elementSize) * ratio - 0.000001)).to.be.eq(0);
     }
 
-    it("should scroll to element", async () => scrollToElementTest(0));
-    it("should scroll to element and center it at 25%", async () => scrollToElementTest(25));
-    it("should scroll to element and center it at 50%", async () => scrollToElementTest(50));
-    it("should scroll to element and center it at 75%", async () => scrollToElementTest(75));
-    it("should scroll to element and center it at 100%", async () => scrollToElementTest(100));
+    const values = [0, 7, 15, 23, 30, 38, 45, 50, 100];
+
+    for (const val of values) {
+      it(`should scroll to element and center it at ${val}%`, async () => scrollToElementTest(val));
+    }
   });
 }
