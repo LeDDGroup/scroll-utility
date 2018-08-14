@@ -29,7 +29,7 @@ function scrollToElement(browser: Scenario, options: IOptions= {}) {
       const elementSize = await browser.getElementSize(options);
 
       await browser.browser.takeScreenshot();
-      expect(Math.round(otherElementOffset - elementOffset)).to.be.eq(Math.round((size - elementSize) * ratio - 0.000001));
+      expect(Math.round(otherElementOffset - elementOffset - (size - elementSize) * ratio - 0.000001)).to.be.eq(0);
     }
 
     it("should scroll to element", async () => scrollToElementTest(0));
