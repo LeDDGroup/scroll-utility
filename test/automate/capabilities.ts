@@ -13,7 +13,8 @@ const basicCap = {
   build: buildName,
   name: "general-test",
   project : "scroll-utility",
-  resolution: "1024x768",
+  // resolution: "1024x768",
+  "browserstack.video" : "false",
 };
 
 const windowCap = {
