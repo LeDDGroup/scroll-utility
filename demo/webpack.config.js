@@ -1,7 +1,7 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin")
-const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin")
-const path = require("path")
-const webpack = require("webpack")
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
+const path = require("path");
+const webpack = require("webpack");
 
 module.exports = {
   entry: "./src/index.tsx",
@@ -18,7 +18,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ["css-loader"],
+        use: ["style-loader", "css-loader"],
       },
     ],
   },
@@ -34,5 +34,5 @@ module.exports = {
       template: "src/index.html",
     }),
   ],
-}
-
+  mode: "development",
+};

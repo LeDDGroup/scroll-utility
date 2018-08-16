@@ -38,7 +38,7 @@ class Scroll {
     this.element = new ScrollElement(element);
   }
   public scroll = {
-    toElement: (element: HTMLElement, options: IScrollToElementOptions = {}) => this.scrollToElement(element, options) ,
+    toElement: (element: HTMLElement | null, options: IScrollToElementOptions = {}) => element && this.scrollToElement(element, options) ,
     toPercent: (percent: number, options: IOptions = {}) => this.scrollToPercent(percent, options),
     toPosition: (position: number, options: IOptions = {}) => this.scrollToPosition(position, options),
     offset: (amount: number, options: IOptions = {}) => this.doScroll(amount, options),

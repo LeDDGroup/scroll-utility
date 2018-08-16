@@ -7,7 +7,7 @@
     "outDir": "./dist/",
     "rootDir": "./src",
     "declaration": true,
-    "target": "ES2017",
+    "target": "ES6",
     "noImplicitAny": false,
     "noUnusedLocals": true,                /* Report errors on unused locals. */
     "noUnusedParameters": true,            /* Report errors on unused parameters. */
