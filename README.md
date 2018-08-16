@@ -94,9 +94,8 @@ Check out the tests results [here](https://www.browserstack.com/automate/public-
 To see a example with react, clone this repo and see its [demo](https://leddgroup.com/scroll-example)
 ```sh
 git clone https://github.com/LeDDGroup/scroll-utility.git
-cd scroll-utility
-npm install
-npm run start-demo
+cd scroll-utility/demo
+npm run start
 ```
 Navigate to http://localhost:8080  
 
