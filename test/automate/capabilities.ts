@@ -1,7 +1,9 @@
 const browserstackUser = "davidperezalvare2";
 
 const buildName = process.env["CI"]
-  ? process.env["TRAVIS_BUILD_NUMBER"] as string + " " + process.env["TRAVIS_BRANCH"] as string
+  ? (((process.env["TRAVIS_BUILD_NUMBER"] as string) +
+      " " +
+      process.env["TRAVIS_BRANCH"]) as string)
   : "general-build";
 
 const basicCap = {
@@ -12,9 +14,9 @@ const basicCap = {
   "browserstack.debug": true,
   build: buildName,
   name: "general-test",
-  project : "scroll-utility",
+  project: "scroll-utility",
   // resolution: "1024x768",
-  "browserstack.video" : "false",
+  "browserstack.video": "false",
 };
 
 const windowCap = {

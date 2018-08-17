@@ -1,22 +1,18 @@
 {
-    "compilerOptions": {
-        "baseUrl": ".",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "strict": true,
-        "outDir": "./dist/",
-        "rootDir": ".",
-        "declaration": true,
-        "target": "ES2017",
-        "skipLibCheck": true,
-        "noImplicitAny": false,
-        "paths": {
-            "*": [
-                "node_modules/*"
-            ]
-        }
-    },
-    "include": [
-        "./**/*.ts",
-    ]
+  "compilerOptions": {
+    "baseUrl": ".",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "strict": true,
+    "outDir": "./dist/",
+    "rootDir": ".",
+    "declaration": true,
+    "target": "ES2017",
+    "skipLibCheck": true,
+    "noImplicitAny": false,
+    "paths": {
+      "*": ["node_modules/*"]
+    }
+  },
+  "include": ["./**/*.ts"]
 }

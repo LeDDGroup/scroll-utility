@@ -2,9 +2,7 @@ import { expect } from "chai";
 import * as delay from "delay";
 import { Scenario, IOptions } from ".";
 
-export {
-  scrollToPosition,
-}
+export { scrollToPosition };
 
 function scrollToPosition(browser: Scenario, options: IOptions = {}) {
   const duration = 0;
@@ -27,7 +25,7 @@ function scrollToPosition(browser: Scenario, options: IOptions = {}) {
       await browser.browser.takeScreenshot();
       expect(lastOffset).to.be.eq(expectedPosition);
     }
-    it("should scroll to certain position", async () => scrollToPositionTest(1500))
-    it("should scroll to a floating value", async () => scrollToPositionTest(511.8124567))
+    it("should scroll to certain position", async () => scrollToPositionTest(1500));
+    it("should scroll to a floating value", async () => scrollToPositionTest(511.8124567));
   });
 }

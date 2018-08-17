@@ -2,9 +2,7 @@ import { expect } from "chai";
 import * as delay from "delay";
 import { Scenario, IOptions } from ".";
 
-export {
-  scrollToElement,
-}
+export { scrollToElement };
 
 function scrollToElement(browser: Scenario, options: IOptions = {}) {
   const duration = 0;
@@ -29,7 +27,9 @@ function scrollToElement(browser: Scenario, options: IOptions = {}) {
       const elementSize = await browser.getElementSize(options);
 
       await browser.browser.takeScreenshot();
-      expect(Math.round(otherElementOffset - elementOffset - (size - elementSize) * ratio - 0.000001)).to.be.closeTo(0, 1);
+      expect(
+        Math.round(otherElementOffset - elementOffset - (size - elementSize) * ratio - 0.000001),
+      ).to.be.closeTo(0, 1);
     }
 
     const values = [0, 25, 50, 75, 100];

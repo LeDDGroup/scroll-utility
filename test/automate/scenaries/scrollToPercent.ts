@@ -2,14 +2,12 @@ import { expect } from "chai";
 import * as delay from "delay";
 import { Scenario, IOptions } from ".";
 
-export {
-  scrollToPercent,
-}
+export { scrollToPercent };
 
 function scrollToPercent(browser: Scenario, options: IOptions = {}) {
   const duration = 0;
   const horizontal = options && options.horizontal;
-  const initialize = browser.getManagerInit(options.elementScroll)
+  const initialize = browser.getManagerInit(options.elementScroll);
   describe("scroll to percent", () => {
     async function scrollToPercentTest(scrollPercent: number) {
       await browser.evaluate(`
@@ -31,17 +29,10 @@ function scrollToPercent(browser: Scenario, options: IOptions = {}) {
       expect(offset).to.be.eq(expectedPosition);
     }
 
-    const values = [
-      0,
-      25,
-      50,
-      75,
-      100
-    ]
+    const values = [0, 25, 50, 75, 100];
 
     for (const val of values) {
       it(`should scroll ${val}%`, async () => scrollToPercentTest(val));
     }
-
   });
 }

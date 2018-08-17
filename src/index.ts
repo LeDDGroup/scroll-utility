@@ -1,5 +1,3 @@
 import { Scroll } from "./scroll";
 
-export {
-  Scroll,
-};
+export { Scroll };

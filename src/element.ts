@@ -6,42 +6,55 @@ class ScrollElement {
     const html = document.documentElement;
 
     if (!element) {
-      this.size = (horizontal: boolean) => horizontal
-        ? document.documentElement.clientWidth || document.body.clientWidth || window.innerWidth
-        : document.documentElement.clientHeight || document.body.clientHeight || window.innerHeight
+      this.size = (horizontal: boolean) =>
+        horizontal
+          ? document.documentElement.clientWidth || document.body.clientWidth || window.innerWidth
+          : document.documentElement.clientHeight ||
+            document.body.clientHeight ||
+            window.innerHeight;
 
-      this.scrollSize = (horizontal: boolean) => horizontal
-        ? Math.max(body.scrollWidth, body.offsetWidth, html.clientWidth, html.scrollWidth, html.offsetWidth)
-        : Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight)
+      this.scrollSize = (horizontal: boolean) =>
+        horizontal
+          ? Math.max(
+              body.scrollWidth,
+              body.offsetWidth,
+              html.clientWidth,
+              html.scrollWidth,
+              html.offsetWidth,
+            )
+          : Math.max(
+              body.scrollHeight,
+              body.offsetHeight,
+              html.clientHeight,
+              html.scrollHeight,
+              html.offsetHeight,
+            );
 
-      this.position = (horizontal: boolean) => horizontal
-        ? window.pageXOffset
-        : window.pageYOffset
+      this.position = (horizontal: boolean) =>
+        horizontal ? window.pageXOffset : window.pageYOffset;
 
-      this.offset = () => 0
+      this.offset = () => 0;
 
-      this.scrollTo = (x: number, y: number) => { window.scroll(x, y) }
+      this.scrollTo = (x: number, y: number) => {
+        window.scroll(x, y);
+      };
     } else {
-      this.size = (horizontal: boolean) => horizontal
-        ? element.clientWidth
-        : element.clientHeight
+      this.size = (horizontal: boolean) =>
+        horizontal ? element.clientWidth : element.clientHeight;
 
-      this.scrollSize = (horizontal: boolean) => horizontal
-        ? element.scrollWidth
-        : element.scrollHeight
+      this.scrollSize = (horizontal: boolean) =>
+        horizontal ? element.scrollWidth : element.scrollHeight;
 
-      this.position = (horizontal: boolean) => horizontal
-        ? element.scrollLeft
-        : element.scrollTop
+      this.position = (horizontal: boolean) =>
+        horizontal ? element.scrollLeft : element.scrollTop;
 
-      this.offset = (horizontal: boolean) => horizontal
-        ? element.getBoundingClientRect().left
-        : element.getBoundingClientRect().top
+      this.offset = (horizontal: boolean) =>
+        horizontal ? element.getBoundingClientRect().left : element.getBoundingClientRect().top;
 
       this.scrollTo = (x: number, y: number) => {
         element.scrollLeft = x;
         element.scrollTop = y;
-      }
+      };
     }
   }
   public size: (horizontal: boolean) => number;
