@@ -5,7 +5,7 @@
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "scripts": {
-    "build": "rm -rf ./dist && tsc",
+    "build": "rm -rf ./dist && webpack",
     "test": "mocha --exit -r ts-node/register ./test/automate/index.ts"
   },
   "repository": {
@@ -33,6 +33,7 @@
     "@types/mocha": "^2.2.48",
     "@types/node": "^9.6.0",
     "@types/selenium-webdriver": "^3.0.10",
+    "awesome-typescript-loader": "^5.2.0",
     "chai": "^4.1.2",
     "delay": "^2.0.0",
     "express": "^4.16.3",
@@ -40,6 +41,10 @@
     "parcel-bundler": "^1.9.7",
     "selenium-webdriver": "^4.0.0-alpha.1",
     "ts-node": "^6.0.0",
-    "typescript": "^2.7.2"
+    "typescript": "^2.7.2",
+    "webpack-command": "^0.4.1"
+  },
+  "dependencies": {
+    "webpack": "^4.17.1"
   }
 }
