@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   margin: 0;
 }
 
@@ -28,7 +29,9 @@ textarea {
   font-size: 0.9em;
 }
 
-input, select, button {
+input,
+select,
+button {
   width: 100%;
   height: 100%;
   margin: 0;

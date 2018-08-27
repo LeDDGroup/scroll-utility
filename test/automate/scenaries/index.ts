@@ -17,7 +17,7 @@ function testScenarios(getBrowser: () => WebDriver) {
   const browser = new Scenario(getBrowser);
   function optionTest(options: IOptions) {
     const tests = [scope, offset, scrollToPosition, scrollToPercent, scrollToElement];
-    tests.forEach(test => {
+    tests.forEach((test) => {
       test(browser, Object.assign({}, options));
     });
   }

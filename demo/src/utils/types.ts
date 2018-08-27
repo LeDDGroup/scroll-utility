@@ -1,8 +1,4 @@
-
-export {
-  ElementToScroll,
-  ScrollType,
-}
+export { ElementToScroll, ScrollType };
 
 enum ElementToScroll {
   e1 = "e1",

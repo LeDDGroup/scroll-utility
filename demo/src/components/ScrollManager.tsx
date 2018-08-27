@@ -52,13 +52,13 @@ class ScrollManager extends React.Component<{}, IState> {
     return (
       <>
         <Row>
-        <Toggle
-          checked={this.state.showCode}
-          activeText="Hide code"
-          inactiveText="Show code"
-          toggle={() => this.setState({ showCode: !this.state.showCode })}
-        />
-        <button onClick={this.scroll}> Scroll! </button>
+          <Toggle
+            checked={this.state.showCode}
+            activeText="Hide code"
+            inactiveText="Show code"
+            toggle={() => this.setState({ showCode: !this.state.showCode })}
+          />
+          <button onClick={this.scroll}> Scroll! </button>
         </Row>
       </>
     );

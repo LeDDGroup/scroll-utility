@@ -1,56 +1,57 @@
 body {
-    position: relative;
-    margin: 0;
-    padding: 0;
-    height: 1000vh;
-    width: 1000vh;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  height: 1000vh;
+  width: 1000vh;
 }
 
 #scrollable {
-    color: white;
-    background: black;
-    position: absolute;
-    top: 30%;
-    left: 30%;
-    height: 80vh;
-    width: 80vw;
-    overflow: scroll;
+  color: white;
+  background: black;
+  position: absolute;
+  top: 30%;
+  left: 30%;
+  height: 80vh;
+  width: 80vw;
+  overflow: scroll;
 }
 #scrollable::after {
-    content: "";
-    position: absolute;
-    width: 1000vw;
-    height: 1000vh;
+  content: "";
+  position: absolute;
+  width: 1000vw;
+  height: 1000vh;
 }
 
-#element, #element1 {
-    color: black;
-    background: yellow;
-    position: absolute;
-    height: 50vh;
-    width: 50vw;
+#element,
+#element1 {
+  color: black;
+  background: yellow;
+  position: absolute;
+  height: 50vh;
+  width: 50vw;
 }
 #element {
-    top: 300vh;
-    left: 300vw;
+  top: 300vh;
+  left: 300vw;
 }
-#element1  {
-    top: 60%;
-    left: 60%;
+#element1 {
+  top: 60%;
+  left: 60%;
 }
 
 body > h1 {
-    position: sticky;
-    z-index: 2;
-    width: 100vw;
-    top: 10vh;
-    left: 40vw;
+  position: sticky;
+  z-index: 2;
+  width: 100vw;
+  top: 10vh;
+  left: 40vw;
 }
 
-#scrollable > h1  {
-    position: sticky;
-    z-index: 1;
-    width: 50vw;
-    top: 10%;
-    left: 20%;
+#scrollable > h1 {
+  position: sticky;
+  z-index: 1;
+  width: 50vw;
+  top: 10%;
+  left: 20%;
 }
