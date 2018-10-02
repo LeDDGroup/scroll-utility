@@ -39,6 +39,11 @@ class Scroll {
         });
       } else {
         console.warn("*element* in scrollToElement function can't be null or undefined");
+        return this.animationManager.createScrollAnimation({
+          distToScroll: () => 0,
+          duration: 0,
+          horizontal: false,
+        })
       }
     },
     toPercent: (percent: number, options: IOptions = {}) => {
