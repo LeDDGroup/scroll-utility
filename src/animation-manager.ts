@@ -47,7 +47,7 @@ class AnimationManager {
     if (this.animations === 1) {
       window.requestAnimationFrame(this.onAnimationFrame);
     }
-    return animation.api;
+    return animation;
   }
   private onAnimationFrame = () => {
     if (this.animations === 0) {

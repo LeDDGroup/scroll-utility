@@ -1,9 +1,4 @@
-export { Animation, ScrollInstanceProps, AnimationApi, EasingFunction };
-
-interface AnimationApi {
-  stop: () => void;
-  easing: (funct: EasingFunction) => void;
-}
+export { Animation, ScrollInstanceProps, EasingFunction };
 
 interface ScrollInstanceProps {
   duration: number;
@@ -24,13 +19,7 @@ class Animation {
   private initialTime: DOMHighResTimeStamp;
   private active: boolean = true;
   private lastDistanceScrolled: number = 0;
-  private easingFunction: EasingFunction = Animation.EasingFunction;
-  public readonly api: AnimationApi = {
-    stop: () => this.stop(),
-    easing: (funct: EasingFunction) => {
-      this.easingFunction = funct;
-    },
-  };
+  public easingFunction: EasingFunction = Animation.EasingFunction;
   constructor(private options: ScrollInstanceProps) {
     this.initialTime = performance.now();
   }

@@ -1,4 +1,3 @@
-import { AnimationApi } from "./animation";
 import { ScrollElement } from "./element";
 import { AnimationManager } from "./animation-manager";
 
@@ -43,7 +42,7 @@ class Scroll {
           distToScroll: () => 0,
           duration: 0,
           horizontal: false,
-        })
+        });
       }
     },
     toPercent: (percent: number, options: IOptions = {}) => {
@@ -81,4 +80,4 @@ class Scroll {
   };
 }
 
-export { Scroll, AnimationApi as AnimationScroll, IOptions, IScrollToElementOptions };
+export { Scroll, IOptions, IScrollToElementOptions };
