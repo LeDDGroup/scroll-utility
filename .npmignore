@@ -12,3 +12,7 @@ assets
 global-scroll.ts
 demo
 webpack.config.js
+.vscode
+.prettierignore
+.prettierrc
+.tslint.json

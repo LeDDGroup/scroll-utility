@@ -43,9 +43,9 @@
     "selenium-webdriver": "^4.0.0-alpha.1",
     "ts-node": "^6.0.0",
     "typescript": "^2.7.2",
-    "webpack-command": "^0.4.1"
+    "webpack-command": "^0.4.1",
+    "webpack": "^4.17.1"
   },
   "dependencies": {
-    "webpack": "^4.17.1"
   }
 }
