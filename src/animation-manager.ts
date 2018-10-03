@@ -20,6 +20,7 @@ class AnimationManager {
   private scrollAnimation: IHorizontal<Animation[]> = { vertical: [], horizontal: [] };
   private lastPosition: IHorizontal<number> = { horizontal: 0, vertical: 0 };
   private scrollChanged: IHorizontal<number> = { horizontal: 0, vertical: 0 };
+  private mounted: boolean = false;
   constructor(private element: ScrollElement, private scroll: () => void) {}
   public stopAllAnimations() {
     this.scrollAnimation = { vertical: [], horizontal: [] };
@@ -43,28 +44,33 @@ class AnimationManager {
     }
     return animation;
   }
+  public mountOnScroll() {
+    this.mounted = true;
+  }
+  public unmountOnScroll() {
+    this.mounted = false;
+  }
   private get animationsCount() {
     return this.scrollAnimation.horizontal.length + this.scrollAnimation.vertical.length;
   }
 
   private onAnimationFrame = () => {
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        if (this.animationsCount === 0) {
-          this.scrollChanged = {
-            horizontal: 0,
-            vertical: 0,
-          };
-        } else {
-          const distToScroll = this.distToScroll;
-          this.scrollTo(distToScroll.x, distToScroll.y);
-          this.scrollChanged.horizontal +=
-            this.element.position(true) - this.lastPosition.horizontal;
-          this.scrollChanged.vertical += this.element.position(false) - this.lastPosition.vertical;
-          this.onAnimationFrame();
-        }
-      });
-    });
+    if (this.animationsCount === 0) {
+      this.scrollChanged = {
+        horizontal: 0,
+        vertical: 0,
+      };
+    } else {
+      const distToScroll = this.distToScroll;
+      this.scrollTo(distToScroll.x, distToScroll.y);
+      this.scrollChanged.horizontal += this.element.position(true) - this.lastPosition.horizontal;
+      this.scrollChanged.vertical += this.element.position(false) - this.lastPosition.vertical;
+    }
+    window.requestAnimationFrame(
+      this.mounted
+        ? () => window.requestAnimationFrame(this.onAnimationFrame) // skip 1 animation
+        : this.onAnimationFrame,
+    );
   };
   private scrollTo(x: number, y: number) {
     this.scroll();

@@ -34,6 +34,14 @@ class Scroll implements IBasicProperties {
       this.scrolling = false;
     };
   }
+  public mountOnScroll() {
+    this.element.mountOnScroll();
+    this.animationManager.mountOnScroll();
+  }
+  public unmountOnScroll() {
+    this.element.unmountOnScroll();
+    this.animationManager.unmountOnScroll();
+  }
   public stopAllAnimations() {
     this.animationManager.stopAllAnimations();
   }
