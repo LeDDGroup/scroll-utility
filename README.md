@@ -1,40 +1,42 @@
-# scroll-utiliy #
+# scroll-utility
 
-A simple to use scroll utility package for centering elements, and smooth animations
+The best utility package for smooth scrolling and centering elements in the page or other html elements.
 
 [![Travis](https://travis-ci.org/LeDDGroup/scroll-utility.svg?branch=master)](https://github.com/LeDDGroup/scroll-utility) [![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=QmJOaDZzS3BBOWUrem1PMWw1K29CZjByZjNBcTNyYlE0LzVYZEhFYVg1ST0tLXBOR05wTitscU1PM2FvQ0NrOUlHbHc9PQ==--70960e59e91fc8efc3dced4f2cebeff5665746ca)](https://www.browserstack.com/automate/public-build/QmJOaDZzS3BBOWUrem1PMWw1K29CZjByZjNBcTNyYlE0LzVYZEhFYVg1ST0tLXBOR05wTitscU1PM2FvQ0NrOUlHbHc9PQ==--70960e59e91fc8efc3dced4f2cebeff5665746ca) [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/LeddSoftware/scroll-utility)
 
-____
-<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+---
+
 **Table of Contents**
 
 - [Live demo](#checkout-a-simple-demohttpsleddgroupcomscroll-example)
 - [Installation](#installation)
 - [Usage](#usage)
-    - [Options](#options)
+  - [Options](#options)
 - [Cross-browser compatibility](#cross-browser-compatibility)
 - [Example app](#example-app-with-scroll-utility)
 - [Github](#github)
-- [Liscense](#liscense)
+- [License](#license)
 
-<!-- markdown-toc end -->
-____
+---
 
-## Checkout a simple [demo](https://leddgroup.com/scroll-example) ##
+## Checkout a simple [demo](https://leddgroup.com/scroll-example)
 
-## Installation ##
+## Installation
 
 ```sh
-$ npm install --save scroll-utility 
+$ npm install --save scroll-utility
 ```
 
-<!-- Or from a cdn at https://cdn.jsdelivr.net/npm/scroll-utility@1.0.3/dist/global-scroll.js -->
-<!-- ```html -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/scroll-utility@1.0.5/dist/global-scroll.js"></script> -->
-<!-- ``` -->
-<!-- In this case `Scroll` will be a global variable as `__Scroll` -->
+Or from a cdn at  
+`https://cdn.jsdelivr.net/npm/scroll-utility/dist/bundle.js`
 
-## Usage ##
+```html
+<script src="https://cdn.jsdelivr.net/npm/scroll-utility/dist/bundle.js"></script>
+```
+
+In this case `Scroll` will be a global variable as `ScrollUtility`
+
+## Usage
 
 ```ts
 import { Scroll, IOptions, IScrollToElementOptions } from "scroll-utility";
@@ -56,10 +58,9 @@ scrollManager.scroll.scrollToElement(element: HTMLElement, options?: IScrollToEl
 scrollManager.stopAnimations(); // stop all animation in "scrollManager"
 const animation = scrollManager.scroll.offset(10); // capture animation
 animation.stop(); // stop animation
-
 ```
 
-### Options ###
+### Options
 
 From the definition:
 
@@ -74,35 +75,36 @@ interface IScrollToElementOptions extends IOptions {
 }
 ```
 
-*duration* will be the duration of the scroll animation, default to 0, instant.  
-*horizontal* by default the animation will be vertically, so if *horizontal* is set to `true`, it will be horizontally otherwise.  
+_duration_ will be the duration of the scroll animation, default to 0, instant.  
+_horizontal_ by default the animation will be vertically, so if _horizontal_ is set to `true`, it will be horizontally otherwise.
 
-*IScrollToElementOptions* interface is for the *scrollToElement* function, it is the same as in other functions, but also a  
-*center*, which is a percent (a number from `0` to `100`)
+_IScrollToElementOptions_ interface is for the _scrollToElement_ function, it is the same as in other functions, but also a  
+_center_, which is a percent (a number from `0` to `100`)
 
-## Cross-browser compatibility ##
+## Cross-browser compatibility
 
 <img  height="50" src="https://raw.githubusercontent.com/LeDDGroup/scroll-utility/master/assets/BrowserStack-logo.png" alt="Browserstack logo" style="float: right; margin-right: 10px; text-align: middle">
 
 Test are made using automate testing with [Browserstack](https://www.browserstack.com) [for open source](https://www.browserstack.com/open-source?ref=pricing).
 
-
 Check out the tests results [here](https://www.browserstack.com/automate/public-build/QmJOaDZzS3BBOWUrem1PMWw1K29CZjByZjNBcTNyYlE0LzVYZEhFYVg1ST0tLXBOR05wTitscU1PM2FvQ0NrOUlHbHc9PQ==--70960e59e91fc8efc3dced4f2cebeff5665746ca)
 
-## Example app with scroll-utility ##
+## Example app with scroll-utility
 
 To see a example with react, clone this repo and see its [demo](https://leddgroup.com/scroll-example)
+
 ```sh
 git clone https://github.com/LeDDGroup/scroll-utility.git
 cd scroll-utility/demo
 npm run start
 ```
-Navigate to http://localhost:8080  
 
-## Github ##
+Navigate to http://localhost:8080
 
-If have any issue or feature request notify me via [github](https://github.com/LeDDGroup/scroll-utility/issues).  
+## Github
 
+If have any issue or feature request notify me via [github](https://github.com/LeDDGroup/scroll-utility/issues).
 
-## Liscense ##
+## License
+
 [MIT](./LICENSE.md)
