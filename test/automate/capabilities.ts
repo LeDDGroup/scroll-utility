@@ -1,10 +1,10 @@
-const browserstackUser = "davidperezalvare2";
+const browserstackUser = "davidperezalvare2"
 
 const buildName = process.env["CI"]
   ? (((process.env["TRAVIS_BUILD_NUMBER"] as string) +
       " " +
       process.env["TRAVIS_BRANCH"]) as string)
-  : "general-build";
+  : "general-build"
 
 const basicCap = {
   "browserstack.user": browserstackUser,
@@ -17,21 +17,25 @@ const basicCap = {
   project: "scroll-utility",
   // resolution: "1024x768",
   "browserstack.video": "false",
-};
+}
 
 const windowCap = {
   ...basicCap,
   os: "Windows",
   os_version: "10",
-};
+}
 
 const macCap = {
   ...basicCap,
   os: "OS X",
   os_version: "High Sierra",
-};
+}
 
-const capabilities = {
+const capabilities: {
+  [os: string]: {
+    [browser: string]: any
+  }
+} = {
   Windows: {
     chrome: {
       ...windowCap,
@@ -71,6 +75,6 @@ const capabilities = {
     //     browser_version: "12.15",
     // },
   },
-};
+}
 
-export default capabilities;
+export default capabilities

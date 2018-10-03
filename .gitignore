@@ -1,5 +1,7 @@
-dist
-node_modules
 .cache
-npm-debug.log
 BrowserStackLocal
+dist
+makefile
+node_modules
+npm-debug.log
+.vscode

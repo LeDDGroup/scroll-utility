@@ -1,19 +1,17 @@
-export { ScrollElement };
+export { ScrollElement }
 
 // https://stackoverflow.com/questions/3437786/get-the-size-of-the-screen-current-web-page-and-browser-window
 
 class ScrollElement {
   constructor(private element?: HTMLElement | null) {
-    const body = document.body;
-    const html = document.documentElement;
+    const body = document.body
+    const html = document.documentElement! // TODO add fallback for documentElement being null
 
     if (!element) {
       this.size = (horizontal: boolean) =>
         horizontal
-          ? document.documentElement.clientWidth || document.body.clientWidth || window.innerWidth
-          : document.documentElement.clientHeight ||
-            document.body.clientHeight ||
-            window.innerHeight;
+          ? html.clientWidth || body.clientWidth || window.innerWidth
+          : html.clientHeight || body.clientHeight || window.innerHeight
 
       this.scrollSize = (horizontal: boolean) =>
         horizontal
@@ -30,74 +28,72 @@ class ScrollElement {
               html.clientHeight,
               html.scrollHeight,
               html.offsetHeight,
-            );
+            )
 
       this.position = (horizontal: boolean) =>
-        horizontal ? window.pageXOffset : window.pageYOffset;
+        horizontal ? window.pageXOffset : window.pageYOffset
 
-      this.offset = () => 0;
+      this.offset = () => 0
 
       this.scrollTo = (x: number, y: number) => {
-        window.scroll(x, y);
-      };
+        window.scroll(x, y)
+      }
     } else {
-      this.size = (horizontal: boolean) =>
-        horizontal ? element.clientWidth : element.clientHeight;
+      this.size = (horizontal: boolean) => (horizontal ? element.clientWidth : element.clientHeight)
 
       this.scrollSize = (horizontal: boolean) =>
-        horizontal ? element.scrollWidth : element.scrollHeight;
+        horizontal ? element.scrollWidth : element.scrollHeight
 
-      this.position = (horizontal: boolean) =>
-        horizontal ? element.scrollLeft : element.scrollTop;
+      this.position = (horizontal: boolean) => (horizontal ? element.scrollLeft : element.scrollTop)
 
       this.offset = (horizontal: boolean) =>
-        horizontal ? element.getBoundingClientRect().left : element.getBoundingClientRect().top;
+        horizontal ? element.getBoundingClientRect().left : element.getBoundingClientRect().top
 
       this.scrollTo = (x: number, y: number) => {
-        element.scrollLeft = x;
-        element.scrollTop = y;
-      };
+        element.scrollLeft = x
+        element.scrollTop = y
+      }
     }
   }
   private scroll = () => {
     if (this.onScroll) {
-      this.onScroll();
+      this.onScroll()
     }
-  };
-  public size: (horizontal: boolean) => number;
-  public scrollSize: (horizontal: boolean) => number;
-  public position: (horizontal: boolean) => number;
-  public offset: (horizontal: boolean) => number;
-  public scrollTo: (x: number, y: number) => void;
-  public onScroll: (() => void) | null = null;
+  }
+  public size: (horizontal: boolean) => number
+  public scrollSize: (horizontal: boolean) => number
+  public position: (horizontal: boolean) => number
+  public offset: (horizontal: boolean) => number
+  public scrollTo: (x: number, y: number) => void
+  public onScroll: (() => void) | null = null
   public mountOnScroll() {
     if (!this.element) {
-      window.addEventListener("scroll", this.scroll);
+      window.addEventListener("scroll", this.scroll)
     } else {
-      this.element.addEventListener("scroll", this.scroll);
+      this.element.addEventListener("scroll", this.scroll)
     }
   }
   public unmountOnScroll() {
     if (!this.element) {
-      window.removeEventListener("scroll", this.scroll);
+      window.removeEventListener("scroll", this.scroll)
     } else {
-      this.element.removeEventListener("scroll", this.scroll);
+      this.element.removeEventListener("scroll", this.scroll)
     }
   }
   public readonly distanceTo = {
     position: (position: number, horizontal: boolean) => {
-      return position - this.position(horizontal);
+      return position - this.position(horizontal)
     },
     percent: (percent: number, horizontal: boolean) => {
-      const ratio = percent / 100;
-      const position = (this.scrollSize(horizontal) - this.size(horizontal)) * ratio;
-      return this.distanceTo.position(position, horizontal);
+      const ratio = percent / 100
+      const position = (this.scrollSize(horizontal) - this.size(horizontal)) * ratio
+      return this.distanceTo.position(position, horizontal)
     },
     element: (element: ScrollElement, center: number, horizontal: boolean) => {
-      const ratio = center / 100;
-      const screenOffset = (this.size(horizontal) - element.size(horizontal)) * ratio;
-      const elementPosition = element.offset(horizontal) - this.offset(horizontal);
-      return elementPosition - screenOffset;
+      const ratio = center / 100
+      const screenOffset = (this.size(horizontal) - element.size(horizontal)) * ratio
+      const elementPosition = element.offset(horizontal) - this.offset(horizontal)
+      return elementPosition - screenOffset
     },
-  };
+  }
 }

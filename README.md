@@ -35,29 +35,29 @@ The best utility package for smooth scrolling and centering elements in the page
 ## Basic usage explanation
 
 ```js
-import { Scroll } from "scroll-utility";
+import { Scroll } from "scroll-utility"
 
 // declare scroll manager instance
 
-const scrollManager = new Scroll(); // create a scroll instance for window for scrolling the page
-const elementScrollManager = new Scroll(element); // for scrolling inside element instead of window
+const scrollManager = new Scroll() // create a scroll instance for window for scrolling the page
+const elementScrollManager = new Scroll(element) // for scrolling inside element instead of window
 
 // start a scroll animation
-scrollManager.scrollBy(value, options); // offset current scroll position by "value"
-scrollManager.scrollToPosition(position, options); // scroll to position "position"
-scrollManager.scrollToPercent(percent, options); // scroll to position given by "percent"
-scrollManager.scrollToElement(element, options); // scroll to element "element"
+scrollManager.scrollBy(value, options) // offset current scroll position by "value"
+scrollManager.scrollToPosition(position, options) // scroll to position "position"
+scrollManager.scrollToPercent(percent, options) // scroll to position given by "percent"
+scrollManager.scrollToElement(element, options) // scroll to element "element"
 
 // onScroll events
-scrollManager.onScroll = () => console.log("scroll ocurred in scrollManager container");
-scrollManager.onUtilityScroll = () => console.log("this scroll utility did scrolled");
-scrollManager.onUserScroll = () => console.log("this scroll utility did not scrolled!");
+scrollManager.onScroll = () => console.log("scroll ocurred in scrollManager container")
+scrollManager.onUtilityScroll = () => console.log("this scroll utility did scrolled")
+scrollManager.onUserScroll = () => console.log("this scroll utility did not scrolled!")
 
 // stopping animations
 
-scrollManager.stopAllAnimations(); // stop all animation in "scrollManager"
-const animation = scrollManager.scrollBy(10); // capture animation
-animation.stop(); // stop animation
+scrollManager.stopAllAnimations() // stop all animation in "scrollManager"
+const animation = scrollManager.scrollBy(10) // capture animation
+animation.stop() // stop animation
 ```
 
 ## Installation
@@ -81,9 +81,9 @@ In this case `Scroll` will be a global variable as `ScrollUtility`
 #### Scroll inside window (default behavior)
 
 ```js
-import { Scroll } from "scroll-utility";
+import { Scroll } from "scroll-utility"
 
-const windowScrollManager = new Scroll();
+const windowScrollManager = new Scroll()
 ```
 
 `windowScrollManager` will be used to scroll the normal overflow in webpages
@@ -91,10 +91,10 @@ const windowScrollManager = new Scroll();
 #### Scroll a div or any other html element
 
 ```js
-import { Scroll } from "scroll-utility";
+import { Scroll } from "scroll-utility"
 
-const htmlElement = document.getElementById("some-html-element");
-const elementScrollManager = new Scroll(htmlElement);
+const htmlElement = document.getElementById("some-html-element")
+const elementScrollManager = new Scroll(htmlElement)
 ```
 
 `elementScrollManager` will be used to scroll inside that specific element.  
@@ -106,27 +106,27 @@ If `htmlElement` is _null_ or _undefined_ it will fallback to window scroll by d
 
 ```js
 // asuming windowScrollManager is declared
-windowScrollManager.scroll.toPosition(number, options); // number is a position in (px) in scroll
+windowScrollManager.scroll.toPosition(number, options) // number is a position in (px) in scroll
 
 // example:
-windowScrollManager.scroll.toPosition(273);
+windowScrollManager.scroll.toPosition(273)
 ```
 
 #### Scroll to a percent
 
 ```js
-windowScrollManager.scroll.toPercent(percent, options); // number is a percent(from 0 to 100)
+windowScrollManager.scroll.toPercent(percent, options) // number is a percent(from 0 to 100)
 
 // example:
-windowScrollManager.scroll.toPercent(0); // scroll to the begining of the page
-windowScrollManager.scroll.toPercent(50); // to the middle
-windowScrollManager.scroll.toPercent(100); // the end
+windowScrollManager.scroll.toPercent(0) // scroll to the begining of the page
+windowScrollManager.scroll.toPercent(50) // to the middle
+windowScrollManager.scroll.toPercent(100) // the end
 ```
 
 #### Scroll to an element
 
 ```js
-windowScrollManager.scroll.toElement(htmlElement, options);
+windowScrollManager.scroll.toElement(htmlElement, options)
 ```
 
 Here `htmlElement` should be an html element. _null_ or _undefined_ will scroll to the start of its _scrollManger_ container
@@ -134,7 +134,7 @@ Here `htmlElement` should be an html element. _null_ or _undefined_ will scroll 
 #### Offset scroll position
 
 ```js
-windowScrollManager.scrollBy(number, options); // will offset scroll position, can be negative
+windowScrollManager.scrollBy(number, options) // will offset scroll position, can be negative
 ```
 
 #### options
@@ -144,7 +144,7 @@ const optionsDefault = {
   duration: 0, // duration of the scroll
   horizontal: false, // direction of the scroll animation
   center: 0, // this value is used only for scrollToElement
-};
+}
 ```
 
 #### examples
@@ -152,53 +152,55 @@ const optionsDefault = {
 ```js
 windowScrollManager.scroll.toPercent(50, {
   duration: 1000, // will scroll to the middle of the page vertically
-});
+})
 
 windowScrollManager.scroll.toPosition(50, {
   horizontal: true, // will scroll instantly to the middle of the page horizontally in 1 sec
-});
+})
 
 windowScrollManager.scroll.toElement(htmlElement, {
   horizontally: true,
   duration: 1500,
   center: 50, // will scroll to the element and center it at 50% in the view (or its container)
-});
+})
 ```
 
 ### Stop animations
 
 ```js
-windowScrollManager.stopAllAnimations(); // this will stop all animations in windowScrollManager
+windowScrollManager.stopAllAnimations() // this will stop all animations in windowScrollManager
 
 // to stop specific animations, you'll have to capture them first:
-const animation = windowScrollManager.scroll.toPercent(50, { duration: 1000 });
+const animation = windowScrollManager.scroll.toPercent(50, { duration: 1000 })
 
-animation.stop();
+animation.stop()
 ```
 
 ### Change animation function
 
 ```js
-windowScrollManager.easing = some_easing_function; // will change default easing function for next created animations
+windowScrollManager.easing = some_easing_function // will change default easing function for next created animations
 
 // or just for one animation:
-windowScrollManager.scroll.toPercent(50, { duration: 1000 }).easing = some_easing_function;
+windowScrollManager.scroll.toPercent(50, {
+  duration: 1000,
+}).easing = some_easing_function
 ```
 
 ### onScroll events
 
 ```js
-const scrollManager = new Scroll(some_element);
+const scrollManager = new Scroll(some_element)
 
-scrollManager.onScroll = () => console.log("scroll ocurred in scrollManager container");
-scrollManager.onUtilityScroll = () => console.log("this scroll utility did scrolled");
-scrollManager.onUserScroll = () => console.log("this scroll utility did not scrolled!");
+scrollManager.onScroll = () => console.log("scroll ocurred in scrollManager container")
+scrollManager.onUtilityScroll = () => console.log("this scroll utility did scrolled")
+scrollManager.onUserScroll = () => console.log("this scroll utility did not scrolled!")
 ```
 
 for example, if you wish to stop animation on user scroll you could do:
 
 ```js
-scrollManager.onUserScroll = () => scrollManager.stopAllAnimations();
+scrollManager.onUserScroll = () => scrollManager.stopAllAnimations()
 ```
 
 ### Stack animations and high precision
@@ -210,16 +212,16 @@ That is the best thing of scroll-utility. It is design to work with multiple ani
 For example:
 
 ```js
-scrollManager.scrollBy(500, { duration: 1000 });
-scrollManager.scrollBy(34, { duration: 775 });
+scrollManager.scrollBy(500, { duration: 1000 })
+scrollManager.scrollBy(34, { duration: 775 })
 ```
 
 1 second from it started to move, it will have been offset its position for 534px
 
 ```js
-scrollManager.scroll.toPosition(0);
-scrollManager.scroll.toPercent(50, { duration: 500 });
-scrollManager.scroll.toPercent(50, { duration: 1000 });
+scrollManager.scroll.toPosition(0)
+scrollManager.scroll.toPercent(50, { duration: 500 })
+scrollManager.scroll.toPercent(50, { duration: 1000 })
 ```
 
 in this example in 1 second to scroll bar will be at the end, due that it created 2 scroll animations that were to scroll 50% of the page (from 0 to 50), so 50% + 50% = 100%

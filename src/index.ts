@@ -1,3 +1,9 @@
-import { Scroll } from "./scroll";
+import { Scroll } from "./scroll"
 
-export { Scroll };
+declare const window: Window & {
+  ScrollUtility: typeof Scroll
+}
+
+window.ScrollUtility = Scroll
+
+export { Scroll }

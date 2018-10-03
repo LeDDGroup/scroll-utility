@@ -1,77 +1,82 @@
-import { scrollToElement } from "./scrollToElement";
-import { scrollToPercent } from "./scrollToPercent";
-import { scrollToPosition } from "./scrollToPosition";
-import { scope } from "./scope";
-import { offset } from "./offset";
-import { WebDriver } from "selenium-webdriver";
+import { scrollToElement } from "./scrollToElement"
+import { scrollToPercent } from "./scrollToPercent"
+import { scrollToPosition } from "./scrollToPosition"
+import { scope } from "./scope"
+import { offset } from "./offset"
+import { WebDriver } from "selenium-webdriver"
 
-export { testScenarios, Scenario, IOptions };
+export { testScenarios, Scenario, IOptions }
 
 interface IOptions {
-  horizontal?: boolean;
-  elementScroll?: boolean;
+  horizontal?: boolean
+  elementScroll?: boolean
 }
 
 function testScenarios(getBrowser: () => WebDriver) {
-  const options: IOptions = {};
-  const browser = new Scenario(getBrowser);
+  const options: IOptions = {}
+  const browser = new Scenario(getBrowser)
   function optionTest(options: IOptions) {
-    const tests = [scope, offset, scrollToPosition, scrollToPercent, scrollToElement];
-    tests.forEach((test) => {
-      test(browser, Object.assign({}, options));
-    });
+    const tests = [scope, offset, scrollToPosition, scrollToPercent, scrollToElement]
+    tests.forEach(test => {
+      test(browser, Object.assign({}, options))
+    })
   }
-  function myDescribe(description: string, prop: string, value: boolean, funct: () => void) {
+  function myDescribe(
+    description: string,
+    prop: keyof IOptions,
+    value: boolean,
+    funct: () => void,
+  ) {
     describe(description, () => {
-      options[prop] = value;
-      funct();
-    });
+      options[prop] = value
+      funct()
+    })
   }
   function myDirectionDescribe() {
     myDescribe("vertically", "horizontal", false, () => {
-      optionTest(options);
-    });
+      optionTest(options)
+    })
     myDescribe("horizontally", "horizontal", true, () => {
-      optionTest(options);
-    });
+      optionTest(options)
+    })
   }
 
   myDescribe("in window", "elementScroll", false, () => {
-    myDirectionDescribe();
-  });
+    myDirectionDescribe()
+  })
   myDescribe("in element", "elementScroll", true, () => {
-    before(async () => {
-      const initialize = browser.getManagerInit(false);
+    beforeAll(async () => {
+      const initialize = browser.getManagerInit(false)
       await browser.evaluate(
         `${initialize}; scrollManager.scroll.toElement(${
           Scenario.elementSelector
         }, { horizontal: false, center: 50})`,
-      );
+      )
       await browser.evaluate(
         `${initialize}; scrollManager.scroll.toElement(${
           Scenario.elementSelector
         }, { horizontal: true, center: 50})`,
-      );
-    });
-    myDirectionDescribe();
-  });
+      )
+    })
+    myDirectionDescribe()
+  })
 }
 
 class Scenario {
   constructor(private getBrowser: () => WebDriver) {}
-  static element = "document.getElementById('element')";
-  static element1 = "document.getElementById('element1')";
-  static elementSelector = "document.getElementById('scrollable')";
-  static elementClientRect = `${Scenario.elementSelector}.getBoundingClientRect()`;
+  static element = "document.getElementById('element')"
+  static element1 = "document.getElementById('element1')"
+  static elementSelector = "document.getElementById('scrollable')"
+  static elementClientRect = `${Scenario.elementSelector}.getBoundingClientRect()`
 
   public get browser() {
-    return this.getBrowser();
+    return this.getBrowser()
   }
-  public evaluate(funct: (() => void) | string, ...args): Promise<any> {
-    return this.browser.executeScript(funct, ...args) as Promise<any>;
+  public evaluate(funct: (() => void) | string, ...args: []): Promise<any> {
+    return this.browser.executeScript(funct, ...args) as Promise<any>
   }
   public getValue(value: string): Promise<any> {
-    return this.evaluate(`return ${value}`);
+    return this.evaluate(`return ${value}`)
   }
   public getOffset(options: IOptions): Promise<number> {
     return this.getValue(
@@ -82,7 +87,7 @@ class Scenario {
         : options.elementScroll
           ? `${Scenario.elementSelector}.scrollTop`
           : "window.pageYOffset",
-    ) as Promise<number>;
+    ) as Promise<number>
   }
   public getSize(options: IOptions): Promise<number> {
     return this.getValue(
@@ -93,7 +98,7 @@ class Scenario {
         : options.elementScroll
           ? `${Scenario.elementSelector}.clientHeight`
           : "document.documentElement.clientHeight || document.body.clientHeight || window.innerHeight",
-    ) as Promise<number>;
+    ) as Promise<number>
   }
   public getScrollSize(options: IOptions): Promise<number> {
     return this.getValue(
@@ -104,15 +109,15 @@ class Scenario {
         : options.elementScroll
           ? `${Scenario.elementSelector}.scrollHeight`
           : "Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight)",
-    ) as Promise<number>;
+    ) as Promise<number>
   }
   public getElementToScroll(elementScroll?: boolean) {
-    return elementScroll ? Scenario.element : Scenario.element1;
+    return elementScroll ? Scenario.element : Scenario.element1
   }
   public getManagerInit(elementScroll?: boolean) {
     return elementScroll
       ? `const scrollManager = new Scroll(${Scenario.elementSelector});`
-      : "const scrollManager = new Scroll();";
+      : "const scrollManager = new Scroll();"
   }
   public getScrollOffset(options: IOptions): Promise<number> {
     return this.getValue(
@@ -123,7 +128,7 @@ class Scenario {
         : options.elementScroll
           ? `${Scenario.elementSelector}.getBoundingClientRect().top`
           : "0",
-    ) as Promise<number>;
+    ) as Promise<number>
   }
   public getElementScrollOffset(options: IOptions): Promise<number> {
     return this.getValue(
@@ -134,7 +139,7 @@ class Scenario {
         : options.elementScroll
           ? `${Scenario.element}.getBoundingClientRect().top`
           : `${Scenario.element1}.getBoundingClientRect().top`,
-    ) as Promise<number>;
+    ) as Promise<number>
   }
   public getElementSize(options: IOptions): Promise<number> {
     return this.getValue(
@@ -145,6 +150,6 @@ class Scenario {
         : options.elementScroll
           ? `${Scenario.element}.getBoundingClientRect().height`
           : `${Scenario.element1}.getBoundingClientRect().height`,
-    ) as Promise<number>;
+    ) as Promise<number>
   }
 }
