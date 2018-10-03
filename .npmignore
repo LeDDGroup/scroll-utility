@@ -15,4 +15,4 @@ webpack.config.js
 .vscode
 .prettierignore
 .prettierrc
-.tslint.json
+tslint.json
