@@ -1,6 +1,7 @@
 import { ScrollElement } from "./element";
 import { AnimationManager } from "./animation-manager";
 import { EasingFunction, defaultEasingFunction, IBasicProperties } from "./data";
+import { Animation } from "./animation";
 
 interface IScrollToElementOptions extends IOptions {
   center?: number;
@@ -46,7 +47,7 @@ class Scroll implements IBasicProperties {
     this.animationManager.stopAllAnimations();
   }
   public scroll = {
-    toElement: (element: HTMLElement | null | undefined, options: IScrollToElementOptions = {}) => {
+    toElement: (element: HTMLElement | null | undefined, options: IScrollToElementOptions = {}): Animation => {
       let dist = 0;
       if (element) {
         const center = options.center || 0;
@@ -61,19 +62,19 @@ class Scroll implements IBasicProperties {
       }
       return this.scroll.offset(dist, options);
     },
-    toPercent: (percent: number, options: IOptions = {}) => {
+    toPercent: (percent: number, options: IOptions = {}): Animation => {
       const ratio = percent / 100;
       const horizontal = !!options.horizontal;
       const position =
         (this.element.scrollSize(horizontal) - this.element.size(horizontal)) * ratio;
       return this.scroll.toPosition(position, options);
     },
-    toPosition: (position: number, options: IOptions = {}) => {
+    toPosition: (position: number, options: IOptions = {}): Animation => {
       const horizontal = !!options.horizontal;
       const dist = position - this.element.position(horizontal);
       return this.scroll.offset(dist, options);
     },
-    offset: (amount: number, options: IOptions = {}) => {
+    offset: (amount: number, options: IOptions = {}): Animation => {
       return this.animationManager.createScrollAnimation({
         distToScroll: amount,
         duration: options.duration || 0,
@@ -84,4 +85,4 @@ class Scroll implements IBasicProperties {
   };
 }
 
-export { Scroll, IOptions, IScrollToElementOptions };
+export { Scroll, IOptions, IScrollToElementOptions, Animation };

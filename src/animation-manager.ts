@@ -30,7 +30,7 @@ class AnimationManager {
     duration: number;
     horizontal: boolean;
     easing: EasingFunction;
-  }) {
+  }): Animation {
     const duration = !!options.duration ? options.duration : 1;
     const direction = toDirection(options.horizontal);
     const animation = new Animation({
