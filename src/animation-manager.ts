@@ -38,7 +38,7 @@ class AnimationManager {
       easing: options.easing,
     });
     this.scrollAnimation[direction].push(animation);
-    if (this.animationsCount !== 0) {
+    if (this.animationsCount === 1) {
       window.requestAnimationFrame(this.onAnimationFrame);
     }
     return animation;
