@@ -1,7 +1,6 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 const path = require("path");
-const webpack = require("webpack");
 
 module.exports = {
   entry: "./src/index.tsx",
