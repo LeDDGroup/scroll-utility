@@ -40,6 +40,8 @@ class ScrollElement {
       this.scrollTo = (x: number, y: number) => {
         window.scroll(x, y);
       };
+
+      window.addEventListener("scroll", this.scroll);
     } else {
       this.size = (horizontal: boolean) =>
         horizontal ? element.clientWidth : element.clientHeight;
@@ -57,11 +59,18 @@ class ScrollElement {
         element.scrollLeft = x;
         element.scrollTop = y;
       };
+      element.addEventListener("scroll", this.scroll);
     }
   }
+  private scroll = () => {
+    if (this.onScroll) {
+      this.onScroll();
+    }
+  };
   public size: (horizontal: boolean) => number;
   public scrollSize: (horizontal: boolean) => number;
   public position: (horizontal: boolean) => number;
   public offset: (horizontal: boolean) => number;
   public scrollTo: (x: number, y: number) => void;
+  public onScroll: (() => void) | null = null;
 }

@@ -13,12 +13,26 @@ interface IOptions {
 
 class Scroll implements IBasicProperties {
   public onScroll: (() => void) | null = null;
+  public onUtilityScroll: (() => void) | null = null;
+  public onUserScroll: (() => void) | null = null;
   public easing: EasingFunction = defaultEasingFunction;
   private element: ScrollElement;
   private animationManager: AnimationManager;
+  private scrolling: boolean = false;
   constructor(element?: HTMLElement | null) {
     this.element = new ScrollElement(element);
-    this.animationManager = new AnimationManager(this.element);
+    this.animationManager = new AnimationManager(this.element, () => {
+      this.scrolling = true;
+    });
+    this.element.onScroll = () => {
+      if (this.scrolling) {
+        this.onUtilityScroll && this.onUtilityScroll();
+      } else {
+        this.onUserScroll && this.onUserScroll();
+      }
+      this.onScroll && this.onScroll();
+      this.scrolling = false;
+    };
   }
   public stopAllAnimations() {
     this.animationManager.stopAllAnimations();
