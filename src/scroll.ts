@@ -20,6 +20,9 @@ class Scroll implements IBasicProperties {
     this.element = new ScrollElement(element);
     this.animationManager = new AnimationManager(this.element);
   }
+  public stopAllAnimations() {
+    this.animationManager.stopAllAnimations();
+  }
   public scroll = {
     toElement: (element: HTMLElement | null | undefined, options: IScrollToElementOptions = {}) => {
       let dist = 0;

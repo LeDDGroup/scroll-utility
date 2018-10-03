@@ -27,8 +27,7 @@ The best utility package for smooth scrolling and centering elements in the page
 $ npm install --save scroll-utility
 ```
 
-Or from a cdn at  
-`https://cdn.jsdelivr.net/npm/scroll-utility/dist/bundle.js`
+or from a cdn at `https://cdn.jsdelivr.net/npm/scroll-utility/dist/bundle.js`
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/scroll-utility/dist/bundle.js"></script>
@@ -38,48 +37,45 @@ In this case `Scroll` will be a global variable as `ScrollUtility`
 
 ## Usage
 
-```ts
-import { Scroll, IOptions, IScrollToElementOptions } from "scroll-utility";
+```js
+import { Scroll } from "scroll-utility";
 
 // declare scroll manager instance
 
 const scrollManager = new Scroll(); // create a scroll instance for window for scrolling the page
-const elementScrollManager = new Scroll(element: HTMLElement); // for scrolling inside element instead of window
+const elementScrollManager = new Scroll(element); // for scrolling inside element instead of window
 
 // start a scroll animation
-
-scrollManager.scroll.offset(value: number, options?: IOptions); // offset current scroll position by "value"
-scrollManager.scroll.scrollToPosition(position: number, options?: IOptions); // scroll to position "position"
-scrollManager.scroll.scrollToPercent(percent: number, options?: IOptions); // scroll to position given by "percent"
-scrollManager.scroll.scrollToElement(element: HTMLElement, options?: IScrollToElementOptions); // scroll to element "element"
+scrollManager.scroll.offset(value, options); // offset current scroll position by "value"
+scrollManager.scroll.scrollToPosition(position, options); // scroll to position "position"
+scrollManager.scroll.scrollToPercent(percent, options); // scroll to position given by "percent"
+scrollManager.scroll.scrollToElement(element, options); // scroll to element "element"
 
 // stopping animations
 
-scrollManager.stopAnimations(); // stop all animation in "scrollManager"
+scrollManager.stopAllAnimations(); // stop all animation in "scrollManager"
 const animation = scrollManager.scroll.offset(10); // capture animation
 animation.stop(); // stop animation
 ```
 
 ### Options
 
-From the definition:
-
 ```ts
-interface IOptions {
-  duration?: number;
-  horizontal?: boolean;
+const options = {
+  duration: 1000; // 1seg
+  horizontal: true; // scroll will be horizontal
 }
 
-interface IScrollToElementOptions extends IOptions {
-  center?: number;
+// also you can specify a _center_ param for scrollToElement:
+const scrollToElementOptions = {
+  center: 50; // element will be centered in the view
 }
 ```
 
-_duration_ will be the duration of the scroll animation, default to 0, instant.  
-_horizontal_ by default the animation will be vertically, so if _horizontal_ is set to `true`, it will be horizontally otherwise.
+_duration_: will be the duration of the scroll animation, default to 0, which have no duration.  
+_horizontal_: by default the animation will be vertically, so set horizontal to true for horizontal animations
 
-_IScrollToElementOptions_ interface is for the _scrollToElement_ function, it is the same as in other functions, but also a  
-_center_, which is a percent (a number from `0` to `100`)
+_center_: the degree in which the element will be centered in its container, its value is a percent (a number from `0` to `100`)
 
 ## Cross-browser compatibility
 
