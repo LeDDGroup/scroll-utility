@@ -32,14 +32,14 @@ class Scroll {
         const distToElement = elementPosition - screenOffset;
 
         return this.animationManager.createScrollAnimation({
-          distToScroll: () => distToElement,
+          distToScroll: distToElement,
           duration,
           horizontal,
         });
       } else {
         console.warn("*element* in scrollToElement function can't be null or undefined");
         return this.animationManager.createScrollAnimation({
-          distToScroll: () => 0,
+          distToScroll: 0,
           duration: 0,
           horizontal: false,
         });
@@ -53,7 +53,7 @@ class Scroll {
         (this.element.scrollSize(horizontal) - this.element.size(horizontal)) * ratio -
         this.element.position(horizontal);
       return this.animationManager.createScrollAnimation({
-        distToScroll: () => dist,
+        distToScroll: dist,
         duration,
         horizontal,
       });
@@ -63,7 +63,7 @@ class Scroll {
       const horizontal = !!options.horizontal;
       const dist = position - this.element.position(horizontal);
       return this.animationManager.createScrollAnimation({
-        distToScroll: () => dist,
+        distToScroll: dist,
         duration,
         horizontal,
       });
@@ -72,7 +72,7 @@ class Scroll {
       const duration = options.duration || 0;
       const horizontal = !!options.horizontal;
       return this.animationManager.createScrollAnimation({
-        distToScroll: () => amount,
+        distToScroll: amount,
         duration,
         horizontal,
       });
