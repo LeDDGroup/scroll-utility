@@ -1,5 +1,6 @@
 import { Animation } from "./animation";
 import { ScrollElement } from "./element";
+import { EasingFunction } from "./data";
 
 function toDirection(horizontal: boolean): "horizontal" | "vertical" {
   return horizontal ? "horizontal" : "vertical";
@@ -27,12 +28,14 @@ class AnimationManager {
     distToScroll: number;
     duration: number;
     horizontal: boolean;
+    easing: EasingFunction;
   }) {
     const duration = !!options.duration ? options.duration : 1;
     const direction = toDirection(options.horizontal);
     const animation = new Animation({
       distToScroll: options.distToScroll,
       duration,
+      easing: options.easing,
     });
     this.scrollAnimation[direction].push(animation);
     if (this.animationsCount !== 0) {
@@ -72,7 +75,7 @@ class AnimationManager {
     const direction = toDirection(horizontal);
     this.lastPosition[direction] = this.element.position(horizontal);
     const initial = this.element.position(horizontal) - this.scrollChanged[direction];
-    const scrollAnimation = this.scrollAnimation[direction]
+    const scrollAnimation = this.scrollAnimation[direction];
     scrollAnimation.forEach((animation) => {
       distToScroll += animation.distance;
       if (animation.isPastAnimation()) {
