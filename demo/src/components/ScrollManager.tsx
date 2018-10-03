@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Scroll } from "scroll-utility";
+import { Scroll } from "../../../src";
 import { Select } from "./Select";
 import { Toggle } from "./Toggle";
 import { ScrollType, ElementToScroll } from "../utils/types";

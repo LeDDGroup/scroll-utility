@@ -1,75 +1,39 @@
-export { Animation, ScrollInstanceProps, AnimationApi, EasingFunction };
-
-interface AnimationApi {
-  stop: () => void;
-  easing: (funct: EasingFunction) => void;
-}
+import { EasingFunction, defaultEasingFunction, IBasicProperties } from "./data";
 
 interface ScrollInstanceProps {
   duration: number;
-  distToScroll: () => number;
-  stop: () => void;
+  distToScroll: number;
+  easing: EasingFunction;
 }
-
-type EasingFunction = (
-  currentStep: number,
-  offsetValue: number,
-  distance: number,
-  totalSteps: number,
-) => number;
 
 type DOMHighResTimeStamp = number;
 
-class Animation {
+class Animation implements IBasicProperties {
+  public onScroll: (() => void) | null = null;
   private initialTime: DOMHighResTimeStamp;
   private active: boolean = true;
-  private lastDistanceScrolled: number = 0;
-  private easingFunction: EasingFunction = Animation.EasingFunction;
-  public readonly api: AnimationApi = {
-    stop: () => this.stop(),
-    easing: (funct: EasingFunction) => {
-      this.easingFunction = funct;
-    },
-  };
+  public easing: EasingFunction;
   constructor(private options: ScrollInstanceProps) {
     this.initialTime = performance.now();
+    this.easing = options.easing || defaultEasingFunction;
   }
   public get distance(): number {
-    if (this.active) {
-      const currentTime = performance.now();
-      const currentDuration = currentTime - this.initialTime;
-      const last = currentDuration >= this.options.duration;
-      this.lastDistanceScrolled = last
-        ? this.options.distToScroll()
-        : this.easingFunction(
-            currentDuration,
-            0,
-            this.options.distToScroll(),
-            this.options.duration,
-          );
-      if (last) {
-        this.stop();
-      }
-      return this.lastDistanceScrolled;
-    }
-    return this.lastDistanceScrolled;
+    return this.isPastAnimation()
+      ? this.options.distToScroll
+      : this.easing(this.currentDuration, 0, this.options.distToScroll, this.options.duration);
+  }
+  public isPastAnimation(): boolean {
+    return this.currentDuration >= this.options.duration;
   }
   public stop() {
     this.active = false;
-    this.options.stop();
   }
   public get isActive() {
     return this.active;
   }
-  private static EasingFunction(
-    currentStep: number,
-    offsetValue: number,
-    distance: number,
-    totalSteps: number,
-  ) {
-    currentStep /= totalSteps / 2;
-    if (currentStep < 1) return (distance / 2) * currentStep * currentStep + offsetValue;
-    currentStep--;
-    return (-distance / 2) * (currentStep * (currentStep - 2) - 1) + offsetValue;
+  private get currentDuration() {
+    return performance.now() - this.initialTime;
   }
 }
+
+export { Animation, ScrollInstanceProps };

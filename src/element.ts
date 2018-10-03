@@ -1,5 +1,7 @@
 export { ScrollElement };
 
+// https://stackoverflow.com/questions/3437786/get-the-size-of-the-screen-current-web-page-and-browser-window
+
 class ScrollElement {
   constructor(element?: HTMLElement | null) {
     const body = document.body;
