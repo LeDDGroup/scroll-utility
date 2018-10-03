@@ -1,3 +1,2 @@
-import { Scroll } from "../../src/scroll";
-
-(window as any).Scroll = Scroll;
+import { Scroll } from "../../src/scroll"
+;(window as any).Scroll = Scroll
