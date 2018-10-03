@@ -5,6 +5,7 @@
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "scripts": {
+    "dev": "parcel ./test/local/index.html",
     "build": "rm -rf ./dist && webpack",
     "test": "mocha --exit -r ts-node/register ./test/automate/index.ts"
   },
