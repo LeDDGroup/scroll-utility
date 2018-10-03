@@ -3,7 +3,7 @@ export { ScrollElement };
 // https://stackoverflow.com/questions/3437786/get-the-size-of-the-screen-current-web-page-and-browser-window
 
 class ScrollElement {
-  constructor(element?: HTMLElement | null) {
+  constructor(private element?: HTMLElement | null) {
     const body = document.body;
     const html = document.documentElement;
 
@@ -59,9 +59,29 @@ class ScrollElement {
       };
     }
   }
+  private scroll = () => {
+    if (this.onScroll) {
+      this.onScroll();
+    }
+  };
   public size: (horizontal: boolean) => number;
   public scrollSize: (horizontal: boolean) => number;
   public position: (horizontal: boolean) => number;
   public offset: (horizontal: boolean) => number;
   public scrollTo: (x: number, y: number) => void;
+  public onScroll: (() => void) | null = null;
+  public mountOnScroll() {
+    if (!this.element) {
+      window.addEventListener("scroll", this.scroll);
+    } else {
+      this.element.addEventListener("scroll", this.scroll);
+    }
+  }
+  public unmountOnScroll() {
+    if (!this.element) {
+      window.removeEventListener("scroll", this.scroll);
+    } else {
+      this.element.removeEventListener("scroll", this.scroll);
+    }
+  }
 }

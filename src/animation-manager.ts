@@ -20,7 +20,8 @@ class AnimationManager {
   private scrollAnimation: IHorizontal<Animation[]> = { vertical: [], horizontal: [] };
   private lastPosition: IHorizontal<number> = { horizontal: 0, vertical: 0 };
   private scrollChanged: IHorizontal<number> = { horizontal: 0, vertical: 0 };
-  constructor(private element: ScrollElement) {}
+  private mounted: boolean = false;
+  constructor(private element: ScrollElement, private scroll: () => void) {}
   public stopAllAnimations() {
     this.scrollAnimation = { vertical: [], horizontal: [] };
   }
@@ -38,10 +39,16 @@ class AnimationManager {
       easing: options.easing,
     });
     this.scrollAnimation[direction].push(animation);
-    if (this.animationsCount !== 0) {
+    if (this.animationsCount === 1) {
       window.requestAnimationFrame(this.onAnimationFrame);
     }
     return animation;
+  }
+  public mountOnScroll() {
+    this.mounted = true;
+  }
+  public unmountOnScroll() {
+    this.mounted = false;
   }
   private get animationsCount() {
     return this.scrollAnimation.horizontal.length + this.scrollAnimation.vertical.length;
@@ -58,10 +65,15 @@ class AnimationManager {
       this.scrollTo(distToScroll.x, distToScroll.y);
       this.scrollChanged.horizontal += this.element.position(true) - this.lastPosition.horizontal;
       this.scrollChanged.vertical += this.element.position(false) - this.lastPosition.vertical;
-      window.requestAnimationFrame(this.onAnimationFrame);
     }
+    window.requestAnimationFrame(
+      this.mounted
+        ? () => window.requestAnimationFrame(this.onAnimationFrame) // skip 1 animation
+        : this.onAnimationFrame,
+    );
   };
   private scrollTo(x: number, y: number) {
+    this.scroll();
     this.element.scrollTo(Math.round(x), Math.round(y));
   }
   private get distToScroll(): Point {

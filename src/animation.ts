@@ -1,4 +1,4 @@
-import { EasingFunction, defaultEasingFunction, IBasicProperties } from "./data";
+import { EasingFunction, defaultEasingFunction } from "./data";
 
 interface ScrollInstanceProps {
   duration: number;
@@ -8,8 +8,7 @@ interface ScrollInstanceProps {
 
 type DOMHighResTimeStamp = number;
 
-class Animation implements IBasicProperties {
-  public onScroll: (() => void) | null = null;
+class Animation {
   private initialTime: DOMHighResTimeStamp;
   private active: boolean = true;
   public easing: EasingFunction;
