@@ -1,8 +1,7 @@
-import { AnimationApi } from "./animation";
 import { ScrollElement } from "./element";
 import { AnimationManager } from "./animation-manager";
-
-// https://stackoverflow.com/questions/3437786/get-the-size-of-the-screen-current-web-page-and-browser-window
+import { EasingFunction, defaultEasingFunction, IBasicProperties } from "./data";
+import { Animation } from "./animation";
 
 interface IScrollToElementOptions extends IOptions {
   center?: number;
@@ -13,72 +12,77 @@ interface IOptions {
   horizontal?: boolean;
 }
 
-class Scroll {
+class Scroll implements IBasicProperties {
+  public onScroll: (() => void) | null = null;
+  public onUtilityScroll: (() => void) | null = null;
+  public onUserScroll: (() => void) | null = null;
+  public easing: EasingFunction = defaultEasingFunction;
   private element: ScrollElement;
   private animationManager: AnimationManager;
+  private scrolling: boolean = false;
   constructor(element?: HTMLElement | null) {
     this.element = new ScrollElement(element);
-    this.animationManager = new AnimationManager(this.element);
+    this.animationManager = new AnimationManager(this.element, () => {
+      this.scrolling = true;
+    });
+    this.element.onScroll = () => {
+      if (this.scrolling) {
+        this.onUtilityScroll && this.onUtilityScroll();
+      } else {
+        this.onUserScroll && this.onUserScroll();
+      }
+      this.onScroll && this.onScroll();
+      this.scrolling = false;
+    };
+  }
+  public mountOnScroll() {
+    this.element.mountOnScroll();
+    this.animationManager.mountOnScroll();
+  }
+  public unmountOnScroll() {
+    this.element.unmountOnScroll();
+    this.animationManager.unmountOnScroll();
+  }
+  public stopAllAnimations() {
+    this.animationManager.stopAllAnimations();
   }
   public scroll = {
-    toElement: (element: HTMLElement | null, options: IScrollToElementOptions = {}) => {
+    toElement: (element: HTMLElement | null | undefined, options: IScrollToElementOptions = {}): Animation => {
+      let dist = 0;
       if (element) {
         const center = options.center || 0;
-        const duration = options.duration || 0;
         const horizontal = !!options.horizontal;
         const ratio = center / 100;
         const _element = new ScrollElement(element);
         const screenOffset = (this.element.size(horizontal) - _element.size(horizontal)) * ratio;
         const elementPosition = _element.offset(horizontal) - this.element.offset(horizontal);
-        const distToElement = elementPosition - screenOffset;
-
-        return this.animationManager.createScrollAnimation({
-          distToScroll: () => distToElement,
-          duration,
-          horizontal,
-        });
+        dist = elementPosition - screenOffset;
       } else {
         console.warn("*element* in scrollToElement function can't be null or undefined");
-        return this.animationManager.createScrollAnimation({
-          distToScroll: () => 0,
-          duration: 0,
-          horizontal: false,
-        })
       }
+      return this.scroll.offset(dist, options);
     },
-    toPercent: (percent: number, options: IOptions = {}) => {
+    toPercent: (percent: number, options: IOptions = {}): Animation => {
       const ratio = percent / 100;
-      const duration = options.duration || 0;
       const horizontal = !!options.horizontal;
-      const dist =
-        (this.element.scrollSize(horizontal) - this.element.size(horizontal)) * ratio -
-        this.element.position(horizontal);
-      return this.animationManager.createScrollAnimation({
-        distToScroll: () => dist,
-        duration,
-        horizontal,
-      });
+      const position =
+        (this.element.scrollSize(horizontal) - this.element.size(horizontal)) * ratio;
+      return this.scroll.toPosition(position, options);
     },
-    toPosition: (position: number, options: IOptions = {}) => {
-      const duration = options.duration || 0;
+    toPosition: (position: number, options: IOptions = {}): Animation => {
       const horizontal = !!options.horizontal;
       const dist = position - this.element.position(horizontal);
-      return this.animationManager.createScrollAnimation({
-        distToScroll: () => dist,
-        duration,
-        horizontal,
-      });
+      return this.scroll.offset(dist, options);
     },
-    offset: (amount: number, options: IOptions = {}) => {
-      const duration = options.duration || 0;
-      const horizontal = !!options.horizontal;
+    offset: (amount: number, options: IOptions = {}): Animation => {
       return this.animationManager.createScrollAnimation({
-        distToScroll: () => amount,
-        duration,
-        horizontal,
+        distToScroll: amount,
+        duration: options.duration || 0,
+        horizontal: options.horizontal || false,
+        easing: this.easing,
       });
     },
   };
 }
 
-export { Scroll, AnimationApi as AnimationScroll, IOptions, IScrollToElementOptions };
+export { Scroll, IOptions, IScrollToElementOptions, Animation };
