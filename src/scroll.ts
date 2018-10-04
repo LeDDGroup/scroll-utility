@@ -46,33 +46,18 @@ class Scroll implements IBasicProperties {
   public stopAllAnimations() {
     this.animationManager.stopAllAnimations();
   }
-  public scroll = {
+  public readonly scroll = {
     toElement: (element: HTMLElement | null | undefined, options: IScrollToElementOptions = {}): Animation => {
-      let dist = 0;
-      if (element) {
-        const center = options.center || 0;
-        const horizontal = !!options.horizontal;
-        const ratio = center / 100;
-        const _element = new ScrollElement(element);
-        const screenOffset = (this.element.size(horizontal) - _element.size(horizontal)) * ratio;
-        const elementPosition = _element.offset(horizontal) - this.element.offset(horizontal);
-        dist = elementPosition - screenOffset;
-      } else {
-        console.warn("*element* in scrollToElement function can't be null or undefined");
-      }
-      return this.scroll.offset(dist, options);
+      const dist = this.element.distanceTo.element(new ScrollElement(element), options.center || 0, !!options.horizontal)
+      return this.scroll.offset(dist, options)
     },
     toPercent: (percent: number, options: IOptions = {}): Animation => {
-      const ratio = percent / 100;
-      const horizontal = !!options.horizontal;
-      const position =
-        (this.element.scrollSize(horizontal) - this.element.size(horizontal)) * ratio;
-      return this.scroll.toPosition(position, options);
+      const dist = this.element.distanceTo.percent(percent, !!options.horizontal)
+      return this.scroll.offset(dist, options)
     },
     toPosition: (position: number, options: IOptions = {}): Animation => {
-      const horizontal = !!options.horizontal;
-      const dist = position - this.element.position(horizontal);
-      return this.scroll.offset(dist, options);
+      const dist = this.element.distanceTo.position(position, !!options.horizontal)
+      return this.scroll.offset(dist, options)
     },
     offset: (amount: number, options: IOptions = {}): Animation => {
       return this.animationManager.createScrollAnimation({
