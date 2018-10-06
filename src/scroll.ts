@@ -46,28 +46,33 @@ class Scroll implements IBasicProperties {
   public stopAllAnimations() {
     this.animationManager.stopAllAnimations();
   }
-  public readonly scroll = {
-    toElement: (element: HTMLElement | null | undefined, options: IScrollToElementOptions = {}): Animation => {
-      const dist = this.element.distanceTo.element(new ScrollElement(element), options.center || 0, !!options.horizontal)
-      return this.scroll.offset(dist, options)
-    },
-    toPercent: (percent: number, options: IOptions = {}): Animation => {
-      const dist = this.element.distanceTo.percent(percent, !!options.horizontal)
-      return this.scroll.offset(dist, options)
-    },
-    toPosition: (position: number, options: IOptions = {}): Animation => {
-      const dist = this.element.distanceTo.position(position, !!options.horizontal)
-      return this.scroll.offset(dist, options)
-    },
-    offset: (amount: number, options: IOptions = {}): Animation => {
-      return this.animationManager.createScrollAnimation({
-        distToScroll: amount,
-        duration: options.duration || 0,
-        horizontal: options.horizontal || false,
-        easing: this.easing,
-      });
-    },
-  };
+  public scrollToElement(
+    element: HTMLElement | null | undefined,
+    options: IScrollToElementOptions = {},
+  ) {
+    const dist = this.element.distanceTo.element(
+      new ScrollElement(element),
+      options.center || 0,
+      !!options.horizontal,
+    );
+    return this.scrollBy(dist, options);
+  }
+  public scrollToPercent(percent: number, options: IOptions = {}) {
+    const dist = this.element.distanceTo.percent(percent, !!options.horizontal);
+    return this.scrollBy(dist, options);
+  }
+  public scrollToPosition(position: number, options: IOptions = {}) {
+    const dist = this.element.distanceTo.position(position, !!options.horizontal);
+    return this.scrollBy(dist, options);
+  }
+  public scrollBy(amount: number, options: IOptions = {}) {
+    return this.animationManager.createScrollAnimation({
+      distToScroll: amount,
+      duration: options.duration || 0,
+      horizontal: options.horizontal || false,
+      easing: this.easing,
+    });
+  }
 }
 
 export { Scroll, IOptions, IScrollToElementOptions, Animation };
