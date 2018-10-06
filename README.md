@@ -6,28 +6,27 @@ The best utility package for smooth scrolling and centering elements in the page
 
 <!-- TOC -->
 
-- [scroll-utility](#scroll-utility)
-  - [See [demo](https://leddgroup.com/scroll-example)](#see-demohttpsleddgroupcomscroll-example)
-  - [Basic usage explanation](#basic-usage-explanation)
-  - [Installation](#installation)
-  - [Features](#features)
-    - [Specify scroll container](#specify-scroll-container)
-      - [Scroll inside window (default behavior)](#scroll-inside-window-default-behavior)
-      - [Scroll a div or any other html element](#scroll-a-div-or-any-other-html-element)
-    - [Scroll to specific places in scroll](#scroll-to-specific-places-in-scroll)
-      - [Scroll to a position](#scroll-to-a-position)
-      - [Scroll to a percent](#scroll-to-a-percent)
-      - [Scroll to an element](#scroll-to-an-element)
-      - [Offset scroll position](#offset-scroll-position)
-      - [options](#options)
-      - [examples](#examples)
-    - [Stop animations](#stop-animations)
-    - [Change animation function](#change-animation-function)
-    - [onScroll events](#onscroll-events)
-  - [Cross-browser compatibility](#cross-browser-compatibility)
-  - [Example app with scroll-utility](#example-app-with-scroll-utility)
-  - [Github](#github)
-  - [License](#license)
+- [Demo](https://leddgroup.com/scroll-example)
+- [Basic usage explanation](#basic-usage-explanation)
+- [Installation](#installation)
+- [Features](#features)
+  - [Specify scroll container](#specify-scroll-container)
+    - [Scroll inside window (default behavior)](#scroll-inside-window-default-behavior)
+    - [Scroll a div or any other html element](#scroll-a-div-or-any-other-html-element)
+  - [Scroll to specific places in scroll](#scroll-to-specific-places-in-scroll)
+    - [Scroll to a position](#scroll-to-a-position)
+    - [Scroll to a percent](#scroll-to-a-percent)
+    - [Scroll to an element](#scroll-to-an-element)
+    - [Offset scroll position](#offset-scroll-position)
+    - [options](#options)
+    - [examples](#examples)
+  - [Stop animations](#stop-animations)
+  - [Change animation function](#change-animation-function)
+  - [onScroll events](#onscroll-events)
+- [Cross-browser compatibility](#cross-browser-compatibility)
+- [Example app with scroll-utility](#example-app-with-scroll-utility)
+- [Github](#github)
+- [License](#license)
 
 <!-- /TOC -->
 
@@ -44,10 +43,10 @@ const scrollManager = new Scroll(); // create a scroll instance for window for s
 const elementScrollManager = new Scroll(element); // for scrolling inside element instead of window
 
 // start a scroll animation
-scrollManager.scroll.offset(value, options); // offset current scroll position by "value"
-scrollManager.scroll.scrollToPosition(position, options); // scroll to position "position"
-scrollManager.scroll.scrollToPercent(percent, options); // scroll to position given by "percent"
-scrollManager.scroll.scrollToElement(element, options); // scroll to element "element"
+scrollManager.scrollBy(value, options); // offset current scroll position by "value"
+scrollManager.scrollToPosition(position, options); // scroll to position "position"
+scrollManager.scrollToPercent(percent, options); // scroll to position given by "percent"
+scrollManager.scrollToElement(element, options); // scroll to element "element"
 
 // onScroll events
 scrollManager.onScroll = () => console.log("scroll ocurred in scrollManager container");
@@ -57,7 +56,7 @@ scrollManager.onUserScroll = () => console.log("this scroll utility did not scro
 // stopping animations
 
 scrollManager.stopAllAnimations(); // stop all animation in "scrollManager"
-const animation = scrollManager.scroll.offset(10); // capture animation
+const animation = scrollManager.scrollBy(10); // capture animation
 animation.stop(); // stop animation
 ```
 
@@ -135,7 +134,7 @@ Here `htmlElement` should be an html element. _null_ or _undefined_ will scroll 
 #### Offset scroll position
 
 ```js
-windowScrollManager.scroll.offset(number, options); // will offset scroll position, can be negative
+windowScrollManager.scrollBy(number, options); // will offset scroll position, can be negative
 ```
 
 #### options
@@ -211,22 +210,21 @@ That is the best thing of scroll-utility. It is design to work with multiple ani
 For example:
 
 ```js
-scrollManager.scroll.offset(500, { duration: 1000 });
-scrollManager.scroll.offset(34, { duration: 775 });
+scrollManager.scrollBy(500, { duration: 1000 });
+scrollManager.scrollBy(34, { duration: 775 });
 ```
 
 1 second from it started to move, it will have been offset its position for 534px
 
 ```js
-scrollManager.scroll.toPosition(0)
-scrollManager.scroll.toPercent(50, {duration: 500})
-scrollManager.scroll.toPercent(50, {duration: 1000})
+scrollManager.scroll.toPosition(0);
+scrollManager.scroll.toPercent(50, { duration: 500 });
+scrollManager.scroll.toPercent(50, { duration: 1000 });
 ```
 
-in this example in 1 second to scroll bar will be at the end, due that it created 2 scroll animations that were to scroll 50% of the page (from 0 to 50), so 50% + 50% = 100%  
+in this example in 1 second to scroll bar will be at the end, due that it created 2 scroll animations that were to scroll 50% of the page (from 0 to 50), so 50% + 50% = 100%
 
-So generally when you use *toPercent* *toPosition* *toElement*, you would want to use *stopAllAnimation*, to ensure you will scroll to the desire position
-
+So generally when you use _toPercent_ _toPosition_ _toElement_, you would want to use _stopAllAnimation_, to ensure you will scroll to the desire position
 
 ## Cross-browser compatibility
 

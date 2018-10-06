@@ -86,12 +86,11 @@ class ScrollElement {
   }
   public readonly distanceTo = {
     position: (position: number, horizontal: boolean) => {
-      return position - this.position(horizontal)
+      return position - this.position(horizontal);
     },
     percent: (percent: number, horizontal: boolean) => {
       const ratio = percent / 100;
-      const position =
-        (this.scrollSize(horizontal) - this.size(horizontal)) * ratio;
+      const position = (this.scrollSize(horizontal) - this.size(horizontal)) * ratio;
       return this.distanceTo.position(position, horizontal);
     },
     element: (element: ScrollElement, center: number, horizontal: boolean) => {
@@ -100,5 +99,5 @@ class ScrollElement {
       const elementPosition = element.offset(horizontal) - this.offset(horizontal);
       return elementPosition - screenOffset;
     },
-  }
+  };
 }
