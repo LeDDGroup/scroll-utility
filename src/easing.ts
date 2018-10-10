@@ -17,9 +17,4 @@ const defaultEasingFunction: EasingFunction = (
   return (-distance / 2) * (currentStep * (currentStep - 2) - 1) + offsetValue;
 };
 
-interface IBasicProperties {
-  onScroll: (() => void) | null;
-  easing: EasingFunction;
-}
-
-export { EasingFunction, defaultEasingFunction, IBasicProperties };
+export { EasingFunction, defaultEasingFunction };

@@ -1,7 +1,10 @@
 import { ScrollElement } from "./element";
 import { AnimationManager } from "./animation-manager";
-import { EasingFunction, defaultEasingFunction, IBasicProperties } from "./data";
+import { EasingFunction, defaultEasingFunction } from "./easing";
 import { Animation } from "./animation";
+
+type Maybe<T> = T | null | undefined;
+type onScrollFunction = Maybe<() => void>;
 
 interface IScrollToElementOptions extends IOptions {
   center?: number;
@@ -12,15 +15,37 @@ interface IOptions {
   horizontal?: boolean;
 }
 
-class Scroll implements IBasicProperties {
-  public onScroll: (() => void) | null = null;
-  public onUtilityScroll: (() => void) | null = null;
-  public onUserScroll: (() => void) | null = null;
+class Scroll {
+  private _onScroll: onScrollFunction = null;
+  private mounted: boolean = false;
+  public get onScroll(): onScrollFunction {
+    return this._onScroll;
+  }
+  public set onScroll(value: onScrollFunction) {
+    this.scrollSet();
+    this._onScroll = value;
+  }
+  private _onUserScroll: onScrollFunction = null;
+  public get onUserScroll(): onScrollFunction {
+    return this._onUserScroll;
+  }
+  public set onUserScroll(value: onScrollFunction) {
+    this.scrollSet();
+    this._onUserScroll = value;
+  }
+  private _onUtilityScroll: onScrollFunction = null;
+  public get onUtilityScroll(): onScrollFunction {
+    return this._onUtilityScroll;
+  }
+  public set onUtilityScroll(value: onScrollFunction) {
+    this.scrollSet();
+    this._onUtilityScroll = value;
+  }
   public easing: EasingFunction = defaultEasingFunction;
   private element: ScrollElement;
   private animationManager: AnimationManager;
   private scrolling: boolean = false;
-  constructor(element?: HTMLElement | null) {
+  constructor(element?: Maybe<HTMLElement>) {
     this.element = new ScrollElement(element);
     this.animationManager = new AnimationManager(this.element, () => {
       this.scrolling = true;
@@ -35,21 +60,10 @@ class Scroll implements IBasicProperties {
       this.scrolling = false;
     };
   }
-  public mountOnScroll() {
-    this.element.mountOnScroll();
-    this.animationManager.mountOnScroll();
-  }
-  public unmountOnScroll() {
-    this.element.unmountOnScroll();
-    this.animationManager.unmountOnScroll();
-  }
   public stopAllAnimations() {
     this.animationManager.stopAllAnimations();
   }
-  public scrollToElement(
-    element: HTMLElement | null | undefined,
-    options: IScrollToElementOptions = {},
-  ) {
+  public scrollToElement(element: Maybe<HTMLElement>, options: IScrollToElementOptions = {}) {
     const dist = this.element.distanceTo.element(
       new ScrollElement(element),
       options.center || 0,
@@ -72,6 +86,24 @@ class Scroll implements IBasicProperties {
       horizontal: options.horizontal || false,
       easing: this.easing,
     });
+  }
+  private mountOnScroll() {
+    this.mounted = true;
+    this.element.mountOnScroll();
+    this.animationManager.mountOnScroll();
+  }
+  private unmountOnScroll() {
+    this.mounted = false;
+    this.element.unmountOnScroll();
+    this.animationManager.unmountOnScroll();
+  }
+  private scrollSet() {
+    const shouldMount =
+      this.mounted && (!!this.onScroll && !!this.onUserScroll && !!this.onUtilityScroll);
+    const shouldUnmount =
+      !this.mounted && (this.onScroll || this.onUserScroll || this.onUtilityScroll);
+    if (shouldMount) this.mountOnScroll();
+    if (shouldUnmount) this.unmountOnScroll();
   }
 }
 

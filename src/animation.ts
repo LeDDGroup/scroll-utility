@@ -1,4 +1,4 @@
-import { EasingFunction, defaultEasingFunction } from "./data";
+import { EasingFunction, defaultEasingFunction } from "./easing";
 
 interface ScrollInstanceProps {
   duration: number;

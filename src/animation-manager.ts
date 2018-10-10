@@ -1,6 +1,6 @@
 import { Animation } from "./animation";
 import { ScrollElement } from "./element";
-import { EasingFunction } from "./data";
+import { EasingFunction } from "./easing";
 
 function toDirection(horizontal: boolean): "horizontal" | "vertical" {
   return horizontal ? "horizontal" : "vertical";
