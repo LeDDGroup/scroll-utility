@@ -45,7 +45,7 @@ function testScenarios(getBrowser: () => WebDriver) {
     myDirectionDescribe()
   })
   myDescribe("in element", "elementScroll", true, () => {
-    beforeAll(async () => {
+    before(async () => {
       const initialize = browser.getManagerInit(false)
       await browser.evaluate(
         `${initialize}; scrollManager.scroll.toElement(${

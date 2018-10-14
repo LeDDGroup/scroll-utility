@@ -1,5 +1,6 @@
 import { Scenario, IOptions } from "."
-import { delay } from "../delay";
+import { delay } from "../delay"
+import { expectCloseBy } from "./expect-close-by"
 
 export { scrollToPercent }
 
@@ -25,7 +26,7 @@ function scrollToPercent(browser: Scenario, options: IOptions = {}) {
       const expectedPosition = (scrollSize - size) * ratio
 
       await browser.browser.takeScreenshot()
-      expect(offset).toBe(expectedPosition)
+      expectCloseBy(offset, expectedPosition)
     }
 
     const values = [0, 25, 50, 75, 100]
