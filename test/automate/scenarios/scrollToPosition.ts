@@ -1,5 +1,6 @@
 import { Scenario, IOptions } from "."
 import { delay } from "../delay"
+import { expectCloseBy } from "./expect-close-by"
 
 export { scrollToPosition }
 
@@ -22,7 +23,7 @@ function scrollToPosition(browser: Scenario, options: IOptions = {}) {
       const expectedPosition = scrollPosition
 
       await browser.browser.takeScreenshot()
-      expect(lastOffset).toBe(expectedPosition)
+      expectCloseBy(lastOffset, expectedPosition)
     }
     it("should scroll to certain position", async () => scrollToPositionTest(1500))
     it("should scroll to a floating value", async () => scrollToPositionTest(511.8124567))

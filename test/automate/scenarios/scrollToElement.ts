@@ -1,5 +1,6 @@
 import { Scenario, IOptions } from "."
 import { delay } from "../delay"
+import { expectCloseBy } from "./expect-close-by"
 
 export { scrollToElement }
 
@@ -26,9 +27,7 @@ function scrollToElement(browser: Scenario, options: IOptions = {}) {
       const elementSize = await browser.getElementSize(options)
 
       await browser.browser.takeScreenshot()
-      expect(
-        Math.round(otherElementOffset - elementOffset - (size - elementSize) * ratio - 0.000001),
-      ).toBeCloseTo(0, 1)
+      expectCloseBy(otherElementOffset - elementOffset, (size - elementSize) * ratio)
     }
 
     const values = [0, 25, 50, 75, 100]

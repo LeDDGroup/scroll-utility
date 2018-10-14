@@ -1,5 +1,6 @@
 import { Scenario, IOptions } from "."
-import { delay } from "../delay";
+import { delay } from "../delay"
+import { expectCloseBy } from "./expect-close-by"
 
 export { offset }
 
@@ -22,7 +23,7 @@ function offset(browser: Scenario, options: IOptions = {}) {
       const expectedPosition = scrollDistance + initialOffset
 
       await browser.browser.takeScreenshot()
-      expect(lastOffset).toBe(expectedPosition)
+      expectCloseBy(lastOffset, expectedPosition)
     }
 
     it("should do scroll with offset fixed", async () => offsetTest(1000))
