@@ -18,14 +18,16 @@ function scrollToPercent(browser: Scenario, options: IOptions = {}) {
         });
       `)
       await delay(duration)
-      const ratio = scrollPercent / 100
-      const scrollSize = await browser.getScrollSize(options)
-      const size = await browser.getSize(options)
-      const offset = await browser.getOffset(options)
+      const [scrollSize, size, offset] = await Promise.all([
+        browser.getScrollSize(options),
+        browser.getSize(options),
+        browser.getOffset(options),
+        browser.browser.takeScreenshot(), // return value not needed
+      ])
 
+      const ratio = scrollPercent / 100
       const expectedPosition = (scrollSize - size) * ratio
 
-      await browser.browser.takeScreenshot()
       expectCloseBy(offset, expectedPosition)
     }
 

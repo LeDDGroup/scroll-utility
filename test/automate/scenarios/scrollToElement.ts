@@ -20,13 +20,14 @@ function scrollToElement(browser: Scenario, options: IOptions = {}) {
         });
       `)
       await delay(duration)
+      const [size, elementOffset, otherElementOffset, elementSize] = await Promise.all([
+        browser.getSize(options),
+        browser.getScrollOffset(options),
+        browser.getElementScrollOffset(options),
+        browser.getElementSize(options),
+        browser.browser.takeScreenshot(), // return value not needed
+      ])
       const ratio = center / 100
-      const size = await browser.getSize(options)
-      const elementOffset = await browser.getScrollOffset(options)
-      const otherElementOffset = await browser.getElementScrollOffset(options)
-      const elementSize = await browser.getElementSize(options)
-
-      await browser.browser.takeScreenshot()
       expectCloseBy(otherElementOffset - elementOffset, (size - elementSize) * ratio)
     }
 
