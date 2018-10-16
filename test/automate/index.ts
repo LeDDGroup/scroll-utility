@@ -10,7 +10,7 @@ const long_timeout = 0
 
 const branch = process.env["TRAVIS_BRANCH"]
 
-const basicTests = !branch && branch !== "master"
+const basicTests = !!branch && branch !== "master"
 
 let server = new Server()
 before(async function() {
@@ -18,12 +18,16 @@ before(async function() {
   return await server.start()
 })
 describe("client tests ", async function() {
-  for (const os in capabilities) {
-    for (const browser in capabilities[os]) {
-      const cap: webdriver.Capabilities = capabilities[os][browser]
-      describe(`${os} ${browser}`, async function() {
-        test(cap)
-      })
+  if (basicTests) {
+    test(capabilities.Windows.chrome)
+  } else {
+    for (const os in capabilities) {
+      for (const browser in capabilities[os]) {
+        const cap: webdriver.Capabilities = capabilities[os][browser]
+        describe(`${os} ${browser}`, async function() {
+          test(cap)
+        })
+      }
     }
   }
 })
