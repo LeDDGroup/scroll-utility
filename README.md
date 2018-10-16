@@ -8,13 +8,12 @@ The best utility package for smooth scrolling and centering elements in the page
 
 **Table of Contents**
 
-- [[demo](https://leddgroup.com/scroll-utility)](#demohttpsleddgroupcomscroll-utility)
 - [Basic usage](#basic-usage)
 - [Installation](#installation)
 - [Usage](#usage)
   - [Specify scroll container](#specify-scroll-container)
-  - [Scroll inside window (default behavior)](#scroll-inside-window-default-behavior)
-  - [Scroll a div or any other html element](#scroll-a-div-or-any-other-html-element)
+    - [Scroll inside window (default behavior)](#scroll-inside-window-default-behavior)
+    - [Scroll a div or any other html element](#scroll-a-div-or-any-other-html-element)
   - [Scroll to specific places in scroll](#scroll-to-specific-places-in-scroll)
     - [Scroll to a position](#scroll-to-a-position)
     - [Scroll to a percent](#scroll-to-a-percent)
@@ -81,7 +80,7 @@ or from a cdn at `https://cdn.jsdelivr.net/npm/scroll-utility`
 
 ## Specify scroll container
 
-## Scroll inside window (default behavior)
+### Scroll inside window (default behavior)
 
 ```js
 import { Scroll } from "scroll-utility"
@@ -91,7 +90,7 @@ const windowScrollManager = new Scroll()
 
 `windowScrollManager` will be used to scroll the normal overflow in webpages
 
-## Scroll a div or any other html element
+### Scroll a div or any other html element
 
 ```js
 import { Scroll } from "scroll-utility"
