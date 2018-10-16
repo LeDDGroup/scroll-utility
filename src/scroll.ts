@@ -75,9 +75,9 @@ class Scroll {
   }
   private scrollSet() {
     const shouldMount =
-      this.mounted && (!!this.onScroll && !!this.onUserScroll && !!this.onUtilityScroll)
+      !this.mounted && (!!this.onScroll || !!this.onUserScroll || !!this.onUtilityScroll)
     const shouldUnmount =
-      !this.mounted && (this.onScroll || this.onUserScroll || this.onUtilityScroll)
+      this.mounted && (!this.onScroll && !this.onUserScroll && !this.onUtilityScroll)
     if (shouldMount) this.mountOnScroll()
     if (shouldUnmount) this.unmountOnScroll()
   }
