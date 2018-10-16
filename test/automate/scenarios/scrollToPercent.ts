@@ -22,7 +22,7 @@ function scrollToPercent(browser: Scenario, options: IOptions = {}) {
       const size = await browser.getSize(options)
       const offset = await browser.getOffset(options)
 
-      const expectedPosition = Math.round((scrollSize - size) * ratio) // Some browsers don't scroll to floating values
+      const expectedPosition = (scrollSize - size) * ratio
 
       await browser.browser.takeScreenshot()
       expect(offset).toBe(expectedPosition)
