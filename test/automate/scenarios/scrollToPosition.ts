@@ -19,7 +19,7 @@ function scrollToPosition(browser: Scenario, options: IOptions = {}) {
       await delay(duration)
       const lastOffset = await browser.getOffset(options)
 
-      const expectedPosition = Math.round(scrollPosition)
+      const expectedPosition = scrollPosition
 
       await browser.browser.takeScreenshot()
       expect(lastOffset).toBe(expectedPosition)

@@ -19,7 +19,7 @@ function offset(browser: Scenario, options: IOptions = {}) {
       await delay(duration)
       const lastOffset = await browser.getOffset(options)
 
-      const expectedPosition = Math.round(scrollDistance + initialOffset)
+      const expectedPosition = scrollDistance + initialOffset
 
       await browser.browser.takeScreenshot()
       expect(lastOffset).toBe(expectedPosition)

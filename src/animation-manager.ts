@@ -86,7 +86,7 @@ class AnimationManager {
   }
   private scrollTo(x: number, y: number) {
     this.scroll()
-    this.element.scrollTo(Math.round(x), Math.round(y))
+    this.element.scrollTo(x, y)
   }
   private get distToScroll(): Point {
     return {
