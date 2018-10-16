@@ -7,14 +7,12 @@ import { WebDriver } from "selenium-webdriver"
 
 export { testScenarios, Scenario, IOptions }
 
-const basicTests = true
-
 interface IOptions {
   horizontal?: boolean
   elementScroll?: boolean
 }
 
-function testScenarios(getBrowser: () => WebDriver) {
+function testScenarios(getBrowser: () => WebDriver, basicTests: boolean) {
   const options: IOptions = {}
   const browser = new Scenario(getBrowser)
   function optionTest(options: IOptions) {
@@ -38,30 +36,34 @@ function testScenarios(getBrowser: () => WebDriver) {
     myDescribe("vertically", "horizontal", false, () => {
       optionTest(options)
     })
-    myDescribe("horizontally", "horizontal", true, () => {
-      optionTest(options)
-    })
+    if (!basicTests) {
+      myDescribe("horizontally", "horizontal", true, () => {
+        optionTest(options)
+      })
+    }
   }
 
   myDescribe("in window", "elementScroll", false, () => {
     myDirectionDescribe()
   })
-  myDescribe("in element", "elementScroll", true, () => {
-    before(async () => {
-      const initialize = browser.getManagerInit(false)
-      await browser.evaluate(
-        `${initialize}; scrollManager.scroll.toElement(${
-          Scenario.elementSelector
-        }, { horizontal: false, center: 50})`,
-      )
-      await browser.evaluate(
-        `${initialize}; scrollManager.scroll.toElement(${
-          Scenario.elementSelector
-        }, { horizontal: true, center: 50})`,
-      )
+  if (!basicTests) {
+    myDescribe("in element", "elementScroll", true, () => {
+      before(async () => {
+        const initialize = browser.getManagerInit(false)
+        await browser.evaluate(
+          `${initialize}; scrollManager.scroll.toElement(${
+            Scenario.elementSelector
+          }, { horizontal: false, center: 50})`,
+        )
+        await browser.evaluate(
+          `${initialize}; scrollManager.scroll.toElement(${
+            Scenario.elementSelector
+          }, { horizontal: true, center: 50})`,
+        )
+      })
+      myDirectionDescribe()
     })
-    myDirectionDescribe()
-  })
+  }
 }
 
 class Scenario {
