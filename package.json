@@ -7,7 +7,9 @@
   "browser": "dist/browser.js",
   "scripts": {
     "start": "parcel test/local/index.html",
-    "build": "tsc -p tsconfig-build.json",
+    "build": "npm run build-package && npm run build-browser",
+    "build-browser": "parcel build -d dist -o browser.js src/browser.ts ",
+    "build-package": "tsc -p tsconfig-build.json",
     "check": "tsc --noEmit",
     "check-watch": "tsc --noEmit --watch",
     "format": "prettier --write \"**/*.{js,ts,tsx,md,yml,json}\"",
