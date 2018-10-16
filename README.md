@@ -1,7 +1,5 @@
 # scroll-utility
 
-The best utility package for smooth scrolling and centering elements in the page or other html elements.
-
 [![Travis](https://travis-ci.org/LeDDGroup/scroll-utility.svg?branch=master)](https://travis-ci.org/LeDDGroup/scroll-utility) [![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=QmJOaDZzS3BBOWUrem1PMWw1K29CZjByZjNBcTNyYlE0LzVYZEhFYVg1ST0tLXBOR05wTitscU1PM2FvQ0NrOUlHbHc9PQ==--70960e59e91fc8efc3dced4f2cebeff5665746ca)](https://www.browserstack.com/automate/public-build/QmJOaDZzS3BBOWUrem1PMWw1K29CZjByZjNBcTNyYlE0LzVYZEhFYVg1ST0tLXBOR05wTitscU1PM2FvQ0NrOUlHbHc9PQ==--70960e59e91fc8efc3dced4f2cebeff5665746ca) [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/LeddSoftware/scroll-utility)
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
@@ -74,7 +72,7 @@ or from a cdn at `https://cdn.jsdelivr.net/npm/scroll-utility`
 <script src="https://cdn.jsdelivr.net/npm/scroll-utility"></script>
 ```
 
-`scroll-utility` will be exported as `ScrollUtility` and you can access it with `window.ScrollUtility`
+in this case `scroll-utility` will be exported as `ScrollUtility` and you can access it with `window.ScrollUtility`
 
 # Usage
 
@@ -199,7 +197,7 @@ scrollManager.onUtilityScroll = () => console.log("this scroll utility did scrol
 scrollManager.onUserScroll = () => console.log("this scroll utility did not scrolled!")
 ```
 
-for example, if you wish to stop animation on user scroll you could do:
+for example, if you wish to stop all animations every time the user scroll you could do:
 
 ```js
 scrollManager.onUserScroll = () => scrollManager.stopAllAnimations()
@@ -207,8 +205,8 @@ scrollManager.onUserScroll = () => scrollManager.stopAllAnimations()
 
 ## Stack animations and high precision
 
-The main idea of this module is to be able of do several animation at the same time, and still get a desireable outcome.  
-It is very difficult to archive precision when scrolling, due to the fact that browsers don't scroll to floating numbers, they round it up. So is even more difficult when there are several animations.  
+The main idea of this module is to be able of doing several animation at the same time, and still get a desireable outcome.  
+It is very difficult to archive precision when scrolling, due to the fact that browsers don't scroll well to floating numbers, they often round it up. So is even more difficult when there are several animations.  
 That is the best thing of scroll-utility. It is design to work with multiple animations and keep track on where the scroll position should end.
 
 For example:
@@ -228,7 +226,7 @@ scrollManager.scroll.toPercent(50, { duration: 1000 })
 
 in this example in 1 second to scroll bar will be at the end, due that it created 2 scroll animations that were to scroll 50% of the page (from 0 to 50), so 50% + 50% = 100%
 
-So generally when you use _toPercent_ _toPosition_ _toElement_, you would want to use _stopAllAnimation_, to ensure you will scroll to the desire position
+So generally when you use _toPercent_ _toPosition_ _toElement_, you would want to use _stopAllAnimation_, to ensure that there are not any other animation, otherwise they will stack toguether, wich is generally not wanted
 
 # Cross-browser compatibility
 
