@@ -8,6 +8,10 @@ import { testScenarios } from "./scenarios"
 const local_testing_site_url = "http://localhost:8080/"
 const long_timeout = 0
 
+const branch = process.env["TRAVIS_BRANCH"]
+
+const basicTests = !branch && branch !== "master"
+
 let server = new Server()
 before(async function() {
   this.timeout(long_timeout)
@@ -39,7 +43,7 @@ function test(cap: webdriver.Capabilities) {
     await browser.get(local_testing_site_url)
     expect(browser).toBeTruthy()
   })
-  testScenarios(() => browser)
+  testScenarios(() => browser, basicTests)
   after(async function() {
     this.timeout(long_timeout)
     await browser.quit()
