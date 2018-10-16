@@ -12,6 +12,7 @@
     "check-watch": "tsc --noEmit --watch",
     "format": "prettier --write \"**/*.{js,ts,tsx,md,yml,json}\"",
     "prebuild": "rm -rf dist",
+    "prepare": "npm run build",
     "semantic-release": "semantic-release",
     "test": "parcel build -d dist/test -o index.html test/local/index.html && mocha --exit -r ts-node/register ./test/automate/index.ts --timeout 10000",
     "travis-deploy-once": "travis-deploy-once"
