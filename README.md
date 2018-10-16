@@ -8,12 +8,13 @@ The best utility package for smooth scrolling and centering elements in the page
 
 **Table of Contents**
 
+- [[demo](https://leddgroup.com/scroll-utility)](#demohttpsleddgroupcomscroll-utility)
 - [Basic usage](#basic-usage)
 - [Installation](#installation)
 - [Usage](#usage)
   - [Specify scroll container](#specify-scroll-container)
-    - [Scroll inside window (default behavior)](#scroll-inside-window-default-behavior)
-    - [Scroll a div or any other html element](#scroll-a-div-or-any-other-html-element)
+  - [Scroll inside window (default behavior)](#scroll-inside-window-default-behavior)
+  - [Scroll a div or any other html element](#scroll-a-div-or-any-other-html-element)
   - [Scroll to specific places in scroll](#scroll-to-specific-places-in-scroll)
     - [Scroll to a position](#scroll-to-a-position)
     - [Scroll to a percent](#scroll-to-a-percent)
@@ -32,9 +33,9 @@ The best utility package for smooth scrolling and centering elements in the page
 
 <!-- markdown-toc end -->
 
-## [demo](https://leddgroup.com/scroll-utility)
+# [demo](https://leddgroup.com/scroll-utility)
 
-## Basic usage
+# Basic usage
 
 ```js
 import { Scroll } from "scroll-utility"
@@ -62,7 +63,7 @@ const animation = scrollManager.scroll.offset(1000, { duration: 1000 }) // captu
 animation.stop() // stop animation
 ```
 
-## Installation
+# Installation
 
 ```sh
 $ npm install --save scroll-utility
@@ -76,11 +77,11 @@ or from a cdn at `https://cdn.jsdelivr.net/npm/scroll-utility`
 
 `scroll-utility` will be exported as `ScrollUtility` and you can access it with `window.ScrollUtility`
 
-## Usage
+# Usage
 
-### Specify scroll container
+## Specify scroll container
 
-#### Scroll inside window (default behavior)
+## Scroll inside window (default behavior)
 
 ```js
 import { Scroll } from "scroll-utility"
@@ -90,7 +91,7 @@ const windowScrollManager = new Scroll()
 
 `windowScrollManager` will be used to scroll the normal overflow in webpages
 
-#### Scroll a div or any other html element
+## Scroll a div or any other html element
 
 ```js
 import { Scroll } from "scroll-utility"
@@ -102,9 +103,9 @@ const elementScrollManager = new Scroll(htmlElement)
 `elementScrollManager` will be used to scroll inside that specific element.  
 If `htmlElement` is _null_ or _undefined_ it will fallback to window scroll by default and it will create a window scroll instance
 
-### Scroll to specific places in scroll
+## Scroll to specific places in scroll
 
-#### Scroll to a position
+### Scroll to a position
 
 ```js
 // asuming windowScrollManager is declared
@@ -114,7 +115,7 @@ windowScrollManager.scroll.toPosition(number, options) // number is a position i
 windowScrollManager.scroll.toPosition(273)
 ```
 
-#### Scroll to a percent
+### Scroll to a percent
 
 ```js
 windowScrollManager.scroll.toPercent(percent, options) // number is a percent(from 0 to 100)
@@ -125,7 +126,7 @@ windowScrollManager.scroll.toPercent(50) // to the middle
 windowScrollManager.scroll.toPercent(100) // the end
 ```
 
-#### Scroll to an element
+### Scroll to an element
 
 ```js
 windowScrollManager.scroll.toElement(htmlElement, options)
@@ -133,13 +134,13 @@ windowScrollManager.scroll.toElement(htmlElement, options)
 
 Here `htmlElement` should be an html element. _null_ or _undefined_ will scroll to the start of its _scrollManger_ container
 
-#### Offset scroll position
+### Offset scroll position
 
 ```js
 windowScrollManager.scrollBy(number, options) // will offset scroll position, can be negative
 ```
 
-#### options
+### options
 
 ```js
 const optionsDefault = {
@@ -149,7 +150,7 @@ const optionsDefault = {
 }
 ```
 
-#### examples
+### examples
 
 ```js
 windowScrollManager.scroll.toPercent(50, {
@@ -167,7 +168,7 @@ windowScrollManager.scroll.toElement(htmlElement, {
 })
 ```
 
-### Stop animations
+## Stop animations
 
 ```js
 windowScrollManager.stopAllAnimations() // this will stop all animations in windowScrollManager
@@ -178,7 +179,7 @@ const animation = windowScrollManager.scroll.toPercent(50, { duration: 1000 })
 animation.stop()
 ```
 
-### Change animation function
+## Change animation function
 
 ```js
 windowScrollManager.easing = some_easing_function // will change default easing function for next created animations
@@ -189,7 +190,7 @@ windowScrollManager.scroll.toPercent(50, {
 }).easing = some_easing_function
 ```
 
-### onScroll events
+## onScroll events
 
 ```js
 const scrollManager = new Scroll(some_element)
@@ -205,7 +206,7 @@ for example, if you wish to stop animation on user scroll you could do:
 scrollManager.onUserScroll = () => scrollManager.stopAllAnimations()
 ```
 
-### Stack animations and high precision
+## Stack animations and high precision
 
 The main idea of this module is to be able of do several animation at the same time, and still get a desireable outcome.  
 It is very difficult to archive precision when scrolling, due to the fact that browsers don't scroll to floating numbers, they round it up. So is even more difficult when there are several animations.  
@@ -230,7 +231,7 @@ in this example in 1 second to scroll bar will be at the end, due that it create
 
 So generally when you use _toPercent_ _toPosition_ _toElement_, you would want to use _stopAllAnimation_, to ensure you will scroll to the desire position
 
-## Cross-browser compatibility
+# Cross-browser compatibility
 
 Compatibility guaranteed in Firefox, Chrome, Edge, Safari. In Opera and IE should work too, but there are no tests yet.
 
@@ -240,22 +241,23 @@ Test are made using automate testing with [Browserstack](https://www.browserstac
 
 See tests results [here](https://www.browserstack.com/automate/public-build/QmJOaDZzS3BBOWUrem1PMWw1K29CZjByZjNBcTNyYlE0LzVYZEhFYVg1ST0tLXBOR05wTitscU1PM2FvQ0NrOUlHbHc9PQ==--70960e59e91fc8efc3dced4f2cebeff5665746ca)
 
-## Example app with scroll-utility
+# Example app with scroll-utility
 
-To see a example with react, clone this repo and see its [demo](https://leddgroup.com/scroll-example)
+To see a example with react, clone the [demo](https://github.com/LeDDGroup/scroll-utility-demo)(see demo [here](https://leddgroup.com/scroll-example))
 
 ```sh
-git clone https://github.com/LeDDGroup/scroll-utility.git
-cd scroll-utility/demo
-npm run start
+git clone https://github.com/LeDDGroup/scroll-utility-demo
+cd scroll-utility-demo
+npm install
+npm start
 ```
 
 Navigate to http://localhost:8080
 
-## Github
+# Github
 
 If have any issue or feature request notify me via [github](https://github.com/LeDDGroup/scroll-utility/issues).
 
-## License
+# License
 
 [MIT](./LICENSE.md)
