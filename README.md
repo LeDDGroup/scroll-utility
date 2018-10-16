@@ -4,12 +4,13 @@ The best utility package for smooth scrolling and centering elements in the page
 
 [![Travis](https://travis-ci.org/LeDDGroup/scroll-utility.svg?branch=master)](https://github.com/LeDDGroup/scroll-utility) [![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=QmJOaDZzS3BBOWUrem1PMWw1K29CZjByZjNBcTNyYlE0LzVYZEhFYVg1ST0tLXBOR05wTitscU1PM2FvQ0NrOUlHbHc9PQ==--70960e59e91fc8efc3dced4f2cebeff5665746ca)](https://www.browserstack.com/automate/public-build/QmJOaDZzS3BBOWUrem1PMWw1K29CZjByZjNBcTNyYlE0LzVYZEhFYVg1ST0tLXBOR05wTitscU1PM2FvQ0NrOUlHbHc9PQ==--70960e59e91fc8efc3dced4f2cebeff5665746ca) [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/LeddSoftware/scroll-utility)
 
-<!-- TOC -->
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 
-- [Demo](https://leddgroup.com/scroll-example)
-- [Basic usage explanation](#basic-usage-explanation)
+**Table of Contents**
+
+- [Basic usage](#basic-usage)
 - [Installation](#installation)
-- [Features](#features)
+- [Usage](#usage)
   - [Specify scroll container](#specify-scroll-container)
     - [Scroll inside window (default behavior)](#scroll-inside-window-default-behavior)
     - [Scroll a div or any other html element](#scroll-a-div-or-any-other-html-element)
@@ -23,16 +24,17 @@ The best utility package for smooth scrolling and centering elements in the page
   - [Stop animations](#stop-animations)
   - [Change animation function](#change-animation-function)
   - [onScroll events](#onscroll-events)
+  - [Stack animations and high precision](#stack-animations-and-high-precision)
 - [Cross-browser compatibility](#cross-browser-compatibility)
 - [Example app with scroll-utility](#example-app-with-scroll-utility)
 - [Github](#github)
 - [License](#license)
 
-<!-- /TOC -->
+<!-- markdown-toc end -->
 
-## See [demo](https://leddgroup.com/scroll-example)
+## [demo](https://leddgroup.com/scroll-utility)
 
-## Basic usage explanation
+## Basic usage
 
 ```js
 import { Scroll } from "scroll-utility"
@@ -43,10 +45,10 @@ const scrollManager = new Scroll() // create a scroll instance for window for sc
 const elementScrollManager = new Scroll(element) // for scrolling inside element instead of window
 
 // start a scroll animation
-scrollManager.scrollBy(value, options) // offset current scroll position by "value"
-scrollManager.scrollToPosition(position, options) // scroll to position "position"
-scrollManager.scrollToPercent(percent, options) // scroll to position given by "percent"
-scrollManager.scrollToElement(element, options) // scroll to element "element"
+scrollManager.scroll.offset(value, options) // offset current scroll position by "value"
+scrollManager.scroll.toPosition(position, options) // scroll to position "position"
+scrollManager.scroll.toPercent(percent, options) // scroll to position given by "percent"
+scrollManager.scroll.toElement(element, options) // scroll to element "element"
 
 // onScroll events
 scrollManager.onScroll = () => console.log("scroll ocurred in scrollManager container")
@@ -56,7 +58,7 @@ scrollManager.onUserScroll = () => console.log("this scroll utility did not scro
 // stopping animations
 
 scrollManager.stopAllAnimations() // stop all animation in "scrollManager"
-const animation = scrollManager.scrollBy(10) // capture animation
+const animation = scrollManager.scroll.offset(1000, { duration: 1000 }) // capture animation
 animation.stop() // stop animation
 ```
 
@@ -66,15 +68,15 @@ animation.stop() // stop animation
 $ npm install --save scroll-utility
 ```
 
-or from a cdn at `https://cdn.jsdelivr.net/npm/scroll-utility/dist/bundle.js`
+or from a cdn at `https://cdn.jsdelivr.net/npm/scroll-utility`
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/scroll-utility/dist/bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/scroll-utility"></script>
 ```
 
-In this case `Scroll` will be a global variable as `ScrollUtility`
+`scroll-utility` will be exported as `ScrollUtility` and you can access it with `window.ScrollUtility`
 
-## Features
+## Usage
 
 ### Specify scroll container
 
@@ -212,8 +214,8 @@ That is the best thing of scroll-utility. It is design to work with multiple ani
 For example:
 
 ```js
-scrollManager.scrollBy(500, { duration: 1000 })
-scrollManager.scrollBy(34, { duration: 775 })
+scrollManager.scroll.offset(500, { duration: 1000 })
+scrollManager.scroll.offset(34, { duration: 775 })
 ```
 
 1 second from it started to move, it will have been offset its position for 534px
