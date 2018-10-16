@@ -4,7 +4,7 @@ import { expectCloseBy } from "./expect-close-by"
 
 export { offset }
 
-function offset(browser: Scenario, options: IOptions = {}) {
+function offset(browser: Scenario, options: IOptions, basicTests: boolean) {
   describe("offset scroll position", () => {
     async function offsetTest(scrollDistance: number) {
       const duration = 0
@@ -27,7 +27,10 @@ function offset(browser: Scenario, options: IOptions = {}) {
     }
 
     it("should do scroll with offset fixed", async () => offsetTest(1000))
-    it("should do scroll with offset some floating", async () => offsetTest(-16.76))
-    it("should do scroll with offset some floating again", async () => offsetTest(16))
+
+    if (!basicTests) {
+      it("should do scroll with offset some floating", async () => offsetTest(-16.76))
+      it("should do scroll with offset some floating again", async () => offsetTest(16))
+    }
   })
 }

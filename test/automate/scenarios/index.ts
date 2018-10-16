@@ -7,6 +7,8 @@ import { WebDriver } from "selenium-webdriver"
 
 export { testScenarios, Scenario, IOptions }
 
+const basicTests = true
+
 interface IOptions {
   horizontal?: boolean
   elementScroll?: boolean
@@ -18,7 +20,7 @@ function testScenarios(getBrowser: () => WebDriver) {
   function optionTest(options: IOptions) {
     const tests = [scope, offset, scrollToPosition, scrollToPercent, scrollToElement]
     tests.forEach(test => {
-      test(browser, Object.assign({}, options))
+      test(browser, Object.assign({}, options), basicTests)
     })
   }
   function myDescribe(
