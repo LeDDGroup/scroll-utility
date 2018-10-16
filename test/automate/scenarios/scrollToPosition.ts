@@ -4,7 +4,7 @@ import { expectCloseBy } from "./expect-close-by"
 
 export { scrollToPosition }
 
-function scrollToPosition(browser: Scenario, options: IOptions = {}) {
+function scrollToPosition(browser: Scenario, options: IOptions, basicTests: boolean) {
   const duration = 0
   const initialize = browser.getManagerInit(options.elementScroll)
   describe("scroll to position", () => {
@@ -25,7 +25,10 @@ function scrollToPosition(browser: Scenario, options: IOptions = {}) {
       await browser.browser.takeScreenshot()
       expectCloseBy(lastOffset, expectedPosition)
     }
+
     it("should scroll to certain position", async () => scrollToPositionTest(1500))
-    it("should scroll to a floating value", async () => scrollToPositionTest(511.8124567))
+    if (!basicTests) {
+      it("should scroll to a floating value", async () => scrollToPositionTest(511.8124567))
+    }
   })
 }

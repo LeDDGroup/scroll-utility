@@ -4,7 +4,7 @@ import { expectCloseBy } from "./expect-close-by"
 
 export { scrollToElement }
 
-function scrollToElement(browser: Scenario, options: IOptions = {}) {
+function scrollToElement(browser: Scenario, options: IOptions, basicTests: boolean) {
   const duration = 0
   const horizontal = options && options.horizontal
   const initialize = browser.getManagerInit(options.elementScroll)
@@ -31,10 +31,14 @@ function scrollToElement(browser: Scenario, options: IOptions = {}) {
       expectCloseBy(otherElementOffset - elementOffset, (size - elementSize) * ratio)
     }
 
-    const values = [0, 25, 50, 75, 100]
+    const values = [0, 25, 75, 100]
 
-    for (const val of values) {
-      await scrollToElementTest(val)
+    await scrollToElementTest(50)
+
+    if (!basicTests) {
+      for (const val of values) {
+        await scrollToElementTest(val)
+      }
     }
   })
 }
