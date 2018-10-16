@@ -9,7 +9,7 @@ function scrollToElement(browser: Scenario, options: IOptions = {}) {
   const horizontal = options && options.horizontal
   const initialize = browser.getManagerInit(options.elementScroll)
   const element = browser.getElementToScroll(options.elementScroll)
-  describe("scroll to element", () => {
+  it("scroll to element", async () => {
     async function scrollToElementTest(center: number) {
       await browser.evaluate(`
         ${initialize}
@@ -34,7 +34,7 @@ function scrollToElement(browser: Scenario, options: IOptions = {}) {
     const values = [0, 25, 50, 75, 100]
 
     for (const val of values) {
-      it(`should scroll to element and center it at ${val}%`, async () => scrollToElementTest(val))
+      await scrollToElementTest(val)
     }
   })
 }

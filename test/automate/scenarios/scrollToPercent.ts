@@ -8,7 +8,7 @@ function scrollToPercent(browser: Scenario, options: IOptions = {}) {
   const duration = 0
   const horizontal = options && options.horizontal
   const initialize = browser.getManagerInit(options.elementScroll)
-  describe("scroll to percent", () => {
+  it("scroll to percent", async () => {
     async function scrollToPercentTest(scrollPercent: number) {
       await browser.evaluate(`
         ${initialize}
@@ -34,7 +34,7 @@ function scrollToPercent(browser: Scenario, options: IOptions = {}) {
     const values = [0, 25, 50, 75, 100]
 
     for (const val of values) {
-      it(`should scroll ${val}%`, async () => scrollToPercentTest(val))
+      await scrollToPercentTest(val)
     }
   })
 }
