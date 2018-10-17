@@ -25,8 +25,8 @@
   - [Stack animations and high precision](#stack-animations-and-high-precision)
 - [Cross-browser compatibility](#cross-browser-compatibility)
 - [Example app with scroll-utility](#example-app-with-scroll-utility)
-- [Github](#github)
 - [License](#license)
+- [Github](#github)
 
 <!-- markdown-toc end -->
 
@@ -66,7 +66,7 @@ animation.stop() // stop animation
 $ npm install --save scroll-utility
 ```
 
-or from a cdn at https://www.jsdelivr.com/package/npm/scroll-utility
+or from a cdn at [jsdelivr](https://www.jsdelivr.com/package/npm/scroll-utility)
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/scroll-utility"></script>
@@ -187,6 +187,8 @@ windowScrollManager.scroll.toPercent(50, {
 }).easing = some_easing_function
 ```
 
+The [package](https://www.npmjs.com/package/easing-functions) provides easing functions
+
 ## onScroll events
 
 ```js
@@ -257,9 +259,10 @@ Navigate to http://localhost:8080
 
 # Github
 
-If you have any question, issue, suggestion, idea, etc..., just reach out:
-[post an issue](https://github.com/LeDDGroup/scroll-utility/issues)
-[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/LeddSoftware/scroll-utility)
-<david@leddgroup.com>
+If you have any question, issue, suggestion, idea, etc..., just reach out:  
+<david@leddgroup.com>  
+[linkedin profile](https://www.linkedin.com/in/david-perez-alvarez-291862132)  
+post an [issue](https://github.com/LeDDGroup/scroll-utility/issues)  
+say something in [gitter](https://gitter.im/LeddSoftware/scroll-utility)
 
 This was made in my free time, and I most appreciate any feedback. If you think it's helpful just leave a star in [github](https://github.com/LeDDGroup/scroll-utility/)
