@@ -49,7 +49,7 @@ scrollManager.scroll.toPercent(percent, options) // scroll to position given by 
 scrollManager.scroll.toElement(element, options) // scroll to element "element"
 
 // onScroll events
-scrollManager.onScroll = () => console.log("scroll ocurred in scrollManager container")
+scrollManager.onScroll = () => console.log("scroll occurred in scrollManager container")
 scrollManager.onUtilityScroll = () => console.log("this scroll utility did scrolled")
 scrollManager.onUserScroll = () => console.log("this scroll utility did not scrolled!")
 
@@ -66,13 +66,13 @@ animation.stop() // stop animation
 $ npm install --save scroll-utility
 ```
 
-or from a cdn at `https://cdn.jsdelivr.net/npm/scroll-utility`
+or from a cdn at https://www.jsdelivr.com/package/npm/scroll-utility
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/scroll-utility"></script>
 ```
 
-in this case `scroll-utility` will be exported as `ScrollUtility` and you can access it with `window.ScrollUtility`
+in this case it will be exported globally `ScrollUtility` so you can access it with `window.ScrollUtility`
 
 # Usage
 
@@ -86,7 +86,7 @@ import { Scroll } from "scroll-utility"
 const windowScrollManager = new Scroll()
 ```
 
-`windowScrollManager` will be used to scroll the normal overflow in webpages
+`windowScrollManager` will be used to scroll the normal overflow in web pages
 
 ### Scroll a div or any other html element
 
@@ -105,7 +105,7 @@ If `htmlElement` is _null_ or _undefined_ it will fallback to window scroll by d
 ### Scroll to a position
 
 ```js
-// asuming windowScrollManager is declared
+// assuming windowScrollManager is declared
 windowScrollManager.scroll.toPosition(number, options) // number is a position in (px) in scroll
 
 // example:
@@ -118,7 +118,7 @@ windowScrollManager.scroll.toPosition(273)
 windowScrollManager.scroll.toPercent(percent, options) // number is a percent(from 0 to 100)
 
 // example:
-windowScrollManager.scroll.toPercent(0) // scroll to the begining of the page
+windowScrollManager.scroll.toPercent(0) // scroll to the beginning of the page
 windowScrollManager.scroll.toPercent(50) // to the middle
 windowScrollManager.scroll.toPercent(100) // the end
 ```
@@ -192,7 +192,7 @@ windowScrollManager.scroll.toPercent(50, {
 ```js
 const scrollManager = new Scroll(some_element)
 
-scrollManager.onScroll = () => console.log("scroll ocurred in scrollManager container")
+scrollManager.onScroll = () => console.log("scroll occurred in scrollManager container")
 scrollManager.onUtilityScroll = () => console.log("this scroll utility did scrolled")
 scrollManager.onUserScroll = () => console.log("this scroll utility did not scrolled!")
 ```
@@ -205,7 +205,7 @@ scrollManager.onUserScroll = () => scrollManager.stopAllAnimations()
 
 ## Stack animations and high precision
 
-The main idea of this module is to be able of doing several animation at the same time, and still get a desireable outcome.  
+The main idea of this module is to be able of doing several animation at the same time, and still get a desirable outcome.  
 It is very difficult to archive precision when scrolling, due to the fact that browsers don't scroll well to floating numbers, they often round it up. So is even more difficult when there are several animations.  
 That is the best thing of scroll-utility. It is design to work with multiple animations and keep track on where the scroll position should end.
 
@@ -226,7 +226,7 @@ scrollManager.scroll.toPercent(50, { duration: 1000 })
 
 in this example in 1 second to scroll bar will be at the end, due that it created 2 scroll animations that were to scroll 50% of the page (from 0 to 50), so 50% + 50% = 100%
 
-So generally when you use _toPercent_ _toPosition_ _toElement_, you would want to use _stopAllAnimation_, to ensure that there are not any other animation, otherwise they will stack toguether, wich is generally not wanted
+So generally when you use _toPercent_ _toPosition_ _toElement_, you would want to use _stopAllAnimation_, to ensure that there are not any other animation, otherwise they will stack together, which is generally not wanted
 
 # Cross-browser compatibility
 
@@ -251,10 +251,15 @@ npm start
 
 Navigate to http://localhost:8080
 
-# Github
-
-If have any issue or feature request notify me via [github](https://github.com/LeDDGroup/scroll-utility/issues).
-
 # License
 
 [MIT](./LICENSE.md)
+
+# Github
+
+If you have any question, issue, suggestion, idea, etc..., just reach out:
+[post an issue](https://github.com/LeDDGroup/scroll-utility/issues)
+[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/LeddSoftware/scroll-utility)
+<david@leddgroup.com>
+
+This was made in my free time, and I most appreciate any feedback. If you think it's helpful just leave a star in [github](https://github.com/LeDDGroup/scroll-utility/)
