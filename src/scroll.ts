@@ -22,24 +22,24 @@ class Scroll {
     return this._onScroll
   }
   public set onScroll(value: onScrollFunction) {
-    this.scrollSet()
     this._onScroll = value
+    this.scrollSet()
   }
   private _onUserScroll: onScrollFunction = null
   public get onUserScroll(): onScrollFunction {
     return this._onUserScroll
   }
   public set onUserScroll(value: onScrollFunction) {
-    this.scrollSet()
     this._onUserScroll = value
+    this.scrollSet()
   }
   private _onUtilityScroll: onScrollFunction = null
   public get onUtilityScroll(): onScrollFunction {
     return this._onUtilityScroll
   }
   public set onUtilityScroll(value: onScrollFunction) {
-    this.scrollSet()
     this._onUtilityScroll = value
+    this.scrollSet()
   }
   public easing: EasingFunction = defaultEasingFunction
   private element: ScrollElement
@@ -47,10 +47,7 @@ class Scroll {
   private scrolling: boolean = false
   constructor(element?: Maybe<HTMLElement>) {
     this.element = new ScrollElement(element)
-    this.animationManager = new AnimationManager(this.element, () => {
-      this.scrolling = true
-    })
-    this.element.onScroll = () => {
+    const onScroll = () => {
       if (this.scrolling) {
         this.onUtilityScroll && this.onUtilityScroll()
       } else {
@@ -59,6 +56,14 @@ class Scroll {
       this.onScroll && this.onScroll()
       this.scrolling = false
     }
+    this.animationManager = new AnimationManager(
+      this.element,
+      () => {
+        this.scrolling = true
+      },
+      onScroll,
+    )
+    this.element.onScroll = onScroll
   }
   public stopAllAnimations() {
     this.animationManager.stopAllAnimations()
@@ -66,12 +71,10 @@ class Scroll {
   private mountOnScroll() {
     this.mounted = true
     this.element.mountOnScroll()
-    this.animationManager.mountOnScroll()
   }
   private unmountOnScroll() {
     this.mounted = false
     this.element.unmountOnScroll()
-    this.animationManager.unmountOnScroll()
   }
   private scrollSet() {
     const shouldMount =
