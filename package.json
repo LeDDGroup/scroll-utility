@@ -20,8 +20,15 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "tsc --noEmit && pretty-quick --staged",
+      "pre-commit": "tsc --noEmit && lynt && pretty-quick --staged",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lynt": {
+    "typescript": true,
+    "react": true,
+    "rules": {
+      "no-console": "on"
     }
   },
   "repository": {
@@ -53,6 +60,7 @@
     "expect": "^23.6.0",
     "express": "^4.16.3",
     "husky": "^1.1.1",
+    "lynt": "^0.5.3",
     "mocha": "^5.2.0",
     "parcel-bundler": "^1.9.7",
     "prettier": "^1.14.3",
