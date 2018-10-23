@@ -5,65 +5,9 @@ import { scope } from "./scope"
 import { offset } from "./offset"
 import { WebDriver } from "selenium-webdriver"
 
-export { testScenarios, Scenario, IOptions }
-
 interface IOptions {
   horizontal?: boolean
   elementScroll?: boolean
-}
-
-function testScenarios(getBrowser: () => WebDriver, basicTests: boolean) {
-  const options: IOptions = {}
-  const browser = new Scenario(getBrowser)
-  function optionTest(options: IOptions) {
-    const tests = [scope, offset, scrollToPosition, scrollToPercent, scrollToElement]
-    tests.forEach(test => {
-      test(browser, Object.assign({}, options), basicTests)
-    })
-  }
-  function myDescribe(
-    description: string,
-    prop: keyof IOptions,
-    value: boolean,
-    funct: () => void,
-  ) {
-    describe(description, () => {
-      options[prop] = value
-      funct()
-    })
-  }
-  function myDirectionDescribe() {
-    myDescribe("vertically", "horizontal", false, () => {
-      optionTest(options)
-    })
-    if (!basicTests) {
-      myDescribe("horizontally", "horizontal", true, () => {
-        optionTest(options)
-      })
-    }
-  }
-
-  myDescribe("in window", "elementScroll", false, () => {
-    myDirectionDescribe()
-  })
-  if (!basicTests) {
-    myDescribe("in element", "elementScroll", true, () => {
-      before(async () => {
-        const initialize = browser.getManagerInit(false)
-        await browser.evaluate(
-          `${initialize}; scrollManager.scroll.toElement(${
-            Scenario.elementSelector
-          }, { horizontal: false, center: 50})`,
-        )
-        await browser.evaluate(
-          `${initialize}; scrollManager.scroll.toElement(${
-            Scenario.elementSelector
-          }, { horizontal: true, center: 50})`,
-        )
-      })
-      myDirectionDescribe()
-    })
-  }
 }
 
 class Scenario {
@@ -157,3 +101,59 @@ class Scenario {
     ) as Promise<number>
   }
 }
+
+function testScenarios(getBrowser: () => WebDriver, basicTests: boolean) {
+  const options: IOptions = {}
+  const browser = new Scenario(getBrowser)
+  function optionTest(options: IOptions) {
+    const tests = [scope, offset, scrollToPosition, scrollToPercent, scrollToElement]
+    tests.forEach(test => {
+      test(browser, Object.assign({}, options), basicTests)
+    })
+  }
+  function myDescribe(
+    description: string,
+    prop: keyof IOptions,
+    value: boolean,
+    funct: () => void,
+  ) {
+    describe(description, () => {
+      options[prop] = value
+      funct()
+    })
+  }
+  function myDirectionDescribe() {
+    myDescribe("vertically", "horizontal", false, () => {
+      optionTest(options)
+    })
+    if (!basicTests) {
+      myDescribe("horizontally", "horizontal", true, () => {
+        optionTest(options)
+      })
+    }
+  }
+
+  myDescribe("in window", "elementScroll", false, () => {
+    myDirectionDescribe()
+  })
+  if (!basicTests) {
+    myDescribe("in element", "elementScroll", true, () => {
+      before(async () => {
+        const initialize = browser.getManagerInit(false)
+        await browser.evaluate(
+          `${initialize}; scrollManager.scroll.toElement(${
+            Scenario.elementSelector
+          }, { horizontal: false, center: 50})`,
+        )
+        await browser.evaluate(
+          `${initialize}; scrollManager.scroll.toElement(${
+            Scenario.elementSelector
+          }, { horizontal: true, center: 50})`,
+        )
+      })
+      myDirectionDescribe()
+    })
+  }
+}
+
+export { testScenarios, Scenario, IOptions }
