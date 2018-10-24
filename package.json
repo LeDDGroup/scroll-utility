@@ -17,8 +17,15 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "tsc --noEmit && pretty-quick --staged",
+      "pre-commit": "tsc --noEmit && lynt && pretty-quick --staged",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lynt": {
+    "typescript": true,
+    "rules": {
+      "await-promise": "off",
+      "no-console": "on"
     }
   },
   "repository": {
@@ -53,6 +60,7 @@
     "express": "^4.16.3",
     "html-webpack-plugin": "^3.2.0",
     "husky": "^1.1.1",
+    "lynt": "^0.5.3",
     "mocha": "^5.2.0",
     "prettier": "^1.14.3",
     "pretty-quick": "^1.7.0",

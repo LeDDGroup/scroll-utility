@@ -6,13 +6,13 @@ import { Animation } from "./animation"
 type Maybe<T> = T | null | undefined
 type onScrollFunction = Maybe<() => void>
 
-interface IScrollToElementOptions extends IOptions {
-  center?: number
-}
-
 interface IOptions {
   duration?: number
   horizontal?: boolean
+}
+
+interface IScrollToElementOptions extends IOptions {
+  center?: number
 }
 
 class Scroll {
@@ -81,8 +81,12 @@ class Scroll {
       !this.mounted && (!!this.onScroll || !!this.onUserScroll || !!this.onUtilityScroll)
     const shouldUnmount =
       this.mounted && (!this.onScroll && !this.onUserScroll && !this.onUtilityScroll)
-    if (shouldMount) this.mountOnScroll()
-    if (shouldUnmount) this.unmountOnScroll()
+    if (shouldMount) {
+      this.mountOnScroll()
+    }
+    if (shouldUnmount) {
+      this.unmountOnScroll()
+    }
   }
   public readonly scroll = {
     toElement: (

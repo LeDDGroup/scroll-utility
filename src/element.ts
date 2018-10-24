@@ -1,11 +1,12 @@
-export { ScrollElement }
-
 // https://stackoverflow.com/questions/3437786/get-the-size-of-the-screen-current-web-page-and-browser-window
 
 class ScrollElement {
   constructor(private element?: HTMLElement | null) {
     const body = document.body
-    const html = document.documentElement! // TODO add fallback for documentElement being null
+    const html = document.documentElement
+    if (html === null) {
+      throw new Error("document.documentElement is null") // TODO add fallback for documentElement being null
+    }
 
     if (!element) {
       this.size = (horizontal: boolean) =>
@@ -97,3 +98,5 @@ class ScrollElement {
     },
   }
 }
+
+export { ScrollElement }
