@@ -1,3 +1,5 @@
+// tslint:disable
+
 type EasingFunction = (
   currentStep: number,
   offsetValue: number,

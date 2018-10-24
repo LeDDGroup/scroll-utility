@@ -12,10 +12,10 @@ const branch = process.env["TRAVIS_BRANCH"]
 
 const basicTests = !!branch && branch !== "master"
 
-let server = new Server()
-before(async function() {
+const server = new Server()
+before(async function(this) {
   this.timeout(long_timeout)
-  return await server.start()
+  return server.start()
 })
 describe("client tests ", async function() {
   if (basicTests) {
@@ -31,14 +31,14 @@ describe("client tests ", async function() {
     }
   }
 })
-after(async function() {
+after(async function(this) {
   this.timeout(long_timeout)
   await server.stop()
 })
 
 function test(cap: webdriver.Capabilities) {
   let browser: webdriver.WebDriver = (null as any) as webdriver.WebDriver
-  before(async function() {
+  before(async function(this) {
     this.timeout(long_timeout)
     browser = await new webdriver.Builder()
       .usingServer("https://hub-cloud.browserstack.com/wd/hub")
@@ -48,7 +48,7 @@ function test(cap: webdriver.Capabilities) {
     expect(browser).toBeTruthy()
   })
   testScenarios(() => browser, basicTests)
-  after(async function() {
+  after(async function(this) {
     this.timeout(long_timeout)
     await browser.quit()
   })

@@ -4,14 +4,11 @@ import express = require("express")
 import { resolve } from "path"
 import webpack from "webpack"
 
-export { Server }
-
 class Server {
   private root = resolve(__dirname, "../../../")
   private outDir = resolve(__dirname, "_static")
   private bundleName = "bundle.js"
   private server: http.Server = (null as any) as http.Server
-  constructor() {}
   public async generateFiles() {
     const compiler = webpack({
       mode: "production",
@@ -48,8 +45,11 @@ class Server {
     })
     return new Promise<void>((s, r) => {
       compiler.run(err => {
-        if (err) r(err)
-        s()
+        if (err) {
+          r(err)
+        } else {
+          s()
+        }
       })
     })
   }
@@ -60,10 +60,15 @@ class Server {
     app.use(express.static(resolve(this.outDir)))
 
     this.server = http.createServer(app)
-    this.server.listen(8080)
-    console.log("server started on port http://localhost:8080")
+    return new Promise<void>(s => {
+      this.server.listen(8080, s)
+    })
   }
-  public stop() {
-    this.server.close()
+  public async stop() {
+    return new Promise<void>(s => {
+      this.server.close(s)
+    })
   }
 }
+
+export { Server }
