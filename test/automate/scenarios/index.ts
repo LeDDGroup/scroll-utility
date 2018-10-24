@@ -120,8 +120,8 @@ class Scenario {
   }
   public getManagerInit(elementScroll?: boolean) {
     return elementScroll
-      ? `const scrollManager = new Scroll(${Scenario.elementSelector});`
-      : "const scrollManager = new Scroll();"
+      ? `const scrollManager = new ScrollUtility(${Scenario.elementSelector});`
+      : "const scrollManager = new ScrollUtility();"
   }
   public getScrollOffset(options: IOptions): Promise<number> {
     return this.getValue(
