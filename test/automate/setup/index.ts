@@ -1,3 +1,5 @@
+import CopyWebpackPlugin from "copy-webpack-plugin"
+import HtmlWebpackIncludeAssetsPlugin from "html-webpack-include-assets-plugin"
 import HtmlWebpackPlugin from "html-webpack-plugin"
 import * as http from "http"
 import express = require("express")
@@ -7,14 +9,13 @@ import webpack from "webpack"
 class Server {
   private root = resolve(__dirname, "../../../")
   private outDir = resolve(__dirname, "_static")
-  private bundleName = "bundle.js"
   private server: http.Server = (null as any) as http.Server
   public async generateFiles() {
     const compiler = webpack({
       mode: "production",
-      entry: [resolve(this.root, "src/browser.ts"), resolve(this.root, "test/local/index.css")],
+      entry: resolve(this.root, "src/browser.ts"),
       output: {
-        filename: this.bundleName,
+        filename: "[name].js",
         path: this.outDir,
         library: "ScrollUtility",
         libraryTarget: "umd",
@@ -41,7 +42,11 @@ class Server {
       resolve: {
         extensions: [".ts", ".tsx", ".js"],
       },
-      plugins: [new HtmlWebpackPlugin({ template: resolve(this.root, "test/local/index.html") })],
+      plugins: [
+        new HtmlWebpackPlugin({ template: resolve(this.root, "test/local/index.html") }),
+        new CopyWebpackPlugin([resolve(this.root, "test/local/index.css")]),
+        new HtmlWebpackIncludeAssetsPlugin({ assets: ["./index.css"], append: false }),
+      ],
     })
     return new Promise<void>((s, r) => {
       compiler.run(err => {
