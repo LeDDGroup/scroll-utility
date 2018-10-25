@@ -1,1 +1,5 @@
-export default new ScrollUtility()
+export default new ScrollUtility(window, {
+  options: {
+    duration: 600,
+  },
+})
