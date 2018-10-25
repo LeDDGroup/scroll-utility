@@ -7,6 +7,12 @@ export enum Direction {
   both = "both",
 }
 
+declare const window: Window & {
+  scrollManager: typeof scrollManager
+}
+
+window.scrollManager = scrollManager
+
 export const scenarios: ({
   description: string
   scenarios: IScrollScenario[]
