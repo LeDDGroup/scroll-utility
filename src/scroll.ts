@@ -29,7 +29,7 @@ interface IScrollToElementOptions extends IOptions {
 class Scroll {
   private element: ScrollElement
   private animationManager: AnimationManager
-  constructor(element: HTMLElement | null, private settings: ISettings = defaultSettings) {
+  constructor(element?: HTMLElement, private settings: ISettings = defaultSettings) {
     this.element = new ScrollElement(element)
     this.animationManager = new AnimationManager(
       () => this.settings.onUtilityScroll && this.settings.onUtilityScroll(),
@@ -42,7 +42,7 @@ class Scroll {
     this.animationManager.stopAllAnimations()
   }
   public readonly scroll = {
-    toElement: (element: HTMLElement | null, options: IScrollToElementOptions = {}): Animation => {
+    toElement: (element: HTMLElement, options: IScrollToElementOptions = {}): Animation => {
       const ratio = (options.value || 0) / 100
       const horizontal = !!options.horizontal
       const elementWrapper = new ScrollElement(element)
