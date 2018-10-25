@@ -1,3 +1,4 @@
+import HtmlWebpackExternalsPlugin from "html-webpack-externals-plugin"
 import CopyWebpackPlugin from "copy-webpack-plugin"
 import HtmlWebpackIncludeAssetsPlugin from "html-webpack-include-assets-plugin"
 import HtmlWebpackPlugin from "html-webpack-plugin"
@@ -28,11 +29,37 @@ function config(env: { NODE_ENV?: string } = {}): Configuration {
     resolve: {
       extensions: [".ts", ".tsx", ".js"],
     },
-    plugins: [
-      new HtmlWebpackPlugin(),
-      new CopyWebpackPlugin([resolve(__dirname, "../dist/scroll-utility.js")]),
-      new HtmlWebpackIncludeAssetsPlugin({ assets: ["./scroll-utility.js"], append: false }),
-    ],
+    plugins: [new HtmlWebpackPlugin()].concat(
+      production
+        ? [
+            new HtmlWebpackExternalsPlugin({
+              externals: [
+                {
+                  module: "scroll-utility",
+                  entry: {
+                    path: "https://cdn.jsdelivr.net/npm/scroll-utility@1",
+                    type: "js",
+                  },
+                  global: "ScrollUtility",
+                },
+                {
+                  module: "react",
+                  entry: "https://unpkg.com/react@16/umd/react.production.min.js",
+                  global: "React",
+                },
+                {
+                  module: "react-dom",
+                  entry: "https://unpkg.com/react-dom@16/umd/react-dom.production.min.js",
+                  global: "ReactDOM",
+                },
+              ],
+            }),
+          ]
+        : [
+            new CopyWebpackPlugin([resolve(__dirname, "../dist/scroll-utility.js")]),
+            new HtmlWebpackIncludeAssetsPlugin({ assets: ["./scroll-utility.js"], append: false }),
+          ],
+    ),
   }
 }
 
