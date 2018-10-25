@@ -3,10 +3,20 @@ import { AnimationManager } from "./animation-manager"
 import { EasingFunction, defaultEasingFunction } from "./easing"
 import { Animation } from "./animation"
 
-type Maybe<T> = T | null | undefined
-type onScrollFunction = Maybe<() => void>
+const defaultSettings = {
+  easing: defaultEasingFunction,
+}
+
+type onScroll = (() => void) | null
+
+interface ISettings {
+  easing: EasingFunction
+  onScroll?: onScroll
+  onExternalScroll?: onScroll
+}
 
 interface IOptions {
+  value?: number
   duration?: number
   horizontal?: boolean
 }
@@ -16,50 +26,24 @@ interface IScrollToElementOptions extends IOptions {
 }
 
 class Scroll {
-  private _onScroll: onScrollFunction = null
-  private mounted: boolean = false
-  public get onScroll(): onScrollFunction {
-    return this._onScroll
-  }
-  public set onScroll(value: onScrollFunction) {
-    this._onScroll = value
-    this.scrollSet()
-  }
-  private _onUserScroll: onScrollFunction = null
-  public get onUserScroll(): onScrollFunction {
-    return this._onUserScroll
-  }
-  public set onUserScroll(value: onScrollFunction) {
-    this._onUserScroll = value
-    this.scrollSet()
-  }
-  private _onUtilityScroll: onScrollFunction = null
-  public get onUtilityScroll(): onScrollFunction {
-    return this._onUtilityScroll
-  }
-  public set onUtilityScroll(value: onScrollFunction) {
-    this._onUtilityScroll = value
-    this.scrollSet()
-  }
-  public easing: EasingFunction = defaultEasingFunction
   private element: ScrollElement
   private animationManager: AnimationManager
-  private scrolling: boolean = false
-  constructor(element?: Maybe<HTMLElement>) {
+  constructor(element: HTMLElement | null, private settings: ISettings = defaultSettings) {
     this.element = new ScrollElement(element)
+
+    let scrolling: boolean = false
     const onScroll = () => {
-      if (this.scrolling) {
-        this.onUtilityScroll && this.onUtilityScroll()
+      if (scrolling) {
+        this.settings.onScroll && this.settings.onScroll()
       } else {
-        this.onUserScroll && this.onUserScroll()
+        this.settings.onExternalScroll && this.settings.onExternalScroll()
       }
-      this.onScroll && this.onScroll()
-      this.scrolling = false
+      scrolling = false
     }
     this.animationManager = new AnimationManager(
       this.element,
       () => {
-        this.scrolling = true
+        scrolling = true
       },
       onScroll,
     )
@@ -67,26 +51,6 @@ class Scroll {
   }
   public stopAllAnimations() {
     this.animationManager.stopAllAnimations()
-  }
-  private mountOnScroll() {
-    this.mounted = true
-    this.element.mountOnScroll()
-  }
-  private unmountOnScroll() {
-    this.mounted = false
-    this.element.unmountOnScroll()
-  }
-  private scrollSet() {
-    const shouldMount =
-      !this.mounted && (!!this.onScroll || !!this.onUserScroll || !!this.onUtilityScroll)
-    const shouldUnmount =
-      this.mounted && (!this.onScroll && !this.onUserScroll && !this.onUtilityScroll)
-    if (shouldMount) {
-      this.mountOnScroll()
-    }
-    if (shouldUnmount) {
-      this.unmountOnScroll()
-    }
   }
   public readonly scroll = {
     toElement: (
@@ -113,7 +77,7 @@ class Scroll {
         distToScroll: amount,
         duration: options.duration || 0,
         horizontal: options.horizontal || false,
-        easing: this.easing,
+        easing: this.settings.easing,
       })
     },
   }
