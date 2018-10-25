@@ -24,10 +24,14 @@ function config(env: { NODE_ENV?: string } = {}): Configuration {
           test: /\.css$/,
           use: ["style-loader", "css-loader"],
         },
+        {
+          test: /\.md$/,
+          loader: "raw-loader",
+        },
       ],
     },
     resolve: {
-      extensions: [".ts", ".tsx", ".js"],
+      extensions: [".ts", ".tsx", ".js", ".md"],
     },
     plugins: [new HtmlWebpackPlugin()].concat(
       production
