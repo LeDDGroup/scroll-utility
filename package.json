@@ -15,6 +15,8 @@
     "test": "mocha --exit -r ts-node/register ./test/automate/index.ts --timeout 15000 --retries 3",
     "start-demo": "webpack-dev-server --config demo/webpack.config.ts --env.NODE_ENV=development",
     "build-demo": "webpack --config demo/webpack.config.ts --env.NODE_ENV=production",
+    "deploy-demo": "gh-pages -d demo/dist",
+    "deploy": "npm run semantic-release && npm run deploy-demo",
     "travis-deploy-once": "travis-deploy-once"
   },
   "husky": {
@@ -63,6 +65,7 @@
     "css-loader": "^1.0.0",
     "expect": "^23.6.0",
     "express": "^4.16.3",
+    "gh-pages": "^2.0.1",
     "html-webpack-include-assets-plugin": "^1.0.6",
     "html-webpack-plugin": "^3.2.0",
     "husky": "^1.1.1",
