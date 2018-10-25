@@ -20,9 +20,7 @@ class App extends React.Component<{}, IState> {
     const rulers = this.state.rulers
     return (
       <>
-        {rulers && <div className="grid"> {mapToPercent(false)} </div>}
         <div className="app">
-          {rulers && <div className="grid"> {mapToPercent(false)} </div>}
           {scenarios.map((s, i) => (
             <section key={i}>
               <h2> {s.description} </h2>
@@ -46,17 +44,21 @@ class App extends React.Component<{}, IState> {
             className="scroll-top"
             onClick={() => {
               scrollManager.stopAllAnimations()
-              scrollManager.scroll.toPercent(0, { duration: 1000 })
+              scrollManager.scrollTo("percent", { value: 0, duration: 1000 })
             }}
           >
             {" "}
             Scroll to top
           </button>
-          <div id="some-element">
-            #some-element
-            {rulers && <div className="grid"> {mapToPercent(false)} </div>}
+          <div className="container">
+            <div id="some-element">
+              #some-element
+              {rulers && <div className="grid"> {mapToPercent(false)} </div>}
+            </div>
           </div>
+          {rulers && <div className="grid"> {mapToPercent(false)} </div>}
         </div>
+        {rulers && <div className="grid"> {mapToPercent(false)} </div>}
       </>
     )
   }

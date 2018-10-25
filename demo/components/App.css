@@ -11,15 +11,14 @@ body {
   color: black;
 }
 
-.app {
-  position: relative;
+h2 {
+  margin-top: 0;
 }
 
-.app::after {
-  content: "";
+.app {
+  padding-left: 50px;
+  position: relative;
   height: 1000vh;
-  width: 1px;
-  display: block;
 }
 
 .scroll-top {
@@ -28,17 +27,22 @@ body {
   z-index: 5;
 }
 
-#some-element {
-  padding: 50px;
+.container {
   position: relative;
   top: 200vh;
   width: 60%;
   height: 50vh;
   border: solid 1px;
+  padding-left: 50px;
+}
+.container #some-element {
+  position: relative;
+  width: 100%;
+  height: 100%;
   text-align: center;
 }
 
-#some-element > .grid {
+#some-element .grid {
   opacity: 0.6;
 }
 
@@ -46,11 +50,10 @@ body {
   opacity: 0.3;
   position: fixed;
   top: 0;
-  width: 100%;
-  height: 100%;
+  bottom: 0;
 }
 .app .grid {
-  position: initial;
+  position: absolute;
   opacity: 1;
 }
 

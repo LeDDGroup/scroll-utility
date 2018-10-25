@@ -27,22 +27,22 @@ export const scenarios: ({
   },
 ]
 
-function getScrollToElement(percent: number, duration: number = 1000) {
+function getScrollToElement(percent: number) {
   return {
     description: `scroll to "#some-element" at ${percent}%`,
     script: () => {
       const someElement = document.getElementById("some-element")
-      scrollManager.scroll.toElement(someElement, { center: percent, duration })
+      scrollManager.centerElement(someElement!, { value: percent })
     },
     code: `const someElement = document.getElementById("some-element") \n scrollManager.scroll.toElement(someElement, { center: ${percent}, duration: 1000 })`,
   }
 }
 
-function getScrollToPercent(percent: number, duration: number = 1000) {
+function getScrollToPercent(percent: number) {
   return {
     description: `scroll to the ${percent}% of the page`,
     script: () => {
-      scrollManager.scroll.toPercent(percent, { duration })
+      scrollManager.scrollTo("percent", { value: percent })
     },
     code: `scrollManager.scroll.toPercent(${percent}, { duration: 1000 })`,
   }
