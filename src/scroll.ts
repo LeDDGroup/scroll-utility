@@ -7,11 +7,12 @@ const defaultSettings = {
   easing: defaultEasingFunction,
 }
 
-type onScroll = (() => void) | null
+export type onScroll = (() => void) | null
 
 interface ISettings {
   easing: EasingFunction
   onScroll?: onScroll
+  onUtilityScroll?: onScroll
   onExternalScroll?: onScroll
 }
 
@@ -30,24 +31,12 @@ class Scroll {
   private animationManager: AnimationManager
   constructor(element: HTMLElement | null, private settings: ISettings = defaultSettings) {
     this.element = new ScrollElement(element)
-
-    let scrolling: boolean = false
-    const onScroll = () => {
-      if (scrolling) {
-        this.settings.onScroll && this.settings.onScroll()
-      } else {
-        this.settings.onExternalScroll && this.settings.onExternalScroll()
-      }
-      scrolling = false
-    }
     this.animationManager = new AnimationManager(
-      this.element,
-      () => {
-        scrolling = true
-      },
-      onScroll,
+      () => this.settings.onUtilityScroll && this.settings.onUtilityScroll(),
+      () => this.settings.onExternalScroll && this.settings.onExternalScroll(),
+      this.element.position,
     )
-    this.element.onScroll = onScroll
+    this.element.onScroll = () => this.settings.onScroll && this.settings.onScroll()
   }
   public stopAllAnimations() {
     this.animationManager.stopAllAnimations()
