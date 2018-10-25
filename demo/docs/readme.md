@@ -17,38 +17,11 @@
 - Scroll to and offset scroll position
 - Extremely precisely
 - Handle multiple scroll animation at the time
-- Cross-browser compatible (tests with [Browserstack](browserstack.com))
+- Cross-browser compatible
 - Performance aware
 - Detect onScroll events and differentiate between user and utility scroll
 - Customize _easing_ function used to animate the scroll
 - Typescript support
-
-<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
-
-**Table of Contents**
-
-- [[scroll-utility](https://github.com/LeDDGroup/scroll-utility)](#scroll-utilityhttpsgithubcomleddgroupscroll-utility)
-- [Features:](#features)
-- [Basic usage](#basic-usage)
-- [Installation](#installation)
-- [Usage](#usage)
-  - [Scroll Container](#scroll-container)
-    - [Settings](#settings)
-  - [Center Element](#center-element)
-  - [ScrollTo](#scrollto)
-  - [ScrollBy](#scrollby)
-  - [scrollType](#scrolltype)
-  - [options](#options)
-  - [scroll examples](#scroll-examples)
-  - [Stop animations](#stop-animations)
-  - [Change easing function](#change-easing-function)
-  - [onScroll events](#onscroll-events)
-  - [Stack animations and high precision](#stack-animations-and-high-precision)
-- [Cross-browser compatibility](#cross-browser-compatibility)
-- [License](#license)
-- [Support](#support)
-
-<!-- markdown-toc end -->
 
 # Basic usage
 
@@ -247,8 +220,6 @@ Bear in mind that all animations always stack together, so generally when you us
 
 Compatibility guaranteed in Firefox, Chrome, Edge, Safari. I mean, I have automated tests for those browsers (with browserstack), in every browser _should_ work too, I looked all over in stackoverflow looking for crossbrowser solutions for accessing dom properties of elements.  
 I have manually tested it in a lot of browsers, and it works without problems
-
-<img  height="50" src="https://raw.githubusercontent.com/LeDDGroup/scroll-utility/master/assets/BrowserStack-logo.png" alt="Browserstack logo" style="float: right; margin-right: 10px; text-align: middle">
 
 Test are made using automate testing with [Browserstack](https://www.browserstack.com) [for open source](https://www.browserstack.com/open-source?ref=pricing).
 
