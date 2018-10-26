@@ -10,7 +10,7 @@ const Div = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  right: 0;
   min-height: 200vh;
 `
 
@@ -25,7 +25,11 @@ class App extends React.Component<{}, IState> {
     return (
       <Grid fixed>
         <Div>
-          <Grid />
+          <Grid>
+            <Grid inverted type="screen">
+              <Grid inverted type="position" />
+            </Grid>
+          </Grid>
         </Div>
       </Grid>
     )

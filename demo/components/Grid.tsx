@@ -1,16 +1,8 @@
 import * as React from "react"
 import styled, { css } from "styled-components"
-import PositionedElement from "./PositionedMarker"
+import PositionedElement, { PositionType } from "./PositionedMarker"
 
 const LEFT_MARGIN = "5%"
-
-const Line = styled.div`
-  background: black;
-  ${(props: { horizontal?: boolean }) => css`
-    width: ${props.horizontal ? "100%" : "1px"}
-    height: ${props.horizontal ? "1px" : "100%"}
-`};
-`
 
 const GridContainer = styled.div`
   position: absolute;
@@ -19,6 +11,11 @@ const GridContainer = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
+  ${(props: IProps) =>
+    props.inverted &&
+    css`
+      flex-direction: row-reverse;
+    `};
 `
 
 const Left = styled.div`
@@ -40,27 +37,62 @@ const Right = styled.div`
   /* height: 100%; */
 `
 
-const Positions = new Array(10).fill(1).map((v, i) => v + i)
+function getPositions(amount: number) {
+  return new Array(amount).fill(1).map((v, i) => v + i)
+}
+
+function percentValue(value, amount) {
+  return (value * 100) / amount
+}
+
+function positionValue(value) {
+  return value * 500
+}
+
+function screenValue(value) {
+  return value * 100
+}
 
 export interface IProps {
   fixed?: boolean
+  type?: PositionType
+  inverted?: boolean
+}
+
+function getFunction(type: PositionType) {
+  return type === "percent" ? percentValue : type === "position" ? positionValue : screenValue
+}
+
+function getSign(type: PositionType) {
+  return type === "percent" ? "%" : type === "position" ? "px" : "screen"
+}
+
+function getId(type: PositionType, value: number, amount) {
+  return type === "percent"
+    ? percentValue(value, amount)
+    : type === "position"
+      ? positionValue(value)
+      : screenValue(value) / 100
 }
 
 export class Grid extends React.Component<IProps> {
   render() {
+    const type = this.props.type || "percent"
+    const Positions = getPositions(type === "percent" ? 10 : 2)
+    const funct: (value, amount) => number = getFunction(type)
     return (
-      <GridContainer>
+      <GridContainer {...this.props}>
         <Left {...this.props}>
           {Positions.map((v, i) => (
-            <PositionedElement key={i} type="percent" value={(v * 100) / Positions.length}>
-              {" "}
-              {(v * 100) / Positions.length}%{" "}
-            </PositionedElement>
-          ))}
-          {Positions.map((v, i) => (
-            <PositionedElement key={i} type="percent" value={(v * 100) / Positions.length}>
-              {" "}
-              <Line horizontal />{" "}
+            <PositionedElement
+              key={i}
+              {...this.props}
+              value={funct(v, Positions.length)}
+              type={type}
+            >
+              {getId(type, v, Positions.length)
+                .toString()
+                .concat(getSign(type))}
             </PositionedElement>
           ))}
         </Left>
