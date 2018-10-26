@@ -9,9 +9,13 @@ interface IProps {
 export const PositionedMarker = styled.div`
   position: absolute;
   ${(props: IProps) => css`
-    ${props.horizontal ? "left" : "top"}: ${props.value} ${props.type === "percent" ? "%" : "px"};
-    ${!props.horizontal ? "left" : "top"}: ${50}%;
-    transform: translate(${props.horizontal ? "-100%, -50%" : "-50%, -100%"});
+    ${props.horizontal ? "left" : "top"}: ${`${props.value}${
+      props.type === "percent" ? "%" : "px"
+    }`};
+    ${!props.horizontal ? "left" : "top"}: 0;
+    ${!props.horizontal ? "width" : "height"}: 100%;
+    ${!props.horizontal ? "min-width" : "min-height"}: 20px;
+    transform: translate(${props.horizontal ? "-100%, -0%" : "-0%, -100%"});
   `};
 `
 

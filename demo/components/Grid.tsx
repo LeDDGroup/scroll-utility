@@ -7,8 +7,8 @@ const LEFT_MARGIN = "5%"
 const Line = styled.div`
   background: black;
   ${(props: { horizontal?: boolean }) => css`
-    width: ${props.horizontal ? "50px" : "1px"}
-    height: ${props.horizontal ? "1px" : "50px"}
+    width: ${props.horizontal ? "100%" : "1px"}
+    height: ${props.horizontal ? "1px" : "100%"}
 `};
 `
 
