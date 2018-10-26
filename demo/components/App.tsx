@@ -1,6 +1,8 @@
 import * as React from "react"
 import { Grid } from "./Grid"
 import styled from "styled-components"
+import { data } from "./data"
+import { mapData } from "./Section"
 
 interface IState {
   rulers: boolean
@@ -27,7 +29,11 @@ class App extends React.Component<{}, IState> {
         <Div>
           <Grid>
             <Grid inverted type="screen">
-              <Grid inverted type="position" />
+              <Grid inverted type="position">
+                {data.map((d, i) => (
+                  <React.Fragment key={i}>{mapData(Object.assign(d))}</React.Fragment>
+                ))}
+              </Grid>
             </Grid>
           </Grid>
         </Div>
