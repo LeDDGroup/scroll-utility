@@ -11,8 +11,8 @@ interface IProps {
 
 const Line = styled.div`
   background: black;
-  width: 1px;
-  height: 100%;
+  width: 100%;
+  height: 1px;
 `
 
 function getSign(type: PositionType, horizontal?: boolean) {

@@ -32,10 +32,10 @@ class App extends React.Component<{}, IState> {
   public render(): JSX.Element {
     return (
       <main>
+        <Intro />
         <GridSystem background="white">
-          <Intro />
           {data.map((d, i) => (
-            <React.Fragment key={i}>{mapData(Object.assign(d))}</React.Fragment>
+            <React.Fragment key={i}>{mapData(d)}</React.Fragment>
           ))}
         </GridSystem>
       </main>

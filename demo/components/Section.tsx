@@ -1,4 +1,5 @@
 import * as React from "react"
+import ReactMarkdown from "react-markdown"
 
 type Data = ISection | IExample | IDoc
 
@@ -11,7 +12,7 @@ function isExample(data: Data): data is IExample {
 }
 
 function isDoc(data: Data): data is IDoc {
-  return !!(data as IDoc).documentation
+  return typeof data === "string"
 }
 
 interface ISection {
@@ -25,9 +26,7 @@ interface IExample {
   code: string
 }
 
-interface IDoc {
-  documentation: string
-}
+type IDoc = string
 
 function mapData(data: Data) {
   if (isSection(data)) {
@@ -42,8 +41,8 @@ function mapData(data: Data) {
   return <div> Invalid format </div>
 }
 
-function Doc(props: IDoc) {
-  return <p>{props.documentation}</p>
+function Doc(source: IDoc) {
+  return <ReactMarkdown source={source} />
 }
 
 function Section(props: ISection) {
@@ -59,7 +58,7 @@ function Section(props: ISection) {
 function Example(props: IExample) {
   return (
     <>
-      <p> {props.description} </p>
+      {props.description && <p> {props.description} </p>}
       <pre>
         <code className="language-js">{props.code}</code>
       </pre>

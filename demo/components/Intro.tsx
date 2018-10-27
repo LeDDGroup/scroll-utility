@@ -26,7 +26,6 @@ const IntroLayout = styled.div`
 `
 
 const H1 = styled.h1`
-  margin-top: 0;
   color: ${Colors.primary};
 `
 
@@ -38,8 +37,7 @@ function Intro() {
   )
   return (
     <>
-      <IntroLayout isHidden> {content} </IntroLayout>
-      <IntroLayout positioned> {content} </IntroLayout>
+      <IntroLayout> {content} </IntroLayout>
     </>
   )
 }

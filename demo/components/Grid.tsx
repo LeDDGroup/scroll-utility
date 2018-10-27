@@ -6,10 +6,6 @@ const LEFT_MARGIN = "5%"
 
 const GridContainer = styled.div`
   display: flex;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
   ${(props: IProps) =>
     props.inverted &&
     css`
@@ -31,7 +27,6 @@ const Left = styled.div`
 `
 
 const Right = styled.div`
-  display: inline-block;
   width: calc(100% - ${LEFT_MARGIN});
 `
 
