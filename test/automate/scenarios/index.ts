@@ -141,14 +141,14 @@ function testScenarios(getBrowser: () => WebDriver, basicTests: boolean) {
       before(async () => {
         const initialize = browser.getManagerInit(false)
         await browser.evaluate(
-          `${initialize}; scrollManager.scroll.toElement(${
+          `${initialize}; scrollManager.centerElement(${
             Scenario.elementSelector
-          }, { horizontal: false, center: 50})`,
+          }, 50, { horizontal: false })`,
         )
         await browser.evaluate(
-          `${initialize}; scrollManager.scroll.toElement(${
+          `${initialize}; scrollManager.centerElement(${
             Scenario.elementSelector
-          }, { horizontal: true, center: 50})`,
+          } 50, { horizontal: true })`,
         )
       })
       myDirectionDescribe()
