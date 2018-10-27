@@ -2,7 +2,8 @@ import { Data } from "./Section"
 
 export enum Colors {
   primary = "dodgerblue",
-  secondary = "#2B2D27",
+  secondary = "#3f4c6b",
+  black = "#2B2D27",
   background = "white",
 }
 

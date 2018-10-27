@@ -3,17 +3,22 @@ import { Grid } from "./Grid"
 import { data } from "./data"
 import { mapData } from "./Section"
 import Intro from "./Intro"
+import styled from "styled-components"
 
 interface IState {
   rulers: boolean
 }
 
-function GridSystem(props: React.Props<{}> & { background: string }): JSX.Element {
+const Main = styled.div`
+  min-height: 100vh;
+`
+
+function GridSystem(props: React.Props<{}>): JSX.Element {
   return (
     <Grid fixed>
       <Grid>
-        <Grid inverted type="screen">
-          <Grid inverted type="position">
+        <Grid inverted type="position">
+          <Grid inverted type="screen">
             {props.children}
           </Grid>
         </Grid>
@@ -33,10 +38,12 @@ class App extends React.Component<{}, IState> {
     return (
       <main>
         <Intro />
-        <GridSystem background="white">
-          {data.map((d, i) => (
-            <React.Fragment key={i}>{mapData(d)}</React.Fragment>
-          ))}
+        <GridSystem>
+          <Main id="main">
+            {data.map((d, i) => (
+              <React.Fragment key={i}>{mapData(d)}</React.Fragment>
+            ))}
+          </Main>
         </GridSystem>
       </main>
     )

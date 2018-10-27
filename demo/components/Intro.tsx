@@ -9,7 +9,7 @@ interface IntroLayoutProps {
 
 const IntroLayout = styled.div`
   min-height: 100vh;
-  background: ${Colors.secondary};
+  background: ${Colors.black};
   ${(props: IntroLayoutProps) =>
     props.isHidden &&
     css`
