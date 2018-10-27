@@ -19,13 +19,12 @@ const GridContainer = styled.div`
 
 const Left = styled.div`
   position: relative;
-  display: inline-block;
   width: ${LEFT_MARGIN};
-  top: 0;
-  bottom: 0;
   ${(props: IProps) =>
     props.fixed &&
     css`
+      display: inline-block;
+      top: 0;
       height: 100vh;
       position: sticky;
     `};
@@ -34,7 +33,6 @@ const Left = styled.div`
 const Right = styled.div`
   display: inline-block;
   width: calc(100% - ${LEFT_MARGIN});
-  /* height: 100%; */
 `
 
 function getPositions(amount: number) {
