@@ -11,7 +11,7 @@ function scrollToPosition(browser: Scenario, options: IOptions, basicTests: bool
     async function scrollToPositionTest(scrollPosition: number) {
       await browser.evaluate(`
         ${initialize}
-        scrollManager.scroll.toPosition(${scrollPosition}, {
+        scrollManager.scrollTo("value", ${scrollPosition}, {
           duration: ${duration},
           horizontal: ${options.horizontal}
         });

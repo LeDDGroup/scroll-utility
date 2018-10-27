@@ -12,7 +12,7 @@ function scrollToPercent(browser: Scenario, options: IOptions, basicTests: boole
     async function scrollToPercentTest(scrollPercent: number) {
       await browser.evaluate(`
         ${initialize}
-        scrollManager.scroll.toPercent(${scrollPercent}, {
+        scrollManager.scrollTo("percent", ${scrollPercent}, {
           duration: ${duration},
           horizontal: ${horizontal}
         });
