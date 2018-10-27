@@ -76,6 +76,7 @@ export interface IProps {
   fixed?: boolean
   type?: PositionType
   inverted?: boolean
+  disabled?: boolean
 }
 
 function getFunction(type: PositionType) {
@@ -135,17 +136,18 @@ export class Grid extends React.Component<IProps, IState> {
     return (
       <GridContainer {...this.props}>
         <Left {...this.props}>
-          {this.state.positions.map((v, i) => (
-            <PositionedElement
-              key={i}
-              {...this.props}
-              value={funct(v, this.state.positions.length)}
-              type={this.type}
-              id={getId(this.type, v, this.state.positions.length)
-                .toString()
-                .concat(getSign(this.type))}
-            />
-          ))}
+          {!this.props.disabled &&
+            this.state.positions.map((v, i) => (
+              <PositionedElement
+                key={i}
+                {...this.props}
+                value={funct(v, this.state.positions.length)}
+                type={this.type}
+                id={getId(this.type, v, this.state.positions.length)
+                  .toString()
+                  .concat(getSign(this.type))}
+              />
+            ))}
         </Left>
         <Right>{this.props.children}</Right>
       </GridContainer>

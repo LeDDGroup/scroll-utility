@@ -3,16 +3,11 @@ body {
   margin: 0;
   font-family: Lato;
 
-  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#eeeeee+0,eeeeee+100;Grey+Flat */
-  background: #eeeeee; /* Old browsers */
-  background: -moz-linear-gradient(top, #eeeeee 0%, #eeeeee 100%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, #eeeeee 0%, #eeeeee 100%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(
-    to bottom,
-    #eeeeee 0%,
-    #eeeeee 100%
-  ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#eeeeee',GradientType=0 ); /* IE6-9 */
+  background: #fcfff4;
+  background: -moz-linear-gradient(-45deg, #fcfff4 0%, #e9e9ce 100%);
+  background: -webkit-linear-gradient(-45deg, #fcfff4 0%, #e9e9ce 100%);
+  background: linear-gradient(135deg, #fcfff4 0%, #e9e9ce 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#e9e9ce',GradientType=1 );
 }
 
 h1 {
