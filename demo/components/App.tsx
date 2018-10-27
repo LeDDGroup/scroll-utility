@@ -18,9 +18,13 @@ class App extends React.Component<{}, IState> {
     return (
       <Grid fixed>
         <Grid>
-          {data.map((d, i) => (
-            <React.Fragment key={i}>{mapData(Object.assign(d))}</React.Fragment>
-          ))}
+          <Grid inverted type="screen">
+            <Grid inverted type="position">
+              {data.map((d, i) => (
+                <React.Fragment key={i}>{mapData(Object.assign(d))}</React.Fragment>
+              ))}
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     )
