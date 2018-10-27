@@ -5,7 +5,6 @@ import PositionedElement, { PositionType } from "./PositionedMarker"
 const LEFT_MARGIN = "5%"
 
 const GridContainer = styled.div`
-  position: absolute;
   display: flex;
   top: 0;
   bottom: 0;
@@ -22,23 +21,28 @@ const Left = styled.div`
   position: relative;
   display: inline-block;
   width: ${LEFT_MARGIN};
-  height: 100%;
+  top: 0;
+  bottom: 0;
   ${(props: IProps) =>
     props.fixed &&
     css`
-      position: fixed;
+      height: 100vh;
+      position: sticky;
     `};
 `
 
 const Right = styled.div`
-  position: relative;
   display: inline-block;
   width: calc(100% - ${LEFT_MARGIN});
   /* height: 100%; */
 `
 
 function getPositions(amount: number) {
-  return new Array(amount).fill(1).map((v, i) => v + i)
+  const array: number[] = []
+  for (let i = 1; i <= amount; i++) {
+    array.push(i)
+  }
+  return array
 }
 
 function percentValue(value, amount) {
@@ -96,7 +100,6 @@ export class Grid extends React.Component<IProps> {
             </PositionedElement>
           ))}
         </Left>
-        {this.props.fixed && <Left />}
         <Right>{this.props.children}</Right>
       </GridContainer>
     )
