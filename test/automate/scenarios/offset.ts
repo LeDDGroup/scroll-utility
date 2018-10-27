@@ -12,7 +12,8 @@ function offset(browser: Scenario, options: IOptions, basicTests: boolean) {
       const initialize = browser.getManagerInit(options.elementScroll)
       await browser.evaluate(`
         ${initialize}
-        scrollManager.scroll.offset(${scrollDistance}, {
+        scrollManager.scrollBy("value", {
+          value: ${scrollDistance},
           duration: ${duration},
           horizontal: ${options.horizontal},
         });
