@@ -2,12 +2,7 @@ html,
 body {
   margin: 0;
   font-family: Lato;
-
   background: #fcfff4;
-  background: -moz-linear-gradient(-45deg, #fcfff4 0%, #e9e9ce 100%);
-  background: -webkit-linear-gradient(-45deg, #fcfff4 0%, #e9e9ce 100%);
-  background: linear-gradient(135deg, #fcfff4 0%, #e9e9ce 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#e9e9ce',GradientType=1 );
 }
 
 h1 {

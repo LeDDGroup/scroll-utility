@@ -1,6 +1,6 @@
 It can be installed from npm,
 
-```sh
+```bash
 $ npm install --save scroll-utility
 ```
 

@@ -3,7 +3,7 @@ import styled, { css } from "styled-components"
 import PositionedElement, { PositionType } from "./PositionedMarker"
 import { ScrollElement } from "./scroll-element"
 
-const positionsPerScreen = 4
+const positionsPerScreen = 2
 const screensPerScreen = 2
 
 const LEFT_MARGIN = "5%"
@@ -63,7 +63,7 @@ function percentValue(value, amount) {
 
 function positionValue(value) {
   return (
-    (value * window.windowScrollElement.size(false) - window.windowScrollElement.size(false) * 0) /
+    (value * window.windowScrollElement.size(false) - window.windowScrollElement.size(false) / 2) /
     positionsPerScreen
   )
 }

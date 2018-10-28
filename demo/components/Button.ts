@@ -11,6 +11,7 @@ export const Button = styled.button`
   font-size: 0.9em;
   font-weight: bold;
   outline: none;
+  cursor: pointer;
 `
 
 export default Button

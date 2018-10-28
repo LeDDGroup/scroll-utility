@@ -5,6 +5,7 @@ import { mapData } from "./Section"
 import Intro from "./Intro"
 import styled from "styled-components"
 import Button from "./Button"
+import windowScrollManager from "./window-scroll-manager"
 
 interface IState {
   rulers: boolean
@@ -26,32 +27,35 @@ class GridSystem extends React.Component<
   {},
   { percentRulers?: boolean; positionRulers?: boolean }
 > {
-  constructor() {
-    super({})
+  constructor(props) {
+    super(props)
     this.state = {
       percentRulers: true,
       positionRulers: true,
     }
   }
   render() {
+    const topbar = (
+      <TopBar>
+        <Button onClick={this.scrollTop}> Scroll Top</Button>
+        <Button onClick={this.togglePercent}>
+          {" "}
+          {this.state.percentRulers ? "Hide" : "Show"} percent rulers{" "}
+        </Button>
+        <Button onClick={this.togglePosition}>
+          {" "}
+          {this.state.positionRulers ? "Hide" : "Show"} position rulers{" "}
+        </Button>
+      </TopBar>
+    )
     return (
       <>
+        {topbar}
         <div id="grid">
           <Grid fixed disabled={!this.state.percentRulers}>
             <Grid disabled={!this.state.percentRulers}>
               <Grid disabled={!this.state.positionRulers} inverted type="position">
                 <Grid disabled={!this.state.positionRulers} inverted type="screen">
-                  <TopBar>
-                    <Button onClick={this.scrollTop}> Scroll Top</Button>
-                    <Button onClick={this.togglePercent}>
-                      {" "}
-                      {this.state.percentRulers ? "Hide" : "Show"} percent rulers{" "}
-                    </Button>
-                    <Button onClick={this.togglePosition}>
-                      {" "}
-                      {this.state.positionRulers ? "Hide" : "Show"} position rulers{" "}
-                    </Button>
-                  </TopBar>
                   {this.props.children}
                 </Grid>
               </Grid>
@@ -62,7 +66,7 @@ class GridSystem extends React.Component<
     )
   }
   private scrollTop = () => {
-    new ScrollUtility().centerElement(document.getElementById("grid")!, { value: 0 })
+    windowScrollManager.centerElement(document.getElementById("grid")!, { value: 0 })
   }
   private togglePercent = () => {
     this.setState({
@@ -81,6 +85,15 @@ class App extends React.Component<{}, IState> {
     super(props)
     this.state = {
       rulers: true,
+    }
+  }
+  componentDidMount() {
+    window.onkeydown = event => {
+      if (event.code === "ArrowUp" || event.code === "ArrowDown") {
+        windowScrollManager.scrollBy("screen", {
+          value: event.code === "ArrowUp" ? -0.5 : 0.5,
+        })
+      }
     }
   }
   public render(): JSX.Element {
