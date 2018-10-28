@@ -1,5 +1,3 @@
-import { onScroll } from "./scroll"
-
 const body = document.body
 const html = document.documentElement || {
   clientWidth: 0,
@@ -49,7 +47,8 @@ class ScrollElement {
   static isWindow(element: HTMLElement | Window): element is Window {
     return element === window
   }
-  constructor(private element: HTMLElement | Window = window) {
+  constructor(private element: HTMLElement | Window = window, private onScroll?: () => void) {
+    this.element.addEventListener("scroll", this.scroll)
     if (ScrollElement.isWindow(element)) {
       this.size = windowSize()
       this.scrollSize = windowScrollSize()
@@ -72,27 +71,14 @@ class ScrollElement {
       }
     }
   }
-  private _onScroll: onScroll = null
-  public set onScroll(value: onScroll) {
-    !!this._onScroll && !!value && this.toggleMount(true)
-    !this._onScroll && !value && this.toggleMount(false)
-    this._onScroll = value
-  }
   private scroll = () => {
-    if (this._onScroll) {
-      this._onScroll()
-    }
+    this.onScroll && this.onScroll()
   }
   public size: (horizontal: boolean) => number
   public scrollSize: (horizontal: boolean) => number
   public position: (horizontal: boolean) => number
   public offset: (horizontal: boolean) => number
   public scrollTo: (x: number, y: number) => void
-  private toggleMount(add: boolean) {
-    add
-      ? this.element.addEventListener("scroll", this.scroll)
-      : this.element.removeEventListener("scroll", this.scroll)
-  }
 }
 
 export { ScrollElement }
