@@ -1,7 +1,11 @@
 import { Animation } from "./animation"
-import { AnimationManager, Point } from "./animation-manager"
+import { AnimationManager } from "./animation-manager"
 import { defaultEasingFunction, EasingFunction } from "./easing"
 import { ScrollElement } from "./element"
+
+function almost0(value: number): boolean {
+  return value < 1 && value > -1
+}
 
 export type onScroll = (() => void) | null
 
@@ -38,21 +42,29 @@ class Scroll {
   private settings: ISettings
   private animationManager: AnimationManager
   constructor(element?: HTMLElement | Window, settings: Partial<ISettings> = defaultSettings) {
-    this.element = new ScrollElement(element)
-    this.animationManager = new AnimationManager(
-      (point: Point) => {
-        this.element.scrollTo(point.x, point.y)
+    const onScroll = () => {
+      const almostX = almost0(this.animationManager.shouldBe.x - this.element.position(true))
+      const almostY = almost0(this.animationManager.shouldBe.y - this.element.position(false))
+      !almostX && (this.animationManager.shouldBe.x = this.element.position(true))
+      !almostY && (this.animationManager.shouldBe.y = this.element.position(false))
+      if (almostX && almostY) {
         this.settings.onUtilityScroll && this.settings.onUtilityScroll()
-      },
-      () => this.settings.onExternalScroll && this.settings.onExternalScroll(),
-      (horizontal: boolean) => this.element.position(horizontal),
-    )
+      } else {
+        this.settings.onExternalScroll && this.settings.onExternalScroll()
+      }
+      this.settings.onScroll && this.settings.onScroll()
+    }
+    this.element = new ScrollElement(element, onScroll)
+    this.animationManager = new AnimationManager({
+      x: this.element.position(true),
+      y: this.element.position(false),
+    })
     this.settings = defaultSettings
     this.updateSettings(settings)
+    this.scroll()
   }
   public updateSettings(settings: Partial<ISettings>) {
-    this.settings = Object.assign(this.settings, settings)
-    this.element.onScroll = this.settings.onScroll
+    this.settings = Object.assign({}, this.settings, settings)
   }
   public stopAllAnimations() {
     this.animationManager.stopAllAnimations()
@@ -72,7 +84,7 @@ class Scroll {
   public scrollTo(scrollType: ScrollType, options: IOptions = this.settings.options) {
     const mappedOptions = this.getDefault(options)
     const dist = this.getDist(scrollType, mappedOptions.value, mappedOptions.horizontal)
-    this.offsetScroll({
+    return this.offsetScroll({
       ...mappedOptions,
       value: dist - this.element.position(mappedOptions.horizontal),
     })
@@ -80,15 +92,27 @@ class Scroll {
   public scrollBy(scrollType: ScrollType, options: IOptions = this.settings.options) {
     const mappedOptions = this.getDefault(options)
     const dist = this.getDist(scrollType, mappedOptions.value, mappedOptions.horizontal)
-    this.offsetScroll({ ...mappedOptions, value: dist })
+    return this.offsetScroll({ ...mappedOptions, value: dist })
+  }
+  private scroll = () => {
+    const shouldBe = Object.assign({}, this.animationManager.shouldBe)
+    this.animationManager.updateShouldBe()
+    if (
+      shouldBe.x !== this.animationManager.shouldBe.x ||
+      shouldBe.y !== this.animationManager.shouldBe.y
+    ) {
+      this.element.scrollTo(this.animationManager.shouldBe.x, this.animationManager.shouldBe.y)
+    }
+    window.requestAnimationFrame(this.scroll)
   }
   private offsetScroll(options: Required<IOptions>) {
-    return this.animationManager.createScrollAnimation({
+    const animation = this.animationManager.createScrollAnimation({
       distToScroll: options.value,
       easing: this.settings.easing,
       duration: options.duration,
       horizontal: options.horizontal,
     })
+    return animation
   }
   private getDist(scrollType: ScrollType, value: number, horizontal: boolean): number {
     switch (scrollType) {
