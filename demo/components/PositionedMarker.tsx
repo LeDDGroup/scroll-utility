@@ -1,6 +1,6 @@
 import * as React from "react"
 import styled, { css } from "styled-components"
-import { Colors } from "./data"
+import { Colors } from "../data"
 
 export type PositionType = "position" | "percent" | "screen"
 

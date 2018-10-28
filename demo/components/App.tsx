@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Grid } from "./Grid"
-import { data } from "./data"
+import { data } from "../data"
 import { mapData } from "./Section"
 import Intro from "./Intro"
 import styled from "styled-components"
@@ -36,31 +36,33 @@ class GridSystem extends React.Component<
   render() {
     return (
       <>
-        <Grid fixed disabled={!this.state.percentRulers}>
-          <Grid disabled={!this.state.percentRulers}>
-            <Grid disabled={!this.state.positionRulers} inverted type="position">
-              <Grid disabled={!this.state.positionRulers} inverted type="screen">
-                <TopBar>
-                  <Button onClick={this.scrollTop}> Scroll Top</Button>
-                  <Button onClick={this.togglePercent}>
-                    {" "}
-                    {this.state.percentRulers ? "Hide" : "Show"} percent rulers{" "}
-                  </Button>
-                  <Button onClick={this.togglePosition}>
-                    {" "}
-                    {this.state.positionRulers ? "Hide" : "Show"} position rulers{" "}
-                  </Button>
-                </TopBar>
-                {this.props.children}
+        <div id="grid">
+          <Grid fixed disabled={!this.state.percentRulers}>
+            <Grid disabled={!this.state.percentRulers}>
+              <Grid disabled={!this.state.positionRulers} inverted type="position">
+                <Grid disabled={!this.state.positionRulers} inverted type="screen">
+                  <TopBar>
+                    <Button onClick={this.scrollTop}> Scroll Top</Button>
+                    <Button onClick={this.togglePercent}>
+                      {" "}
+                      {this.state.percentRulers ? "Hide" : "Show"} percent rulers{" "}
+                    </Button>
+                    <Button onClick={this.togglePosition}>
+                      {" "}
+                      {this.state.positionRulers ? "Hide" : "Show"} position rulers{" "}
+                    </Button>
+                  </TopBar>
+                  {this.props.children}
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        </div>
       </>
     )
   }
   private scrollTop = () => {
-    new ScrollUtility().scrollTo("screen", { value: 1 })
+    new ScrollUtility().centerElement(document.getElementById("grid")!, { value: 0 })
   }
   private togglePercent = () => {
     this.setState({

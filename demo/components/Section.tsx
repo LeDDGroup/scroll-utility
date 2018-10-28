@@ -1,7 +1,7 @@
 import * as React from "react"
 import ReactMarkdown from "react-markdown"
 import styled, { css } from "styled-components"
-import { Colors } from "./data"
+import { Colors } from "../data"
 
 type Data = ISection | IExample | IDoc
 
@@ -86,9 +86,7 @@ function Example(props: IExample) {
   return (
     <>
       {props.description && <p> {props.description} </p>}
-      <pre>
-        <code className="language-js">{props.code}</code>
-      </pre>
+      <ReactMarkdown source={props.code} />
     </>
   )
 }

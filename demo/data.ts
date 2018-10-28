@@ -1,14 +1,18 @@
-import { Data } from "./Section"
+import { Data } from "./components/Section"
+import asd from "./docs/intro.md"
+console.log(asd)
 
 export enum Colors {
   primary = "dodgerblue",
   secondary = "#3f4c6b",
   tertiary = "#4f85bb",
   black = "#2B2D27",
-  background = "white",
+  background = "#fcfff4",
+  transparent = "rgba(252, 255, 244, 0.8)",
 }
 
 const basicUsageCode = `
+\`\`\`js
 import { Scroll } from "scroll-utility"
 
 const scrollManager = new Scroll(element, settings) // for scrolling inside element instead of window
@@ -28,6 +32,7 @@ scrollManager.onUserScroll = () => console.log("this scroll utility did not scro
 scrollManager.stopAllAnimations() // stop all animation in "scrollManager"
 const animation = scrollManager.scroll.offset(1000, { duration: 1000 }) // capture animation
 animation.stop() // stop animation
+\`\`\`
 `
 
 const installationCode = "$ npm install --save scroll-utility"
