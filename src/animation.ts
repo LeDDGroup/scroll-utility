@@ -4,31 +4,31 @@ interface ScrollInstanceProps {
   duration: number
   distToScroll: number
   easing: EasingFunction
+  stop(): void
 }
 
 type DOMHighResTimeStamp = number
 
 class Animation {
   private initialTime: DOMHighResTimeStamp
-  private active: boolean = true
+  public distance: number = 0
   public easing: EasingFunction
   constructor(private options: ScrollInstanceProps) {
     this.initialTime = performance.now()
     this.easing = options.easing || defaultEasingFunction
   }
-  public get distance(): number {
-    return this.isPastAnimation()
+  public updateDistance(): number {
+    this.distance = this.isPastAnimation()
       ? this.options.distToScroll
       : this.easing(this.currentDuration, 0, this.options.distToScroll, this.options.duration)
-  }
-  public isPastAnimation(): boolean {
-    return this.currentDuration >= this.options.duration
+    this.isPastAnimation() && this.stop()
+    return this.distance
   }
   public stop() {
-    this.active = false
+    this.options.stop()
   }
-  public get isActive() {
-    return this.active
+  private isPastAnimation(): boolean {
+    return this.currentDuration >= this.options.duration
   }
   private get currentDuration() {
     return performance.now() - this.initialTime
