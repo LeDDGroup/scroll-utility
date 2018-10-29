@@ -1,7 +1,7 @@
 import { Animation } from "./animation"
-import { EasingFunction } from "./easing"
+import { EasingFunction } from "./default-settings"
 
-function toDirection(horizontal: boolean): "x" | "y" {
+export function toDirection(horizontal: boolean): "x" | "y" {
   return horizontal ? "x" : "y"
 }
 
@@ -10,9 +10,8 @@ interface IHorizontal<T> {
   y: T
 }
 
-export interface Point extends IHorizontal<number> {
-  x: number
-  y: number
+export class Point implements IHorizontal<number> {
+  constructor(public x = 0, public y = 0) {}
 }
 
 class AnimationManager {
