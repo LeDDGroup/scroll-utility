@@ -1,7 +1,7 @@
 import { Animation } from "./animation"
 import { toDirection, AnimationManager } from "./animation-manager"
-import { defaultEasingFunction, EasingFunction } from "./easing"
 import { ScrollElement } from "./element"
+import defaultSettings, { EasingFunction } from "./default-settings"
 
 function almost0(value: number): boolean {
   return value < 1 && value > -1
@@ -19,18 +19,6 @@ interface Settings {
   onUtilityScroll: onScroll
   onExternalScroll: onScroll
   options: IOptions
-}
-
-const defaultSettings: Settings = {
-  easing: defaultEasingFunction,
-  onScroll: null,
-  onUtilityScroll: null,
-  onExternalScroll: null,
-  options: {
-    value: 0,
-    duration: 1000,
-    horizontal: false,
-  },
 }
 
 interface IOptions {
@@ -136,4 +124,4 @@ class Scroll {
   }
 }
 
-export { Scroll, IOptions, Animation }
+export { Scroll, IOptions, Animation, Settings }
