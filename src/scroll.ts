@@ -1,5 +1,5 @@
 import { Animation } from "./animation"
-import { AnimationManager } from "./animation-manager"
+import { toDirection, AnimationManager } from "./animation-manager"
 import { defaultEasingFunction, EasingFunction } from "./easing"
 import { ScrollElement } from "./element"
 
@@ -43,10 +43,10 @@ class Scroll {
   private animationManager: AnimationManager
   constructor(element?: HTMLElement | Window, settings: Partial<ISettings> = defaultSettings) {
     const onScroll = () => {
-      const almostX = almost0(this.animationManager.shouldBe.x - this.element.position(true))
-      const almostY = almost0(this.animationManager.shouldBe.y - this.element.position(false))
-      !almostX && (this.animationManager.shouldBe.x = this.element.position(true))
-      !almostY && (this.animationManager.shouldBe.y = this.element.position(false))
+      const almostX = almost0(this.animationManager.shouldBe.x - this.element.position.x)
+      const almostY = almost0(this.animationManager.shouldBe.y - this.element.position.y)
+      !almostX && (this.animationManager.shouldBe.x = this.element.position.x)
+      !almostY && (this.animationManager.shouldBe.y = this.element.position.y)
       if (almostX && almostY) {
         this.settings.onUtilityScroll && this.settings.onUtilityScroll()
       } else {
@@ -56,8 +56,8 @@ class Scroll {
     }
     this.element = new ScrollElement(element, onScroll)
     this.animationManager = new AnimationManager({
-      x: this.element.position(true),
-      y: this.element.position(false),
+      x: this.element.position.x,
+      y: this.element.position.y,
     })
     this.settings = defaultSettings
     this.updateSettings(settings)
@@ -76,17 +76,19 @@ class Scroll {
     const mappedOptions = this.getDefault(_options)
     const ratio = (mappedOptions.value || 0) / 100
     const horizontal = mappedOptions.horizontal
+    const direction = toDirection(horizontal)
     const elementWrapper = new ScrollElement(element)
-    const screenOffset = (this.element.size(horizontal) - elementWrapper.size(horizontal)) * ratio
-    const elementPosition = elementWrapper.offset(horizontal) - this.element.offset(horizontal)
+    const screenOffset = (this.element.size[direction] - elementWrapper.size[direction]) * ratio
+    const elementPosition = elementWrapper.offset[direction] - this.element.offset[direction]
     return this.offsetScroll({ ...mappedOptions, value: elementPosition - screenOffset })
   }
   public scrollTo(scrollType: ScrollType, options: IOptions = this.settings.options) {
     const mappedOptions = this.getDefault(options)
     const dist = this.getDist(scrollType, mappedOptions.value, mappedOptions.horizontal)
+    const direction = toDirection(mappedOptions.horizontal)
     return this.offsetScroll({
       ...mappedOptions,
-      value: dist - this.element.position(mappedOptions.horizontal),
+      value: dist - this.element.position[direction],
     })
   }
   public scrollBy(scrollType: ScrollType, options: IOptions = this.settings.options) {
@@ -101,7 +103,7 @@ class Scroll {
       shouldBe.x !== this.animationManager.shouldBe.x ||
       shouldBe.y !== this.animationManager.shouldBe.y
     ) {
-      this.element.scrollTo(this.animationManager.shouldBe.x, this.animationManager.shouldBe.y)
+      this.element.scrollTo(this.animationManager.shouldBe)
     }
     window.requestAnimationFrame(this.scroll)
   }
@@ -115,11 +117,12 @@ class Scroll {
     return animation
   }
   private getDist(scrollType: ScrollType, value: number, horizontal: boolean): number {
+    const direction = toDirection(horizontal)
     switch (scrollType) {
       case "percent":
-        return ((this.element.scrollSize(horizontal) - this.element.size(horizontal)) * value) / 100
+        return ((this.element.scrollSize[direction] - this.element.size[direction]) * value) / 100
       case "screen":
-        return this.element.size(horizontal) * value
+        return this.element.size[direction] * value
       default:
         return value
     }
