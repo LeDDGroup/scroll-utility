@@ -1,5 +1,5 @@
 import { Animation } from "./animation"
-import { EasingFunction } from "./easing"
+import { EasingFunction } from "./default-settings"
 
 export function toDirection(horizontal: boolean): "x" | "y" {
   return horizontal ? "x" : "y"
