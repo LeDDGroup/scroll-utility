@@ -7,19 +7,21 @@ function almost0(value: number): boolean {
   return value < 1 && value > -1
 }
 
+type PartialRecursive<T> = T extends object ? { [K in keyof T]?: PartialRecursive<T[K]> } : T
+
 export type onScroll = (() => void) | null
 
 type ScrollType = "value" | "percent" | "screen"
 
-interface ISettings {
+interface Settings {
   easing: EasingFunction
   onScroll: onScroll
   onUtilityScroll: onScroll
   onExternalScroll: onScroll
-  options: Required<IOptions>
+  options: IOptions
 }
 
-const defaultSettings: ISettings = {
+const defaultSettings: Settings = {
   easing: defaultEasingFunction,
   onScroll: null,
   onUtilityScroll: null,
@@ -32,16 +34,20 @@ const defaultSettings: ISettings = {
 }
 
 interface IOptions {
-  value?: number
-  duration?: number
-  horizontal?: boolean
+  value: number
+  duration: number
+  horizontal: boolean
 }
+
+type PartialSettings = PartialRecursive<Settings>
 
 class Scroll {
   private element: ScrollElement
-  private settings: ISettings
+  private settings: Settings
   private animationManager: AnimationManager
-  constructor(element?: HTMLElement | Window, settings: Partial<ISettings> = defaultSettings) {
+  constructor(element?: HTMLElement | Window, settings: PartialSettings = {}) {
+    this.settings = defaultSettings
+    this.updateSettings(settings)
     const onScroll = () => {
       const almostX = almost0(this.animationManager.shouldBe.x - this.element.position.x)
       const almostY = almost0(this.animationManager.shouldBe.y - this.element.position.y)
@@ -59,11 +65,9 @@ class Scroll {
       x: this.element.position.x,
       y: this.element.position.y,
     })
-    this.settings = defaultSettings
-    this.updateSettings(settings)
     this.scroll()
   }
-  public updateSettings(settings: Partial<ISettings>) {
+  public updateSettings(settings: PartialSettings) {
     this.settings = Object.assign({}, this.settings, settings)
   }
   public stopAllAnimations() {
@@ -107,7 +111,7 @@ class Scroll {
     }
     window.requestAnimationFrame(this.scroll)
   }
-  private offsetScroll(options: Required<IOptions>) {
+  private offsetScroll(options: IOptions) {
     const animation = this.animationManager.createScrollAnimation({
       distToScroll: options.value,
       easing: this.settings.easing,
@@ -127,7 +131,7 @@ class Scroll {
         return value
     }
   }
-  private getDefault(options: IOptions): Required<IOptions> {
+  private getDefault(options: IOptions): IOptions {
     return Object.assign(this.settings.options, options)
   }
 }
