@@ -6,6 +6,7 @@ import Intro from "./Intro"
 import styled from "styled-components"
 import Button from "./Button"
 import windowScrollManager from "./window-scroll-manager"
+import CenterElement from "./CenterElement"
 
 interface IState {
   rulers: boolean
@@ -39,12 +40,10 @@ class GridSystem extends React.Component<
       <TopBar>
         <Button onClick={this.scrollTop}> Scroll Top</Button>
         <Button onClick={this.togglePercent}>
-          {" "}
-          {this.state.percentRulers ? "Hide" : "Show"} percent rulers{" "}
+          {this.state.percentRulers ? "Hide" : "Show"} percent rulers
         </Button>
         <Button onClick={this.togglePosition}>
-          {" "}
-          {this.state.positionRulers ? "Hide" : "Show"} position rulers{" "}
+          {this.state.positionRulers ? "Hide" : "Show"} position rulers
         </Button>
       </TopBar>
     )
@@ -97,11 +96,13 @@ class App extends React.Component<{}, IState> {
     }
   }
   public render(): JSX.Element {
+    const titles = ["Basic usage", "Installation", "Usage", "Support"]
     return (
       <main>
         <Intro />
         <GridSystem>
           <Main id="main">
+            <CenterElement elements={titles} />
             {data.map((d, i) => (
               <React.Fragment key={i}>{mapData(d)}</React.Fragment>
             ))}

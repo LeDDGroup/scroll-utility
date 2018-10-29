@@ -23,7 +23,7 @@ const options = { // default options
 
 scrollManager.onScroll = () => console.log("scroll occurred in scrollManager container")
 scrollManager.onUtilityScroll = () => console.log("this scroll utility did scrolled")
-scrollManager.onUserScroll = () => console.log("this scroll utility did not scrolled!")
+scrollManager.onExternalScroll = () => console.log("this scroll utility did not scrolled!")
 
 // stopping animations
 

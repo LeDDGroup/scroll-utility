@@ -69,7 +69,10 @@ class Section extends React.Component<ISection, { visible: boolean }> {
   render() {
     return (
       <section>
-        <H1 onClick={this.toggleVisibility}> {this.props.title} </H1>
+        <H1 id={this.props.title} onClick={this.toggleVisibility}>
+          {" "}
+          {this.props.title}{" "}
+        </H1>
         <VisibleDiv isVisible={this.state.visible}>
           {this.props.link && <a href={this.props.link}> </a>}
           {this.props.content.map((data, i) => (
