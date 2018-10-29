@@ -1,3 +1,5 @@
+# Features:
+
 - Smooth scroll inside any element in any direction
 - Center elements
 - Scroll to and offset scroll position

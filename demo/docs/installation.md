@@ -1,3 +1,5 @@
+# Installation
+
 It can be installed from npm,
 
 ```bash

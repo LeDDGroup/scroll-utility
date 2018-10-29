@@ -1,8 +1,7 @@
 import * as React from "react"
 import { Grid } from "./Grid"
-import { data } from "../data"
-import { mapData } from "./Section"
-import Intro from "./Intro"
+import readme from "../docs/readme.md"
+import ReactMarkdown from "react-markdown"
 import styled from "styled-components"
 import Button from "./Button"
 import windowScrollManager from "./window-scroll-manager"
@@ -39,22 +38,16 @@ class GridSystem extends React.Component<
     const topbar = (
       <TopBar>
         <Button onClick={this.scrollTop}> Scroll Top</Button>
-        <Button onClick={this.togglePercent}>
-          {this.state.percentRulers ? "Hide" : "Show"} percent rulers
-        </Button>
-        <Button onClick={this.togglePosition}>
-          {this.state.positionRulers ? "Hide" : "Show"} position rulers
-        </Button>
       </TopBar>
     )
     return (
       <>
-        {topbar}
         <div id="grid">
           <Grid fixed disabled={!this.state.percentRulers}>
-            <Grid disabled={!this.state.percentRulers}>
-              <Grid disabled={!this.state.positionRulers} inverted type="position">
-                <Grid disabled={!this.state.positionRulers} inverted type="screen">
+            <Grid>
+              <Grid inverted type="position">
+                <Grid inverted type="screen">
+                  {topbar}
                   {this.props.children}
                 </Grid>
               </Grid>
@@ -66,16 +59,6 @@ class GridSystem extends React.Component<
   }
   private scrollTop = () => {
     windowScrollManager.centerElement(document.getElementById("grid")!, 0)
-  }
-  private togglePercent = () => {
-    this.setState({
-      percentRulers: !this.state.percentRulers,
-    })
-  }
-  private togglePosition = () => {
-    this.setState({
-      positionRulers: !this.state.positionRulers,
-    })
   }
 }
 
@@ -97,13 +80,10 @@ class App extends React.Component<{}, IState> {
     const titles = ["Basic usage", "Installation", "Usage", "Support"]
     return (
       <main>
-        <Intro />
         <GridSystem>
           <Main id="main">
             <CenterElement elements={titles} />
-            {data.map((d, i) => (
-              <React.Fragment key={i}>{mapData(d)}</React.Fragment>
-            ))}
+            <ReactMarkdown source={readme} />
           </Main>
         </GridSystem>
       </main>

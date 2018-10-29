@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { Colors } from "../data"
+import { Colors } from "../colors"
 
 export const Button = styled.button`
   color: ${Colors.primary};

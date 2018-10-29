@@ -1,3 +1,5 @@
+# Scroll Container
+
 To start scrolling you first have to specify the element which will do the scroll. It can be a HTMLElement, like a div (usually with _overflow_ css property set to _auto_ or _scroll_); or the scroll can be as always effectuated by the _window_:
 
 ```js
