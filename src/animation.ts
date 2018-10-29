@@ -1,4 +1,4 @@
-import { EasingFunction, defaultEasingFunction } from "./easing"
+import { EasingFunction } from "./default-settings"
 
 interface ScrollInstanceProps {
   duration: number
@@ -15,7 +15,7 @@ class Animation {
   public easing: EasingFunction
   constructor(private options: ScrollInstanceProps) {
     this.initialTime = performance.now()
-    this.easing = options.easing || defaultEasingFunction
+    this.easing = options.easing
   }
   public updateDistance(): number {
     this.distance = this.isPastAnimation()
