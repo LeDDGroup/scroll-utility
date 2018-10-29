@@ -65,7 +65,7 @@ class GridSystem extends React.Component<
     )
   }
   private scrollTop = () => {
-    windowScrollManager.centerElement(document.getElementById("grid")!, { value: 0 })
+    windowScrollManager.centerElement(document.getElementById("grid")!, 0)
   }
   private togglePercent = () => {
     this.setState({
@@ -89,9 +89,7 @@ class App extends React.Component<{}, IState> {
   componentDidMount() {
     window.onkeydown = event => {
       if (event.code === "ArrowUp" || event.code === "ArrowDown") {
-        windowScrollManager.scrollBy("screen", {
-          value: event.code === "ArrowUp" ? -0.5 : 0.5,
-        })
+        windowScrollManager.scrollBy("screen", 0.5 * (event.code === "ArrowUp" ? -1 : 1))
       }
     }
   }

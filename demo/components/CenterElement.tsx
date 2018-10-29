@@ -44,9 +44,7 @@ export class CenterElement extends React.Component<IProps, IState> {
     const element = document.getElementById(this.state.elementToScrollTo)
     console.log(element)
     const value = this.state.value
-    scrollManager.centerElement(element!, {
-      value,
-    })
+    scrollManager.centerElement(element!, value)
   }
   private onValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(event.target.value)
