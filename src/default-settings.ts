@@ -26,7 +26,6 @@ export const defaultSettings: Settings = {
   onUtilityScroll: null,
   onExternalScroll: null,
   options: {
-    value: 0,
     duration: 1000,
     horizontal: false,
   },
