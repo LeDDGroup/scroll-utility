@@ -137,3 +137,7 @@ class Scroll {
 }
 
 export { Scroll, IOptions, Animation, Settings }
+
+export const windowScrollManager = new Scroll()
+
+export default windowScrollManager
