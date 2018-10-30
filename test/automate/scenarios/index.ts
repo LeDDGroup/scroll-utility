@@ -143,12 +143,12 @@ function testScenarios(getBrowser: () => WebDriver, basicTests: boolean) {
         await browser.evaluate(
           `${initialize}; scrollManager.centerElement(${
             Scenario.elementSelector
-          }, { horizontal: false, value: 50})`,
+          }, 50, { horizontal: false })`,
         )
         await browser.evaluate(
           `${initialize}; scrollManager.centerElement(${
             Scenario.elementSelector
-          }, { horizontal: true, value: 50})`,
+          } 50, { horizontal: true })`,
         )
       })
       myDirectionDescribe()
