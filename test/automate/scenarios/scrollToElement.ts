@@ -13,10 +13,9 @@ function scrollToElement(browser: Scenario, options: IOptions, basicTests: boole
     async function scrollToElementTest(center: number) {
       await browser.evaluate(`
         ${initialize}
-        scrollManager.centerElement(${element}, {
+        scrollManager.centerElement(${element}, ${center}, {
           duration: ${duration},
           horizontal: ${horizontal},
-          value: ${center},
         });
       `)
       await delay(duration)
