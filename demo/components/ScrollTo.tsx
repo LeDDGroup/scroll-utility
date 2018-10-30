@@ -2,17 +2,15 @@ import * as React from "react"
 import scrollManager from "./window-scroll-manager"
 import UniformScrollElement, { IData } from "./ScrollExample"
 
-interface IProps {
-  elements: string[]
-}
+const types = ["value", "screen", "percent"]
 
 interface IState extends IData {}
 
-export class CenterElement extends React.Component<IProps, IState> {
+export class ScrollTo extends React.Component<{}, IState> {
   constructor(props) {
     super(props)
     this.state = {
-      select: this.props.elements[0],
+      select: types[0],
       value: 0,
     }
   }
@@ -22,24 +20,17 @@ export class CenterElement extends React.Component<IProps, IState> {
         onClick={this.onClick}
         onChange={this.onChange}
         defaultValue={this.state}
-        selectLabel="element"
-        selectValues={this.props.elements}
+        selectLabel="scroll type"
+        selectValues={types}
       />
     )
   }
   private onChange = (data: IData) => {
-    console.log(data)
     this.setState(data)
   }
   private onClick = () => {
-    console.log(this.state)
-    const element = document.getElementById(this.state.select)
-    if (element) {
-      scrollManager.centerElement(element, this.state.value)
-    } else {
-      console.warn(`id ${this.state.select} does not belong to any element`)
-    }
+    scrollManager.scrollTo(this.state.select as any, this.state.value)
   }
 }
 
-export default CenterElement
+export default ScrollTo

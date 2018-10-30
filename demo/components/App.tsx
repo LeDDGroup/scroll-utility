@@ -6,18 +6,17 @@ import styled from "styled-components"
 import Button from "./Button"
 import windowScrollManager from "./window-scroll-manager"
 import CenterElement from "./CenterElement"
+import Section from "./Section"
+import ScrollBy from "./ScrollBy"
+import ScrollTo from "./ScrollTo"
 
 interface IState {
   rulers: boolean
 }
 
-const Main = styled.div`
-  min-height: 100vh;
-`
-
 const TopBar = styled.div`
-  top: 5px;
-  position: sticky;
+  top: 10px;
+  position: fixed;
   z-index: 5;
   margin-left: 5px;
   margin-right: 5px;
@@ -42,12 +41,12 @@ class GridSystem extends React.Component<
     )
     return (
       <>
+        {topbar}
         <div id="grid">
           <Grid fixed disabled={!this.state.percentRulers}>
             <Grid>
               <Grid inverted type="position">
                 <Grid inverted type="screen">
-                  {topbar}
                   {this.props.children}
                 </Grid>
               </Grid>
@@ -77,16 +76,22 @@ class App extends React.Component<{}, IState> {
     }
   }
   public render(): JSX.Element {
-    const titles = ["Basic usage", "Installation", "Usage", "Support"]
+    const titles = ["CenterElement", "ScrollBy", "ScrollTo", "Readme"]
     return (
-      <main>
-        <GridSystem>
-          <Main id="main">
-            <CenterElement elements={titles} />
-            <ReactMarkdown source={readme} />
-          </Main>
-        </GridSystem>
-      </main>
+      <GridSystem>
+        <Section title={titles[0]}>
+          <CenterElement elements={titles} />
+        </Section>
+        <Section title={titles[1]}>
+          <ScrollBy />
+        </Section>
+        <Section title={titles[2]}>
+          <ScrollTo />
+        </Section>
+        <Section title={titles[3]}>
+          <ReactMarkdown source={readme} />
+        </Section>
+      </GridSystem>
     )
   }
 }

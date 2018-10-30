@@ -30,14 +30,11 @@ const H1 = styled.h1`
 `
 
 function Intro() {
-  const content = (
-    <>
-      <H1> scroll-utility </H1>
-    </>
-  )
   return (
     <>
-      <IntroLayout> {content} </IntroLayout>
+      <IntroLayout>
+        <H1> scroll-utility </H1>
+      </IntroLayout>
     </>
   )
 }

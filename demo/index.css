@@ -3,6 +3,7 @@ body {
   margin: 0;
   font-family: Lato;
   background: #fcfff4;
+  position: relative;
 }
 
 h1 {

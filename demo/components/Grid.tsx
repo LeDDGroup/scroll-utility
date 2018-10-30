@@ -12,6 +12,7 @@ declare const window: Window & {
   scrollElement: ScrollElement
   windowScrollElement: ScrollElement
 }
+
 window.scrollElement = window.windowScrollElement = new ScrollElement(window)
 
 const GridContainer = styled.div`
@@ -47,18 +48,18 @@ function getPositions(type: PositionType) {
     type === "percent"
       ? 10
       : type === "position"
-        ? screenAmount * positionsPerScreen
-        : screenAmount * screensPerScreen
+        ? screenAmount * positionsPerScreen - 1
+        : screenAmount * screensPerScreen - 1
 
   const array: number[] = []
-  for (let i = 1; i <= amount; i++) {
+  for (let i = 0; i <= amount; i++) {
     array.push(i)
   }
   return array
 }
 
 function percentValue(value, amount) {
-  return (value * 100) / amount
+  return (value * 100) / (amount - 1)
 }
 
 function positionValue(value) {
@@ -110,8 +111,6 @@ export class Grid extends React.Component<IProps, IState> {
     }
   }
   componentDidMount() {
-    const element = document.getElementById("main")
-    window.scrollElement = new ScrollElement(element!)
     const funct = () => {
       const positions = getPositions(this.type)
       if (

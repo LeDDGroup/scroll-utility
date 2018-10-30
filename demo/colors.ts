@@ -6,3 +6,5 @@ export enum Colors {
   background = "#fcfff4",
   transparent = "rgba(252, 255, 244, 0.8)",
 }
+
+export default Colors
