@@ -52,14 +52,14 @@ function getPositions(type: PositionType) {
         : screenAmount * screensPerScreen - 1
 
   const array: number[] = []
-  for (let i = 0; i <= amount; i++) {
+  for (let i = 1; i <= amount; i++) {
     array.push(i)
   }
   return array
 }
 
 function percentValue(value, amount) {
-  return (value * 100) / (amount - 1)
+  return (value * 100) / amount
 }
 
 function positionValue(value) {

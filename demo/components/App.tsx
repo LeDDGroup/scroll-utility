@@ -1,6 +1,7 @@
 import * as React from "react"
 import { Grid } from "./Grid"
 import readme from "../docs/readme.md"
+import features from "../docs/features.md"
 import ReactMarkdown from "react-markdown"
 import styled from "styled-components"
 import Button from "./Button"
@@ -9,10 +10,15 @@ import CenterElement from "./CenterElement"
 import Section from "./Section"
 import ScrollBy from "./ScrollBy"
 import ScrollTo from "./ScrollTo"
+import { Colors } from "../colors"
 
 interface IState {
   rulers: boolean
 }
+
+const Intro = styled.h1`
+  color: ${Colors.primary};
+`
 
 const TopBar = styled.div`
   top: 10px;
@@ -20,6 +26,10 @@ const TopBar = styled.div`
   z-index: 5;
   margin-left: 5px;
   margin-right: 5px;
+`
+
+const SomeElement = styled.div`
+  height: 50vh;
 `
 
 class GridSystem extends React.Component<
@@ -47,6 +57,7 @@ class GridSystem extends React.Component<
             <Grid>
               <Grid inverted type="position">
                 <Grid inverted type="screen">
+                  <Intro> scroll-utility </Intro>
                   {this.props.children}
                 </Grid>
               </Grid>
@@ -76,11 +87,16 @@ class App extends React.Component<{}, IState> {
     }
   }
   public render(): JSX.Element {
-    const titles = ["CenterElement", "ScrollBy", "ScrollTo", "Readme"]
+    const titles = ["some-element", "ScrollBy", "ScrollTo", "Readme"]
     return (
       <GridSystem>
-        <Section title={titles[0]}>
+        <ReactMarkdown source={features} />
+        but mainly, precision, and here is the evidence:
+        <Section title={"CenterElement"}>
           <CenterElement elements={titles} />
+        </Section>
+        <Section grid title={titles[0]}>
+          <SomeElement />
         </Section>
         <Section title={titles[1]}>
           <ScrollBy />
@@ -88,7 +104,8 @@ class App extends React.Component<{}, IState> {
         <Section title={titles[2]}>
           <ScrollTo />
         </Section>
-        <Section title={titles[3]}>
+        more information see readme:
+        <Section grid title={titles[3]}>
           <ReactMarkdown source={readme} />
         </Section>
       </GridSystem>

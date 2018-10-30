@@ -1,9 +1,10 @@
 import * as React from "react"
 import styled, { css } from "styled-components"
-import Colors from "../colors"
+import { Grid } from "./Grid"
 
 interface IProps {
   title: string
+  grid?: boolean
 }
 
 interface IState {
@@ -18,9 +19,9 @@ const IsHidden = styled.div`
     `};
 `
 
-const H1 = styled.h1`
-    cursor: pointer
-    color: ${Colors.secondary}
+const SectionElement = styled.section`
+  background: #eee;
+  margin: 10px;
 `
 
 export class Section extends React.Component<IProps, IState> {
@@ -31,19 +32,18 @@ export class Section extends React.Component<IProps, IState> {
     }
   }
   render() {
-    return (
-      <section>
-        <H1 id={this.props.title} onClick={this.onClick}>
-          {this.props.title}
-        </H1>
+    const content = (
+      <>
+        <h1>{this.props.title}</h1>
         <IsHidden isVisible={this.state.hidden}>{this.props.children}</IsHidden>
-      </section>
+      </>
     )
-  }
-  private onClick = () => {
-    this.setState({
-      hidden: !this.state.hidden,
-    })
+    return (
+      <SectionElement id={this.props.title}>
+        {this.props.grid && <Grid> {content} </Grid>}
+        {!this.props.grid && content}
+      </SectionElement>
+    )
   }
 }
 
