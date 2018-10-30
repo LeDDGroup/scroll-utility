@@ -73,11 +73,7 @@ class Scroll {
       mappedOptions,
     )
   }
-  public scrollTo(
-    scrollType: ScrollType,
-    value: number,
-    options: IOptions = this.settings.options,
-  ) {
+  public scrollTo(scrollType: ScrollType, value: number, options: Partial<IOptions> = {}) {
     const mappedOptions = this.getDefault(options)
     const dist = this.getDist(scrollType, value, mappedOptions.horizontal)
     const direction = toDirection(mappedOptions.horizontal)
@@ -95,10 +91,17 @@ class Scroll {
   private scroll = () => {
     const shouldBe = Object.assign({}, this.animationManager.shouldBe)
     this.animationManager.updateShouldBe()
+    const v = this.animationManager.shouldBe.y
+    const max = this.element.scrollSize.y
     if (
       shouldBe.x !== this.animationManager.shouldBe.x ||
       shouldBe.y !== this.animationManager.shouldBe.y
     ) {
+      this.animationManager.shouldBe.x = Math.max(
+        0,
+        Math.min(this.animationManager.shouldBe.x, this.element.scrollSize.x),
+      )
+      this.animationManager.shouldBe.y = Math.max(0, Math.min(v, max))
       this.element.scrollTo(this.animationManager.shouldBe)
     }
     window.requestAnimationFrame(this.scroll)
