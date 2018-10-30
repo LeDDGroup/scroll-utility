@@ -11,27 +11,29 @@ const html = document.documentElement || {
 }
 
 // https://stackoverflow.com/questions/3437786/get-the-size-of-the-screen-current-web-page-and-browser-window
-const windowSize = new Point(
-  html.clientWidth || body.clientWidth || window.innerWidth,
-  html.clientHeight || body.clientHeight || window.innerHeight,
-)
+const windowSize = () =>
+  new Point(
+    html.clientWidth || body.clientWidth || window.innerWidth,
+    html.clientHeight || body.clientHeight || window.innerHeight,
+  )
 
-const windowScrollSize = new Point(
-  Math.max(
-    body.scrollWidth,
-    body.offsetWidth,
-    html.clientWidth,
-    html.scrollWidth,
-    html.offsetWidth,
-  ),
-  Math.max(
-    body.scrollHeight,
-    body.offsetHeight,
-    html.clientHeight,
-    html.scrollHeight,
-    html.offsetHeight,
-  ),
-)
+const windowScrollSize = () =>
+  new Point(
+    Math.max(
+      body.scrollWidth,
+      body.offsetWidth,
+      html.clientWidth,
+      html.scrollWidth,
+      html.offsetWidth,
+    ),
+    Math.max(
+      body.scrollHeight,
+      body.offsetHeight,
+      html.clientHeight,
+      html.scrollHeight,
+      html.offsetHeight,
+    ),
+  )
 
 class ScrollElement {
   static isWindow(element: HTMLElement | Window): element is Window {
@@ -40,8 +42,8 @@ class ScrollElement {
   constructor(private element: HTMLElement | Window = window, private onScroll?: () => void) {
     this.element.addEventListener("scroll", this.scroll)
     if (ScrollElement.isWindow(element)) {
-      this._size = () => windowSize
-      this._scrollSize = () => windowScrollSize
+      this._size = windowSize
+      this._scrollSize = windowScrollSize
       this._position = () => new Point(element.pageXOffset, element.pageYOffset)
       this._offset = () => new Point()
       this.scrollTo = (point: Point) => {
