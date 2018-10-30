@@ -20,7 +20,7 @@ const IsHidden = styled.div`
 `
 
 const SectionElement = styled.section`
-  background: #eee;
+  border: solid 1px black;
   margin: 10px;
 `
 

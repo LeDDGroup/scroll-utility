@@ -15,6 +15,10 @@ export interface IData {
   value: number
 }
 
+const Div = styled.div`
+  margin: 10px;
+`
+
 export class UniformScrollElement extends UniformComponent<
   IData,
   IProps & { onClick: () => void }
@@ -28,7 +32,7 @@ export class UniformScrollElement extends UniformComponent<
   }
   render() {
     return (
-      <fieldset>
+      <Div>
         <Row>
           <label> {this.props.selectLabel}: </label>
           <select
@@ -48,7 +52,7 @@ export class UniformScrollElement extends UniformComponent<
           />
           <button onClick={this.props.onClick}> Scroll </button>
         </Row>
-      </fieldset>
+      </Div>
     )
   }
 }

@@ -11,6 +11,7 @@ import Section from "./Section"
 import ScrollBy from "./ScrollBy"
 import ScrollTo from "./ScrollTo"
 import { Colors } from "../colors"
+import RightBar from "./RigthBar"
 
 interface IState {
   rulers: boolean
@@ -79,17 +80,11 @@ class App extends React.Component<{}, IState> {
       rulers: true,
     }
   }
-  componentDidMount() {
-    window.onkeydown = event => {
-      if (event.code === "ArrowUp" || event.code === "ArrowDown") {
-        windowScrollManager.scrollBy("screen", 0.5 * (event.code === "ArrowUp" ? -1 : 1))
-      }
-    }
-  }
   public render(): JSX.Element {
     const titles = ["some-element", "ScrollBy", "ScrollTo", "Readme"]
     return (
       <GridSystem>
+        <RightBar />
         <ReactMarkdown source={features} />
         but mainly, precision, and here is the evidence:
         <Section title={"CenterElement"}>
