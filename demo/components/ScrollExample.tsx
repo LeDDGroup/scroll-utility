@@ -1,9 +1,6 @@
 import * as React from "react"
 import { UniformComponent } from "uniform-react-components"
 import onChange, { toNumber } from "./common"
-import styled from "styled-components"
-
-const Row = styled.div``
 
 interface IProps {
   selectLabel: string
@@ -14,10 +11,6 @@ export interface IData {
   select: string
   value: number
 }
-
-const Div = styled.div`
-  margin: 10px;
-`
 
 export class UniformScrollElement extends UniformComponent<
   IData,
@@ -32,8 +25,8 @@ export class UniformScrollElement extends UniformComponent<
   }
   render() {
     return (
-      <Div>
-        <Row>
+      <div className="example">
+        <div>
           <label> {this.props.selectLabel}: </label>
           <select
             defaultValue={this.props.defaultValue.select}
@@ -42,8 +35,8 @@ export class UniformScrollElement extends UniformComponent<
             {this.props.selectValues &&
               this.props.selectValues.map((element, i) => <option key={i}>{element}</option>)}
           </select>
-        </Row>
-        <Row>
+        </div>
+        <div>
           <label> value: </label>
           <input
             type="number"
@@ -51,8 +44,8 @@ export class UniformScrollElement extends UniformComponent<
             onChange={onChange(toNumber(this.onChange.value))}
           />
           <button onClick={this.props.onClick}> Scroll </button>
-        </Row>
-      </Div>
+        </div>
+      </div>
     )
   }
 }

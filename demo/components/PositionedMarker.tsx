@@ -11,12 +11,6 @@ interface IProps {
   inverted?: boolean
 }
 
-const Line = styled.div`
-  background: ${Colors.black};
-  width: 100%;
-  height: 1px;
-`
-
 function getSign(type: PositionType, horizontal?: boolean) {
   return type === "percent" ? "%" : type === "position" ? "px" : horizontal ? "vw" : "vh"
 }
@@ -42,7 +36,7 @@ export class PositionedElement extends React.Component<IProps> {
           {this.props.id}
         </PositionedMarker>
         <PositionedMarker {...this.props} value={this.props.value}>
-          <Line />
+          <div className="line" />
         </PositionedMarker>
       </>
     )

@@ -3,35 +3,16 @@ import { Grid } from "./Grid"
 import readme from "../docs/readme.md"
 import features from "../docs/features.md"
 import ReactMarkdown from "react-markdown"
-import styled from "styled-components"
-import Button from "./Button"
 import windowScrollManager from "./window-scroll-manager"
 import CenterElement from "./CenterElement"
 import Section from "./Section"
 import ScrollBy from "./ScrollBy"
 import ScrollTo from "./ScrollTo"
-import { Colors } from "../colors"
 import RightBar from "./RigthBar"
 
 interface IState {
   rulers: boolean
 }
-
-const Intro = styled.h1`
-  color: ${Colors.primary};
-`
-
-const TopBar = styled.div`
-  top: 10px;
-  position: fixed;
-  z-index: 5;
-  margin-left: 5px;
-  margin-right: 5px;
-`
-
-const SomeElement = styled.div`
-  height: 50vh;
-`
 
 class GridSystem extends React.Component<
   {},
@@ -46,9 +27,9 @@ class GridSystem extends React.Component<
   }
   render() {
     const topbar = (
-      <TopBar>
-        <Button onClick={this.scrollTop}> Scroll Top</Button>
-      </TopBar>
+      <div className="top-bar">
+        <button onClick={this.scrollTop}> Scroll Top</button>
+      </div>
     )
     return (
       <>
@@ -58,7 +39,7 @@ class GridSystem extends React.Component<
             <Grid>
               <Grid inverted type="position">
                 <Grid inverted type="screen">
-                  <Intro> scroll-utility </Intro>
+                  <h1 id="intro"> scroll-utility </h1>
                   {this.props.children}
                 </Grid>
               </Grid>
@@ -91,13 +72,13 @@ class App extends React.Component<{}, IState> {
           <CenterElement elements={titles} />
         </Section>
         <Section grid title={titles[0]}>
-          <SomeElement />
-        </Section>
-        <Section title={titles[1]}>
-          <ScrollBy />
+          <div className="half" />
         </Section>
         <Section title={titles[2]}>
           <ScrollTo />
+        </Section>
+        <Section title={titles[1]}>
+          <ScrollBy />
         </Section>
         more information see readme:
         <Section grid title={titles[3]}>

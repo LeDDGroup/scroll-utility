@@ -2,7 +2,7 @@ import * as React from "react"
 import scrollManager from "./window-scroll-manager"
 import UniformScrollElement, { IData } from "./ScrollExample"
 
-const types = ["value", "screen", "percent"]
+const types = ["percent", "screen", "value"]
 
 interface IState extends IData {}
 
@@ -11,7 +11,7 @@ export class ScrollBy extends React.Component<{}, IState> {
     super(props)
     this.state = {
       select: types[0],
-      value: 0,
+      value: 50,
     }
   }
   render() {

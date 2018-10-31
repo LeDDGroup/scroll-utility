@@ -33,17 +33,23 @@ export class RightBar extends React.Component {
   componentDidMount() {
     window.onkeydown = event => {
       if (event.code === "KeyK" || event.code === "KeyJ") {
-        windowScrollManager.scrollBy("screen", 0.5 * (event.code === "KeyK" ? -1 : 1))
+        this.scroll(event.code === "KeyK")
       }
     }
   }
   render() {
     return (
       <>
-        <Button up> k </Button>
-        <Button> j </Button>
+        <Button onClick={() => this.scroll(true)} up>
+          {" "}
+          k{" "}
+        </Button>
+        <Button onClick={() => this.scroll(false)}> j </Button>
       </>
     )
+  }
+  private scroll = (up?: boolean) => {
+    windowScrollManager.scrollBy("screen", 0.5 * (up ? -1 : 1))
   }
 }
 
