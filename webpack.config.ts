@@ -6,7 +6,7 @@ function config(env: { NODE_ENV?: string } = {}): Configuration {
   const production = env.NODE_ENV !== "development"
   return {
     mode: production ? "production" : "development",
-    entry: "./src/browser.ts",
+    entry: "./src/index.ts",
     output: {
       filename: "scroll-utility.js",
       path: resolve(__dirname, "dist"),
