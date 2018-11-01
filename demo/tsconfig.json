@@ -10,7 +10,7 @@
     "sourceMap": true,
 
     "outDir": "./dist",
-    "rootDir": "./",
+    "rootDir": "../",
 
     "noImplicitAny": false,
     "strictNullChecks": true,
@@ -18,14 +18,16 @@
     "strictPropertyInitialization": true,
     "noImplicitThis": true,
 
+      "baseUrl": ".",
+      "paths": {
+          "scroll-utility": ["../dist/index.d.ts"]
+      },
+
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
 
-    "types": ["../dist/index"],
-
     "esModuleInterop": true
-  },
-    "exclude": ["webpack.config.ts"]
+  }
 }
