@@ -13,7 +13,7 @@ export type onScroll = (() => void) | null
 
 type ScrollType = "value" | "percent" | "screen"
 
-interface Settings {
+interface ISettings {
   easing: EasingFunction
   onScroll: onScroll
   onUtilityScroll: onScroll
@@ -26,11 +26,11 @@ interface IOptions {
   horizontal: boolean
 }
 
-type PartialSettings = PartialRecursive<Settings>
+type PartialSettings = PartialRecursive<ISettings>
 
 class Scroll {
   private element: ScrollElement
-  private settings: Settings
+  private settings: ISettings
   private animationManager: AnimationManager
   constructor(element?: HTMLElement | Window, settings: PartialSettings = {}) {
     this.settings = defaultSettings
@@ -73,7 +73,11 @@ class Scroll {
       mappedOptions,
     )
   }
-  public scrollTo(scrollType: ScrollType, value: number, options: Partial<IOptions> = {}) {
+  public scrollTo(
+    scrollType: ScrollType,
+    value: number,
+    options: Partial<IOptions> = {},
+  ): Animation {
     const mappedOptions = this.getDefault(options)
     const dist = this.getDist(scrollType, value, mappedOptions.horizontal)
     const direction = toDirection(mappedOptions.horizontal)
@@ -82,8 +86,8 @@ class Scroll {
   public scrollBy(
     scrollType: ScrollType,
     value: number,
-    options: IOptions = this.settings.options,
-  ) {
+    options: Partial<IOptions> = {},
+  ): Animation {
     const mappedOptions = this.getDefault(options)
     const dist = this.getDist(scrollType, value, mappedOptions.horizontal)
     return this.offsetScroll(dist, mappedOptions)
@@ -140,8 +144,4 @@ class Scroll {
   }
 }
 
-export { Scroll, IOptions, Animation, Settings }
-
-export const windowScrollManager = new Scroll()
-
-export default windowScrollManager
+export { Scroll, IOptions, ISettings }

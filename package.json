@@ -1,7 +1,7 @@
 {
   "name": "scroll-utility",
   "description": "A simple to use scroll utility package for centering elements, and smooth animations",
-  "types": "dist/browser.d.ts",
+  "types": "dist/index.d.ts",
   "main": "dist/scroll-utility.js",
   "files": [
     "dist"
