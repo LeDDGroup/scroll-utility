@@ -23,7 +23,7 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
 
-    "types": ["../dist/browser"],
+    "types": ["../dist/index"],
 
     "esModuleInterop": true
   },
