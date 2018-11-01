@@ -1,5 +1,9 @@
-export default new ScrollUtility(window, {
+import scrollManager from "scroll-utility"
+
+scrollManager.updateSettings({
   options: {
-    duration: 600,
+    duration: 500,
   },
 })
+
+export default scrollManager
