@@ -64,8 +64,8 @@ class Scenario {
   }
   public getManagerInit(elementScroll?: boolean) {
     return elementScroll
-      ? `const scrollManager = new ScrollUtility.Scroll(${Scenario.elementSelector});`
-      : "const scrollManager = new ScrollUtility.Scroll();"
+      ? `const scrollManager = new ScrollUtility(${Scenario.elementSelector});`
+      : "const scrollManager = new ScrollUtility();"
   }
   public getScrollOffset(options: IOptions): Promise<number> {
     return this.getValue(
@@ -143,12 +143,12 @@ function testScenarios(getBrowser: () => WebDriver, basicTests: boolean) {
         await browser.evaluate(
           `${initialize}; scrollManager.centerElement(${
             Scenario.elementSelector
-          }, 50, { horizontal: false, duration: 0 })`,
+          }, 50, { horizontal: false })`,
         )
         await browser.evaluate(
           `${initialize}; scrollManager.centerElement(${
             Scenario.elementSelector
-          }, 50, { horizontal: true, duration: 0 })`,
+          } 50, { horizontal: true })`,
         )
       })
       myDirectionDescribe()

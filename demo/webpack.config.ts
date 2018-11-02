@@ -9,7 +9,6 @@ function config(env: { NODE_ENV?: string } = {}): Configuration {
   const production = env.NODE_ENV !== "development"
   return {
     mode: production ? "production" : "development",
-    devtool: "inline-source-map",
     entry: resolve(__dirname, "index.tsx"),
     output: {
       filename: "bundle.js",
@@ -33,11 +32,7 @@ function config(env: { NODE_ENV?: string } = {}): Configuration {
     },
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".md"],
-      // alias: {
-      //     "scroll-utility": "../src/index.ts",
-      // }
     },
-    externals: { "scroll-utility": "ScrollUtility" },
     plugins: [new HtmlWebpackPlugin()].concat(
       production
         ? [
