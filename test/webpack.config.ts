@@ -10,7 +10,7 @@ const outDir = resolve(__dirname, "./automate/setup/_static")
 export function config(): Configuration {
   return {
     mode: "development",
-    entry: resolve(root, "src/index.ts"),
+    entry: resolve(root, "src/browser.ts"),
     output: {
       filename: "[name].js",
       path: outDir,
