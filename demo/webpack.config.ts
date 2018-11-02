@@ -46,7 +46,7 @@ function config(env: { NODE_ENV?: string } = {}): Configuration {
                 {
                   module: "scroll-utility",
                   entry: {
-                    path: "https://cdn.jsdelivr.net/npm/scroll-utility@1",
+                    path: "https://cdn.jsdelivr.net/npm/scroll-utility@2",
                     type: "js",
                   },
                   global: "ScrollUtility",
