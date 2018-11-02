@@ -1,14 +1,13 @@
 // tslint:disable
-import { Settings } from "./scroll"
 
-export type EasingFunction = (
+type EasingFunction = (
   currentStep: number,
   offsetValue: number,
   distance: number,
   totalSteps: number,
 ) => number
 
-export const defaultEasingFunction: EasingFunction = (
+const defaultEasingFunction: EasingFunction = (
   currentStep: number,
   offsetValue: number,
   distance: number,
@@ -20,15 +19,4 @@ export const defaultEasingFunction: EasingFunction = (
   return (-distance / 2) * (currentStep * (currentStep - 2) - 1) + offsetValue
 }
 
-export const defaultSettings: Settings = {
-  easing: defaultEasingFunction,
-  onScroll: null,
-  onUtilityScroll: null,
-  onExternalScroll: null,
-  options: {
-    duration: 1000,
-    horizontal: false,
-  },
-}
-
-export default defaultSettings
+export { EasingFunction, defaultEasingFunction }
