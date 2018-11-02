@@ -1,4 +1,5 @@
 import { Animation } from "./animation"
+import { ScrollElement } from "./element"
 import { EasingFunction } from "./easing"
 
 function almost0(value: number): boolean {
@@ -34,9 +35,9 @@ class AnimationManager {
     vertical: 0,
   }
   constructor(
-    private setPosition: (point: Point) => void,
-    private external: () => void,
-    private currentPosition: (horizontal: boolean) => number,
+    private element: ScrollElement,
+    private scroll: () => void,
+    private scrolled: () => void,
   ) {}
   public stopAllAnimations() {
     this.scrollAnimation = {
@@ -63,8 +64,8 @@ class AnimationManager {
     })
     this.scrollAnimation[direction].push(animation)
     if (this.animationsCount === 1) {
-      this.shouldBe.x = this.currentPosition(true)
-      this.shouldBe.y = this.currentPosition(false)
+      this.shouldBe.x = this.element.position(true)
+      this.shouldBe.y = this.element.position(false)
       window.requestAnimationFrame(this.onAnimationFrame)
     }
     return animation
@@ -78,21 +79,22 @@ class AnimationManager {
       this.stopAllAnimations()
     } else {
       if (
-        !almost0(this.shouldBe.x - this.currentPosition(true)) ||
-        !almost0(this.shouldBe.y - this.currentPosition(false))
+        !almost0(this.shouldBe.x - this.element.position(true)) ||
+        !almost0(this.shouldBe.y - this.element.position(false))
       ) {
-        this.external()
+        this.scrolled()
       }
       const distToScroll = this.distToScroll
-      this.scrollTo({ x: distToScroll.x, y: distToScroll.y })
+      this.scrollTo(distToScroll.x, distToScroll.y)
       this.shouldBe = distToScroll
-      this.scrollChanged.horizontal += this.currentPosition(true) - this.lastPosition.horizontal
-      this.scrollChanged.vertical += this.currentPosition(false) - this.lastPosition.vertical
+      this.scrollChanged.horizontal += this.element.position(true) - this.lastPosition.horizontal
+      this.scrollChanged.vertical += this.element.position(false) - this.lastPosition.vertical
       window.requestAnimationFrame(this.onAnimationFrame)
     }
   }
-  private scrollTo(point: Point) {
-    this.setPosition(point)
+  private scrollTo(x: number, y: number) {
+    this.scroll()
+    this.element.scrollTo(x, y)
   }
   private get distToScroll(): Point {
     return {
@@ -103,8 +105,8 @@ class AnimationManager {
   private getDistToScroll(horizontal: boolean): number {
     let distToScroll = 0
     const direction = toDirection(horizontal)
-    this.lastPosition[direction] = this.currentPosition(horizontal)
-    const initial = this.currentPosition(horizontal) - this.scrollChanged[direction]
+    this.lastPosition[direction] = this.element.position(horizontal)
+    const initial = this.element.position(horizontal) - this.scrollChanged[direction]
     const scrollAnimation = this.scrollAnimation[direction]
     scrollAnimation.forEach(animation => {
       distToScroll += animation.distance

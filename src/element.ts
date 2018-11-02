@@ -1,8 +1,4 @@
-import { onScroll } from "./scroll"
 // https://stackoverflow.com/questions/3437786/get-the-size-of-the-screen-current-web-page-and-browser-window
-
-const ADD_EVENT_LISTENER = "addEventListener"
-const REMOVE_EVENT_LISTENER = "removeEventListener"
 
 class ScrollElement {
   constructor(private element?: HTMLElement | null) {
@@ -60,15 +56,9 @@ class ScrollElement {
       }
     }
   }
-  private _onScroll: onScroll = null
-  public set onScroll(value: onScroll) {
-    !!this._onScroll && !!value && this.toggleMount(true)
-    !this._onScroll && !value && this.toggleMount(false)
-    this._onScroll = value
-  }
   private scroll = () => {
-    if (this._onScroll) {
-      this._onScroll()
+    if (this.onScroll) {
+      this.onScroll()
     }
   }
   public size: (horizontal: boolean) => number
@@ -76,9 +66,20 @@ class ScrollElement {
   public position: (horizontal: boolean) => number
   public offset: (horizontal: boolean) => number
   public scrollTo: (x: number, y: number) => void
-  private toggleMount(add: boolean) {
-    const f = add ? ADD_EVENT_LISTENER : REMOVE_EVENT_LISTENER
-    ;(!!this.element ? this.element[f] : window[f])("scroll", this.scroll)
+  public onScroll: (() => void) | null = null
+  public mountOnScroll() {
+    if (!this.element) {
+      window.addEventListener("scroll", this.scroll)
+    } else {
+      this.element.addEventListener("scroll", this.scroll)
+    }
+  }
+  public unmountOnScroll() {
+    if (!this.element) {
+      window.removeEventListener("scroll", this.scroll)
+    } else {
+      this.element.removeEventListener("scroll", this.scroll)
+    }
   }
   public readonly distanceTo = {
     position: (position: number, horizontal: boolean) => {
