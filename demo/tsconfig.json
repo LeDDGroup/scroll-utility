@@ -27,5 +27,5 @@
 
     "esModuleInterop": true
   },
-    "exclude": ["webpack.config.ts"]
+  "include": ["./index.tsx", "./components/*.ts", "./components/*.tsx"]
 }

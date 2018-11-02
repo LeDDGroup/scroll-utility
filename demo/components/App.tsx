@@ -1,57 +1,12 @@
 import * as React from "react"
-import { Grid } from "./Grid"
-import readme from "../docs/readme.md"
-import features from "../docs/features.md"
-import ReactMarkdown from "react-markdown"
-import windowScrollManager from "./window-scroll-manager"
-import CenterElement from "./CenterElement"
 import Section from "./Section"
-import ScrollBy from "./ScrollBy"
-import ScrollTo from "./ScrollTo"
-import RightBar from "./RigthBar"
+import { scenarios } from "./data"
+import "./App.css"
+import { mapToPercent } from "./PercentMarker"
+import scrollManager from "./window-scroll-manager"
 
 interface IState {
   rulers: boolean
-}
-
-class GridSystem extends React.Component<
-  {},
-  { percentRulers?: boolean; positionRulers?: boolean }
-> {
-  constructor(props) {
-    super(props)
-    this.state = {
-      percentRulers: true,
-      positionRulers: true,
-    }
-  }
-  render() {
-    const topbar = (
-      <div className="top-bar">
-        <button onClick={this.scrollTop}> Scroll Top</button>
-      </div>
-    )
-    return (
-      <>
-        {topbar}
-        <div id="grid">
-          <Grid fixed disabled={!this.state.percentRulers}>
-            <Grid>
-              <Grid inverted type="position">
-                <Grid inverted type="screen">
-                  <h1 id="intro"> scroll-utility </h1>
-                  {this.props.children}
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-        </div>
-      </>
-    )
-  }
-  private scrollTop = () => {
-    windowScrollManager.centerElement(document.getElementById("grid")!, 0)
-  }
 }
 
 class App extends React.Component<{}, IState> {
@@ -62,29 +17,47 @@ class App extends React.Component<{}, IState> {
     }
   }
   public render(): JSX.Element {
-    const titles = ["some-element", "ScrollBy", "ScrollTo", "Readme"]
+    const rulers = this.state.rulers
     return (
-      <GridSystem>
-        <RightBar />
-        <ReactMarkdown source={features} />
-        but mainly, precision, and here is the evidence:
-        <Section title={"CenterElement"}>
-          <CenterElement elements={titles} />
-        </Section>
-        <Section grid title={titles[0]}>
-          <div className="half" />
-        </Section>
-        <Section title={titles[2]}>
-          <ScrollTo />
-        </Section>
-        <Section title={titles[1]}>
-          <ScrollBy />
-        </Section>
-        more information see readme:
-        <Section grid title={titles[3]}>
-          <ReactMarkdown source={readme} />
-        </Section>
-      </GridSystem>
+      <>
+        {rulers && <div className="grid"> {mapToPercent(false)} </div>}
+        <div className="app">
+          {rulers && <div className="grid"> {mapToPercent(false)} </div>}
+          {scenarios.map((s, i) => (
+            <section key={i}>
+              <h2> {s.description} </h2>
+              <ul>
+                {s.scenarios.map((d, index) => (
+                  <li key={index}>
+                    {" "}
+                    <Section {...d} />{" "}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+          <button
+            className="scroll-top"
+            onClick={() => this.setState({ rulers: !this.state.rulers })}
+          >
+            {rulers ? "Hide rulers " : "Show rulers"}
+          </button>
+          <button
+            className="scroll-top"
+            onClick={() => {
+              scrollManager.stopAllAnimations()
+              scrollManager.scroll.toPercent(0, { duration: 1000 })
+            }}
+          >
+            {" "}
+            Scroll to top
+          </button>
+          <div id="some-element">
+            #some-element
+            {rulers && <div className="grid"> {mapToPercent(false)} </div>}
+          </div>
+        </div>
+      </>
     )
   }
 }

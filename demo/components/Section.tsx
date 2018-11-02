@@ -1,50 +1,44 @@
 import * as React from "react"
-import styled, { css } from "styled-components"
-import { Grid } from "./Grid"
 
-interface IProps {
-  title: string
-  grid?: boolean
+export interface IProps {
+  description: string
+  script: () => void
+  code: string
 }
 
 interface IState {
-  hidden: boolean
+  active: boolean
 }
 
-const IsHidden = styled.div`
-  ${(props: { isVisible: boolean }) =>
-    props.isVisible &&
-    css`
-      display: none;
-    `};
-`
+function code(c: string) {
+  return (
+    <textarea cols={60} rows={4}>
+      {c}
+    </textarea>
+  )
+}
 
-const SectionElement = styled.section`
-  border: solid 1px black;
-  margin: 10px;
-`
-
-export class Section extends React.Component<IProps, IState> {
-  constructor(props) {
+export default class Section extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props)
     this.state = {
-      hidden: false,
+      active: false,
     }
   }
-  render() {
-    const content = (
-      <>
-        <h1>{this.props.title}</h1>
-        <IsHidden isVisible={this.state.hidden}>{this.props.children}</IsHidden>
-      </>
-    )
+  public render(): JSX.Element {
+    const active = this.state.active
     return (
-      <SectionElement id={this.props.title}>
-        {this.props.grid && <Grid> {content} </Grid>}
-        {!this.props.grid && content}
-      </SectionElement>
+      <div>
+        <label> {this.props.description} </label>
+        <button onClick={() => this.props.script()}> Scroll! </button>
+        <button onClick={this.toggleCode}> {active ? "Hide code" : "Show Code"} </button>
+        {active && code(this.props.code)}
+      </div>
     )
   }
+  private toggleCode = () => {
+    this.setState({
+      active: !this.state.active,
+    })
+  }
 }
-
-export default Section
