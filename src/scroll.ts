@@ -42,22 +42,23 @@ class Scroll {
     this.animationManager.stopAllAnimations()
   }
   public readonly scroll = {
-    toElement: (element: HTMLElement | null, options: IScrollToElementOptions = {}): Animation => {
-      const ratio = (options.value || 0) / 100
-      const horizontal = !!options.horizontal
-      const elementWrapper = new ScrollElement(element)
-      const screenOffset = (this.element.size(horizontal) - elementWrapper.size(horizontal)) * ratio
-      const elementPosition = elementWrapper.offset(horizontal) - this.element.offset(horizontal)
-      return this.scroll.offset(elementPosition - screenOffset, options)
+    toElement: (
+      element: HTMLElement | null | undefined,
+      options: IScrollToElementOptions = {},
+    ): Animation => {
+      const dist = this.element.distanceTo.element(
+        new ScrollElement(element),
+        options.center || 0,
+        !!options.horizontal,
+      )
+      return this.scroll.offset(dist, options)
     },
     toPercent: (percent: number, options: IOptions = {}): Animation => {
-      const horizontal = !!options.horizontal
-      const position =
-        ((this.element.scrollSize(horizontal) - this.element.size(horizontal)) * percent) / 100
-      return this.scroll.toPosition(position, options)
+      const dist = this.element.distanceTo.percent(percent, !!options.horizontal)
+      return this.scroll.offset(dist, options)
     },
     toPosition: (position: number, options: IOptions = {}): Animation => {
-      const dist = position - this.element.position(!!options.horizontal)
+      const dist = this.element.distanceTo.position(position, !!options.horizontal)
       return this.scroll.offset(dist, options)
     },
     offset: (amount: number, options: IOptions = {}): Animation => {
