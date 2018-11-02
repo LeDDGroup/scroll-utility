@@ -14,7 +14,7 @@ interface IHorizontal<T> {
   horizontal: T
 }
 
-export interface Point {
+interface Point {
   x: number
   y: number
 }
