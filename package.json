@@ -16,7 +16,7 @@
     "prebuild": "rm -rf dist",
     "prepare": "npm run build",
     "semantic-release": "semantic-release",
-    "start": "webpack-dev-server --config ./test/webpack.config.ts --env.NODE_ENV=development --open",
+    "start": "webpack-dev-server --config webpack.config.ts --env.NODE_ENV=development --open",
     "start-demo": "webpack-dev-server --config demo/webpack.config.ts --env.NODE_ENV=development",
     "test": "mocha --exit -r ts-node/register ./test/automate/index.ts --timeout 15000 --retries 3",
     "travis-deploy-once": "travis-deploy-once"
