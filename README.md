@@ -11,6 +11,8 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/0914e9eba77aee46d514/maintainability)](https://codeclimate.com/github/LeDDGroup/scroll-utility/maintainability)  
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/LeddSoftware/scroll-utility)
 
+# [demo](https://leddgroup.com/scroll-utility)
+
 # Features:
 
 - Smooth scroll inside any element in any direction
