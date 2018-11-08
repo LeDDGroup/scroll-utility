@@ -36,10 +36,10 @@ const windowScrollSize = () =>
   )
 
 class ScrollElement {
-  static isWindow(element: HTMLElement | Window): element is Window {
+  static isWindow(element: Element | Window): element is Window {
     return element === window
   }
-  constructor(private element: HTMLElement | Window = window, private onScroll?: () => void) {
+  constructor(private element: Element | Window = window, private onScroll?: () => void) {
     this.element.addEventListener("scroll", this.scroll)
     if (ScrollElement.isWindow(element)) {
       this._size = windowSize

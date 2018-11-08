@@ -32,7 +32,7 @@ class Scroll {
   private element: ScrollElement
   private settings: ISettings
   private animationManager: AnimationManager
-  constructor(element?: HTMLElement | Window, settings: PartialSettings = {}) {
+  constructor(element?: Element | Window, settings: PartialSettings = {}) {
     this.settings = defaultSettings
     this.updateSettings(settings)
 
