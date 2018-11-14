@@ -10,8 +10,12 @@ body {
   color: dodgerblue;
 }
 
-#some-element .half {
-  height: 50vh;
+#some-element .content {
+  min-height: 50vh;
+}
+
+#some-large-element .content {
+  min-height: 200vh;
 }
 
 h1 {

@@ -25,14 +25,10 @@ function config(env: { NODE_ENV?: string } = {}): Configuration {
           test: /\.css$/,
           use: ["style-loader", "css-loader"],
         },
-        {
-          test: /\.md$/,
-          loader: "raw-loader",
-        },
       ],
     },
     resolve: {
-      extensions: [".ts", ".tsx", ".js", ".md"],
+      extensions: [".ts", ".tsx", ".js"],
       // alias: {
       //     "scroll-utility": "../src/index.ts",
       // }

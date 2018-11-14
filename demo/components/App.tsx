@@ -1,8 +1,5 @@
 import * as React from "react"
 import { Grid } from "./Grid"
-import readme from "../docs/readme.md"
-import features from "../docs/features.md"
-import ReactMarkdown from "react-markdown"
 import windowScrollManager from "./window-scroll-manager"
 import CenterElement from "./CenterElement"
 import Section from "./Section"
@@ -62,27 +59,24 @@ class App extends React.Component<{}, IState> {
     }
   }
   public render(): JSX.Element {
-    const titles = ["some-element", "ScrollBy", "ScrollTo", "Readme"]
+    const titles = ["some-element", "some-large-element"]
     return (
       <GridSystem>
         <RightBar />
-        <ReactMarkdown source={features} />
-        but mainly, precision, and here is the evidence:
         <Section title={"CenterElement"}>
           <CenterElement elements={titles} />
         </Section>
         <Section grid title={titles[0]}>
-          <div className="half" />
+          <div className="content" />
         </Section>
-        <Section title={titles[2]}>
+        <Section title={"ScrollTo"}>
           <ScrollTo />
         </Section>
-        <Section title={titles[1]}>
+        <Section title={"ScrollBy"}>
           <ScrollBy />
         </Section>
-        more information see readme:
-        <Section grid title={titles[3]}>
-          <ReactMarkdown source={readme} />
+        <Section grid title={titles[1]}>
+          <div className="content" />
         </Section>
       </GridSystem>
     )
