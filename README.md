@@ -6,6 +6,35 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/0914e9eba77aee46d514/maintainability)](https://codeclimate.com/github/LeDDGroup/scroll-utility/maintainability)
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/LeddSoftware/scroll-utility)
 
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+
+**Table of Contents**
+
+- [Features:](#features)
+- [Why?](#why)
+- [Basic Usage](#basic-usage)
+- [Quick Reference](#quick-reference)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Scroll Container](#scroll-container)
+    - [Default export:](#default-export)
+    - [Settings](#settings)
+  - [Scroll](#scroll)
+    - [Center Element](#center-element)
+    - [ScrollTo](#scrollto)
+    - [ScrollBy](#scrollby)
+    - [scrollType](#scrolltype)
+    - [options](#options)
+    - [examples](#examples)
+  - [Detect onScroll](#detect-onscroll)
+    - [onScroll](#onscroll)
+    - [onExternalScroll](#onexternalscroll)
+    - [onUtilityScroll](#onutilityscroll)
+  - [Stop animations](#stop-animations)
+  - [Change easing function](#change-easing-function)
+
+<!-- markdown-toc end -->
+
 # Features:
 
 - Smooth scroll inside any element in any direction
