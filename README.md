@@ -32,6 +32,10 @@
     - [onUtilityScroll](#onutilityscroll)
   - [Stop animations](#stop-animations)
   - [Change easing function](#change-easing-function)
+- [Stack animations and high precision](#stack-animations-and-high-precision)
+- [Cross-browser compatibility](#cross-browser-compatibility)
+- [License](#license)
+- [Support](#support)
 
 <!-- markdown-toc end -->
 
@@ -271,7 +275,6 @@ animation.easing = some_easing_function
 
 This [package](https://www.npmjs.com/package/easing-functions) provides easing functions. Or you can create your own
 
-````
 # Stack animations and high precision
 
 The main idea of this module is to be able of doing several animation at the same time, and still get a desirable outcome.
@@ -283,7 +286,7 @@ For example:
 ```js
 scrollManager.scrollBy("value", 500)
 scrollManager.scrollBy("value", 34)
-````
+```
 
 1 second from it started to move, it will have been offset its position for 534px
 
@@ -295,6 +298,7 @@ for example, if you wish to stop all animations every time the user scroll you c
 const scrollManager = new Scroll(window, {
   onUtilityScroll: () => scrollManager.stopAllAnimations(),
 })
+```
 
 # Cross-browser compatibility
 
@@ -315,4 +319,3 @@ See tests results [here](https://www.browserstack.com/automate/public-build/QmJO
 
 This project is free and open-source, so if you think this project can help you or anyone else, you should star it in [github](https://github.com/LeDDGroup/scroll-utility/)
 Also feel free to open an [issue](https://github.com/LeDDGroup/scroll-utility/issues) if you have any idea, question, or you've found a bug. Any feedback is good support
-```
