@@ -63,7 +63,7 @@ class Scroll {
     this.animationManager.stopAllAnimations()
   }
   public centerElement(
-    element: HTMLElement,
+    element: Element,
     value: number,
     options: Partial<IOptions> = {},
   ): Animation {
@@ -131,7 +131,7 @@ class Scroll {
         return value
     }
   }
-  private getDistToElement(element: HTMLElement, value: number, horizontal: boolean): number {
+  private getDistToElement(element: Element, value: number, horizontal: boolean): number {
     const ratio = value / 100
     const direction = toDirection(horizontal)
     const elementWrapper = new ScrollElement(element)
