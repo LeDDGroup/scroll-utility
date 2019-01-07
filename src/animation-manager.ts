@@ -1,65 +1,34 @@
 import { Animation } from "./animation"
 import { EasingFunction } from "./default-settings"
 
-export function toDirection(horizontal: boolean): "x" | "y" {
-  return horizontal ? "x" : "y"
-}
-
-interface IHorizontal<T> {
-  x: T
-  y: T
-}
-
-export class Point implements IHorizontal<number> {
-  constructor(public x = 0, public y = 0) {}
-}
-
 class AnimationManager {
-  public shouldBe: Point = { x: 0, y: 0 }
-  private scrollAnimation: IHorizontal<Animation[]> = {
-    x: [],
-    y: [],
-  }
-  constructor(currentPosition: Point) {
+  public shouldBe: number
+  private scrollAnimation: Animation[] = []
+  constructor(currentPosition: number) {
     this.shouldBe = currentPosition
   }
   public stopAllAnimations() {
-    this.scrollAnimation = {
-      y: [],
-      x: [],
-    }
+    this.scrollAnimation = []
   }
   public createScrollAnimation(options: {
     distToScroll: number
     duration: number
-    horizontal: boolean
     easing: EasingFunction
   }): Animation {
     const duration = !!options.duration ? options.duration : 1
-    const direction = toDirection(options.horizontal)
     const animation = new Animation({
       distToScroll: options.distToScroll,
       duration,
       easing: options.easing,
-      stop: () =>
-        this.scrollAnimation[direction].splice(
-          this.scrollAnimation[direction].indexOf(animation),
-          1,
-        ),
+      stop: () => this.scrollAnimation.splice(this.scrollAnimation.indexOf(animation), 1),
     })
-    this.scrollAnimation[direction].push(animation)
+    this.scrollAnimation.push(animation)
     return animation
   }
   public updateShouldBe() {
-    const updateShouldBe = (horizontal: boolean) => {
-      const direction = toDirection(horizontal)
-      const scrollAnimation = this.scrollAnimation[direction]
-      scrollAnimation.forEach(
-        animation => (this.shouldBe[direction] += -animation.distance + animation.updateDistance()),
-      )
-    }
-    updateShouldBe(true)
-    updateShouldBe(false)
+    this.scrollAnimation.forEach(
+      animation => (this.shouldBe += -animation.distance + animation.updateDistance()),
+    )
     return this.shouldBe
   }
 }

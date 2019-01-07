@@ -1,4 +1,15 @@
-import { Point } from "./animation-manager"
+export function toDirection(horizontal: boolean): "x" | "y" {
+  return horizontal ? "x" : "y"
+}
+
+export interface IHorizontal<T> {
+  x: T
+  y: T
+}
+
+export class Point implements IHorizontal<number> {
+  constructor(public x = 0, public y = 0) {}
+}
 
 const body = document.body
 const html = document.documentElement || {

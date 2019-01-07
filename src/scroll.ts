@@ -1,5 +1,5 @@
-import { toDirection, AnimationManager } from "./animation-manager"
-import { ScrollElement } from "./element"
+import { AnimationManager } from "./animation-manager"
+import { ScrollElement, IHorizontal, toDirection, Point } from "./element"
 import { EasingFunction, defaultEasingFunction } from "./default-settings"
 
 function almost0(value: number): boolean {
@@ -8,29 +8,30 @@ function almost0(value: number): boolean {
 
 class Scroll {
   private element: ScrollElement
-  private animationManager: AnimationManager
+  private animationManager: IHorizontal<AnimationManager>
   constructor(
     element: Element | Window = window,
     public onScroll: ((external?: boolean) => void) | null = null,
     public easing: EasingFunction = defaultEasingFunction,
   ) {
     this.element = new ScrollElement(element, () => {
-      const almostX = almost0(this.animationManager.shouldBe.x - this.element.position.x)
-      const almostY = almost0(this.animationManager.shouldBe.y - this.element.position.y)
-      !almostX && (this.animationManager.shouldBe.x = this.element.position.x)
-      !almostY && (this.animationManager.shouldBe.y = this.element.position.y)
+      const almostX = almost0(this.animationManager.x.shouldBe - this.element.position.x)
+      const almostY = almost0(this.animationManager.y.shouldBe - this.element.position.y)
+      !almostX && (this.animationManager.x.shouldBe = this.element.position.x)
+      !almostY && (this.animationManager.y.shouldBe = this.element.position.y)
       this.onScroll && this.onScroll(!(almostX && almostY))
     })
 
-    this.animationManager = new AnimationManager({
-      x: this.element.position.x,
-      y: this.element.position.y,
-    })
+    this.animationManager = {
+      x: new AnimationManager(this.element.position.x),
+      y: new AnimationManager(this.element.position.y),
+    }
 
     this.scroll()
   }
   public stopAllAnimations() {
-    this.animationManager.stopAllAnimations()
+    this.animationManager.x.stopAllAnimations()
+    this.animationManager.y.stopAllAnimations()
   }
   public scrollBy(
     distToScroll: number,
@@ -38,29 +39,33 @@ class Scroll {
     horizontal: boolean = false,
     easing: EasingFunction = this.easing,
   ) {
-    this.animationManager.createScrollAnimation({
+    const direction = toDirection(horizontal)
+    this.animationManager[direction].createScrollAnimation({
       distToScroll,
-      horizontal,
       duration,
       easing,
     })
   }
   private scroll = () => {
-    const shouldBe = Object.assign({}, this.animationManager.shouldBe)
-    this.animationManager.updateShouldBe()
+    const shouldBeX = this.animationManager.x.shouldBe
+    const shouldBeY = this.animationManager.y.shouldBe
+    this.animationManager.x.updateShouldBe()
+    this.animationManager.y.updateShouldBe()
     if (
-      shouldBe.x !== this.animationManager.shouldBe.x ||
-      shouldBe.y !== this.animationManager.shouldBe.y
+      shouldBeX !== this.animationManager.x.shouldBe ||
+      shouldBeY !== this.animationManager.y.shouldBe
     ) {
-      this.element.scrollTo(this.animationManager.shouldBe)
+      this.element.scrollTo(
+        new Point(this.animationManager.x.shouldBe, this.animationManager.y.shouldBe),
+      )
     }
-    this.animationManager.shouldBe.x = Math.max(
+    this.animationManager.x.shouldBe = Math.max(
       0,
-      Math.min(this.animationManager.shouldBe.x, this.element.scrollSize.x - this.element.size.x),
+      Math.min(this.animationManager.x.shouldBe, this.element.scrollSize.x - this.element.size.x),
     )
-    this.animationManager.shouldBe.y = Math.max(
+    this.animationManager.y.shouldBe = Math.max(
       0,
-      Math.min(this.animationManager.shouldBe.y, this.element.scrollSize.y - this.element.size.y),
+      Math.min(this.animationManager.y.shouldBe, this.element.scrollSize.y - this.element.size.y),
     )
     window.requestAnimationFrame(this.scroll)
   }
