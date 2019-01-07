@@ -1,52 +1,25 @@
-import { Animation } from "./animation"
 import { toDirection, AnimationManager } from "./animation-manager"
 import { ScrollElement } from "./element"
-import defaultSettings, { EasingFunction } from "./default-settings"
+import { EasingFunction, defaultEasingFunction } from "./default-settings"
 
 function almost0(value: number): boolean {
   return value < 1 && value > -1
 }
 
-type PartialRecursive<T> = T extends object ? { [K in keyof T]?: PartialRecursive<T[K]> } : T
-
-export type onScroll = (() => void) | null
-
-type ScrollType = "value" | "percent" | "screen"
-
-interface ISettings {
-  easing: EasingFunction
-  onScroll: onScroll
-  onUtilityScroll: onScroll
-  onExternalScroll: onScroll
-  options: IOptions
-}
-
-interface IOptions {
-  duration: number
-  horizontal: boolean
-}
-
-type PartialSettings = PartialRecursive<ISettings>
-
 class Scroll {
   private element: ScrollElement
-  private settings: ISettings
   private animationManager: AnimationManager
-  constructor(element?: Element | Window, settings: PartialSettings = {}) {
-    this.settings = defaultSettings
-    this.updateSettings(settings)
-
+  constructor(
+    element: Element | Window = window,
+    public onScroll: ((external?: boolean) => void) | null = null,
+    public easing: EasingFunction = defaultEasingFunction,
+  ) {
     this.element = new ScrollElement(element, () => {
       const almostX = almost0(this.animationManager.shouldBe.x - this.element.position.x)
       const almostY = almost0(this.animationManager.shouldBe.y - this.element.position.y)
       !almostX && (this.animationManager.shouldBe.x = this.element.position.x)
       !almostY && (this.animationManager.shouldBe.y = this.element.position.y)
-      if (almostX && almostY) {
-        this.settings.onUtilityScroll && this.settings.onUtilityScroll()
-      } else {
-        this.settings.onExternalScroll && this.settings.onExternalScroll()
-      }
-      this.settings.onScroll && this.settings.onScroll()
+      this.onScroll && this.onScroll(!(almostX && almostY))
     })
 
     this.animationManager = new AnimationManager({
@@ -56,41 +29,21 @@ class Scroll {
 
     this.scroll()
   }
-  public updateSettings(settings: PartialSettings) {
-    this.settings = Object.assign({}, this.settings, settings)
-  }
   public stopAllAnimations() {
     this.animationManager.stopAllAnimations()
   }
-  public centerElement(
-    element: Element,
-    value: number,
-    options: Partial<IOptions> = {},
-  ): Animation {
-    const mappedOptions = this.getDefault(options)
-    return this.offsetScroll(
-      this.getDistToElement(element, value, mappedOptions.horizontal),
-      mappedOptions,
-    )
-  }
-  public scrollTo(
-    scrollType: ScrollType,
-    value: number,
-    options: Partial<IOptions> = {},
-  ): Animation {
-    const mappedOptions = this.getDefault(options)
-    const dist = this.getDist(scrollType, value, mappedOptions.horizontal)
-    const direction = toDirection(mappedOptions.horizontal)
-    return this.offsetScroll(dist - this.element.position[direction], mappedOptions)
-  }
   public scrollBy(
-    scrollType: ScrollType,
-    value: number,
-    options: Partial<IOptions> = {},
-  ): Animation {
-    const mappedOptions = this.getDefault(options)
-    const dist = this.getDist(scrollType, value, mappedOptions.horizontal)
-    return this.offsetScroll(dist, mappedOptions)
+    distToScroll: number,
+    duration: number,
+    horizontal: boolean = false,
+    easing: EasingFunction = this.easing,
+  ) {
+    this.animationManager.createScrollAnimation({
+      distToScroll,
+      horizontal,
+      duration,
+      easing,
+    })
   }
   private scroll = () => {
     const shouldBe = Object.assign({}, this.animationManager.shouldBe)
@@ -111,27 +64,18 @@ class Scroll {
     )
     window.requestAnimationFrame(this.scroll)
   }
-  private offsetScroll(distToScroll: number, options: IOptions) {
-    const animation = this.animationManager.createScrollAnimation({
-      distToScroll,
-      duration: options.duration,
-      horizontal: options.horizontal,
-      easing: this.settings.easing,
-    })
-    return animation
-  }
-  private getDist(scrollType: ScrollType, value: number, horizontal: boolean): number {
-    const direction = toDirection(horizontal)
-    switch (scrollType) {
-      case "percent":
-        return ((this.element.scrollSize[direction] - this.element.size[direction]) * value) / 100
-      case "screen":
-        return this.element.size[direction] * value
-      default:
-        return value
-    }
-  }
-  private getDistToElement(element: Element, value: number, horizontal: boolean): number {
+  // private getDist(scrollType: ScrollType, value: number, horizontal: boolean): number {
+  //   const direction = toDirection(horizontal)
+  //   switch (scrollType) {
+  //     case "percent":
+  //       return ((this.element.scrollSize[direction] - this.element.size[direction]) * value) / 100
+  //     case "screen":
+  //       return this.element.size[direction] * value
+  //     default:
+  //       return value
+  //   }
+  // }
+  public getDistToElement(element: Element, value: number, horizontal: boolean): number {
     const ratio = value / 100
     const direction = toDirection(horizontal)
     const elementWrapper = new ScrollElement(element)
@@ -139,9 +83,6 @@ class Scroll {
     const elementPosition = elementWrapper.offset[direction] - this.element.offset[direction]
     return elementPosition - screenOffset
   }
-  private getDefault(options: Partial<IOptions>): IOptions {
-    return Object.assign({}, this.settings.options, options)
-  }
 }
 
-export { Scroll, IOptions, ISettings }
+export { Scroll }
