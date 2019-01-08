@@ -30,7 +30,6 @@
     - [getDistToElement](#getdisttoelement)
     - [getPercentPosition](#getpercentposition)
 - [Stack animations and high precision](#stack-animations-and-high-precision)
-- [Cross-browser compatibility](#cross-browser-compatibility)
 - [License](#license)
 - [Support](#support)
 
@@ -273,8 +272,8 @@ That is the best thing of scroll-utility. It is design to work with multiple ani
 For example:
 
 ```js
-scrollManager.scrollBy("value", 500)
-scrollManager.scrollBy("value", 34)
+scrollManager.scrollBy(500, 1000)
+scrollManager.scrollBy(34, 500)
 ```
 
 1 second after the scroll starts, it will have been offseted its position for 534px
@@ -284,17 +283,6 @@ If you wish to stop all animations every time the user scrolls, you could do:
 ```js
 scrollManager.onScroll = external => scrollManager.stopAllAnimations()
 ```
-
-# Cross-browser compatibility
-
-Compatibility guaranteed in Firefox, Chrome, Edge, Safari. I mean, I have automated tests for those browsers (with browserstack), in every browser _should_ work too, I looked all over in stackoverflow looking for crossbrowser solutions for accessing dom properties of elements.
-I have manually tested it in a lot of browsers, and it works without problems
-
-<img  height="50" src="https://raw.githubusercontent.com/LeDDGroup/scroll-utility/master/assets/BrowserStack-logo.png" alt="Browserstack logo" style="float: right; margin-right: 10px; text-align: middle">
-
-Test are made using automate testing with [Browserstack](https://www.browserstack.com) [for open source](https://www.browserstack.com/open-source?ref=pricing).
-
-See tests results [here](https://www.browserstack.com/automate/public-build/QmJOaDZzS3BBOWUrem1PMWw1K29CZjByZjNBcTNyYlE0LzVYZEhFYVg1ST0tLXBOR05wTitscU1PM2FvQ0NrOUlHbHc9PQ==--70960e59e91fc8efc3dced4f2cebeff5665746ca)
 
 # License
 
