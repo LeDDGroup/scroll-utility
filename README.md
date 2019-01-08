@@ -12,26 +12,21 @@
 
 - [Features:](#features)
 - [Why?](#why)
-- [Basic Usage](#basic-usage)
-- [Quick Reference](#quick-reference)
 - [Installation](#installation)
 - [Usage](#usage)
   - [Scroll Container](#scroll-container)
     - [Default export:](#default-export)
-    - [Settings](#settings)
-  - [Scroll](#scroll)
-    - [Center Element](#center-element)
-    - [ScrollTo](#scrollto)
-    - [ScrollBy](#scrollby)
-    - [scrollType](#scrolltype)
-    - [options](#options)
-    - [examples](#examples)
-  - [Detect onScroll](#detect-onscroll)
-    - [onScroll](#onscroll)
-    - [onExternalScroll](#onexternalscroll)
-    - [onUtilityScroll](#onutilityscroll)
-  - [Stop animations](#stop-animations)
-  - [Change easing function](#change-easing-function)
+  - [scrollBy](#scrollby)
+  - [onScroll](#onscroll)
+    - [External scroll](#external-scroll)
+  - [element](#element)
+    - [size](#size)
+    - [scrollSize](#scrollsize)
+    - [position](#position)
+    - [offset](#offset)
+  - [stopAllAnimations](#stopallanimations)
+  - [easing](#easing)
+  - [Misc](#misc)
 - [Stack animations and high precision](#stack-animations-and-high-precision)
 - [Cross-browser compatibility](#cross-browser-compatibility)
 - [License](#license)
@@ -43,8 +38,7 @@
 
 - Smooth scroll inside any element in any direction
 - Center elements
-- Scroll to and offset scroll position
-- Extremely precisely
+- Extremely precise
 - Handle multiple scroll animation at the time
 - Cross-browser compatible (tests with [Browserstack](browserstack.com))
 - Performance aware
@@ -58,55 +52,6 @@ There are a lot of packages about smooth scrolling, so, what's the difference?
 
 Well, the main idea was to stack multiple scroll animations together, and precision. That is not an extra feature, that's what this package does, you can trigger multiple animations to several places, and it will be as precise as it can (bear in mind that browsers round the scroll position, so the margin error will be +- 0.5)  
 And to create a full-featured(yet simple) library to animate the position of the scroll.
-
-To see how precise it was, (and to test cross-browser compatibility) I made this [demo](https://leddgroup.com/scroll-utility)
-
-# Basic Usage
-
-```js
-import scrollManager from "scroll-utility"
-
-const element = document.getElementById("some-element")
-
-scrollManager.centerElement(element, 50)
-// scrollManager.scrollTo("percent", 50)
-// scrollManager.scrollBy("screen", 1)
-```
-
-That's it, the first case will center the element with id _some-element_ in the middle of the screen  
-The 2nd will scroll to the half of the page  
-And the 3rd will offset scroll position by 1 _screen_
-
-By default it will scroll vertically, and with 1 second of duration
-
-# Quick Reference
-
-```js
-import { Scroll } from "scroll-utility"
-
-const element = document.getElementById("some-element") || window
-const scrollManager = new Scroll(element, settings) // for scrolling inside element instead of window
-
-// start a scroll animation
-
-scrollManager.centerElement(someHTMLElement, value, options) // scroll to some element
-scrollManager.scrollTo(scrollType, value, options) // scroll to some position
-scrollManager.scrollBy(scrollType, value, options) // offset scroll position by some value
-
-const scrollType = "percent" || "value" || "screen"
-
-const options = {
-  // default options
-  duration: 1000,
-  horizontal: false,
-}
-
-// stopping animations
-
-scrollManager.stopAllAnimations() // stop all animation in "scrollManager"
-const animation = scrollManager.scrollTo("value", 1000, { duration: 1000 }) // create and capture animation
-animation.stop() // stop animation
-```
 
 # Installation
 
@@ -136,8 +81,8 @@ import { Scroll } from "scroll-utility"
 const someHTMLElement = document.getElementById("some-element")
 
 const windowScrollManager = new Scroll() // scroll the page
-// const windowScrollManager = new Scroll(window, settings) // same as above, with settings
-const elementScrollManager = new Scroll(someHTMLElement, settings) // scroll the element
+// const windowScrollManager = new Scroll(window) // same as above, with settings
+const elementScrollManager = new Scroll(someHTMLElement) // scroll the element
 ```
 
 ### Default export:
@@ -148,132 +93,133 @@ import windowScrollManager from "scroll-utility"
 // same as: `windowScrollManager = new Scroll()`
 ```
 
-### Settings
+## scrollBy
+
+After creating an instance of a scrollManager, you can scroll using a `scrollBy` method:
 
 ```js
-const defaultSettings = {
-  // easing: defaultEasingFunction, // inOutCubic
-  onScroll: null,
-  onUtilityScroll: null,
-  onExternalScroll: null,
-  options: {
-    duration: 1000,
-    horizontal: false,
-  },
-}
+import scrollManager from "scroll-utility" // default export (window scroll manager)
 
-const elementScrollManager = new Scroll(someHTMLElement, defaultSettings)
-
-// or you can set them later at any time
-scrollManager.updateSettings(settings)
+scrollManager.scrollBy(500) // 500px
+scrollManager.scrollBy(500, 1000) // 500px, 1000ms(1s)
+scrollManager.scrollBy(500, 1000, true) // 500px, 1000ms(1s), horizontal scroll
+// scrollManager.scrollBy(500, 1000, false, someEasingAnimation) // 500px, 1000ms(1s), vertical scroll, `someEasinganimation` instead of `inOutCubic` by default
 ```
 
-## Scroll
+As you can see from the comments, in the first case it will offset scroll position by 500 pixels  
+In the 2nd case, it will offset by 500, but in 1 second, that's when you'll see the 'smooth' effect  
+In the 3rd, it will do a "horizontal" scroll instead of a "vertical", which is the default behavior.  
+And the 4th parameter, is used to override the defuault easing animation.
 
-### Center Element
+Only the first paramater is required, by default `duration` is 0 and `horizontal` if false.
+
+## onScroll
+
+You can specify `onScroll` on the constructor, or any other time you want:
 
 ```js
-// assuming scrollManager is declared
-scrollManager.centerElement(element, value, options)
+import { Scroll } from "scroll-utility"
+
+const windowScrollManager = new Scroll(window, () => {
+  console.log("scrolled")
+}) // constructor
+// const windowScrollManager = new Scroll(window, null) // by default
+
+windowScrollManager.onScroll = () => {
+  console.log("any time")
+} // any time you want
+// windowScrollManager.onScroll = null // if you don't want to capture 'onScroll' anymore
 ```
 
-### ScrollTo
+### External scroll
+
+the function `onScroll` accepts an paramater to differentiate if the scroll was originated from an external source:
 
 ```js
-scrollManager.scrollTo(scrollType, value, options)
+import scrollManager from "scroll-utility"
+
+scrollManager.onScroll = (external) => {
+  if (external) {
+    console.log("this 'scroll-utility' scrolled")
+  } else {
+    console.log("external scroll") // ussualy the user via the mouse or keyboard, or some other script running in the browser
+  }
 ```
 
-### ScrollBy
+## element
+
+There are several utilities to help you scroll to wherever you want, you can access them in the `element` field:
 
 ```js
-scrollManager.scrollBy(scrollType, value, options)
+import scrollManager from "scroll-utility"
+
+console.log(scrollManager.element.position.y) // vertical position of the scroll
+console.log(scrollManager.element.position.x) // horizontal position of the scroll
 ```
 
-### scrollType
+All of its fields have the 'x' and 'y' for each direction of the property
 
-For `scrollTo` and `scrollBy`, the first parameter (`scrollType`) is one of these:
+The objective of this element is to unify the properties of the `window` and of the `htmlElements`.
+
+### size
 
 ```js
-const scrollType = "value" | "percent" | "screen"
+scrollManager.size.x
+scrollManager.size.y
 ```
 
-### options
+This is the size of the container, may it be the `window`, or the (div)element used to instantiate the scrollManager
 
-The third parameter (`options`), is by default:
+### scrollSize
 
 ```js
-const options = {
-  duration: 1000, // duration of the scroll in milliseconds
-  horizontal: false, // direction of the scroll animation
-}
+scrollManager.scrollSize.x
+scrollManager.scrollSize.y
 ```
 
-### examples
+This is the scroll size of the container. It determines the amount of scroll that can be done
+
+### position
 
 ```js
-const someElement = document.getElementById("some-element")
-scrollManager.centerElement(someElement, 50) // will center element in 50% of its container
-
-scrollManager.scrollTo("value", 1000) // will scroll to 1000px
-scrollManager.scrollBy("value", 1000) // will offset current scroll position by 1000px
-
-scrollManager.scrollTo("percent", 50) // will scroll to 50 percent of the page
-scrollManager.scrollBy("percent", 50) // will offset current position by 50 percent of the page
-
-scrollManager.scrollTo("screen", 1) // will scroll to the 2nd "screen"
-scrollManager.scrollBy("screen", 1) // will offset position by 2 "screens"
+scrollManager.position.x
+scrollManager.position.y
 ```
 
-## Detect onScroll
+This is the position of the scrollBar. Its minimum value it's 0, and its maximum is the `scrollSize` - the `size`
 
-```ts
-import { Scroll, ISettings } from "scroll-utility"
+### offset
 
-const settings: Partial<ISettings> = {
-  onUtilityScroll: () => console.log("utility scroll"),
-  onExternalScroll: () => console.log("external scroll"),
-  onScroll: () => console.log("scroll"),
-}
-
-const scrollManager = new Scroll(window, settings)
+```js
+scrollManager.offset.x
+scrollManager.offset.y
 ```
 
-### onScroll
+This is less likely to be used. It indicates the offset of the _boundingClientRect_ of the container. So for the window as container, it will return 0 for both `x` and `y`. It's the equivalent for `getBoundingClientRect().left` and `top`
 
-if the _onScroll_ field is specified, it will be triggered any time a scroll event occurs in the container specified,  
-also, _onExternalScroll_ or _onUtilityScroll_ will trigger too
-
-### onExternalScroll
-
-usually when the user scroll, but can be triggered by other scripts running in the browser, or by other _scrollManager_ instance
-
-### onUtilityScroll
-
-it's triggered when the _scrollManager_ instance is the one that effectuated the scroll
-
-## Stop animations
+## stopAllAnimations
 
 ```js
 scrollManager.stopAllAnimations() // this will stop all animations in scrollManager
-
-// to stop specific animations:
-const animation = scrollManager.scrollBy("screen", 1)
-animation.stop()
 ```
 
-## Change easing function
+## easing
+
+You can change the default easing function on the constructor, or any other time you want:
 
 ```js
-const scrollManager = new Scroll(window, {
-  easing: some_easing_function,
-})
+import { Scroll } from "scroll-utility"
 
-// or just for one animation:
-const animation = scrollManager.scrollBy("screen", 1)
-animation.easing = some_easing_function
+const scrollManager = new Scroll(window, null, some_easing_function) // the 3rd parameter is the easing function
+
+scrollManager.easing = some_easing_function // change the default easing function any time you want
 ```
 
-This [package](https://www.npmjs.com/package/easing-functions) provides easing functions. Or you can create your own
+This [package](https://www.npmjs.com/package/easing-functions) provides easing functions. Or you can just create your own :)
+
+The default easing function used is _inOutCubic_. It seemed like the best for me.
+
+## Misc
 
 # Stack animations and high precision
 
@@ -290,14 +236,10 @@ scrollManager.scrollBy("value", 34)
 
 1 second from it started to move, it will have been offset its position for 534px
 
-Bear in mind that all animations always stack together, so generally when you use _toPercent_ _toPosition_ _toElement_, you would want to use _stopAllAnimation_, to ensure that there are not any other animation, otherwise they will stack together, which is generally not wanted
-
-for example, if you wish to stop all animations every time the user scroll you could do:
+If you wish to stop all animations every time the user scrolls, you could do:
 
 ```js
-const scrollManager = new Scroll(window, {
-  onUtilityScroll: () => scrollManager.stopAllAnimations(),
-})
+scrollManager.onScroll = external => scrollManager.stopAllAnimations()
 ```
 
 # Cross-browser compatibility
