@@ -26,7 +26,9 @@
     - [offset](#offset)
   - [stopAllAnimations](#stopallanimations)
   - [easing](#easing)
-  - [Misc](#misc)
+  - [misc](#misc)
+    - [getDistToElement](#getdisttoelement)
+    - [getPercentPosition](#getpercentposition)
 - [Stack animations and high precision](#stack-animations-and-high-precision)
 - [Cross-browser compatibility](#cross-browser-compatibility)
 - [License](#license)
@@ -112,6 +114,8 @@ In the 3rd, it will do a "horizontal" scroll instead of a "vertical", which is t
 And the 4th parameter, is used to override the defuault easing animation.
 
 Only the first paramater is required, by default `duration` is 0 and `horizontal` if false.
+
+To determine where to scroll to, see [element](#element) and [misc](#misc) below.
 
 ## onScroll
 
@@ -219,7 +223,46 @@ This [package](https://www.npmjs.com/package/easing-functions) provides easing f
 
 The default easing function used is _inOutCubic_. It seemed like the best for me.
 
-## Misc
+## misc
+
+```js
+import scrollManager from "scroll-utility"
+
+scrollManager.misc.someFunction()
+```
+
+Even though they can be calculated using the properties of `element`, in `misc` are some functions to get the position to scroll, due that they are likely to be needed. Feel free to make a PR to add more, or open an issue to request to add some.
+
+### getDistToElement
+
+```js
+import scrollManager from "scroll-utility"
+
+const element = document.getElementById("some-element")
+
+const distToScroll = scrollManager.misc.getDistToElement(element, 50, false)
+
+scrollManager.scrollBy(distToScroll)
+```
+
+In this case, the element _some-element_ will be centered in the page.  
+The 1st parameter is the element to scroll to.  
+The 2nd is a percent, which indicates the degree to be centered, been 0 not centered, 50 in the middle, and 100 sticked to the bottom of the view.
+And the 3rd is _horizontal_, `false` means vertical (default), and `true` horizontal
+
+### getPercentPosition
+
+```js
+import scrollManager from "scroll-utility"
+
+cosnt distToScroll = scrollManager.misc.getPercentPosition(50, true)
+
+scrollManager.scrollBy(distToScroll)
+```
+
+In this case, it will scroll to the middle of the page
+The 1st is a percent, been 0 the top, 50 in the middle, and 100 the bottom of the page.
+And the 2nd is the _horizontal_, same as above.
 
 # Stack animations and high precision
 
@@ -234,7 +277,7 @@ scrollManager.scrollBy("value", 500)
 scrollManager.scrollBy("value", 34)
 ```
 
-1 second from it started to move, it will have been offset its position for 534px
+1 second after the scroll starts, it will have been offseted its position for 534px
 
 If you wish to stop all animations every time the user scrolls, you could do:
 
