@@ -29,6 +29,7 @@
   - [misc](#misc)
     - [getDistToElement](#getdisttoelement)
     - [getPercentPosition](#getpercentposition)
+    - [scrollTo](#scrollto)
 - [Stack animations and high precision](#stack-animations-and-high-precision)
 - [License](#license)
 - [Support](#support)
@@ -262,6 +263,16 @@ scrollManager.scrollBy(distToScroll)
 In this case, it will scroll to the middle of the page
 The 1st is a percent, been 0 the top, 50 in the middle, and 100 the bottom of the page.
 And the 2nd is the _horizontal_, same as above.
+
+### scrollTo
+
+```js
+import scrollManager from "scroll-utility"
+
+scrollManager.misc.scrollTo(500, 1000, true) // 500px, 1000ms(1s), horizontal scroll
+```
+
+This is the same as [scrollBy](#scrollby), but it doesn't offset the current position, instead it will scroll to the specified value.
 
 # Stack animations and high precision
 

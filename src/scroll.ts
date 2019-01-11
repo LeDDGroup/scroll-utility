@@ -24,8 +24,6 @@ class Scroll {
       this.onScroll && this.onScroll(!(almostX && almostY))
     })
 
-    this.misc = new Misc(this.element)
-
     this.animationManager = {
       x: new AnimationManager(this.element.position.x),
       y: new AnimationManager(this.element.position.y),
@@ -54,6 +52,8 @@ class Scroll {
       window.requestAnimationFrame(scroll)
     }
     window.requestAnimationFrame(scroll)
+
+    this.misc = new Misc(this)
   }
   stopAllAnimations() {
     this.animationManager.x.stopAllAnimations()
