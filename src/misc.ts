@@ -35,6 +35,14 @@ class Misc {
     const elementPosition = elementWrapper.offset[direction] - this.element.offset[direction]
     return elementPosition - screenOffset
   }
+  public isElementInRange(element: Element, horizontal: boolean = false): boolean {
+    const direction = toDirection(horizontal)
+    const elementWrapper = new ScrollElement(element)
+    const distToElement = this.getDistToElement(element, 0, horizontal)
+    const isBefore = -distToElement < elementWrapper.size[direction]
+    const isPast = distToElement < this.element.size[direction]
+    return isPast && isBefore
+  }
 }
 
 export { Misc }

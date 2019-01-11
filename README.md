@@ -7,29 +7,29 @@
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/LeddSoftware/scroll-utility)
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
-
 **Table of Contents**
 
 - [Features:](#features)
 - [Why?](#why)
 - [Installation](#installation)
 - [Usage](#usage)
-  - [Scroll Container](#scroll-container)
-    - [Default export:](#default-export)
-  - [scrollBy](#scrollby)
-  - [onScroll](#onscroll)
-    - [External scroll](#external-scroll)
-  - [element](#element)
-    - [size](#size)
-    - [scrollSize](#scrollsize)
-    - [position](#position)
-    - [offset](#offset)
-  - [stopAllAnimations](#stopallanimations)
-  - [easing](#easing)
-  - [misc](#misc)
-    - [getDistToElement](#getdisttoelement)
-    - [getPercentPosition](#getpercentposition)
-    - [scrollTo](#scrollto)
+    - [Scroll Container](#scroll-container)
+        - [Default export:](#default-export)
+    - [scrollBy](#scrollby)
+    - [onScroll](#onscroll)
+        - [External scroll](#external-scroll)
+    - [element](#element)
+        - [size](#size)
+        - [scrollSize](#scrollsize)
+        - [position](#position)
+        - [offset](#offset)
+    - [stopAllAnimations](#stopallanimations)
+    - [easing](#easing)
+    - [misc](#misc)
+        - [getDistToElement](#getdisttoelement)
+        - [getPercentPosition](#getpercentposition)
+        - [scrollTo](#scrollto)
+        - [isElementInRange](#iselementinrange)
 - [Stack animations and high precision](#stack-animations-and-high-precision)
 - [License](#license)
 - [Support](#support)
@@ -273,6 +273,21 @@ scrollManager.misc.scrollTo(500, 1000, true) // 500px, 1000ms(1s), horizontal sc
 ```
 
 This is the same as [scrollBy](#scrollby), but it doesn't offset the current position, instead it will scroll to the specified value.
+
+### isElementInRange
+
+```js
+import scrollManager from "scroll-utility"
+
+const element = document.getElementById("some-element")
+
+scrollManager.onScroll = () => {
+  console.log(scrollManager.misc.isElementInRange(element, false)) // true or false
+}
+```
+
+`isElementInRange(element)` will return true if the element if visible in its container (ussualy window)
+The 2nd paramater is the direction, `true` _horizontal_, `false` _vertical_ (default)
 
 # Stack animations and high precision
 
