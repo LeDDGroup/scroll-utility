@@ -293,7 +293,7 @@ The 2nd paramater is the direction, `true` _horizontal_, `false` _vertical_ (def
 
 The main idea of this module is to be able of doing several animation at the same time, and still get a desirable outcome.
 It is very difficult to archive precision when scrolling, due to the fact that browsers don't scroll well to floating numbers, they often round it up. So is even more difficult when there are several animations.
-That is the best thing of scroll-utility. It is design to work with multiple animations and keep track on where the scroll position should end.
+That is the best thing of scroll-utility. It is designed to work with multiple animations and keep track on where the scroll position should end.
 
 For example:
 
