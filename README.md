@@ -4,7 +4,8 @@
 [![](https://data.jsdelivr.com/v1/package/npm/scroll-utility/badge)](https://www.jsdelivr.com/package/npm/scroll-utility)  
 [![Travis](https://travis-ci.org/LeDDGroup/scroll-utility.svg?branch=master)](https://travis-ci.org/LeDDGroup/scroll-utility)
 [![Maintainability](https://api.codeclimate.com/v1/badges/0914e9eba77aee46d514/maintainability)](https://codeclimate.com/github/LeDDGroup/scroll-utility/maintainability)
-[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/LeddSoftware/scroll-utility) [![Greenkeeper badge](https://badges.greenkeeper.io/LeDDGroup/scroll-utility.svg)](https://greenkeeper.io/)
+[![Greenkeeper badge](https://badges.greenkeeper.io/LeDDGroup/scroll-utility.svg)](https://greenkeeper.io/)
+[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/LeddSoftware/scroll-utility)
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 
@@ -37,6 +38,8 @@
 
 <!-- markdown-toc end -->
 
+## This is v3 of scroll-utility, to see documentation for v2 click [here ](https://github.com/LeDDGroup/scroll-utility/tree/42e8d2d5141b176aa7fada79bb2ec94fec009ba3)
+
 # Features:
 
 - Smooth scroll inside any element in any direction
@@ -67,7 +70,7 @@ $ npm install --save scroll-utility
 or from a cdn at [jsdelivr](https://www.jsdelivr.com/package/npm/scroll-utility)
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/scroll-utility@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/scroll-utility@3"></script>
 ```
 
 when downloading from a cdn the package will be globally exported as `ScrollUtility`
@@ -254,11 +257,11 @@ And the 3rd is _horizontal_, `false` means vertical (default), and `true` horizo
 Here are some screenshots of how an element is centered using `getDistToElement` and some percent:
 
 0%:  
-![top](./cypress/screenshots/misc.ts/top.png)  
+![top](https://github.com/LeDDGroup/scroll-utility/blob/master/cypress/screenshots/misc.ts/top.png)  
 50%:  
-![centered](./cypress/screenshots/misc.ts/centered.png)  
+![centered](https://github.com/LeDDGroup/scroll-utility/blob/master/cypress/screenshots/misc.ts/centered.png)  
 100%:  
-![bottom](./cypress/screenshots/misc.ts/bottom.png)
+![bottom](https://github.com/LeDDGroup/scroll-utility/blob/master/cypress/screenshots/misc.ts/bottom.png)
 
 ### getPercentPosition
 
@@ -317,7 +320,7 @@ scrollManager.scrollBy(34, 500)
 If you wish to stop all animations every time the user scrolls, you could do:
 
 ```js
-scrollManager.onScroll = external => scrollManager.stopAllAnimations()
+scrollManager.onScroll = external => external && scrollManager.stopAllAnimations()
 ```
 
 # License
