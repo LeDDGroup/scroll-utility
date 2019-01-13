@@ -13,7 +13,7 @@ class Misc {
   ) {
     const direction = toDirection(horizontal)
     this.scrollManager.scrollBy(
-      distToScroll - this.element.position[direction],
+      distToScroll - this.element.scrollPosition[direction],
       duration,
       horizontal,
       easing,

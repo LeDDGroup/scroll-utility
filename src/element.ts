@@ -55,7 +55,7 @@ class ScrollElement {
     if (ScrollElement.isWindow(element)) {
       this._size = windowSize
       this._scrollSize = windowScrollSize
-      this._position = () => new Point(element.pageXOffset, element.pageYOffset)
+      this._scrollPosition = () => new Point(element.pageXOffset, element.pageYOffset)
       this._offset = () => new Point()
       this.scrollTo = (point: Point) => {
         element.scroll(point.x, point.y)
@@ -63,7 +63,7 @@ class ScrollElement {
     } else {
       this._size = () => new Point(element.clientWidth, element.clientHeight)
       this._scrollSize = () => new Point(element.scrollWidth, element.scrollHeight)
-      this._position = () => new Point(element.scrollLeft, element.scrollTop)
+      this._scrollPosition = () => new Point(element.scrollLeft, element.scrollTop)
       this._offset = () =>
         new Point(element.getBoundingClientRect().left, element.getBoundingClientRect().top)
       this.scrollTo = (point: Point) => {
@@ -83,9 +83,9 @@ class ScrollElement {
   public get scrollSize() {
     return this._scrollSize()
   }
-  private _position: () => Point
-  public get position() {
-    return this._position()
+  private _scrollPosition: () => Point
+  public get scrollPosition() {
+    return this._scrollPosition()
   }
   private _offset: () => Point
   public get offset() {
