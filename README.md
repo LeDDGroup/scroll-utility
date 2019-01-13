@@ -7,29 +7,30 @@
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/LeddSoftware/scroll-utility)
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+
 **Table of Contents**
 
 - [Features:](#features)
 - [Why?](#why)
 - [Installation](#installation)
 - [Usage](#usage)
-    - [Scroll Container](#scroll-container)
-        - [Default export:](#default-export)
-    - [scrollBy](#scrollby)
-    - [onScroll](#onscroll)
-        - [External scroll](#external-scroll)
-    - [element](#element)
-        - [size](#size)
-        - [scrollSize](#scrollsize)
-        - [position](#position)
-        - [offset](#offset)
-    - [stopAllAnimations](#stopallanimations)
-    - [easing](#easing)
-    - [misc](#misc)
-        - [getDistToElement](#getdisttoelement)
-        - [getPercentPosition](#getpercentposition)
-        - [scrollTo](#scrollto)
-        - [isElementInRange](#iselementinrange)
+  - [Scroll Container](#scroll-container)
+    - [Default export:](#default-export)
+  - [scrollBy](#scrollby)
+  - [onScroll](#onscroll)
+    - [External scroll](#external-scroll)
+  - [element](#element)
+    - [size](#size)
+    - [scrollSize](#scrollsize)
+    - [position](#position)
+    - [offset](#offset)
+  - [stopAllAnimations](#stopallanimations)
+  - [easing](#easing)
+  - [misc](#misc)
+    - [getDistToElement](#getdisttoelement)
+    - [getPercentPosition](#getpercentposition)
+    - [scrollTo](#scrollto)
+    - [isElementInRange](#iselementinrange)
 - [Stack animations and high precision](#stack-animations-and-high-precision)
 - [License](#license)
 - [Support](#support)
@@ -249,6 +250,15 @@ In this case, the element _some-element_ will be centered in the page.
 The 1st parameter is the element to scroll to.  
 The 2nd is a percent, which indicates the degree to be centered, been 0 not centered, 50 in the middle, and 100 sticked to the bottom of the view.
 And the 3rd is _horizontal_, `false` means vertical (default), and `true` horizontal
+
+Here are some screenshots of how an element is centered using `getDistToElement` and some percent:
+
+0%:  
+![top](./cypress/screenshots/misc.ts/top.png)  
+50%:  
+![centered](./cypress/screenshots/misc.ts/centered.png)  
+100%:  
+![bottom](./cypress/screenshots/misc.ts/bottom.png)
 
 ### getPercentPosition
 

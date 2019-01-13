@@ -3,7 +3,8 @@ body {
   margin: 0;
   padding: 0;
   height: 1000vh;
-  width: 1000vh;
+  width: 500vh;
+  background: grey;
 }
 
 #scrollable {
@@ -11,7 +12,7 @@ body {
   background: black;
   position: absolute;
   top: 30%;
-  left: 30%;
+  left: 20%;
   height: 80vh;
   width: 80vw;
   overflow: scroll;
@@ -23,19 +24,21 @@ body {
   height: 1000vh;
 }
 
-#element,
-#element1 {
+#some-element,
+#element {
   color: black;
-  background: yellow;
+  background: white;
   position: absolute;
   height: 50vh;
   width: 50vw;
 }
-#element {
-  top: 300vh;
-  left: 300vw;
+#some-element {
+  color: white;
+  background: black;
+  top: 60%;
+  left: 40%;
 }
-#element1 {
+#element {
   top: 60%;
   left: 60%;
 }

@@ -28,7 +28,7 @@ function config(env: { NODE_ENV?: string } = {}): Configuration {
     resolve: {
       extensions: [".ts", ".tsx", ".js"],
     },
-    plugins: production ? [] : [new HtmlWebpackPlugin({ template: "test/local/index.html" })],
+    plugins: production ? [] : [new HtmlWebpackPlugin({ template: "playground/index.html" })],
   }
 }
 
