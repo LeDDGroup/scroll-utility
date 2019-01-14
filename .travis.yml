@@ -11,8 +11,3 @@ after_success:
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
-addons:
-  browserstack:
-    username: "davidperezalvare2"
-    access_key:
-      secure: "dpuVt4hlUw7lTHwbZ4KiLFP7DfEHtv8UsQg7YhBmkMXyNQlz5sX4M5+U3ZN9Y0x1LQBaVr1jeFnKsMKYsFkg2kr54Wy2udjcy8melsgu/9cJXthUiRf8WB2aXXtEayITjV/CnY4UCgRYIcCmBeyn9RNPeA3PJIm//TmgDanERPMBYQZ5ELubHxcaLsU/YaYZPPvwdIbZy4OFZdbA0M/SiSTGs3iN5EJaSOJHKWxsTGVLZht+XiXGuvRCQJyVMuvZ+SwXTh8OWggRwnarWvYl43ETQqWNSiOBYfDB8t4mQutkC7kbcG+j2Cc8hJXvAaje0Wq410lkyfL7f4i4tgm3SVhrTUmPlkXxONHEoD/izwtJOgoJ3mbawqhgWFSNkExYG7Czip231uxGEridobzuvL2XFv5LYy8UrOEVzrsAWsUOGomH5/BxBVH1ZlhY/2lwXPnoWciEdbXnfwjEBC0F5mk0JIbGO2X9okTX0r1ECkcKKJXNZaJq1YiibPjs3jkDqd7WXVM41Gn07kiyi3LCnqStWCQAhRhnrxms0FMIU3z31OhqssSdiuwxYvlXD9ax77A4446W5nm7Gzz7DXU9N9vBrhg469dRurooFW5/VOZSjGtJ7/UM8H6z8nQduVEoG63Zmmftmnz+qHcrAvLVVMmROyu9j7V6y0BEHE/9jUY="

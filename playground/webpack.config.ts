@@ -40,8 +40,8 @@ export function config(): Configuration {
       extensions: [".ts", ".tsx", ".js"],
     },
     plugins: [
-      new HtmlWebpackPlugin({ template: resolve(root, "test/local/index.html") }),
-      new CopyWebpackPlugin([resolve(root, "test/local/index.css")]),
+      new HtmlWebpackPlugin({ template: resolve(root, "playground/index.html") }),
+      new CopyWebpackPlugin([resolve(root, "playground/index.css")]),
       new HtmlWebpackIncludeAssetsPlugin({ assets: ["./index.css"], append: false }),
     ],
   }

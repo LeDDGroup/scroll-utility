@@ -16,3 +16,4 @@ webpack.config.js
 .prettierignore
 .prettierrc
 tslint.json
+cypress
