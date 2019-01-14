@@ -160,8 +160,8 @@ There are several utilities to help you scroll to wherever you want, you can acc
 ```js
 import scrollManager from "scroll-utility"
 
-console.log(scrollManager.element.position.y) // vertical position of the scroll
-console.log(scrollManager.element.position.x) // horizontal position of the scroll
+console.log(scrollManager.element.scrollPosition.y) // vertical position of the scroll
+console.log(scrollManager.element.scrollPosition.x) // horizontal position of the scroll
 ```
 
 All of its fields have the 'x' and 'y' for each direction of the property
@@ -186,11 +186,11 @@ scrollManager.scrollSize.y
 
 This is the scroll size of the container. It determines the amount of scroll that can be done
 
-### position
+### scrollPosition
 
 ```js
-scrollManager.position.x
-scrollManager.position.y
+scrollManager.scrollPosition.x
+scrollManager.scrollPosition.y
 ```
 
 This is the position of the scrollBar. Its minimum value it's 0, and its maximum is the `scrollSize` - the `size`
