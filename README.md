@@ -147,9 +147,9 @@ import scrollManager from "scroll-utility"
 
 scrollManager.onScroll = (external) => {
   if (external) {
-    console.log("this 'scroll-utility' scrolled")
-  } else {
     console.log("external scroll") // ussualy the user via the mouse or keyboard, or some other script running in the browser
+  } else {
+    console.log("this 'scroll-utility' scrolled")
   }
 ```
 
