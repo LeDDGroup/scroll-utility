@@ -118,6 +118,8 @@ And the 4th parameter, is used to override the defuault easing animation.
 
 Only the first paramater is required, by default `duration` is 0 and `horizontal` if false.
 
+<p data-height="400" data-theme-id="dark" data-slug-hash="gZqzwN" data-default-tab="js,result" data-user="theiades" data-pen-title="scroll-utility/scrollBy" data-preview="true" class="codepen">See the Pen <a href="https://codepen.io/theiades/pen/gZqzwN/">scroll-utility/scrollBy</a> by David Perez Alvarez (<a href="https://codepen.io/theiades">@theiades</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+
 To determine where to scroll to, see [element](#element) and [misc](#misc) below.
 
 ## onScroll
@@ -253,14 +255,7 @@ The 1st parameter is the element to scroll to.
 The 2nd is a percent, which indicates the degree to be centered, been 0 not centered, 50 in the middle, and 100 sticked to the bottom of the view.
 And the 3rd is _horizontal_, `false` means vertical (default), and `true` horizontal
 
-Here are some screenshots of how an element is centered using `getDistToElement` and some percent:
-
-0%:  
-![top](https://github.com/LeDDGroup/scroll-utility/blob/master/cypress/screenshots/misc.ts/top.png)  
-50%:  
-![centered](https://github.com/LeDDGroup/scroll-utility/blob/master/cypress/screenshots/misc.ts/centered.png)  
-100%:  
-![bottom](https://github.com/LeDDGroup/scroll-utility/blob/master/cypress/screenshots/misc.ts/bottom.png)
+<p data-height="400" data-theme-id="dark" data-slug-hash="NeogYV" data-default-tab="js,result" data-user="theiades" data-pen-title="scroll-utility/scroll-to-element" data-preview="true" class="codepen">See the Pen <a href="https://codepen.io/theiades/pen/NeogYV/">scroll-utility/scroll-to-element</a> by David Perez Alvarez (<a href="https://codepen.io/theiades">@theiades</a>) on <a href="https://codepen.io">CodePen</a>.</p>
 
 ### getPercentPosition
 
@@ -275,6 +270,8 @@ scrollManager.scrollBy(distToScroll)
 In this case, it will scroll to the middle of the page
 The 1st is a percent, been 0 the top, 50 in the middle, and 100 the bottom of the page.
 And the 2nd is the _horizontal_, same as above.
+
+<p data-height="400" data-theme-id="dark" data-slug-hash="aPXqwg" data-default-tab="js,result" data-user="theiades" data-pen-title="scroll-utility/scroll-to-percent" data-preview="true" class="codepen">See the Pen <a href="https://codepen.io/theiades/pen/aPXqwg/">scroll-utility/scroll-to-percent</a> by David Perez Alvarez (<a href="https://codepen.io/theiades">@theiades</a>) on <a href="https://codepen.io">CodePen</a>.</p>
 
 ### scrollTo
 
@@ -300,6 +297,8 @@ scrollManager.onScroll = () => {
 
 `isElementInRange(element)` will return true if the element if visible in its container (ussualy window)
 The 2nd paramater is the direction, `true` _horizontal_, `false` _vertical_ (default)
+
+<p data-height="400" data-theme-id="dark" data-slug-hash="VqgxgJ" data-default-tab="js,result" data-user="theiades" data-pen-title="scroll-utility/range" data-preview="true" class="codepen">See the Pen <a href="https://codepen.io/theiades/pen/VqgxgJ/">scroll-utility/range</a> by David Perez Alvarez (<a href="https://codepen.io/theiades">@theiades</a>) on <a href="https://codepen.io">CodePen</a>.</p>
 
 # Stack animations and high precision
 
@@ -330,3 +329,5 @@ scrollManager.onScroll = external => external && scrollManager.stopAllAnimations
 
 This project is free and open-source, so if you think this project can help you or anyone else, you should star it in [github](https://github.com/LeDDGroup/scroll-utility/)
 Also feel free to open an [issue](https://github.com/LeDDGroup/scroll-utility/issues) if you have any idea, question, or you've found a bug. Any feedback is good support
+
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
