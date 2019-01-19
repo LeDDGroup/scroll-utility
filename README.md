@@ -173,8 +173,8 @@ The objective of this element is to unify the properties of the `window` and of 
 ### size
 
 ```js
-scrollManager.size.x
-scrollManager.size.y
+scrollManager.element.size.x
+scrollManager.element.size.y
 ```
 
 This is the size of the container, may it be the `window`, or the (div)element used to instantiate the scrollManager
@@ -182,8 +182,8 @@ This is the size of the container, may it be the `window`, or the (div)element u
 ### scrollSize
 
 ```js
-scrollManager.scrollSize.x
-scrollManager.scrollSize.y
+scrollManager.element.scrollSize.x
+scrollManager.element.scrollSize.y
 ```
 
 This is the scroll size of the container. It determines the amount of scroll that can be done
@@ -191,8 +191,8 @@ This is the scroll size of the container. It determines the amount of scroll tha
 ### scrollPosition
 
 ```js
-scrollManager.scrollPosition.x
-scrollManager.scrollPosition.y
+scrollManager.element.scrollPosition.x
+scrollManager.element.scrollPosition.y
 ```
 
 This is the position of the scrollBar. Its minimum value it's 0, and its maximum is the `scrollSize` - the `size`
@@ -200,8 +200,8 @@ This is the position of the scrollBar. Its minimum value it's 0, and its maximum
 ### offset
 
 ```js
-scrollManager.offset.x
-scrollManager.offset.y
+scrollManager.element.offset.x
+scrollManager.element.offset.y
 ```
 
 This is less likely to be used. It indicates the offset of the _boundingClientRect_ of the container. So for the window as container, it will return 0 for both `x` and `y`. It's the equivalent for `getBoundingClientRect().left` and `top`
