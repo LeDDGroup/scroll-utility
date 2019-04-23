@@ -7,8 +7,10 @@ function takeScreenShot(delay: number = 0) {
 async function withWindow<T = void>(
   f: (window: Window & { ScrollUtility: typeof ScrollUtility }) => T,
 ) {
-  return cy.window().then(wind => {
-    f(wind as Window & { ScrollUtility: typeof ScrollUtility })
+  return new Promise(suc => {
+    cy.window().then(wind => {
+      suc(f(wind as Window & { ScrollUtility: typeof ScrollUtility }))
+    })
   })
 }
 
