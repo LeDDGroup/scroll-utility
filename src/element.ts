@@ -48,12 +48,13 @@ const windowScrollSize = () =>
 
 class ScrollElement {
   static isWindow(element: Element | Window): element is Window {
-    return element === window
+    return element === window || element === html
   }
   constructor(private element: Element | Window = window, private onScroll?: () => void) {
     this.element.addEventListener("scroll", this.scroll)
     if (ScrollElement.isWindow(element)) {
       this._size = windowSize
+      this._sizeB = windowSize
       this._scrollSize = windowScrollSize
       this._scrollPosition = () => new Point(element.pageXOffset, element.pageYOffset)
       this._offset = () => new Point()
@@ -62,6 +63,11 @@ class ScrollElement {
       }
     } else {
       this._size = () => new Point(element.clientWidth, element.clientHeight)
+      this._sizeB = () =>
+        new Point(
+          (this.element as HTMLElement).offsetWidth,
+          (this.element as HTMLElement).offsetHeight,
+        )
       this._scrollSize = () => new Point(element.scrollWidth, element.scrollHeight)
       this._scrollPosition = () => new Point(element.scrollLeft, element.scrollTop)
       this._offset = () =>
@@ -78,6 +84,11 @@ class ScrollElement {
   private _size: () => Point
   public get size() {
     return this._size()
+  }
+  private _sizeB: () => Point
+  public get sizeB() {
+    // element size including border
+    return this._sizeB()
   }
   private _scrollSize: () => Point
   public get scrollSize() {

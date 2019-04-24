@@ -1,3 +1,5 @@
+import { Scroll } from "./scroll"
 export * from "./scroll"
-import windowScrollManager from "./window-scroll-manager"
-export default windowScrollManager
+export * from "./animation"
+export * from "./default-settings"
+export default Scroll
