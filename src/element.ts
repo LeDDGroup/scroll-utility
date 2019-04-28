@@ -56,10 +56,10 @@ class ScrollElement {
       this._size = windowSize
       this._sizeB = windowSize
       this._scrollSize = windowScrollSize
-      this._scrollPosition = () => new Point(element.pageXOffset, element.pageYOffset)
+      this._scrollPosition = () => new Point(window.pageXOffset, window.pageYOffset)
       this._offset = () => new Point()
       this.scrollTo = (point: Point) => {
-        element.scroll(point.x, point.y)
+        window.scroll(point.x, point.y)
       }
     } else {
       this._size = () => new Point(element.clientWidth, element.clientHeight)

@@ -6,16 +6,28 @@ function almost0(value: number): boolean {
   return value < 1 && value > -1
 }
 
+type ElementOrQuery = Window | Element | string
+type ScrollTo = [number, number?, EasingFunction?]
+type CenterElement = [ElementOrQuery, number?, number?, EasingFunction?]
+
+function getElementFromQuery(elementOrQuery: ElementOrQuery): Element | Window {
+  if (typeof elementOrQuery === "string") {
+    return document.querySelector(elementOrQuery) as Element
+  }
+  return elementOrQuery
+}
+
 class Scroll {
   private animationManager: AnimationManager
   private element: ScrollElement
   constructor(
-    element: Element = document.documentElement,
+    elementOrQuery: ElementOrQuery = document.documentElement,
     private horizontal: boolean = false,
     public duration: number = 0,
     public onScroll: ((external?: boolean) => void) | null = null,
     public easing: EasingFunction = defaultEasingFunction,
   ) {
+    const element = getElementFromQuery(elementOrQuery)
     this.element = new ScrollElement(element, () => {
       const almost = almost0(this.animationManager.shouldBe - this.scrollPosition)
       !almost && (this.animationManager.shouldBe = this.scrollPosition)
@@ -31,7 +43,7 @@ class Scroll {
         this.element.scrollTo(
           new Point(
             horizontal ? this.animationManager.shouldBe : this.element.scrollPosition.x,
-            horizontal ? this.element.scrollPosition.x : this.animationManager.shouldBe,
+            horizontal ? this.element.scrollPosition.y : this.animationManager.shouldBe,
           ),
         )
       }
@@ -46,6 +58,9 @@ class Scroll {
   get size() {
     return this.element.size[toDirection(this.horizontal)]
   }
+  get sizeWithBorders() {
+    return this.element.sizeB[toDirection(this.horizontal)]
+  }
   get scrollSize() {
     return this.element.scrollSize[toDirection(this.horizontal)]
   }
@@ -58,36 +73,36 @@ class Scroll {
   stopAllAnimations() {
     this.animationManager.stopAllAnimations()
   }
-  scrollBy(
-    distToScroll: number,
-    duration: number = this.duration,
-    easing: EasingFunction = this.easing,
-  ) {
-    this.animationManager.createScrollAnimation({
-      distToScroll,
-      duration,
-      easing,
-    })
+  scrollTo(...args: ScrollTo | CenterElement) {
+    if (typeof args[0] === "number") {
+      this.scroll(...(args as ScrollTo))
+    } else {
+      this.centerElement(...(args as CenterElement))
+    }
   }
-  scrollTo(
+  private scroll(
     position: number,
     duration: number = this.duration,
     easing: EasingFunction = this.easing,
   ) {
-    this.scrollBy(position - this.scrollPosition, duration, easing)
+    this.animationManager.createScrollAnimation({
+      distToScroll: position - this.scrollPosition,
+      duration,
+      easing,
+    })
   }
-  centerElement(
-    element: Element,
+  private centerElement(
+    elementOrQuery: ElementOrQuery,
     value: number = 0,
     duration: number = this.duration,
     easing: EasingFunction = this.easing,
   ) {
+    const element = getElementFromQuery(elementOrQuery)
     const ratio = value / 100
     const elementWrapper = new Scroll(element, this.horizontal)
-    const screenOffset =
-      (this.size - elementWrapper.element.sizeB[toDirection(this.horizontal)]) * ratio
+    const screenOffset = (this.size - elementWrapper.sizeWithBorders) * ratio
     const elementPosition = elementWrapper.offset - this.offset
-    this.scrollBy(elementPosition - screenOffset, duration, easing)
+    this.scroll(this.scrollPosition + (elementPosition - screenOffset), duration, easing)
   }
 }
 
