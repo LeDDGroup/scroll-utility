@@ -7,8 +7,16 @@ function almost0(value: number): boolean {
 }
 
 type ElementOrQuery = Window | Element | string
-type ScrollTo = [number, number?, EasingFunction?]
-type CenterElement = [ElementOrQuery, number?, number?, EasingFunction?]
+type ScrollOptions = [number?, EasingFunction?]
+
+type ScrollType = ((value: number, ...args: ScrollOptions) => Scroll) & {
+  size: (value: number, ...args: ScrollOptions) => Scroll
+  sizeWithBorders: (value: number, ...args: ScrollOptions) => Scroll
+  scrollSize: (value: number, ...args: ScrollOptions) => Scroll
+  scrollPosition: (value: number, ...args: ScrollOptions) => Scroll
+  offset: (value: number, ...args: ScrollOptions) => Scroll
+  element: (elementOrQuery: ElementOrQuery, value?: number, ...args: ScrollOptions) => Scroll
+}
 
 function getElementFromQuery(elementOrQuery: ElementOrQuery): Element | Window {
   if (typeof elementOrQuery === "string") {
@@ -73,37 +81,57 @@ class Scroll {
   stopAllAnimations() {
     this.animationManager.stopAllAnimations()
   }
-  scrollTo(...args: ScrollTo | CenterElement) {
-    if (typeof args[0] === "number") {
-      this.scroll(...(args as ScrollTo))
-    } else {
-      this.centerElement(...(args as CenterElement))
-    }
-  }
-  private scroll(
-    position: number,
-    duration: number = this.duration,
-    easing: EasingFunction = this.easing,
-  ) {
-    this.animationManager.createScrollAnimation({
-      distToScroll: position - this.scrollPosition,
-      duration,
-      easing,
-    })
-  }
-  private centerElement(
-    elementOrQuery: ElementOrQuery,
-    value: number = 0,
-    duration: number = this.duration,
-    easing: EasingFunction = this.easing,
-  ) {
-    const element = getElementFromQuery(elementOrQuery)
-    const ratio = value / 100
-    const elementWrapper = new Scroll(element, this.horizontal)
-    const screenOffset = (this.size - elementWrapper.sizeWithBorders) * ratio
-    const elementPosition = elementWrapper.offset - this.offset
-    this.scroll(this.scrollPosition + (elementPosition - screenOffset), duration, easing)
-  }
+  scrollTo: ScrollType = Object.assign(
+    (position: number, ...args: ScrollOptions): Scroll => {
+      this.scrollBy(position - this.scrollPosition, ...args)
+      return this
+    },
+    {
+      size: (value: number, ...args: ScrollOptions) =>
+        this.scrollTo(this.element.size[toDirection(this.horizontal)] * value, ...args),
+      sizeWithBorders: (value: number, ...args: ScrollOptions) =>
+        this.scrollTo(this.element.sizeB[toDirection(this.horizontal)] * value, ...args),
+      scrollSize: (value: number, ...args: ScrollOptions) =>
+        this.scrollTo(this.element.scrollSize[toDirection(this.horizontal)] * value, ...args),
+      scrollPosition: (value: number, ...args: ScrollOptions) =>
+        this.scrollTo(this.element.scrollPosition[toDirection(this.horizontal)] * value, ...args),
+      offset: (value: number, ...args: ScrollOptions) =>
+        this.scrollTo(this.element.offset[toDirection(this.horizontal)] * value, ...args),
+      element: (elementOrQuery: ElementOrQuery, value: number = 0, ...args: ScrollOptions) => {
+        const elementWrapper = new Scroll(elementOrQuery, this.horizontal)
+        const screenOffset = (this.size - elementWrapper.sizeWithBorders) * value
+        const elementPosition = elementWrapper.offset - this.offset
+        return this.scrollBy(elementPosition - screenOffset, ...args)
+      },
+    },
+  )
+  scrollBy: ScrollType = Object.assign(
+    (value: number, ...args: ScrollOptions): Scroll => {
+      const [duration, easing] = args
+      this.animationManager.createScrollAnimation({
+        distToScroll: value,
+        duration: duration || this.duration,
+        easing: easing || this.easing,
+      })
+      return this
+    },
+    {
+      size: (value: number, ...args: ScrollOptions) =>
+        this.scrollBy(this.element.size[toDirection(this.horizontal)] * value, ...args),
+      sizeWithBorders: (value: number, ...args: ScrollOptions) =>
+        this.scrollBy(this.element.sizeB[toDirection(this.horizontal)] * value, ...args),
+      scrollSize: (value: number, ...args: ScrollOptions) =>
+        this.scrollBy(this.element.scrollSize[toDirection(this.horizontal)] * value, ...args),
+      scrollPosition: (value: number, ...args: ScrollOptions) =>
+        this.scrollBy(this.element.scrollPosition[toDirection(this.horizontal)] * value, ...args),
+      offset: (value: number, ...args: ScrollOptions) =>
+        this.scrollBy(this.element.offset[toDirection(this.horizontal)] * value, ...args),
+      element: (elementOrQuery: ElementOrQuery, value: number = 0, ...args: ScrollOptions) => {
+        const elementWrapper = new Scroll(elementOrQuery, this.horizontal)
+        return this.scrollBy(elementWrapper.sizeWithBorders * value, ...args)
+      },
+    },
+  )
 }
 
 export { Scroll }
