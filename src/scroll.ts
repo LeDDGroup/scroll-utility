@@ -1,6 +1,6 @@
 import { AnimationManager } from "./animation-manager"
 import { EasingFunction, defaultEasingFunction } from "./default-settings"
-import { ScrollElement, toDirection, Point } from "./element"
+import * as ScrollElement from "./element"
 
 function almost0(value: number): boolean {
   return value < 1 && value > -1
@@ -27,7 +27,7 @@ function getElementFromQuery(elementOrQuery: ElementOrQuery): Element | Window {
 
 class Scroll {
   private animationManager: AnimationManager
-  private element: ScrollElement
+  private element: Element | Window
   constructor(
     elementOrQuery: ElementOrQuery = document.documentElement,
     private horizontal: boolean = false,
@@ -36,7 +36,8 @@ class Scroll {
     public easing: EasingFunction = defaultEasingFunction,
   ) {
     const element = getElementFromQuery(elementOrQuery)
-    this.element = new ScrollElement(element, () => {
+    this.element = element === document.documentElement ? window : element
+    this.element.addEventListener("scroll", () => {
       const almost = almost0(this.animationManager.shouldBe - this.scrollPosition)
       !almost && (this.animationManager.shouldBe = this.scrollPosition)
       this.onScroll && this.onScroll(!almost)
@@ -48,12 +49,7 @@ class Scroll {
       const shouldBe = this.animationManager.shouldBe
       this.animationManager.updateShouldBe()
       if (shouldBe !== this.animationManager.shouldBe) {
-        this.element.scrollTo(
-          new Point(
-            horizontal ? this.animationManager.shouldBe : this.element.scrollPosition.x,
-            horizontal ? this.element.scrollPosition.y : this.animationManager.shouldBe,
-          ),
-        )
+        ScrollElement.scrollTo(window, this.animationManager.shouldBe, this.horizontal)
       }
       this.animationManager.shouldBe = Math.max(
         0,
@@ -64,30 +60,27 @@ class Scroll {
     window.requestAnimationFrame(scroll)
   }
   get size() {
-    return this.element.size[toDirection(this.horizontal)]
+    return ScrollElement.getSize(this.element, this.horizontal)
   }
   get sizeWithBorders() {
-    return this.element.sizeB[toDirection(this.horizontal)]
+    return ScrollElement.getSizeWithBorders(this.element, this.horizontal)
   }
   get scrollSize() {
-    return this.element.scrollSize[toDirection(this.horizontal)] - this.size
+    return ScrollElement.getScrollSize(this.element, this.horizontal)
   }
   get scrollPosition() {
-    return this.element.scrollPosition[toDirection(this.horizontal)]
+    return ScrollElement.getScrollPosition(this.element, this.horizontal)
   }
   get offset() {
-    return this.element.offset[toDirection(this.horizontal)]
+    return ScrollElement.getOffset(this.element, this.horizontal)
   }
   getElementPlacement(elementOrQuery: ElementOrQuery) {
-    const elementWrapper = new Scroll(elementOrQuery, this.horizontal)
-    const elementPosition = elementWrapper.offset - this.offset
-    const ratio = elementPosition / (this.size - elementWrapper.sizeWithBorders)
+    const elementPosition = ScrollElement.getOffset(elementOrQuery, this.horizontal) - this.offset
+    const elementSize = ScrollElement.getSizeWithBorders(elementOrQuery, this.horizontal)
+    const ratio = elementPosition / (this.size - elementSize)
     return ratio <= 1 && ratio >= 0
       ? ratio
-      : (ratio < 0
-          ? elementPosition
-          : elementPosition - this.size + elementWrapper.sizeWithBorders * 2) /
-          elementWrapper.sizeWithBorders
+      : (ratio < 0 ? elementPosition : elementPosition - this.size + elementSize * 2) / elementSize
   }
   stopAllAnimations() {
     this.animationManager.stopAllAnimations()
@@ -98,27 +91,27 @@ class Scroll {
       return this
     },
     {
-      size: (value: number, ...args: ScrollOptions) =>
-        this.scrollTo(this.element.size[toDirection(this.horizontal)] * value, ...args),
+      size: (value: number, ...args: ScrollOptions) => this.scrollTo(this.size * value, ...args),
       sizeWithBorders: (value: number, ...args: ScrollOptions) =>
-        this.scrollTo(this.element.sizeB[toDirection(this.horizontal)] * value, ...args),
+        this.scrollTo(this.sizeWithBorders * value, ...args),
       scrollSize: (value: number, ...args: ScrollOptions) =>
-        this.scrollTo(this.element.scrollSize[toDirection(this.horizontal)] * value, ...args),
+        this.scrollTo(this.scrollSize * value, ...args),
       scrollPosition: (value: number, ...args: ScrollOptions) =>
-        this.scrollTo(this.element.scrollPosition[toDirection(this.horizontal)] * value, ...args),
+        this.scrollTo(this.scrollPosition * value, ...args),
       offset: (value: number, ...args: ScrollOptions) =>
-        this.scrollTo(this.element.offset[toDirection(this.horizontal)] * value, ...args),
+        this.scrollTo(this.offset * value, ...args),
       element: (elementOrQuery: ElementOrQuery, value: number = 0, ...args: ScrollOptions) => {
-        const elementWrapper = new Scroll(elementOrQuery, this.horizontal)
-        const elementPosition = elementWrapper.offset - this.offset
+        const elementPosition =
+          ScrollElement.getOffset(elementOrQuery, this.horizontal) - this.offset
+        const elementSize = ScrollElement.getSizeWithBorders(elementOrQuery, this.horizontal)
 
         return this.scrollBy(
           value <= 1 && value >= 0
-            ? elementPosition - (this.size - elementWrapper.sizeWithBorders) * value
+            ? elementPosition - (this.size - elementSize) * value
             : (value < 0
-                ? elementWrapper.sizeWithBorders - elementPosition
-                : elementPosition - this.size + elementWrapper.sizeWithBorders * 2) -
-                elementWrapper.sizeWithBorders * value,
+                ? elementSize - elementPosition
+                : elementPosition - this.size + elementSize * 2) -
+                elementSize * value,
           ...args,
         )
       },
@@ -136,19 +129,20 @@ class Scroll {
       return this
     },
     {
-      size: (value: number, ...args: ScrollOptions) =>
-        this.scrollBy(this.element.size[toDirection(this.horizontal)] * value, ...args),
+      size: (value: number, ...args: ScrollOptions) => this.scrollBy(this.size * value, ...args),
       sizeWithBorders: (value: number, ...args: ScrollOptions) =>
-        this.scrollBy(this.element.sizeB[toDirection(this.horizontal)] * value, ...args),
+        this.scrollBy(this.sizeWithBorders * value, ...args),
       scrollSize: (value: number, ...args: ScrollOptions) =>
-        this.scrollBy(this.element.scrollSize[toDirection(this.horizontal)] * value, ...args),
+        this.scrollBy(this.scrollSize * value, ...args),
       scrollPosition: (value: number, ...args: ScrollOptions) =>
-        this.scrollBy(this.element.scrollPosition[toDirection(this.horizontal)] * value, ...args),
+        this.scrollBy(this.scrollPosition * value, ...args),
       offset: (value: number, ...args: ScrollOptions) =>
-        this.scrollBy(this.element.offset[toDirection(this.horizontal)] * value, ...args),
+        this.scrollBy(this.offset * value, ...args),
       element: (elementOrQuery: ElementOrQuery, value: number = 0, ...args: ScrollOptions) => {
-        const elementWrapper = new Scroll(elementOrQuery, this.horizontal)
-        return this.scrollBy(elementWrapper.sizeWithBorders * value, ...args)
+        return this.scrollBy(
+          ScrollElement.getSizeWithBorders(elementOrQuery, this.horizontal) * value,
+          ...args,
+        )
       },
     },
   )
