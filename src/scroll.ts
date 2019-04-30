@@ -78,6 +78,17 @@ class Scroll {
   get offset() {
     return this.element.offset[toDirection(this.horizontal)]
   }
+  getElementPlacement(elementOrQuery: ElementOrQuery) {
+    const elementWrapper = new Scroll(elementOrQuery, this.horizontal)
+    const elementPosition = elementWrapper.offset - this.offset
+    const ratio = elementPosition / (this.size - elementWrapper.sizeWithBorders)
+    return ratio <= 1 && ratio >= 0
+      ? ratio
+      : (ratio < 0
+          ? elementPosition
+          : elementPosition - this.size + elementWrapper.sizeWithBorders * 2) /
+          elementWrapper.sizeWithBorders
+  }
   stopAllAnimations() {
     this.animationManager.stopAllAnimations()
   }
