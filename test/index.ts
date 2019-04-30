@@ -35,7 +35,7 @@ for (const os in capabilities) {
                 await browser.executeScript(
                   (wrapper: string, horizontal: boolean, value: number) => {
                     const scroll = new window.ScrollUtility.Scroll(wrapper, horizontal)
-                    return scroll.scrollTo(value)
+                    scroll.scrollTo(value)
                   },
                   wrapper,
                   horizontal,
@@ -44,7 +44,7 @@ for (const os in capabilities) {
                 await wait(duration + 1)
                 const scrollPosition = await browser.executeScript(
                   (wrapper: string, horizontal: boolean) =>
-                    new window.ScrollUtility.Scroll(wrapper, horizontal).scrollPosition,
+                    window.ScrollUtility.getScrollPosition(wrapper, horizontal),
                   wrapper,
                   horizontal,
                 )
