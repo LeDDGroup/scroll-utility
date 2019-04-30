@@ -57,7 +57,7 @@ class Scroll {
       }
       this.animationManager.shouldBe = Math.max(
         0,
-        Math.min(this.animationManager.shouldBe, this.scrollSize - this.size),
+        Math.min(this.animationManager.shouldBe, this.scrollSize),
       )
       window.requestAnimationFrame(scroll)
     }
@@ -70,7 +70,7 @@ class Scroll {
     return this.element.sizeB[toDirection(this.horizontal)]
   }
   get scrollSize() {
-    return this.element.scrollSize[toDirection(this.horizontal)]
+    return this.element.scrollSize[toDirection(this.horizontal)] - this.size
   }
   get scrollPosition() {
     return this.element.scrollPosition[toDirection(this.horizontal)]
@@ -132,6 +132,7 @@ class Scroll {
         duration: duration || this.duration,
         easing: easing || this.easing,
       })
+
       return this
     },
     {
