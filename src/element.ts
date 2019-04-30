@@ -51,8 +51,8 @@ class ScrollElement {
     return element === window || element === html
   }
   constructor(private element: Element | Window = window, private onScroll?: () => void) {
-    this.element.addEventListener("scroll", this.scroll)
     if (ScrollElement.isWindow(element)) {
+      window.addEventListener("scroll", this.scroll)
       this._size = windowSize
       this._sizeB = windowSize
       this._scrollSize = windowScrollSize
@@ -62,6 +62,7 @@ class ScrollElement {
         window.scroll(point.x, point.y)
       }
     } else {
+      this.element.addEventListener("scroll", this.scroll)
       this._size = () => new Point(element.clientWidth, element.clientHeight)
       this._sizeB = () =>
         new Point(
