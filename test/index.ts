@@ -33,7 +33,7 @@ for (const os in capabilities) {
             ;[100, 53.3, 53.5, 53.7, 0].forEach(value => {
               it(`${value}`, async function() {
                 await browser.executeScript(
-                  (wrapper, horizontal, value) => {
+                  (wrapper: string, horizontal: boolean, value: number) => {
                     const scroll = new window.ScrollUtility.Scroll(wrapper, horizontal)
                     return scroll.scrollTo(value)
                   },
@@ -43,7 +43,7 @@ for (const os in capabilities) {
                 )
                 await wait(duration + 1)
                 const scrollPosition = await browser.executeScript(
-                  (wrapper, horizontal) =>
+                  (wrapper: string, horizontal: boolean) =>
                     new window.ScrollUtility.Scroll(wrapper, horizontal).scrollPosition,
                   wrapper,
                   horizontal,
@@ -53,19 +53,25 @@ for (const os in capabilities) {
             })
           })
           describe("center element", () => {
-            ;[0, 100, 50].forEach(percent => {
+            ;[0, 1, 0.5].forEach(percent => {
               it(`should be centered at ${percent}`, async function() {
                 browser.executeScript(
-                  (wrapper, horizontal, element) => {
-                    new window.ScrollUtility.Scroll(wrapper, !horizontal).scrollTo(element, 50)
+                  (wrapper: string, horizontal: boolean, element: HTMLElement) => {
+                    new window.ScrollUtility.Scroll(wrapper, !horizontal).scrollTo.element(
+                      element,
+                      0.5,
+                    )
                   },
                   wrapper,
                   horizontal,
                   element,
                 )
                 browser.executeScript(
-                  (wrapper, horizontal, element, percent) => {
-                    new window.ScrollUtility.Scroll(wrapper, horizontal).scrollTo(element, percent)
+                  (wrapper: string, horizontal: boolean, element: HTMLElement, percent: number) => {
+                    new window.ScrollUtility.Scroll(wrapper, horizontal).scrollTo.element(
+                      element,
+                      percent,
+                    )
                   },
                   wrapper,
                   horizontal,
