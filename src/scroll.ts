@@ -31,26 +31,19 @@ class Scroll {
     const element = getElementFromQuery(elementOrQuery)
     this.element = element === document.documentElement ? window : element
     this.element.addEventListener("scroll", () => {
-      const changed = Math.floor(this.animationManager.shouldBe) !== this.scrollPosition
-      changed && (this.animationManager.shouldBe = this.scrollPosition)
+      const changed = Math.floor(this.animationManager.position) !== this.scrollPosition
+      if (changed) {
+        this.animationManager.position +=
+          this.scrollPosition - this.animationManager.previousPosition
+        this.animationManager.previousPosition = this.scrollPosition
+      }
       this.onScroll && this.onScroll(changed)
     })
-
-    this.animationManager = new AnimationManager(this.scrollPosition)
-
-    const scroll = () => {
-      const shouldBe = this.animationManager.shouldBe
-      this.animationManager.updateShouldBe()
-      if (shouldBe !== this.animationManager.shouldBe) {
-        ScrollElement.scrollTo(window, this.animationManager.shouldBe, this.horizontal)
-      }
-      this.animationManager.shouldBe = Math.max(
-        0,
-        Math.min(this.animationManager.shouldBe, this.scrollSize),
-      )
-      window.requestAnimationFrame(scroll)
-    }
-    window.requestAnimationFrame(scroll)
+    this.animationManager = new AnimationManager(
+      this.scrollPosition,
+      value => ScrollElement.scrollTo(this.element, value, this.horizontal),
+      () => this.scrollSize,
+    )
   }
   get size() {
     return ScrollElement.getSize(this.element, this.horizontal)
