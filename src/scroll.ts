@@ -110,9 +110,17 @@ class Scroll {
         this.scrollTo(this.element.offset[toDirection(this.horizontal)] * value, ...args),
       element: (elementOrQuery: ElementOrQuery, value: number = 0, ...args: ScrollOptions) => {
         const elementWrapper = new Scroll(elementOrQuery, this.horizontal)
-        const screenOffset = (this.size - elementWrapper.sizeWithBorders) * value
         const elementPosition = elementWrapper.offset - this.offset
-        return this.scrollBy(elementPosition - screenOffset, ...args)
+
+        return this.scrollBy(
+          value <= 1 && value >= 0
+            ? elementPosition - (this.size - elementWrapper.sizeWithBorders) * value
+            : (value < 0
+                ? elementWrapper.sizeWithBorders - elementPosition
+                : elementPosition - this.size + elementWrapper.sizeWithBorders * 2) -
+                elementWrapper.sizeWithBorders * value,
+          ...args,
+        )
       },
     },
   )
