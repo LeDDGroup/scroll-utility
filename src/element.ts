@@ -103,3 +103,35 @@ export function scrollTo(element: ElementOrQuery = window, value = 0, horizontal
     element => (horizontal ? (element.scrollLeft = value) : (element.scrollTop = value)),
   )
 }
+
+export function getElementPlacement(
+  wrapper: ElementOrQuery,
+  elementOrQuery: ElementOrQuery,
+  horizontal = false,
+) {
+  const elementPosition = getOffset(elementOrQuery, horizontal) - getOffset(wrapper, horizontal)
+  const elementSize = getSizeWithBorders(elementOrQuery, horizontal)
+  const ratio = elementPosition / (getSize(wrapper, horizontal) - elementSize)
+  return ratio <= 1 && ratio >= 0
+    ? ratio
+    : (ratio < 0
+        ? elementPosition
+        : elementPosition - getSize(wrapper, horizontal) + elementSize * 2) / elementSize
+}
+
+export function getDistToCenterElement(
+  wrapper: ElementOrQuery,
+  elementOrQuery: ElementOrQuery,
+  horizontal = false,
+  value = 0,
+) {
+  const elementPosition = getOffset(elementOrQuery, horizontal) - getOffset(wrapper, horizontal)
+  const elementSize = getSizeWithBorders(elementOrQuery, horizontal)
+  const ratio = elementPosition - (getSize(wrapper, horizontal) - elementSize) * value
+  return ratio <= 1 && ratio >= 0
+    ? ratio
+    : (ratio < 0
+        ? elementPosition
+        : elementPosition - getSize(wrapper, horizontal) + elementSize * 2) -
+        elementSize * value
+}

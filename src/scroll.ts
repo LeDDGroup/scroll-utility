@@ -54,15 +54,8 @@ class Scroll {
   get scrollPosition() {
     return ScrollElement.getScrollPosition(this.element, this.horizontal)
   }
-  getElementPlacement(elementOrQuery: ElementOrQuery) {
-    const elementPosition =
-      ScrollElement.getOffset(elementOrQuery, this.horizontal) -
-      ScrollElement.getOffset(this.element, this.horizontal)
-    const elementSize = ScrollElement.getSizeWithBorders(elementOrQuery, this.horizontal)
-    const ratio = elementPosition / (this.size - elementSize)
-    return ratio <= 1 && ratio >= 0
-      ? ratio
-      : (ratio < 0 ? elementPosition : elementPosition - this.size + elementSize * 2) / elementSize
+  getElementPlacement(elementOrQuery: ElementOrQuery): number {
+    return ScrollElement.getElementPlacement(this.element, elementOrQuery, this.horizontal)
   }
   stopAllAnimations() {
     this.animationManager.stopAllAnimations()
@@ -77,18 +70,13 @@ class Scroll {
       scrollSize: (value: number, ...args: ScrollOptions) =>
         this.scrollTo(this.scrollSize * value, ...args),
       element: (elementOrQuery: ElementOrQuery, value: number = 0, ...args: ScrollOptions) => {
-        const elementPosition =
-          ScrollElement.getOffset(elementOrQuery, this.horizontal) -
-          ScrollElement.getOffset(this.element, this.horizontal)
-        const elementSize = ScrollElement.getSizeWithBorders(elementOrQuery, this.horizontal)
-
         return this.scrollBy(
-          value <= 1 && value >= 0
-            ? elementPosition - (this.size - elementSize) * value
-            : (value < 0
-                ? elementSize - elementPosition
-                : elementPosition - this.size + elementSize * 2) -
-                elementSize * value,
+          ScrollElement.getDistToCenterElement(
+            this.element,
+            elementOrQuery,
+            this.horizontal,
+            value,
+          ),
           ...args,
         )
       },
