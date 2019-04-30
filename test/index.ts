@@ -53,9 +53,9 @@ for (const os in capabilities) {
             })
           })
           describe("center element", () => {
-            ;[0, 1, 0.5].forEach(percent => {
-              it(`should be centered at ${percent}`, async function() {
-                browser.executeScript(
+            ;[0, 1, 0.5].forEach(value => {
+              it(`should be centered at ${value}`, async function() {
+                await browser.executeScript(
                   (wrapper: string, horizontal: boolean, element: HTMLElement) => {
                     new window.ScrollUtility.Scroll(wrapper, !horizontal).scrollTo.element(
                       element,
@@ -66,19 +66,30 @@ for (const os in capabilities) {
                   horizontal,
                   element,
                 )
-                browser.executeScript(
-                  (wrapper: string, horizontal: boolean, element: HTMLElement, percent: number) => {
+                await browser.executeScript(
+                  (wrapper: string, horizontal: boolean, element: HTMLElement, value: number) => {
                     new window.ScrollUtility.Scroll(wrapper, horizontal).scrollTo.element(
                       element,
-                      percent,
+                      value,
                     )
                   },
                   wrapper,
                   horizontal,
                   element,
-                  percent,
+                  value,
                 )
+
                 await wait(duration + 1)
+
+                const placement = await browser.executeScript(
+                  (wrapper: string, horizontal: boolean, element: HTMLElement) => {
+                    return window.ScrollUtility.getElementPlacement(wrapper, element, horizontal)
+                  },
+                  wrapper,
+                  horizontal,
+                  element,
+                )
+                expect(placement).toBe(value)
               })
             })
           })
