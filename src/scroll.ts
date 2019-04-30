@@ -49,7 +49,7 @@ class Scroll {
     return ScrollElement.getSize(this.element, this.horizontal)
   }
   get scrollSize() {
-    return ScrollElement.getScrollSize(this.element, this.horizontal)
+    return ScrollElement.getScrollSize(this.element, this.horizontal) - this.size
   }
   get scrollPosition() {
     return ScrollElement.getScrollPosition(this.element, this.horizontal)
