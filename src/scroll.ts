@@ -2,10 +2,6 @@ import { AnimationManager } from "./animation-manager"
 import { EasingFunction, defaultEasingFunction } from "./default-settings"
 import * as ScrollElement from "./element"
 
-function almost0(value: number): boolean {
-  return value < 1 && value > -1
-}
-
 type ElementOrQuery = Window | Element | string
 type ScrollOptions = [number?, EasingFunction?]
 
@@ -35,9 +31,9 @@ class Scroll {
     const element = getElementFromQuery(elementOrQuery)
     this.element = element === document.documentElement ? window : element
     this.element.addEventListener("scroll", () => {
-      const almost = almost0(this.animationManager.shouldBe - this.scrollPosition)
-      !almost && (this.animationManager.shouldBe = this.scrollPosition)
-      this.onScroll && this.onScroll(!almost)
+      const changed = Math.floor(this.animationManager.shouldBe) !== this.scrollPosition
+      changed && (this.animationManager.shouldBe = this.scrollPosition)
+      this.onScroll && this.onScroll(changed)
     })
 
     this.animationManager = new AnimationManager(this.scrollPosition)
