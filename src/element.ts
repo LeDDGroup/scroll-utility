@@ -104,7 +104,7 @@ export function scrollTo(element: ElementOrQuery = window, value = 0, horizontal
   )
 }
 
-export function getElementPlacement(
+export function getElementRelativePosition(
   wrapper: ElementOrQuery,
   elementOrQuery: ElementOrQuery,
   horizontal = false,

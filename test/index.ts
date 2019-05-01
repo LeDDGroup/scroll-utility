@@ -33,8 +33,11 @@ for (const os in capabilities) {
             ;[100, 53.3, 53.5, 53.7, 0].forEach(value => {
               it(`${value}`, async function() {
                 await browser.executeScript(
-                  (wrapper: string, horizontal: boolean, value: number) => {
-                    const scroll = new window.ScrollUtility.Scroll(wrapper, horizontal)
+                  (element: string, horizontal: boolean, value: number) => {
+                    const scroll = new window.ScrollUtility.Scroll({
+                      element,
+                      horizontal,
+                    })
                     scroll.scrollTo(value)
                   },
                   wrapper,
@@ -57,10 +60,10 @@ for (const os in capabilities) {
               it(`should be centered at ${value}`, async function() {
                 await browser.executeScript(
                   (wrapper: string, horizontal: boolean, element: HTMLElement) => {
-                    new window.ScrollUtility.Scroll(wrapper, !horizontal).scrollTo.element(
-                      element,
-                      0.5,
-                    )
+                    new window.ScrollUtility.Scroll({
+                      element: wrapper,
+                      horizontal: !horizontal,
+                    }).scrollTo.element(element, 0.5)
                   },
                   wrapper,
                   horizontal,
@@ -68,10 +71,10 @@ for (const os in capabilities) {
                 )
                 await browser.executeScript(
                   (wrapper: string, horizontal: boolean, element: HTMLElement, value: number) => {
-                    new window.ScrollUtility.Scroll(wrapper, horizontal).scrollTo.element(
-                      element,
-                      value,
-                    )
+                    new window.ScrollUtility.Scroll({
+                      element: wrapper,
+                      horizontal,
+                    }).scrollTo.element(element, value)
                   },
                   wrapper,
                   horizontal,
@@ -83,7 +86,11 @@ for (const os in capabilities) {
 
                 const placement = await browser.executeScript(
                   (wrapper: string, horizontal: boolean, element: HTMLElement) => {
-                    return window.ScrollUtility.getElementPlacement(wrapper, element, horizontal)
+                    return window.ScrollUtility.getElementRelativePosition(
+                      wrapper,
+                      element,
+                      horizontal,
+                    )
                   },
                   wrapper,
                   horizontal,

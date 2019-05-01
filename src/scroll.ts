@@ -20,16 +20,26 @@ function getElementFromQuery(elementOrQuery: ElementOrQuery): Element | Window {
 
 class Scroll {
   private animationManager: AnimationManager
-  private element: Element | Window
+  private element: Element | Window = window
+  private horizontal: boolean
+  public duration: number
+  public onScroll: ((external?: boolean) => void) | null | undefined
+  public easing: EasingFunction
   constructor(
-    elementOrQuery: ElementOrQuery = document.documentElement,
-    private horizontal: boolean = false,
-    public duration: number = 0,
-    public onScroll: ((external?: boolean) => void) | null = null,
-    public easing: EasingFunction = defaultEasingFunction,
+    options: {
+      element?: ElementOrQuery
+      horizontal?: boolean
+      onScroll?: (external?: boolean) => void
+      duration?: number
+      easing?: EasingFunction
+    } = {},
   ) {
-    const element = getElementFromQuery(elementOrQuery)
+    const element = getElementFromQuery(options.element || window)
     this.element = element === document.documentElement ? window : element
+    this.horizontal = !!options.horizontal
+    this.onScroll = options.onScroll
+    this.duration = options.duration || 0
+    this.easing = options.easing || defaultEasingFunction
     this.element.addEventListener("scroll", () => {
       const changed = Math.floor(this.animationManager.position) !== this.scrollPosition
       if (changed) {
@@ -54,8 +64,8 @@ class Scroll {
   get scrollPosition() {
     return ScrollElement.getScrollPosition(this.element, this.horizontal)
   }
-  getElementPlacement(elementOrQuery: ElementOrQuery): number {
-    return ScrollElement.getElementPlacement(this.element, elementOrQuery, this.horizontal)
+  getElementRelativePosition(elementOrQuery: ElementOrQuery): number {
+    return ScrollElement.getElementRelativePosition(this.element, elementOrQuery, this.horizontal)
   }
   stopAllAnimations() {
     this.animationManager.stopAllAnimations()
@@ -97,7 +107,7 @@ class Scroll {
       size: (value: number, ...args: ScrollOptions) => this.scrollBy(this.size * value, ...args),
       scrollSize: (value: number, ...args: ScrollOptions) =>
         this.scrollBy(this.scrollSize * value, ...args),
-      element: (elementOrQuery: ElementOrQuery, value: number = 0, ...args: ScrollOptions) => {
+      element: (elementOrQuery: ElementOrQuery, value: number = 1, ...args: ScrollOptions) => {
         return this.scrollBy(
           ScrollElement.getSizeWithBorders(elementOrQuery, this.horizontal) * value,
           ...args,
