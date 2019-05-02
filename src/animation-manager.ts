@@ -2,11 +2,12 @@ import { Animation } from "./animation"
 import { EasingFunction } from "./default-settings"
 
 class AnimationManager {
-  public shouldBe: number
-  private scrollAnimation: Animation[] = []
-  constructor(currentPosition: number) {
-    this.shouldBe = currentPosition
-  }
+  public scrollAnimation: Animation[] = []
+  constructor(
+    public position: number,
+    private scroll: (value: number) => void,
+    private getMaxPosition: () => number,
+  ) {}
   public stopAllAnimations() {
     this.scrollAnimation = []
   }
@@ -20,16 +21,21 @@ class AnimationManager {
       distToScroll: options.distToScroll,
       duration,
       easing: options.easing,
-      stop: () => this.scrollAnimation.splice(this.scrollAnimation.indexOf(animation), 1),
     })
     this.scrollAnimation.push(animation)
+    this.update()
     return animation
   }
-  public updateShouldBe() {
-    this.scrollAnimation.forEach(
-      animation => (this.shouldBe += -animation.distance + animation.updateDistance()),
-    )
-    return this.shouldBe
+  private update() {
+    this.scrollAnimation = this.scrollAnimation.filter(animation => {
+      this.position += -animation.distance + animation.updateDistance()
+      return !animation.isPastAnimation()
+    })
+    this.position = Math.max(0, Math.min(this.position, this.getMaxPosition()))
+    this.scroll(this.position)
+    if (this.scrollAnimation.length > 0) {
+      requestAnimationFrame(() => this.update())
+    }
   }
 }
 

@@ -4,7 +4,6 @@ interface ScrollInstanceProps {
   duration: number
   distToScroll: number
   easing: EasingFunction
-  stop(): void
 }
 
 type DOMHighResTimeStamp = number
@@ -21,13 +20,9 @@ class Animation {
     this.distance = this.isPastAnimation()
       ? this.options.distToScroll
       : this.easing(this.currentDuration, 0, this.options.distToScroll, this.options.duration)
-    this.isPastAnimation() && this.stop()
     return this.distance
   }
-  public stop() {
-    this.options.stop()
-  }
-  private isPastAnimation(): boolean {
+  public isPastAnimation(): boolean {
     return this.currentDuration >= this.options.duration
   }
   private get currentDuration() {

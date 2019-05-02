@@ -1,62 +1,58 @@
 # [scroll-utility](https://github.com/LeDDGroup/scroll-utility)
 
-[![npm](https://img.shields.io/npm/dw/scroll-utility.svg)](https://www.npmjs.com/package/scroll-utility)
-[![](https://data.jsdelivr.com/v1/package/npm/scroll-utility/badge)](https://www.jsdelivr.com/package/npm/scroll-utility)  
+[![npm](https://img.shields.io/npm/dw/scroll-utility.svg)](https://www.npmts.com/package/scroll-utility)
+[![](https://data.tsdelivr.com/v1/package/npm/scroll-utility/badge)](https://www.jsdelivr.com/package/npm/scroll-utility)  
 [![Travis](https://travis-ci.org/LeDDGroup/scroll-utility.svg?branch=master)](https://travis-ci.org/LeDDGroup/scroll-utility)
 [![Maintainability](https://api.codeclimate.com/v1/badges/0914e9eba77aee46d514/maintainability)](https://codeclimate.com/github/LeDDGroup/scroll-utility/maintainability)
 [![Greenkeeper badge](https://badges.greenkeeper.io/LeDDGroup/scroll-utility.svg)](https://greenkeeper.io/)
-[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/LeddSoftware/scroll-utility)
+[![Gitter](https://img.shields.io/gitter/room/nwts/nw.js.svg)](https://gitter.im/LeddSoftware/scroll-utility)
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 
 **Table of Contents**
 
-- [Features:](#features)
-- [Why?](#why)
+- [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
-  - [Scroll Container](#scroll-container)
-    - [Default export:](#default-export)
-  - [scrollBy](#scrollby)
-  - [onScroll](#onscroll)
-    - [External scroll](#external-scroll)
-  - [element](#element)
+  - [Basic Scroll](#basic-scroll)
+  - [Creating a scroll manager](#creating-a-scroll-manager)
+    - [scroll wrapper](#scroll-wrapper)
+    - [direction](#direction)
+    - [onScroll callback](#onscroll-callback)
+    - [default duration](#default-duration)
+    - [easing](#easing)
+  - [Scrolling](#scrolling)
+    - [scrollBy](#scrollby)
+      - [scrollBy element](#scrollby-element)
+      - [scrollBy size](#scrollby-size)
+      - [scrollBy scrollSize](#scrollby-scrollsize)
+    - [scrollTo](#scrollto)
+      - [scrollTo element](#scrollto-element)
+      - [scrollTo size](#scrollto-size)
+      - [scrollTo scrollSize](#scrollto-scrollsize)
+  - [Computed values](#computed-values)
+    - [scrollPosition](#scrollposition)
     - [size](#size)
     - [scrollSize](#scrollsize)
-    - [position](#position)
-    - [offset](#offset)
-  - [stopAllAnimations](#stopallanimations)
-  - [easing](#easing)
-  - [misc](#misc)
-    - [getDistToElement](#getdisttoelement)
-    - [getPercentPosition](#getpercentposition)
-    - [scrollTo](#scrollto)
-    - [isElementInRange](#iselementinrange)
-- [Stack animations and high precision](#stack-animations-and-high-precision)
+    - [relativeElementPosition](#relativeelementposition)
+- [Browser Compatibility](#browser-compatibility)
+- [Why?](#why)
 - [License](#license)
 - [Support](#support)
 
 <!-- markdown-toc end -->
 
-## This is v3 of scroll-utility, to see documentation for v2 click [here ](https://github.com/LeDDGroup/scroll-utility/tree/42e8d2d5141b176aa7fada79bb2ec94fec009ba3)
-
-# Features:
+# Features
 
 - Smooth scroll inside any element in any direction
 - Center elements
 - Extremely precise
 - Handle multiple scroll animation at the time
-- Performance aware
+- High performance
 - Detect onScroll events and differentiate between user and utility scroll
+- React to elements position changes
 - Customize _easing_ function used to animate the scroll
 - Typescript support
-
-# Why?
-
-There are a lot of packages about smooth scrolling, so, what's the difference?
-
-Well, the main idea was to stack multiple scroll animations together, and precision. That is not an extra feature, that's what this package does, you can trigger multiple animations to several places, and it will be as precise as it can (bear in mind that browsers round the scroll position, so the margin error will be +- 0.5)  
-And to create a full-featured(yet simple) library to animate the position of the scroll.
 
 # Installation
 
@@ -66,260 +62,293 @@ It can be installed from npm,
 $ npm install --save scroll-utility
 ```
 
-or from a cdn at [jsdelivr](https://www.jsdelivr.com/package/npm/scroll-utility)
+or from a cdn at [tsdelivr](https://www.jsdelivr.com/package/npm/scroll-utility)
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/scroll-utility@3"></script>
+<script src="https://cdn.tsdelivr.net/npm/scroll-utility@4"></script>
 ```
 
 when downloading from a cdn the package will be globally exported as `ScrollUtility`
 
 # Usage
 
-## Scroll Container
+## Basic Scroll
 
-To start scrolling you first have to specify the element which will do the scroll. It can be a HTMLElement, like a div (usually with _overflow_ css property set to _auto_ or _scroll_); or the scroll can be as always effectuated by the _window_:
+```ts
+import { Scroll } from "scroll-utility"
+// const Scroll = ScrollUtility.Scroll // if using from a cdn
 
-```js
+const scrollManager = new Scroll()
+
+scrollManager.scrollTo(50) // scroll to position = 50px
+scrollManager.scrollTo(50, 1000) // scroll in 1000ms
+scrollManager.scrollTo.element("#some-element") // scroll to "#some-element"
+scrollManager.scrollTo.element("#some-element", 0.5) // scroll to "#some-element" and center it
+scrollManager.scrollTo.element("#some-element", 1, 1000) // scroll to "#some-element" and place it at the bottom of the screen in 1000ms
+scrollManager.scrollTo.scrollSize(0) // scroll to the top of the page
+scrollManager.scrollTo.scrollSize(1) // scroll to the bottom
+scrollManager.scrollTo.scrollSize(0.5, 1000) // scroll to the middle in 1000ms
+scrollManager.scrollTo.size(0) // scroll to top (1st 'screen')
+scrollManager.scrollTo.size(1) // scroll to the 2nd screen
+scrollManager.scrollTo.size(2, 999) // scroll to the 3rd screen in 999ms
+
+scrollManager.scrollBy(50) // scroll by 50px
+scrollManager.scrollBy(50, 1000) // scroll by 50px in 1000ms
+scrollManager.scrollBy.element("#some-element") // scroll by "#some-element"'s size
+scrollManager.scrollBy.element("#some-element", 0.5) // scroll by half of the size of "#some-element"
+scrollManager.scrollBy.element("#some-element", 1, 1000) // scroll by "#some-element"' size in 1000ms
+scrollManager.scrollBy.element("#some-element", 0) // this don't do any scroll
+scrollManager.scrollBy.scrollSize(0.1) // scroll by 10% of the scroll size
+scrollManager.scrollBy.size(1) // scroll a screen down
+scrollManager.scrollBy.size(-1) // scroll a screen up
+scrollManager.scrollBy.size(0.5, 1000) // scroll half a screen down
+```
+
+That's just a quick reference cheat sheet of how to use scroll-utility, if you want to learn more keep reading :)
+
+## Creating a scroll manager
+
+```ts
 import { Scroll } from "scroll-utility"
 
-const someHTMLElement = document.getElementById("some-element")
+const scrollManager = new Scroll({
+  element: window, // default scroll container is window
+  horizontal: false, // default direction vertical
+  onScroll: null, // no onScroll callback by default
+  duration: 0, // default duration to 0, 'instant' scroll
+  easing: defaultEasingFunction, // default easing function is inOutCubic
+})
 
-const windowScrollManager = new Scroll() // scroll the page
-// const windowScrollManager = new Scroll(window) // same as above, with settings
-const elementScrollManager = new Scroll(someHTMLElement) // scroll the element
+const scrollManagerWithOutOptions = new Scroll() // same as above
 ```
 
-### Default export:
+### scroll wrapper
 
-```js
-import windowScrollManager from "scroll-utility"
+The _element_ option when creating a 'scrollManager' indicates the element in which the scroll will take place, by default the window
 
-// same as: `windowScrollManager = new Scroll()`
+```ts
+const documentElement = document.querySelector("html")!
+
+let scrollManager = new Scroll() // create a scrollManager for the window
+scrollManager = new Scroll({ element: window }) //same as above
+scrollManager = new Scroll({ element: "html" }) //same as above
+scrollManager = new Scroll({ element: documentElement }) //same as above
+scrollManager = new Scroll({ element: document.documentElement }) //same as above
+
+scrollManager = new Scroll({ element: "#some-element" }) // create a scrollManager for the "#some-element"
+scrollManager = new Scroll({ element: document.getElementById("some-element") }) // same as above
 ```
 
-## scrollBy
+### direction
 
-After creating an instance of a scrollManager, you can scroll using a `scrollBy` method:
+The _horizontal_ option indicates the direction when scrolling, by default vertical
 
-```js
-import scrollManager from "scroll-utility" // default export (window scroll manager)
-
-scrollManager.scrollBy(500) // 500px
-scrollManager.scrollBy(500, 1000) // 500px, 1000ms(1s)
-scrollManager.scrollBy(500, 1000, true) // 500px, 1000ms(1s), horizontal scroll
-// scrollManager.scrollBy(500, 1000, false, someEasingAnimation) // 500px, 1000ms(1s), vertical scroll, `someEasinganimation` instead of `inOutCubic` by default
+```ts
+let scrollManager = new Scroll() // create a scrollManager with vertical scroll (default behavior)
+scrollManager = new Scroll({ horizontal: false }) // same as above
+scrollManager = new Scroll({ horizontal: true }) // create a scrollManager with horizontal scroll
 ```
 
-As you can see from the comments, in the first case it will offset scroll position by 500 pixels  
-In the 2nd case, it will offset by 500, but in 1 second, that's when you'll see the 'smooth' effect  
-In the 3rd, it will do a "horizontal" scroll instead of a "vertical", which is the default behavior.  
-And the 4th parameter, is used to override the defuault easing animation.
-
-Only the first paramater is required, by default `duration` is 0 and `horizontal` if false.
-
-<p data-height="400" data-theme-id="dark" data-slug-hash="gZqzwN" data-default-tab="js,result" data-user="theiades" data-pen-title="scroll-utility/scrollBy" data-preview="true" class="codepen">See the Pen <a href="https://codepen.io/theiades/pen/gZqzwN/">scroll-utility/scrollBy</a> by David Perez Alvarez (<a href="https://codepen.io/theiades">@theiades</a>) on <a href="https://codepen.io">CodePen</a>.</p>
-
-To determine where to scroll to, see [element](#element) and [misc](#misc) below.
-
-## onScroll
-
-You can specify `onScroll` on the constructor, or any other time you want:
+### onScroll callback
 
 ```js
-import { Scroll } from "scroll-utility"
+let scrollManager = new Scroll() // no callback by default :)
+scrollManager = new Scroll({
+  onScroll: external => {
+    console.log("scrolled!")
+    if (external) {
+      // external === true if the scroll was triggered by other means (the user with the mouse or other js running in the browser)
+    }
+  },
+})
 
-const windowScrollManager = new Scroll(window, () => {
-  console.log("scrolled")
-}) // constructor
-// const windowScrollManager = new Scroll(window, null) // by default
-
-windowScrollManager.onScroll = () => {
-  console.log("any time")
-} // any time you want
-// windowScrollManager.onScroll = null // if you don't want to capture 'onScroll' anymore
+// can be changed later:
+scrollManager.onScroll = () => console.log("new onScroll callback") // callback changed
+scrollManager.onScroll = null // go back to default config :)
 ```
 
-### External scroll
+### default duration
 
-the function `onScroll` accepts an paramater to differentiate if the scroll was originated from an external source:
+The _duration_ option indicates the default duration of the scroll animations in milliseconds, by default 0
 
-```js
-import scrollManager from "scroll-utility"
+```ts
+let scrollManager = new Scroll() // default duration is 0ms (instant scroll)
+scrollManager = new Scroll({ duration: 350 }) // 350ms scroll duration
 
-scrollManager.onScroll = (external) => {
-  if (external) {
-    console.log("external scroll") // ussualy the user via the mouse or keyboard, or some other script running in the browser
-  } else {
-    console.log("this 'scroll-utility' scrolled")
-  }
+// can be changed later:
+scrollManager.duration = 1000 // 1 second scroll duration
 ```
 
-## element
+### easing
 
-There are several utilities to help you scroll to wherever you want, you can access them in the `element` field:
+The _easing_ option indicates the default animation of the scroll, which is by default _inOutQuad_
 
-```js
-import scrollManager from "scroll-utility"
+```ts
+import { Scroll, defaultEasingFunction } from "scroll-utility"
 
-console.log(scrollManager.element.scrollPosition.y) // vertical position of the scroll
-console.log(scrollManager.element.scrollPosition.x) // horizontal position of the scroll
-```
+let scrollManager = new Scroll() // inOutCubic animation by default
+scrollManager = new Scroll({ easing: defaultEasingFunction }) // same as above
 
-All of its fields have the 'x' and 'y' for each direction of the property
-
-The objective of this element is to unify the properties of the `window` and of the `htmlElements`.
-
-### size
-
-```js
-scrollManager.element.size.x
-scrollManager.element.size.y
-```
-
-This is the size of the container, may it be the `window`, or the (div)element used to instantiate the scrollManager
-
-### scrollSize
-
-```js
-scrollManager.element.scrollSize.x
-scrollManager.element.scrollSize.y
-```
-
-This is the scroll size of the container. It determines the amount of scroll that can be done
-
-### scrollPosition
-
-```js
-scrollManager.element.scrollPosition.x
-scrollManager.element.scrollPosition.y
-```
-
-This is the position of the scrollBar. Its minimum value it's 0, and its maximum is the `scrollSize` - the `size`
-
-### offset
-
-```js
-scrollManager.element.offset.x
-scrollManager.element.offset.y
-```
-
-This is less likely to be used. It indicates the offset of the _boundingClientRect_ of the container. So for the window as container, it will return 0 for both `x` and `y`. It's the equivalent for `getBoundingClientRect().left` and `top`
-
-## stopAllAnimations
-
-```js
-scrollManager.stopAllAnimations() // this will stop all animations in scrollManager
-```
-
-## easing
-
-You can change the default easing function on the constructor, or any other time you want:
-
-```js
-import { Scroll } from "scroll-utility"
-
-const scrollManager = new Scroll(window, null, some_easing_function) // the 3rd parameter is the easing function
-
-scrollManager.easing = some_easing_function // change the default easing function any time you want
-```
-
-This [package](https://www.npmjs.com/package/easing-functions) provides easing functions. Or you can just create your own :)
-
-The default easing function used is _inOutCubic_. It seemed like the best for me.
-
-## misc
-
-```js
-import scrollManager from "scroll-utility"
-
-scrollManager.misc.someFunction()
-```
-
-Even though they can be calculated using the properties of `element`, in `misc` are some functions to get the position to scroll, due that they are likely to be needed. Feel free to make a PR to add more, or open an issue to request to add some.
-
-### getDistToElement
-
-```js
-import scrollManager from "scroll-utility"
-
-const element = document.getElementById("some-element")
-
-const distToScroll = scrollManager.misc.getDistToElement(element, 50, false)
-
-scrollManager.scrollBy(distToScroll)
-```
-
-In this case, the element _some-element_ will be centered in the page.  
-The 1st parameter is the element to scroll to.  
-The 2nd is a percent, which indicates the degree to be centered, been 0 not centered, 50 in the middle, and 100 sticked to the bottom of the view.
-And the 3rd is _horizontal_, `false` means vertical (default), and `true` horizontal
-
-<p data-height="400" data-theme-id="dark" data-slug-hash="NeogYV" data-default-tab="js,result" data-user="theiades" data-pen-title="scroll-utility/scroll-to-element" data-preview="true" class="codepen">See the Pen <a href="https://codepen.io/theiades/pen/NeogYV/">scroll-utility/scroll-to-element</a> by David Perez Alvarez (<a href="https://codepen.io/theiades">@theiades</a>) on <a href="https://codepen.io">CodePen</a>.</p>
-
-### getPercentPosition
-
-```js
-import scrollManager from "scroll-utility"
-
-cosnt distToScroll = scrollManager.misc.getPercentPosition(50, true)
-
-scrollManager.scrollBy(distToScroll)
-```
-
-In this case, it will scroll to the middle of the page
-The 1st is a percent, been 0 the top, 50 in the middle, and 100 the bottom of the page.
-And the 2nd is the _horizontal_, same as above.
-
-<p data-height="400" data-theme-id="dark" data-slug-hash="aPXqwg" data-default-tab="js,result" data-user="theiades" data-pen-title="scroll-utility/scroll-to-percent" data-preview="true" class="codepen">See the Pen <a href="https://codepen.io/theiades/pen/aPXqwg/">scroll-utility/scroll-to-percent</a> by David Perez Alvarez (<a href="https://codepen.io/theiades">@theiades</a>) on <a href="https://codepen.io">CodePen</a>.</p>
-
-### scrollTo
-
-```js
-import scrollManager from "scroll-utility"
-
-scrollManager.misc.scrollTo(500, 1000, true) // 500px, 1000ms(1s), horizontal scroll
-```
-
-This is the same as [scrollBy](#scrollby), but it doesn't offset the current position, instead it will scroll to the specified value.
-
-### isElementInRange
-
-```js
-import scrollManager from "scroll-utility"
-
-const element = document.getElementById("some-element")
-
-scrollManager.onScroll = () => {
-  console.log(scrollManager.misc.isElementInRange(element, false)) // true or false
+// can also be changed later:
+scrollManager.easing = (currentStep, offsetValue, distance, totalSteps) => {
+  // some linear function (I think is linear)
+  return distance * (currentStep / totalSteps) + offsetValue
 }
 ```
 
-`isElementInRange(element)` will return true if the element if visible in its container (ussualy window)
-The 2nd paramater is the direction, `true` _horizontal_, `false` _vertical_ (default)
+[Here](https://gist.github.com/davidpa9708/ba0d2940aee851f65f75c0ca5ba5fb60) are some more easing functions
 
-<p data-height="400" data-theme-id="dark" data-slug-hash="VqgxgJ" data-default-tab="js,result" data-user="theiades" data-pen-title="scroll-utility/range" data-preview="true" class="codepen">See the Pen <a href="https://codepen.io/theiades/pen/VqgxgJ/">scroll-utility/range</a> by David Perez Alvarez (<a href="https://codepen.io/theiades">@theiades</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+## Scrolling
 
-# Stack animations and high precision
+### scrollBy
 
-The main idea of this module is to be able of doing several animation at the same time, and still get a desirable outcome.
-It is very difficult to archive precision when scrolling, due to the fact that browsers don't scroll well to floating numbers, they often round it up. So is even more difficult when there are several animations.
-That is the best thing of scroll-utility. It is designed to work with multiple animations and keep track on where the scroll position should end.
+_scrollBy_ will accept a value (the number of px to scroll down), a duration (to override the default duration), and a easing function (to override the default one).  
+If the value in negative it will scroll up
 
-For example:
-
-```js
-scrollManager.scrollBy(500, 1000)
-scrollManager.scrollBy(34, 500)
+```ts
+scrollManager.scrollBy(50) // scroll 50px down
+scrollManager.scrollBy(-50) // scroll 50px up
+scrollManager.scrollBy(50, 1000) // scroll by 50px in 1000ms
+scrollManager.scrollBy(50, 1000, customEasingFunction) // it can also be specified an easing function just for that scroll animation
 ```
 
-1 second after the scroll starts, it will have been offseted its position for 534px
+#### scrollBy element
 
-If you wish to stop all animations every time the user scrolls, you could do:
+The 1st parameter of scrollBy.element is the element whose size will be used to scroll, the rest of parameters same as plane scrollBy
 
-```js
-scrollManager.onScroll = external => external && scrollManager.stopAllAnimations()
+```ts
+scrollManager.scrollBy.element("#some-element") // scroll by "#some-element"'s size
+scrollManager.scrollBy.element("#some-element", 0.5) // scroll by half of the size of "#some-element"
+scrollManager.scrollBy.element("#some-element", -1, 1000) // scroll by "#some-element"' size up in 1000ms
+scrollManager.scrollBy.element("#some-element", 1, 1000, customEasingFunction) // scroll by "#some-element"' size in 1000ms with a customEasingFunction
 ```
+
+#### scrollBy size
+
+Here the _size_ is the size of the scroll container, and the value passed is a modifier, been 1 the full size, 0.5 half, and a negative value will mean the scroll will be up instead of down (or left instead of right)
+
+```ts
+scrollManager.scrollBy.size(1) // scroll a screen down
+scrollManager.scrollBy.size(-1) // scroll a screen up
+scrollManager.scrollBy.size(0.5, 1000) // scroll half a screen down
+```
+
+See [size](#size)
+
+#### scrollBy scrollSize
+
+```ts
+scrollManager.scrollBy.scrollSize(0.1) // scroll by 10% of the scroll size
+```
+
+See [scrollSize](#scrollsize)
+
+### scrollTo
+
+_scrollTo_ will accept a value (the position to scroll to), a duration (to override the default duration), and a easing function (to override the default one).
+
+```ts
+scrollManager.scrollTo(50) // scroll to position = 50px
+scrollManager.scrollTo(50, 1000) // scroll in 1000ms
+```
+
+#### scrollTo element
+
+The 1st parameter of scrollTo.element is the element whose position will be used to scroll, the rest of parameters same as plane scrollTo
+
+For the value used to center the element, it matches the same criteria used in [getRelativeElementPosition](#relativeelementposition)
+
+```ts
+scrollManager.scrollTo.element("#some-element") // scroll to "#some-element"
+scrollManager.scrollTo.element("#some-element", 0.5) // scroll to "#some-element" and center it
+scrollManager.scrollTo.element("#some-element", 1, 1000) // scroll to "#some-element" and place it at the bottom of the screen in 1000ms
+```
+
+#### scrollTo size
+
+Pretty much the same as [scrollBy.size](#scrollby-size), except it scrolls _to_ instead of _by_.
+
+```ts
+scrollManager.scrollTo.size(0) // scroll to top (1st 'screen')
+scrollManager.scrollTo.size(1) // scroll to the 2nd screen
+scrollManager.scrollTo.size(2, 999) // scroll to the 3rd screen in 999ms
+```
+
+See [size](#size)
+
+#### scrollTo scrollSize
+
+Same as [scrollBy.scrollSize](#scrollby-scrollsize), except it scrolls _to_ instead of _by_.
+
+```ts
+scrollManager.scrollTo.scrollSize(0) // scroll to the top of the page
+scrollManager.scrollTo.scrollSize(1) // scroll to the bottom
+scrollManager.scrollTo.scrollSize(0.5, 1000) // scroll to the middle in 1000ms
+```
+
+See [scrollSize](#scrollsize)
+
+## Computed values
+
+### scrollPosition
+
+```ts
+const scrollManager = new Scroll()
+
+scrollManager.scrollPosition // current position of the scroll (direction depends of the default value passed in the constructor)
+```
+
+### size
+
+```ts
+const scrollManager = new Scroll()
+
+scrollManager.size // the size of the element (excluding its borders and scrollbar's size)
+```
+
+### scrollSize
+
+```ts
+const scrollManager = new Scroll()
+
+scrollManager.scrollSize // the total scroll you can do, (scrollHeight - height (or width depending on the direction))
+```
+
+### relativeElementPosition
+
+```ts
+const relativePosition = new Scroll().getRelativeElementPosition("#some-elemet")
+
+if (relativePosition < -1) {
+  /// element is out of view
+}
+if (relativePosition > -1 && relativePosition < 0) {
+  // element bottom is partially visible
+}
+if (relativePosition > 0 && relativePosition < 1) {
+  // element is fully visible
+  if (relativePosition === 0.5) {
+    // ...element is centered in view
+  }
+}
+if (relativePosition > 1 && relativePosition < 2) {
+  // element top is partially visible
+}
+if (relativePosition > 2) {
+  // element is out of view
+}
+```
+
+# Browser Compatibility
+
+Test are made using automate testing with [Browserstack](https://www.browserstack.com) [for open source](https://www.browserstack.com/open-source?ref=pricing).
+<span> <img src="./assets/BrowserStack-logo.png" width="200px" align="middle" /> </span>
+
+# Why?
+
+There are a lot of packages about smooth scrolling, so, what's the difference?
+
+Well, the main idea is to be able to stack multiple scroll animations together, and with high precision. That is not an extra feature, that's what this package does, you can trigger multiple animations to several places, and it will be as precise as it can be.
 
 # License
 
@@ -329,5 +358,3 @@ scrollManager.onScroll = external => external && scrollManager.stopAllAnimations
 
 This project is free and open-source, so if you think this project can help you or anyone else, you should star it in [github](https://github.com/LeDDGroup/scroll-utility/)
 Also feel free to open an [issue](https://github.com/LeDDGroup/scroll-utility/issues) if you have any idea, question, or you've found a bug. Any feedback is good support
-
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>

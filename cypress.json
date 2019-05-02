@@ -1,9 +1,0 @@
-{
-  "baseUrl": "http://localhost:8080",
-  "pluginsFile": "cypress/plugins.js",
-  "integrationFolder": "cypress/tests",
-  "trashAssetsBeforeRuns": true,
-  "video": false,
-  "viewportWidth": 480,
-  "viewportHeight": 320
-}
