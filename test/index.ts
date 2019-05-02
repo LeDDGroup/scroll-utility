@@ -96,7 +96,7 @@ for (const os in capabilities) {
                   horizontal,
                   element,
                 )
-                expect(placement).toBeCloseTo(value)
+                expect(placement).toBeCloseTo(value, 1)
               })
             })
           })
