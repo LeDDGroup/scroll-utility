@@ -86,7 +86,7 @@ for (const os in capabilities) {
 
                 const placement = await browser.executeScript(
                   (wrapper: string, horizontal: boolean, element: HTMLElement) => {
-                    return window.ScrollUtility.getElementRelativePosition(
+                    return window.ScrollUtility.getRelativeElementPosition(
                       wrapper,
                       element,
                       horizontal,
@@ -96,7 +96,7 @@ for (const os in capabilities) {
                   horizontal,
                   element,
                 )
-                expect(placement).toBe(value)
+                expect(placement).toBeCloseTo(value)
               })
             })
           })
