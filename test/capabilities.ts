@@ -17,6 +17,8 @@ const basicCap = {
   "browserstack.video": "false",
 }
 
+const minSet = true
+
 const windowCap = {
   ...basicCap,
   os: "Windows",
@@ -29,11 +31,7 @@ const macCap = {
   os_version: "High Sierra",
 }
 
-const capabilities: {
-  [os: string]: {
-    [browser: string]: any
-  }
-} = {
+const allCapabilities = {
   Windows: {
     chrome: {
       ...windowCap,
@@ -74,5 +72,7 @@ const capabilities: {
     // },
   },
 }
+
+const capabilities = minSet ? { Windows: allCapabilities.Windows.chrome } : allCapabilities
 
 export default capabilities
