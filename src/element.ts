@@ -127,10 +127,9 @@ export function getDistToCenterElement(
 ) {
   const elementPosition = getOffset(elementOrQuery, horizontal) - getOffset(wrapper, horizontal)
   const elementSize = getSizeWithBorders(elementOrQuery, horizontal)
-  const ratio = elementPosition - (getSize(wrapper, horizontal) - elementSize) * value
-  return ratio <= 1 && ratio >= 0
-    ? ratio
-    : (ratio < 0
+  return value <= 1 && value >= 0
+    ? elementPosition - (getSize(wrapper, horizontal) - elementSize) * value
+    : (value < 0
         ? elementPosition
         : elementPosition - getSize(wrapper, horizontal) + elementSize * 2) -
         elementSize * value
