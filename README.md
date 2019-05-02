@@ -35,6 +35,7 @@
     - [size](#size)
     - [scrollSize](#scrollsize)
     - [relativeElementPosition](#relativeelementposition)
+- [Browser Compatibility](#browser-compatibility)
 - [Why?](#why)
 - [License](#license)
 - [Support](#support)
@@ -337,6 +338,11 @@ if (relativePosition > 2) {
   // element is out of view
 }
 ```
+
+# Browser Compatibility
+
+Test are made using automate testing with [Browserstack](https://www.browserstack.com) [for open source](https://www.browserstack.com/open-source?ref=pricing).
+<span> <img src="./assets/BrowserStack-logo.png" width="200px" align="middle" /> </span>
 
 # Why?
 
