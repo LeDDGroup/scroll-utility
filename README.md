@@ -23,6 +23,18 @@
     - [easing](#easing)
   - [Scrolling](#scrolling)
     - [scrollBy](#scrollby)
+      - [scrollBy element](#scrollby-element)
+      - [scrollBy size](#scrollby-size)
+      - [scrollBy scrollSize](#scrollby-scrollsize)
+    - [scrollTo](#scrollto)
+      - [scrollTo element](#scrollto-element)
+      - [scrollTo size](#scrollto-size)
+      - [scrollTo scrollSize](#scrollto-scrollsize)
+  - [Computed values](#computed-values)
+    - [scrollPosition](#scrollposition)
+    - [size](#size)
+    - [scrollSize](#scrollsize)
+    - [relativeElementPosition](#relativeelementposition)
 - [Why?](#why)
 - [License](#license)
 - [Support](#support)
@@ -35,8 +47,9 @@
 - Center elements
 - Extremely precise
 - Handle multiple scroll animation at the time
-- Performance aware
+- High performance
 - Detect onScroll events and differentiate between user and utility scroll
+- React to elements position changes
 - Customize _easing_ function used to animate the scroll
 - Typescript support
 
@@ -188,21 +201,141 @@ scrollManager.easing = (currentStep, offsetValue, distance, totalSteps) => {
 
 ### scrollBy
 
-```ts
-const scrollManager = new Scroll()
+_scrollBy_ will accept a value (the number of px to scroll down), a duration (to override the default duration), and a easing function (to override the default one).  
+If the value in negative it will scroll up
 
-scrollManager.scrollBy(50) // scroll by 50px
+```ts
+scrollManager.scrollBy(50) // scroll 50px down
+scrollManager.scrollBy(-50) // scroll 50px up
 scrollManager.scrollBy(50, 1000) // scroll by 50px in 1000ms
 scrollManager.scrollBy(50, 1000, customEasingFunction) // it can also be specified an easing function just for that scroll animation
+```
 
+#### scrollBy element
+
+The 1st parameter of scrollBy.element is the element whose size will be used to scroll, the rest of parameters same as plane scrollBy
+
+```ts
 scrollManager.scrollBy.element("#some-element") // scroll by "#some-element"'s size
 scrollManager.scrollBy.element("#some-element", 0.5) // scroll by half of the size of "#some-element"
 scrollManager.scrollBy.element("#some-element", -1, 1000) // scroll by "#some-element"' size up in 1000ms
 scrollManager.scrollBy.element("#some-element", 1, 1000, customEasingFunction) // scroll by "#some-element"' size in 1000ms with a customEasingFunction
-scrollManager.scrollBy.scrollSize(0.1) // scroll by 10% of the scroll size
+```
+
+#### scrollBy size
+
+Here the _size_ is the size of the scroll container, and the value passed is a modifier, been 1 the full size, 0.5 half, and a negative value will mean the scroll will be up instead of down (or left instead of right)
+
+```ts
 scrollManager.scrollBy.size(1) // scroll a screen down
 scrollManager.scrollBy.size(-1) // scroll a screen up
 scrollManager.scrollBy.size(0.5, 1000) // scroll half a screen down
+```
+
+See [size](#size)
+
+#### scrollBy scrollSize
+
+```ts
+scrollManager.scrollBy.scrollSize(0.1) // scroll by 10% of the scroll size
+```
+
+See [scrollSize](#scrollsize)
+
+### scrollTo
+
+_scrollTo_ will accept a value (the position to scroll to), a duration (to override the default duration), and a easing function (to override the default one).
+
+```ts
+scrollManager.scrollTo(50) // scroll to position = 50px
+scrollManager.scrollTo(50, 1000) // scroll in 1000ms
+```
+
+#### scrollTo element
+
+The 1st parameter of scrollTo.element is the element whose position will be used to scroll, the rest of parameters same as plane scrollTo
+
+For the value used to center the element, it matches the same criteria used in [getRelativeElementPosition](#relativeelementposition)
+
+```ts
+scrollManager.scrollTo.element("#some-element") // scroll to "#some-element"
+scrollManager.scrollTo.element("#some-element", 0.5) // scroll to "#some-element" and center it
+scrollManager.scrollTo.element("#some-element", 1, 1000) // scroll to "#some-element" and place it at the bottom of the screen in 1000ms
+```
+
+#### scrollTo size
+
+Pretty much the same as [scrollBy.size](#scrollby-size), except it scrolls _to_ instead of _by_.
+
+```ts
+scrollManager.scrollTo.size(0) // scroll to top (1st 'screen')
+scrollManager.scrollTo.size(1) // scroll to the 2nd screen
+scrollManager.scrollTo.size(2, 999) // scroll to the 3rd screen in 999ms
+```
+
+See [size](#size)
+
+#### scrollTo scrollSize
+
+Same as [scrollBy.scrollSize](#scrollby-scrollsize), except it scrolls _to_ instead of _by_.
+
+```ts
+scrollManager.scrollTo.scrollSize(0) // scroll to the top of the page
+scrollManager.scrollTo.scrollSize(1) // scroll to the bottom
+scrollManager.scrollTo.scrollSize(0.5, 1000) // scroll to the middle in 1000ms
+```
+
+See [scrollSize](#scrollsize)
+
+## Computed values
+
+### scrollPosition
+
+```ts
+const scrollManager = new Scroll()
+
+scrollManager.scrollPosition // current position of the scroll (direction depends of the default value passed in the constructor)
+```
+
+### size
+
+```ts
+const scrollManager = new Scroll()
+
+scrollManager.size // the size of the element (excluding its borders and scrollbar's size)
+```
+
+### scrollSize
+
+```ts
+const scrollManager = new Scroll()
+
+scrollManager.scrollSize // the total scroll you can do, (scrollHeight - height (or width depending on the direction))
+```
+
+### relativeElementPosition
+
+```ts
+const relativePosition = new Scroll().getRelativeElementPosition("#some-elemet")
+
+if (relativePosition < -1) {
+  /// element is out of view
+}
+if (relativePosition > -1 && relativePosition < 0) {
+  // element bottom is partially visible
+}
+if (relativePosition > 0 && relativePosition < 1) {
+  // element is fully visible
+  if (relativePosition === 0.5) {
+    // ...element is centered in view
+  }
+}
+if (relativePosition > 1 && relativePosition < 2) {
+  // element top is partially visible
+}
+if (relativePosition > 2) {
+  // element is out of view
+}
 ```
 
 # Why?
