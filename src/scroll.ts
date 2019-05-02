@@ -43,9 +43,7 @@ class Scroll {
     this.element.addEventListener("scroll", () => {
       const changed = Math.floor(this.animationManager.position) !== this.scrollPosition
       if (changed) {
-        this.animationManager.position +=
-          this.scrollPosition - this.animationManager.previousPosition
-        this.animationManager.previousPosition = this.scrollPosition
+        this.animationManager.position = this.scrollPosition
       }
       this.onScroll && this.onScroll(changed)
     })
