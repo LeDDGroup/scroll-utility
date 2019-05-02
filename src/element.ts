@@ -40,7 +40,7 @@ export function getElementFromQuery(elementOrQuery: ElementOrQuery): Element | W
   return elementOrQuery
 }
 
-export function isWindow(element: Element | Window): element is Window {
+function isWindow(element: Element | Window): element is Window {
   return element === window || element === html
 }
 
@@ -50,48 +50,44 @@ export function withWindow<T>(
   elementFunction: (element: HTMLElement) => T,
 ): T {
   const element = getElementFromQuery(elementOrQuery)
-  if (isWindow(element)) {
-    return windowFunction()
-  }
-  return elementFunction(element as HTMLElement)
+  return isWindow(element) ? windowFunction() : elementFunction(element as HTMLElement)
 }
 
-export function getSize(element: ElementOrQuery = window, horizontal: boolean = false) {
-  return withWindow(
-    element,
-    () => windowSize(horizontal),
-    element => (horizontal ? element.clientWidth : element.clientHeight),
-  )
+function getWithWindow<T>(
+  windowFunction: (horizontal: boolean) => T,
+  elementFunction: (element: HTMLElement, horizontal: boolean) => T,
+) {
+  return (elementOrQuery: ElementOrQuery, horizontal: boolean = false) => {
+    const element = getElementFromQuery(elementOrQuery)
+    return isWindow(element)
+      ? windowFunction(horizontal)
+      : elementFunction(element as HTMLElement, horizontal)
+  }
 }
-export function getSizeWithBorders(element: ElementOrQuery = window, horizontal: boolean = false) {
-  return withWindow(
-    element,
-    () => windowSize(horizontal),
-    element => (horizontal ? element.offsetWidth : element.offsetHeight),
-  )
-}
-export function getScrollPosition(element: ElementOrQuery = window, horizontal: boolean = false) {
-  return withWindow(
-    element,
-    () => (horizontal ? window.pageXOffset : window.pageYOffset),
-    element => (horizontal ? element.scrollLeft : element.scrollTop),
-  )
-}
-export function getScrollSize(element: ElementOrQuery = window, horizontal: boolean = false) {
-  return withWindow(
-    element,
-    () => windowScrollSize(horizontal),
-    element => (horizontal ? element.scrollWidth : element.scrollHeight),
-  )
-}
-export function getOffset(element: ElementOrQuery = window, horizontal: boolean = false) {
-  return withWindow(
-    element,
-    () => 0,
-    element =>
-      horizontal ? element.getBoundingClientRect().left : element.getBoundingClientRect().top,
-  )
-}
+
+export const getSize = getWithWindow(windowSize, (element, horizontal) =>
+  horizontal ? element.clientWidth : element.clientHeight,
+)
+
+export const getSizeWithBorders = getWithWindow(windowSize, (element, horizontal) =>
+  horizontal ? element.offsetWidth : element.offsetHeight,
+)
+
+export const getScrollPosition = getWithWindow(
+  horizontal => (horizontal ? window.pageXOffset : window.pageYOffset),
+  (element, horizontal) => (horizontal ? element.scrollLeft : element.scrollTop),
+)
+
+export const getScrollSize = getWithWindow(
+  horizontal => windowScrollSize(horizontal),
+  (element, horizontal) => (horizontal ? element.scrollWidth : element.scrollHeight),
+)
+export const getOffset = getWithWindow(
+  () => 0,
+  (element, horizontal) =>
+    horizontal ? element.getBoundingClientRect().left : element.getBoundingClientRect().top,
+)
+
 export function scrollTo(element: ElementOrQuery = window, value = 0, horizontal: boolean = false) {
   withWindow(
     element,
