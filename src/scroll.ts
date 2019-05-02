@@ -64,8 +64,8 @@ class Scroll {
   get scrollPosition() {
     return ScrollElement.getScrollPosition(this.element, this.horizontal)
   }
-  getElementRelativePosition(elementOrQuery: ElementOrQuery): number {
-    return ScrollElement.getElementRelativePosition(this.element, elementOrQuery, this.horizontal)
+  getRelativeElementPosition(elementOrQuery: ElementOrQuery): number {
+    return ScrollElement.getRelativeElementPosition(this.element, elementOrQuery, this.horizontal)
   }
   stopAllAnimations() {
     this.animationManager.stopAllAnimations()
