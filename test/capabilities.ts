@@ -73,6 +73,8 @@ const allCapabilities = {
   },
 }
 
-const capabilities = minSet ? { Windows: allCapabilities.Windows.chrome } : allCapabilities
+const capabilities = minSet
+  ? { Windows: { chrome: allCapabilities.Windows.chrome } }
+  : allCapabilities
 
 export default capabilities
