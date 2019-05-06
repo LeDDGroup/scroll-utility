@@ -1,7 +1,7 @@
 # [scroll-utility](https://github.com/LeDDGroup/scroll-utility)
 
-[![npm](https://img.shields.io/npm/dw/scroll-utility.svg)](https://www.npmts.com/package/scroll-utility)
-[![](https://data.tsdelivr.com/v1/package/npm/scroll-utility/badge)](https://www.jsdelivr.com/package/npm/scroll-utility)  
+[![npm](https://img.shields.io/npm/dw/scroll-utility.svg)](https://www.npmjs.com/package/scroll-utility)
+[![](https://data.jsdelivr.com/v1/package/npm/scroll-utility/badge)](https://www.jsdelivr.com/package/npm/scroll-utility)  
 [![Travis](https://travis-ci.org/LeDDGroup/scroll-utility.svg?branch=master)](https://travis-ci.org/LeDDGroup/scroll-utility)
 [![Maintainability](https://api.codeclimate.com/v1/badges/0914e9eba77aee46d514/maintainability)](https://codeclimate.com/github/LeDDGroup/scroll-utility/maintainability)
 [![Greenkeeper badge](https://badges.greenkeeper.io/LeDDGroup/scroll-utility.svg)](https://greenkeeper.io/)
@@ -62,10 +62,10 @@ It can be installed from npm,
 $ npm install --save scroll-utility
 ```
 
-or from a cdn at [tsdelivr](https://www.jsdelivr.com/package/npm/scroll-utility)
+or from a cdn at [jsdelivr](https://www.jsdelivr.com/package/npm/scroll-utility)
 
 ```html
-<script src="https://cdn.tsdelivr.net/npm/scroll-utility@4"></script>
+<script src="https://cdn.jsdelivr.net/npm/scroll-utility@4"></script>
 ```
 
 when downloading from a cdn the package will be globally exported as `ScrollUtility`
