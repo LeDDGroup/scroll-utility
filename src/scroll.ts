@@ -14,6 +14,7 @@ function easeInOutQuad(t: number, b: number, c: number, d: number) {
 	if ((t /= d / 2) < 1) return (c / 2) * t * t + b;
 	return (-c / 2) * (--t * (t - 2) - 1) + b;
 }
+const defaultEasing = easeInOutQuad;
 
 export function getElementFromQuery(
 	elementOrQuery: ElementOrQuery
@@ -81,7 +82,8 @@ class ScrollContainer {
 		);
 	}
 
-	scrollBy(distance, duration, easingFunction = easeInOutQuad) {
+	scrollTo(position, duration, easingFunction) {
+		const distance = this.finalPosition - position;
 		const initialTime = performance.now();
 		this.finalPosition += distance;
 
@@ -109,8 +111,10 @@ class ScrollContainer {
 }
 
 export class ScrollUtility {
-	private verticalScrollAnimations: ScrollContainer;
-	private horizontalScrollAnimations: ScrollContainer;
+	private verticalScrollContainer: ScrollContainer;
+	private horizontalScrollContainer: ScrollContainer;
+	private duration: number;
+	private easing: EasingFunction;
 	constructor(
 		private element = window,
 		public options: {
@@ -119,31 +123,35 @@ export class ScrollUtility {
 			onScroll?: () => void;
 		} = {}
 	) {
-		this.verticalScrollAnimations = new ScrollContainer(
+		this.verticalScrollContainer = new ScrollContainer(
 			() => getScrollPosition(this.element, false),
 			() => getScrollSize(this.element, false),
 			options.onScroll
 		);
-		this.horizontalScrollAnimations = new ScrollContainer(
+		this.horizontalScrollContainer = new ScrollContainer(
 			() => getScrollPosition(this.element, true),
 			() => getScrollSize(this.element, true),
 			options.onScroll
 		);
+		this.duration = options.duration || 1000;
+		this.easing = options.easing || defaultEasing;
 	}
 
 	stop() {
-		this.verticalScrollAnimations.stop();
-		this.horizontalScrollAnimations.stop();
+		this.verticalScrollContainer.stop();
+		this.horizontalScrollContainer.stop();
 	}
 
 	get scrollX() {
 		return 0;
 	}
 	get scrollY() {
-		return 0;
+		return this.verticalScrollContainer.finalPosition;
 	}
 	set scrollX(x: number) {}
-	set scrollY(y: number) {}
+	set scrollY(y: number) {
+		this.verticalScrollContainer.scrollTo(y, this.duration, this.easing);
+	}
 }
 
 // function scrollToElement(query: ElementOrQuery, value: number) {
