@@ -1,10 +1,10 @@
 #+TITLE: scroll-utility
 #+HTML_LINK_HOME: https://github.com/LeDDGroup/scroll-utility
 #+HTML_DESCRIPTION: A simple to use scroll utility package for centering elements, and smooth animations
-#+HTML_HEAD: <meta name="viewport" content="width=device-width, initial-scale=1.0">
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="assets/awsm.css">
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="assets/index.css">
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="assets/notifications.css">
+#+HTML_HEAD: <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="assets/awsm.css" />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="assets/index.css" />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="assets/notifications.css" />
 #+HTML_HEAD: <script type="text/javascript" src="index.js"> </script>
 #+HTML_HEAD: <script type="text/javascript" src="scroll-utility.js"> </script>
 #+HTML_HEAD: <script type="text/javascript" src="assets/notifications.js"> </script>
