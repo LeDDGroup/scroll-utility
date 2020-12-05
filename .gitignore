@@ -3,6 +3,7 @@ dist
 makefile
 node_modules
 npm-debug.log
+pkg/
 .vscode
 .docz
 .yarn/*
