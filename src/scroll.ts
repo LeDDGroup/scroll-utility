@@ -127,6 +127,7 @@ export class ScrollUtility {
 	set scrollX(x: number) {}
 	get scrollY(y: number) {}
 }
+
 // function scrollToElement(query: ElementOrQuery, value: number) {
 // 	const element = getElementFromQuery(query);
 // 	const to =
