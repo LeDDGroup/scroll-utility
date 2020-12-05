@@ -1,4 +1,4 @@
-import { SElement } from "./misc";
+import { getScrollPosition, getScrollSize } from "./misc";
 
 export type EasingFunction = (
 	currentStep: number,
@@ -46,13 +46,10 @@ interface Animation {
 
 class ScrollContainer {
 	constructor(
-		private horizontal: boolean = false,
-		options: {
-			private getScrollPosition;
-			private getScrollSize;
-			private scrollPosition;
-		}
-	);
+		private getScrollPosition,
+		private getScrollSize,
+		public onScroll
+	) {}
 	animations: Animation[] = [];
 	virtualPosition: number = 0;
 	finalPosition: number = 0;
@@ -63,11 +60,11 @@ class ScrollContainer {
 		const diff =
 			position - Math.round(maxMin(this.virtualPosition, this.getScrollSize()));
 		this.finalPosition += diff;
-		onScroll && onScroll(!!diff);
+		this.onScroll && this.onScroll(!!diff);
 
 		this.animations = this.animations.filter(
 			({ initialTime, duration, easingFunction, distance }) => {
-				function getPosition(time: number) {
+				const getPosition = (time: number) => {
 					const currentDuration = maxMin(time - initialTime, duration, 0);
 					const offsetPosition = this.finalPosition - distance;
 					return easingFunction(
@@ -76,7 +73,7 @@ class ScrollContainer {
 						distance,
 						duration
 					);
-				}
+				};
 				this.virtualPosition +=
 					getPosition(currentTime) - getPosition(this.previousTime);
 				return currentTime < duration;
@@ -84,9 +81,9 @@ class ScrollContainer {
 		);
 	}
 
-	scrollBy(distance, duration, easingFunction) {
+	scrollBy(distance, duration, easingFunction = easeInOutQuad) {
 		const initialTime = performance.now();
-		scrollAnimation.finalPosition += distance;
+		this.finalPosition += distance;
 
 		const value = maxMin(
 			distance,
@@ -112,15 +109,27 @@ class ScrollContainer {
 }
 
 export class ScrollUtility {
-	private verticalScrollAnimations = new ScrollContainer();
-	private horizontalScrollAnimations = new ScrollContainer(true);
+	private verticalScrollAnimations: ScrollContainer;
+	private horizontalScrollAnimations: ScrollContainer;
 	constructor(
 		private element = window,
-		private options: {
-			duration: number;
-			easing: EasingFunction;
+		public options: {
+			duration?: number;
+			easing?: EasingFunction;
+			onScroll?: () => void;
 		} = {}
-	) {}
+	) {
+		this.verticalScrollAnimations = new ScrollContainer(
+			() => getScrollPosition(this.element, false),
+			() => getScrollSize(this.element, false),
+			options.onScroll
+		);
+		this.horizontalScrollAnimations = new ScrollContainer(
+			() => getScrollPosition(this.element, true),
+			() => getScrollSize(this.element, true),
+			options.onScroll
+		);
+	}
 
 	stop() {
 		this.verticalScrollAnimations.stop();
