@@ -5,3 +5,9 @@ node_modules
 npm-debug.log
 .vscode
 .docz
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*

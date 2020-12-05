@@ -3,7 +3,9 @@
   "description": "A simple to use scroll utility package for centering elements, and smooth animations",
   "types": "dist/index.d.ts",
   "main": "dist/scroll-utility.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "rm -rf dist && rollup -c",
     "gh-pages": "gh-pages -d doc",
