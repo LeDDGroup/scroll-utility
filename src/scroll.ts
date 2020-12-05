@@ -104,6 +104,11 @@ class ScrollContainer {
 		this.animations.push(animation);
 		this.animations.length === 1 && this.update(initialTime);
 	}
+
+	stop() {
+		this.animations = [];
+		this.finalPosition = this.virtualPosition;
+	}
 }
 
 export class ScrollUtility {
@@ -122,10 +127,14 @@ export class ScrollUtility {
 		this.horizontalScrollAnimations.stop();
 	}
 
-	get scrollX() {}
-	get scrollY() {}
+	get scrollX() {
+		return 0;
+	}
+	get scrollY() {
+		return 0;
+	}
 	set scrollX(x: number) {}
-	get scrollY(y: number) {}
+	set scrollY(y: number) {}
 }
 
 // function scrollToElement(query: ElementOrQuery, value: number) {
