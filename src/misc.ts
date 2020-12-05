@@ -11,8 +11,11 @@ const getWindowHeight = () =>
 	window.innerHeight;
 
 const getElementWidth = (el: Element) => el.clientWidth;
+const getElementHeight = (el: Element) => el.clientHeight;
 
-function isWindow() {}
+function isWindow(el) {
+	return el === window;
+}
 
 const withWindow = (wFn, eFn) => (el: ScrollElement) =>
 	isWindow(el) ? wFn : eFn(el);
@@ -130,7 +133,7 @@ export const getPosition = withDirection(getLeftPosition, getTopPosition);
 export const scrollTop = (el, value) => el.scrollBy(value, 0);
 export const scrollLeft = (el, value) => el.scrollBy(0, value);
 export const scroll = (el, value, horizontal) =>
-	horizontal ? scrollLeft(value) : scrollTop(value);
+	horizontal ? scrollLeft(el, value) : scrollTop(el, value);
 
 export const getOffset = (
 	container: ScrollElement,
@@ -154,8 +157,11 @@ export function getRelativePosition(
 	element: ScrollElement,
 	horizontal: boolean
 ): number {
-	if (element === myContainer.element) {
-		return getScrollPosition() / getScrollSize();
+	if (element === container) {
+		return (
+			getScrollPosition(element, horizontal) /
+			getScrollSize(element, horizontal)
+		);
 	}
 	return (
 		getOffset(container, element, horizontal) /
