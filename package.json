@@ -10,7 +10,9 @@
     "build": "pika-pack",
     "gh-pages": "gh-pages -d doc",
     "semantic-release": "semantic-release",
-    "travis-deploy-once": "travis-deploy-once"
+    "travis-deploy-once": "travis-deploy-once",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "@pika/pack": {
     "pipeline": [
@@ -50,6 +52,7 @@
   },
   "homepage": "https://leddgroup.github.io/scroll-utility",
   "devDependencies": {
+    "@babel/core": "^7.12.9",
     "@pika/pack": "^0.5.0",
     "@pika/plugin-build-types": "^0.9.2",
     "@pika/plugin-build-umd": "^0.9.2",
@@ -57,8 +60,18 @@
     "@pika/plugin-bundle-web": "^0.9.2",
     "@pika/plugin-standard-pkg": "^0.9.2",
     "@pika/plugin-ts-standard-pkg": "^0.9.2",
+    "@storybook/addon-actions": "^6.1.10",
+    "@storybook/addon-essentials": "^6.1.10",
+    "@storybook/addon-links": "^6.1.10",
+    "@storybook/react": "^6.1.10",
+    "@types/react": "^17.0.0",
+    "babel-loader": "^8.2.2",
+    "cypress": "^6.1.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
     "semantic-release": "^17.3.0",
     "tslib": "^2.0.3",
     "typescript": "^4.1.2"
-  }
+  },
+  "dependencies": {}
 }
