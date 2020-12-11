@@ -3,7 +3,7 @@ import theme from "./theme";
 
 addons.setConfig({
 	isFullscreen: false,
-	showPanel: false,
+	showPanel: true,
 	sidebarAnimations: true,
 	enableShortcuts: false,
 	isToolshown: false,
