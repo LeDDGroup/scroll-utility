@@ -17,8 +17,8 @@ import { Ruler } from './Ruler'
 <Playground>
 	{() => {
 		const ScrollManager = React.useMemo(() => new ScrollUtility('#container'), []);
-		const scrollBottom = () => ScrollManager.scrollY += 100
-		const getScrollTop = () => alert(ScrollManager.scrollY);
+		const scrollBottom = () => ScrollManager.scrollTop += 100
+		const getScrollTop = () => alert(ScrollManager.scrollTop);
 		return (
 			<>
 				<Ruler />

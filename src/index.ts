@@ -1,3 +1,3 @@
-import { ScrollUtility } from "./scroll";
+import { ScrollUtility } from "./ScrollUtility";
 
 export default ScrollUtility;

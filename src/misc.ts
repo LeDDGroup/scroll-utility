@@ -1,3 +1,4 @@
+export type ElementOrQuery = Element | Window | string;
 type ScrollElement = Element | Window;
 
 const getWindowWidth = () =>
@@ -17,8 +18,28 @@ function isWindow(el) {
 	return el === window;
 }
 
-const withWindow = (wFn, eFn) => (el: ScrollElement) =>
-	isWindow(el) ? wFn() : eFn(el);
+export function getElementFromQuery(
+	elementOrQuery: ElementOrQuery
+): HTMLElement | Window {
+	if (!elementOrQuery)
+		throw new Error(`elementOrQuery should not be a ${typeof elementOrQuery}`);
+	const element =
+		typeof elementOrQuery === "string"
+			? document.querySelector(elementOrQuery)
+			: elementOrQuery;
+	if (!element)
+		throw new Error(`no element matched querySelector ${elementOrQuery}`);
+	if (element !== window && !(element instanceof Element))
+		throw new Error("element should be an instance of Element"); // TODO improve warning
+	return element === document.documentElement
+		? window
+		: (element as HTMLElement);
+}
+
+const withWindow = (wFn, eFn) => (el: ScrollElement) => {
+	const element = getElementFromQuery(el);
+	return isWindow(element) ? wFn() : eFn(element);
+};
 
 const withDirection = (hFn, vFn) => (el: ScrollElement, horizontal: boolean) =>
 	horizontal ? hFn(el) : vFn(el);
@@ -179,3 +200,12 @@ export function getDistToElement(
 		getDiff(container, element, horizontal)
 	);
 }
+
+// function scrollToElement(query: ElementOrQuery, value: number) {
+// 	const element = getElementFromQuery(query);
+// 	const to =
+// 		element === myContainer.element
+// 		? myContainer.scrollSize() * value
+// 		: getDistToElement(element, value) + myContainer.scrollPosition();
+// 	scrollToValue(to);
+// }
