@@ -9,11 +9,23 @@ Hello, I'm a mdx file!
 
 import { Playground } from 'docz'
 import ScrollUtility from 'scroll-utility'
+import { Ruler } from './Ruler'
 
 # Button
 
 ## Basic usage
-
 <Playground>
-  <button onClick={() => console.log(ScrollUtility)}>Click me</button>
+	{() => {
+		const ScrollManager = React.useMemo(() => new ScrollUtility(), []);
+		const scrollBottom = () => ScrollManager.scrollTop = '100%'
+		const getScrollTop = () => alert(ScrollManager.scrollTop);
+		return (
+			<>
+			<Ruler />
+				<button onClick={scrollBottom}>Scroll Bottom</button>
+				<button onClick={getScrollTop}>Get scroll position </button>
+				<div style={{ height: '50vh', overflow: 'auto'}}><div style={{height: '100vh'}} /></div>
+			</>
+		)
+	}}
 </Playground>
