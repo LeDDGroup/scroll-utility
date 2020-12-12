@@ -118,22 +118,20 @@ class ScrollContainer {
 }
 
 export class ScrollUtility {
-	private element;
 	private verticalScrollContainer: ScrollContainer;
 	private horizontalScrollContainer: ScrollContainer;
 	private duration: number;
 	private easing: EasingFunction;
 	constructor(
-		element = window,
+		private elementOrQuery = window,
 		public options: {
 			duration?: number;
 			easing?: EasingFunction;
 			onScroll?: () => void;
 		} = {}
 	) {
-		this.element = getElementFromQuery(element);
 		this.verticalScrollContainer = new ScrollContainer(
-			() => getScrollPosition(this.element, false),
+			() => getScrollPosition(getElementFromQuery(this.element), false),
 			() => getScrollHeight(this.element),
 			options.onScroll
 		);
@@ -144,6 +142,9 @@ export class ScrollUtility {
 		);
 		this.duration = options.duration ?? 1000;
 		this.easing = options.easing ?? defaultEasing;
+	}
+	private get element() {
+		return getElementFromQuery(this.elementOrQuery);
 	}
 
 	stop() {

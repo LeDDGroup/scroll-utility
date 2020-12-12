@@ -16,11 +16,7 @@ import { Ruler } from './Ruler'
 ## Basic usage
 <Playground>
 	{() => {
-		const ScrollManager = React.useMemo(() => {
-			const element = document.getElementById('container')
-			console.log(element)
-			return new ScrollUtility(element || window)
-		}, []);
+		const ScrollManager = React.useMemo(() => new ScrollUtility('#container'), []);
 		const scrollBottom = () => ScrollManager.scrollY += 100
 		const getScrollTop = () => alert(ScrollManager.scrollY);
 		return (
