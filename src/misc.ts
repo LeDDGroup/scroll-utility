@@ -18,7 +18,7 @@ function isWindow(el) {
 }
 
 const withWindow = (wFn, eFn) => (el: ScrollElement) =>
-	isWindow(el) ? wFn : eFn(el);
+	isWindow(el) ? wFn() : eFn(el);
 
 const withDirection = (hFn, vFn) => (el: ScrollElement, horizontal: boolean) =>
 	horizontal ? hFn(el) : vFn(el);
@@ -45,8 +45,8 @@ export const getRealWindowScrollHeight = () =>
 		document.documentElement.offsetHeight
 	);
 
-export const getRealElementScrollHeight = (el) => el.scrollHeight;
-export const getRealElementScrollWidth = (el) => el.scrollWidth;
+export const getRealElementScrollHeight = el => el.scrollHeight;
+export const getRealElementScrollWidth = el => el.scrollWidth;
 
 export const getRealScrollWidth = withWindow(
 	getRealWindowScrollWidth,
@@ -68,10 +68,10 @@ export const getScrollHeight = (el: ScrollElement) =>
 export const getScrollSize = withDirection(getScrollWidth, getScrollHeight);
 
 export const getWindowScrollLeft = () => window.pageXOffset;
-export const getElementScrollLeft = (el) => el.scrollLeft;
+export const getElementScrollLeft = el => el.scrollLeft;
 
 export const getWindowScrollTop = () => window.pageYOffset;
-export const getElementScrollTop = (el) => el.scrollTop;
+export const getElementScrollTop = el => el.scrollTop;
 
 export const getScrollLeft = withWindow(
 	getWindowScrollLeft,
@@ -84,12 +84,12 @@ export const getWindowOffsetWidth = () =>
 	document.documentElement.clientWidth ||
 	document.body.clientWidth ||
 	window.innerWidth;
-export const getElementOffsetWidth = (el) => el.offsetWidth;
+export const getElementOffsetWidth = el => el.offsetWidth;
 export const getWindowOffsetHeight = () =>
 	document.documentElement.clientHeight ||
 	document.body.clientHeight ||
 	window.innerHeight;
-export const getElementOffsetHeight = (el) => el.offsetHeight;
+export const getElementOffsetHeight = el => el.offsetHeight;
 
 export const getOffsetWidth = withWindow(
 	getWindowOffsetWidth,
@@ -107,10 +107,10 @@ export const getWindowBorderHeight = () => 0;
 function getElementIntProperty(el, prop) {
 	return parseInt(getComputedStyle(el, null).getPropertyValue(prop), 10) || 0;
 }
-export const getElementBorderWidth = (el) =>
+export const getElementBorderWidth = el =>
 	getElementIntProperty(el, "border-left-width") +
 	getElementIntProperty(el, "border-right-width");
-export const getElementBorderHeight = (el) =>
+export const getElementBorderHeight = el =>
 	getElementIntProperty(el, "border-top-width") +
 	getElementIntProperty(el, "border-bottom-width");
 
@@ -124,14 +124,14 @@ export const getBorderHeight = withWindow(
 );
 export const getBorder = withDirection(getBorderWidth, getBorderHeight);
 
-export const getElementLeftPosition = (el) => el.getBoundingClientRect().left;
-export const getElementTopPosition = (el) => el.getBoundingClientRect().top;
+export const getElementLeftPosition = el => el.getBoundingClientRect().left;
+export const getElementTopPosition = el => el.getBoundingClientRect().top;
 export const getLeftPosition = withWindow(() => 0, getElementLeftPosition);
 export const getTopPosition = withWindow(() => 0, getElementTopPosition);
 export const getPosition = withDirection(getLeftPosition, getTopPosition);
 
-export const scrollTop = (el, value) => el.scrollBy(value, 0);
-export const scrollLeft = (el, value) => el.scrollBy(0, value);
+export const scrollTop = (el, value) => el.scrollBy(0, value);
+export const scrollLeft = (el, value) => el.scrollBy(value, 0);
 export const scroll = (el, value, horizontal) =>
 	horizontal ? scrollLeft(el, value) : scrollTop(el, value);
 

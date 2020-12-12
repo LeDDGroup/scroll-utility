@@ -1,4 +1,10 @@
-import { getScrollPosition, getScrollSize } from "./misc";
+import {
+	getScrollPosition,
+	getScrollWidth,
+	getScrollHeight,
+	scrollTop,
+	getRealScrollHeight
+} from "./misc";
 
 export type EasingFunction = (
 	currentStep: number,
@@ -56,10 +62,11 @@ class ScrollContainer {
 	finalPosition: number = 0;
 	previousTime: number = 0;
 
-	private update(currentTime: number) {
+	public update = (currentTime: number) => {
 		const position = Math.round(this.getScrollPosition());
 		const diff =
 			position - Math.round(maxMin(this.virtualPosition, this.getScrollSize()));
+
 		this.finalPosition += diff;
 		this.onScroll && this.onScroll(!!diff);
 
@@ -77,13 +84,14 @@ class ScrollContainer {
 				};
 				this.virtualPosition +=
 					getPosition(currentTime) - getPosition(this.previousTime);
-				return currentTime < duration;
+				this.previousTime = currentTime;
+				return currentTime < duration + initialTime;
 			}
 		);
-	}
+	};
 
 	scrollTo(position, duration, easingFunction) {
-		const distance = this.finalPosition - position;
+		const distance = position - this.finalPosition;
 		const initialTime = performance.now();
 		this.finalPosition += distance;
 
@@ -97,11 +105,10 @@ class ScrollContainer {
 			initialTime,
 			duration,
 			easingFunction,
-			distance: value,
+			distance: value
 		};
 
 		this.animations.push(animation);
-		this.animations.length === 1 && this.update(initialTime);
 	}
 
 	stop() {
@@ -111,30 +118,32 @@ class ScrollContainer {
 }
 
 export class ScrollUtility {
+	private element;
 	private verticalScrollContainer: ScrollContainer;
 	private horizontalScrollContainer: ScrollContainer;
 	private duration: number;
 	private easing: EasingFunction;
 	constructor(
-		private element = window,
+		element = window,
 		public options: {
 			duration?: number;
 			easing?: EasingFunction;
 			onScroll?: () => void;
 		} = {}
 	) {
+		this.element = getElementFromQuery(element);
 		this.verticalScrollContainer = new ScrollContainer(
 			() => getScrollPosition(this.element, false),
-			() => getScrollSize(this.element, false),
+			() => getScrollHeight(this.element),
 			options.onScroll
 		);
 		this.horizontalScrollContainer = new ScrollContainer(
 			() => getScrollPosition(this.element, true),
-			() => getScrollSize(this.element, true),
+			() => getScrollWidth(this.element),
 			options.onScroll
 		);
-		this.duration = options.duration || 1000;
-		this.easing = options.easing || defaultEasing;
+		this.duration = options.duration ?? 1000;
+		this.easing = options.easing ?? defaultEasing;
 	}
 
 	stop() {
@@ -148,9 +157,28 @@ export class ScrollUtility {
 	get scrollY() {
 		return this.verticalScrollContainer.finalPosition;
 	}
+	private update = (currentTime: number) => {
+		function updateScroll(scrollContainer, scrollBy, scrollPosition) {
+			scrollContainer.update(currentTime);
+			const currentPosition = scrollContainer.virtualPosition;
+			scrollBy(currentPosition - scrollPosition);
+		}
+
+		updateScroll(
+			this.verticalScrollContainer,
+			v => scrollTop(this.element, v),
+			getScrollPosition(this.element, false)
+		);
+
+		if (this.verticalScrollContainer.animations.length) {
+			window.requestAnimationFrame(this.update);
+		}
+	};
 	set scrollX(x: number) {}
 	set scrollY(y: number) {
+		const now = performance.now();
 		this.verticalScrollContainer.scrollTo(y, this.duration, this.easing);
+		this.update(now);
 	}
 }
 
