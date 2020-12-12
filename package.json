@@ -11,8 +11,9 @@
     "gh-pages": "gh-pages -d doc",
     "semantic-release": "semantic-release",
     "travis-deploy-once": "travis-deploy-once",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "docz:dev": "docz dev",
+    "docz:build": "docz build",
+    "docz:serve": "docz build && docz serve"
   },
   "@pika/pack": {
     "pipeline": [
@@ -60,20 +61,16 @@
     "@pika/plugin-bundle-web": "^0.9.2",
     "@pika/plugin-standard-pkg": "^0.9.2",
     "@pika/plugin-ts-standard-pkg": "^0.9.2",
-    "@storybook/addon-actions": "^6.1.10",
-    "@storybook/addon-essentials": "^6.1.10",
-    "@storybook/addon-links": "^6.1.10",
-    "@storybook/addons": "^6.1.10",
-    "@storybook/react": "^6.1.10",
-    "@storybook/theming": "^6.1.10",
-    "@types/react": "^17.0.0",
     "babel-loader": "^8.2.2",
     "cypress": "^6.1.0",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
     "semantic-release": "^17.3.0",
     "tslib": "^2.0.3",
     "typescript": "^4.1.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "docz": "^2.3.1",
+    "dotenv": "^8.2.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  }
 }
