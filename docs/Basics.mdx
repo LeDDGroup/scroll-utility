@@ -1,19 +1,13 @@
 ---
-name: Hello world
-route: /
+name: Playground
+route: /playground
 ---
-
-# Hello world
-
-Hello, I'm a mdx file!
-
 import { Playground } from 'docz'
 import ScrollUtility from 'scroll-utility'
 import { Ruler } from './Ruler'
 
-# Button
+# Playground
 
-## Basic usage
 <Playground>
 	{() => {
 		const ScrollManager = React.useMemo(() => new ScrollUtility('#container'), []);

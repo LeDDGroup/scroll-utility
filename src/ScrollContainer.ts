@@ -46,13 +46,7 @@ export class ScrollContainer {
 			({ initialTime, duration, easingFunction, distance }) => {
 				const getPosition = (time: number) => {
 					const currentDuration = maxMin(time - initialTime, duration, 0);
-					const offsetPosition = this.finalPosition - distance;
-					return easingFunction(
-						currentDuration,
-						offsetPosition,
-						distance,
-						duration
-					);
+					return easingFunction(currentDuration, 0, distance, duration);
 				};
 				this.virtualPosition +=
 					getPosition(currentTime) - getPosition(this.previousTime);

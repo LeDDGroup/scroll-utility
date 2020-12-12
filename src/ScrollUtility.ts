@@ -65,3 +65,5 @@ export class ScrollUtility {
 		this.verticalScrollContainer.scrollTo(top, this.duration, this.easing);
 	}
 }
+
+export default ScrollUtility;
