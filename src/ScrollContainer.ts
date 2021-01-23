@@ -66,11 +66,12 @@ export class ScrollContainer {
 		}
 	};
 
-	scrollTo(position, duration, easingFunction) {
+	scrollTo(positionToScroll, duration, easingFunction) {
 		if (this.animations.length === 0) {
 			this.virtualPosition = this.getScrollPosition();
 			this.finalPosition = this.virtualPosition;
 		}
+		const position = maxMin(positionToScroll, this.getScrollSize());
 		const distance = position - this.finalPosition;
 		const initialTime = performance.now();
 		this.finalPosition += distance;
