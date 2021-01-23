@@ -4,12 +4,14 @@ route: /playground
 ---
 import { Playground } from 'docz'
 import ScrollUtility from 'scroll-utility'
-import { Ruler } from './Ruler'
 
 # Playground
 
 <Playground>
 {() => {
+	const scrollSize = 1000;
+	const height = 200;
+	const scrollDistance = 100;
   const ScrollManager = React.useMemo(() => new ScrollUtility(), [])
   const scrollContainerRef = React.useRef()
   React.useEffect(() => {
@@ -17,15 +19,15 @@ import { Ruler } from './Ruler'
   }, [])
   return (
     <>
-      <button onClick={() => ScrollManager.scrollTop -= 100}>Scroll Up</button>
-      <button onClick={() => ScrollManager.scrollTop += 100}>Scroll Bottom</button>
+      <button onClick={() => ScrollManager.scrollTop -= scrollDistance}>scroll {scrollDistance} up</button>
+      <button onClick={() => ScrollManager.scrollTop += scrollDistance}>scroll {scrollDistance} down</button>
       <button onClick={() => alert(ScrollManager.scrollTop)}>Get Scroll Top</button>
       <div
         ref={scrollContainerRef}
         id="container"
-        style={{ height: '50vh', overflow: 'auto' }}
+        style={{ height: `${height}px`, overflow: 'auto', position: 'relative' }}
       >
-				{Array.from({ length: 20 }).map((_, i) => (<p>{i}</p>))}
+				{Array.from({ length: Math.round(scrollSize / scrollDistance * 2) }).map((_, i) => (<div style={{ height: `${scrollDistance / 2 - 1}px`, opacity: i % 2 ? 0.5 : 1, borderTop: 'solid 1px grey'}}>{i * scrollDistance / 2}px</div>))}
 			</div>
     </>
   )
