@@ -9,17 +9,25 @@ import { Ruler } from './Ruler'
 # Playground
 
 <Playground>
-	{() => {
-		const ScrollManager = React.useMemo(() => new ScrollUtility('#container'), []);
-		const scrollBottom = () => ScrollManager.scrollTop += 100
-		const getScrollTop = () => alert(ScrollManager.scrollTop);
-		return (
-			<>
-				<Ruler />
-				<button onClick={scrollBottom}>Scroll Bottom</button>
-				<button onClick={getScrollTop}>Get scroll position </button>
-				<div id='container' style={{ height: '50vh', overflow: 'auto'}}><div style={{height: '100vh'}} /></div>
-			</>
-		)
-	}}
+{() => {
+  const ScrollManager = React.useMemo(() => new ScrollUtility(), [])
+  const scrollContainerRef = React.useRef()
+  React.useEffect(() => {
+    ScrollManager.element = scrollContainerRef.current
+  }, [])
+  return (
+    <>
+      <button onClick={() => ScrollManager.scrollTop -= 100}>Scroll Up</button>
+      <button onClick={() => ScrollManager.scrollTop += 100}>Scroll Bottom</button>
+      <button onClick={() => alert(ScrollManager.scrollTop)}>Get Scroll Top</button>
+      <div
+        ref={scrollContainerRef}
+        id="container"
+        style={{ height: '50vh', overflow: 'auto' }}
+      >
+				{Array.from({ length: 20 }).map((_, i) => (<p>{i}</p>))}
+			</div>
+    </>
+  )
+}}
 </Playground>

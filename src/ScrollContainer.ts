@@ -43,6 +43,7 @@ export class ScrollContainer {
 			Math.round(maxMin(this.virtualPosition, this.getScrollSize()));
 
 		this.onScroll && this.onScroll(!!diff);
+		this.virtualPosition += diff;
 		this.finalPosition += diff;
 
 		this.animations = this.animations.filter(
@@ -53,12 +54,12 @@ export class ScrollContainer {
 				};
 				this.virtualPosition +=
 					getPosition(currentTime) - getPosition(this.previousTime);
-				this.previousTime = currentTime;
 				return currentTime < duration + initialTime;
 			}
 		);
+		this.previousTime = currentTime;
 
-		this.scrollBy(Math.round(this.virtualPosition) - currentPosition);
+		this.scrollBy(Math.round(this.virtualPosition - currentPosition));
 
 		if (this.animations.length) {
 			window.requestAnimationFrame(this.update);

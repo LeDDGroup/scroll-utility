@@ -1,4 +1,9 @@
-import { getScrollPosition, getScrollSize, scroll } from "./misc";
+import {
+	getScrollPosition,
+	getScrollSize,
+	scroll,
+	getElementFromQuery
+} from "./misc";
 import { ScrollContainer, EasingFunction } from "./ScrollContainer";
 
 // default easing function
@@ -18,28 +23,20 @@ function getScrollContainer(element, horizontal, onScroll) {
 }
 
 export class ScrollUtility {
+	private scrollElement: Element;
 	private verticalScrollContainer: ScrollContainer;
 	private horizontalScrollContainer: ScrollContainer;
 	private duration: number;
 	private easing: EasingFunction;
 	constructor(
-		private element = window,
+		element = window,
 		public options: {
 			duration?: number;
 			easing?: EasingFunction;
 			onScroll?: () => void;
 		} = {}
 	) {
-		this.verticalScrollContainer = getScrollContainer(
-			this.element,
-			false,
-			options.onScroll
-		);
-		this.horizontalScrollContainer = getScrollContainer(
-			this.element,
-			true,
-			options.onScroll
-		);
+		this.element = element;
 		this.duration = options.duration ?? 1000;
 		this.easing = options.easing ?? defaultEasing;
 	}
@@ -48,6 +45,22 @@ export class ScrollUtility {
 		this.horizontalScrollContainer.stop();
 	}
 
+	get element() {
+		return this.scrollElement;
+	}
+	set element(element) {
+		this.scrollElement = getElementFromQuery(element);
+		this.verticalScrollContainer = getScrollContainer(
+			this.scrollElement,
+			false,
+			this.options.onScroll
+		);
+		this.horizontalScrollContainer = getScrollContainer(
+			this.scrollElement,
+			true,
+			this.options.onScroll
+		);
+	}
 	get scrollLeft() {
 		return this.horizontalScrollContainer.getFinalPosition();
 	}
