@@ -27,20 +27,23 @@ export class ScrollContainer {
 	virtualPosition: number = 0;
 	finalPosition: number = 0;
 	previousTime: number = 0;
+	lastPosition: number = 0;
+
+	public getFinalPosition() {
+		if (this.animations.length === 0) {
+			return this.getScrollPosition();
+		}
+		return this.finalPosition;
+	}
 
 	public update = (currentTime: number) => {
-		// function updateScroll(scrollContainer, scrollBy, scrollPosition) {
-		// 	scrollContainer.update(currentTime);
-		// 	const currentPosition = scrollContainer.virtualPosition;
-		// 	scrollBy(currentPosition - scrollPosition);
-		// }
-
 		const currentPosition = this.getScrollPosition();
 		const diff =
 			Math.round(currentPosition) -
 			Math.round(maxMin(this.virtualPosition, this.getScrollSize()));
 
 		this.onScroll && this.onScroll(!!diff);
+		this.finalPosition += diff;
 
 		this.animations = this.animations.filter(
 			({ initialTime, duration, easingFunction, distance }) => {
@@ -54,13 +57,19 @@ export class ScrollContainer {
 				return currentTime < duration + initialTime;
 			}
 		);
-		this.scrollBy(this.virtualPosition - currentPosition);
+
+		this.scrollBy(Math.round(this.virtualPosition) - currentPosition);
+
 		if (this.animations.length) {
 			window.requestAnimationFrame(this.update);
 		}
 	};
 
 	scrollTo(position, duration, easingFunction) {
+		if (this.animations.length === 0) {
+			this.virtualPosition = this.getScrollPosition();
+			this.finalPosition = this.virtualPosition;
+		}
 		const distance = position - this.finalPosition;
 		const initialTime = performance.now();
 		this.finalPosition += distance;
@@ -79,6 +88,9 @@ export class ScrollContainer {
 		};
 
 		this.animations.push(animation);
+		if (this.animations.length === 1) {
+			this.update(initialTime);
+		}
 	}
 
 	stop() {

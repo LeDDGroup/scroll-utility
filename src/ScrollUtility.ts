@@ -1,8 +1,4 @@
-import {
-	getScrollPosition,
-	getScrollSize
-	// scrollTop
-} from "./misc";
+import { getScrollPosition, getScrollSize, scroll } from "./misc";
 import { ScrollContainer, EasingFunction } from "./ScrollContainer";
 
 // default easing function
@@ -16,7 +12,7 @@ function getScrollContainer(element, horizontal, onScroll) {
 	return new ScrollContainer(
 		() => getScrollPosition(element, horizontal),
 		() => getScrollSize(element, horizontal),
-		() => null,
+		value => scroll(element, value, horizontal),
 		onScroll || (() => null)
 	);
 }
@@ -53,14 +49,12 @@ export class ScrollUtility {
 	}
 
 	get scrollLeft() {
-		return this.horizontalScrollContainer.finalPosition;
+		return this.horizontalScrollContainer.getFinalPosition();
 	}
 	get scrollTop() {
-		return this.verticalScrollContainer.finalPosition;
+		return this.verticalScrollContainer.getFinalPosition();
 	}
-	set scrollLeft(left: number) {
-		this.horizontalScrollContainer.scrollTo(left, this.duration, this.easing);
-	}
+	set scrollLeft(left: number) {}
 	set scrollTop(top: number) {
 		this.verticalScrollContainer.scrollTo(top, this.duration, this.easing);
 	}

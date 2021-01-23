@@ -151,8 +151,10 @@ export const getLeftPosition = withWindow(() => 0, getElementLeftPosition);
 export const getTopPosition = withWindow(() => 0, getElementTopPosition);
 export const getPosition = withDirection(getLeftPosition, getTopPosition);
 
-export const scrollTop = (el, value) => el.scrollBy(0, value);
-export const scrollLeft = (el, value) => el.scrollBy(value, 0);
+export const scrollTop = (el, value) =>
+	getElementFromQuery(el).scrollBy(0, value);
+export const scrollLeft = (el, value) =>
+	getElementFromQuery(el).scrollBy(value, 0);
 export const scroll = (el, value, horizontal) =>
 	horizontal ? scrollLeft(el, value) : scrollTop(el, value);
 
