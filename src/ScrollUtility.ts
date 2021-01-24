@@ -63,14 +63,14 @@ export class ScrollUtility {
 			this.options.onScroll
 		);
 	}
-	get scrollLeft() {
+	get left() {
 		return this.horizontalScrollContainer.getFinalPosition();
 	}
-	get scrollTop() {
+	get top() {
 		return this.verticalScrollContainer.getFinalPosition();
 	}
-	set scrollLeft(left: number) {}
-	set scrollTop(top: number) {
+	set left(left: number) {}
+	set top(top: number) {
 		this.verticalScrollContainer.scrollTo(top, this.duration, this.easing);
 	}
 }

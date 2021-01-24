@@ -35,13 +35,13 @@ import ScrollUtility from 'scroll-utility'
 
 const scroller = new ScrollUtility();
 
-scroller.scrollTop += 100; // scrolls 100px down
+scroller.top += 100; // scrolls 100px down
 
-scroller.scrollLeft -= 100; // scrolls 100px left
+scroller.left -= 100; // scrolls 100px left
 
-scroller.scrollTop = 100; // sets top scroll position to 100px
+scroller.top = 100; // sets top scroll position to 100px
 
-scroller.scrollLeft = '#element-to-scroll'; // scrolls to #element-to-scroll horizontally
+scroller.left = '#element-to-scroll'; // scrolls to #element-to-scroll horizontally
 ```
 
 Full documentation and demo [here](https://leddgroup.github.io/scroll-utility)

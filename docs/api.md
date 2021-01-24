@@ -69,8 +69,8 @@ scroller.onScroll = () => doSomething();
 ```
 
 ## Scrolling
-### scrollTop
-### scrollLeft
+### top
+### left
 
 ```ts
 interface ScrollUtility {
@@ -86,7 +86,7 @@ interface ScrollUtility {
     });
     stop: () => null;
     element: ElementOrQuery;
-    scrollLeft: number;
-    scrollTop: number;
+    left: number;
+    top: number;
 }
 ```

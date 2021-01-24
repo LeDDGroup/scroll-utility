@@ -21,12 +21,12 @@ import ScrollUtility from 'scroll-utility'
 	}, []);
 	// actions
 	const buttonUp = (
-		<button onClick={() => (scroller.scrollTop -= scrollDistance)}>
+		<button onClick={() => (scroller.top -= scrollDistance)}>
 			scroll {scrollDistance} up
 		</button>
 	);
 	const buttonDown = (
-		<button onClick={() => (scroller.scrollTop += scrollDistance)}>
+		<button onClick={() => (scroller.top += scrollDistance)}>
 			scroll {scrollDistance} down
 		</button>
 	);
