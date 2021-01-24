@@ -63,6 +63,11 @@ export class ScrollUtility {
 			this.options.onScroll
 		);
 	}
+
+	getTop(fn) {
+		return fn({ element: this.element, horizontal: false });
+	}
+
 	get left() {
 		return this.horizontalScrollContainer.getFinalPosition();
 	}
@@ -70,8 +75,17 @@ export class ScrollUtility {
 		return this.verticalScrollContainer.getFinalPosition();
 	}
 	set left(left: number) {}
-	set top(top: number) {
-		this.verticalScrollContainer.scrollTo(top, this.duration, this.easing);
+	set top(top: number | (() => number)) {
+		console.log(top)
+		const distToScroll =
+			typeof top === "function"
+				? top({ element: this.element, horizontal: false })
+				: top;
+		this.verticalScrollContainer.scrollTo(
+			distToScroll,
+			this.duration,
+			this.easing
+		);
 	}
 }
 

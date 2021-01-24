@@ -200,6 +200,11 @@ export function getDistToElement(
 	);
 }
 
+export function distTo(element) {
+	return ({ element: container, horizontal }) =>
+		getDistToElement(container, element, horizontal);
+}
+
 // function scrollToElement(query: ElementOrQuery, value: number) {
 // 	const element = getElementFromQuery(query);
 // 	const to =
