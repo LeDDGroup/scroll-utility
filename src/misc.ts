@@ -1,5 +1,5 @@
 export type ElementOrQuery = Element | Window | string;
-type ScrollElement = Element | Window;
+export type ScrollElement = Element | Window;
 
 const getWindowWidth = () =>
 	document.documentElement.clientWidth ||
