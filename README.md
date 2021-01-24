@@ -7,19 +7,12 @@
 [![Greenkeeper badge](https://badges.greenkeeper.io/LeDDGroup/scroll-utility.svg)](https://greenkeeper.io/)
 [![Gitter](https://img.shields.io/gitter/room/nwts/nw.js.svg)](https://gitter.im/LeddSoftware/scroll-utility)
 
-Go [here](https://leddgroup.github.io/scroll-utility) for full documentation
-
 # Features
 
-- Extremely powerful for scrolling to anywhere in the page, like centering elements
-- Very Easy to use
-- Custom easing animations for scrolling
-- Detect onScroll events and differentiate between user and utility scroll
-- High performance
-- Dependency free
-- Small footprint 9.32KiB
-- Typescript friendly
-- Handle multiple scroll animation at the same time
+- smooth scroll animations in any element and any direction
+- can manage multiple animations at the same time
+- high performance
+- simple and flexible api
 
 # Installation
 
@@ -29,15 +22,29 @@ From npm:
 npm install --save scroll-utility
 ```
 
-From a cdn: [jsdelivr](https://www.jsdelivr.com/package/npm/scroll-utility)
+From a [cdn](https://www.jsdelivr.com/package/npm/scroll-utility):
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/scroll-utility@5"></script>
 ```
 
-# How to Scroll
+# Usage
 
-see documentation [here](https://leddgroup.github.io/scroll-utility)
+```js
+import ScrollUtility from 'scroll-utility'
+
+const scrollManager = new ScrollUtility();
+
+scrollManager.scrollTop += 100; // scrolls 100px down
+
+scrollManager.scrollLeft -= 100; // scrolls 100px left
+
+scrollManager.scrollTop = 100; // sets top scroll position to 100px
+
+scrollManager.scrollLeft = '#element-to-scroll'; // scrolls to #element-to-scroll horizontally
+```
+
+Full documentation and demo [here](https://leddgroup.github.io/scroll-utility)
 
 # License
 

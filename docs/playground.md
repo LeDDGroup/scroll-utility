@@ -1,8 +1,7 @@
 ---
 name: Playground
-route: /playground
 ---
-import { Playground } from 'docz'
+import { Playground, Props } from 'docz'
 import ScrollUtility from 'scroll-utility'
 
 # Playground
