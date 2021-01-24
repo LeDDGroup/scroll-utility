@@ -23,11 +23,10 @@ export class ScrollContainer {
 		private scrollBy,
 		private onScroll
 	) {}
-	animations: Animation[] = [];
-	virtualPosition: number = 0;
-	finalPosition: number = 0;
-	previousTime: number = 0;
-	lastPosition: number = 0;
+	private animations: Animation[] = [];
+	private virtualPosition: number = 0;
+	private finalPosition: number = 0;
+	private previousTime: number = 0;
 
 	public getFinalPosition() {
 		if (this.animations.length === 0) {

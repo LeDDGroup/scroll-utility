@@ -33,15 +33,15 @@ From a [cdn](https://www.jsdelivr.com/package/npm/scroll-utility):
 ```js
 import ScrollUtility from 'scroll-utility'
 
-const scrollManager = new ScrollUtility();
+const scroller = new ScrollUtility();
 
-scrollManager.scrollTop += 100; // scrolls 100px down
+scroller.scrollTop += 100; // scrolls 100px down
 
-scrollManager.scrollLeft -= 100; // scrolls 100px left
+scroller.scrollLeft -= 100; // scrolls 100px left
 
-scrollManager.scrollTop = 100; // sets top scroll position to 100px
+scroller.scrollTop = 100; // sets top scroll position to 100px
 
-scrollManager.scrollLeft = '#element-to-scroll'; // scrolls to #element-to-scroll horizontally
+scroller.scrollLeft = '#element-to-scroll'; // scrolls to #element-to-scroll horizontally
 ```
 
 Full documentation and demo [here](https://leddgroup.github.io/scroll-utility)

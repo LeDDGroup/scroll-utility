@@ -8,27 +8,56 @@ import ScrollUtility from 'scroll-utility'
 
 <Playground>
 {() => {
+	// constants:
 	const scrollSize = 1000;
 	const height = 200;
 	const scrollDistance = 50;
-  const ScrollManager = React.useMemo(() => new ScrollUtility(), [])
-  const scrollContainerRef = React.useRef()
-  React.useEffect(() => {
-    ScrollManager.element = scrollContainerRef.current
-  }, [])
-  return (
-    <>
-      <button onClick={() => ScrollManager.scrollTop -= scrollDistance}>scroll {scrollDistance} up</button>
-      <button onClick={() => ScrollManager.scrollTop += scrollDistance}>scroll {scrollDistance} down</button>
-      <button onClick={() => alert(ScrollManager.scrollTop)}>Get Scroll Top</button>
-      <div
-        ref={scrollContainerRef}
-        id="container"
-        style={{ height: `${height}px`, overflow: 'auto', position: 'relative' }}
-      >
-				{Array.from({ length: Math.round(scrollSize / scrollDistance * 2) }).map((_, i) => (<div style={{ height: `${scrollDistance / 2 - 1}px`, opacity: i % 2 ? 0.5 : 1, borderTop: 'solid 1px grey'}}>{i * scrollDistance / 2}px</div>))}
+	const lineCount = Math.round((scrollSize / scrollDistance) * 2);
+	// scroller react setup
+	const scroller = React.useMemo(() => new ScrollUtility(), []);
+	const scrollContainerRef = React.useRef();
+	React.useEffect(() => {
+		scroller.element = scrollContainerRef.current;
+	}, []);
+	// actions
+	const buttonUp = (
+		<button onClick={() => (scroller.scrollTop -= scrollDistance)}>
+			scroll {scrollDistance} up
+		</button>
+	);
+	const buttonDown = (
+		<button onClick={() => (scroller.scrollTop += scrollDistance)}>
+			scroll {scrollDistance} down
+		</button>
+	);
+	// content
+	const content = Array.from({ length: lineCount }).map((_, i) => (
+		<div
+			style={{
+				height: `${scrollDistance / 2 - 1}px`,
+				opacity: i % 2 ? 0.5 : 1,
+				borderTop: "solid 1px grey"
+			}}
+		>
+			{(i * scrollDistance) / 2}px
+		</div>
+	));
+	return (
+		<>
+			{buttonUp}
+			{buttonDown}
+			<div
+				ref={scrollContainerRef}
+				id="container"
+				style={{
+					height: `${height}px`,
+					overflow: "auto",
+					position: "relative"
+				}}
+			>
+				{content}
 			</div>
-    </>
-  )
+		</>
+	);
 }}
 </Playground>
