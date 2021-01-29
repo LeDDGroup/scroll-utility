@@ -40,7 +40,8 @@ class ScrollAnimationManager {
 	}
 
 	update(time) {
-		const diff = this.previousPosition - this.scrollPosition;
+		const current = this.scrollPosition;
+		const previous = this.previousPosition;
 		this.previousPosition = this.scrollPosition;
 		const isIdle = this.animationManager.isIdle;
 		const external = !!this.diff;
@@ -59,7 +60,11 @@ class ScrollAnimationManager {
 			}
 		}
 
-		return { diff, external };
+		return {
+			current,
+			previous,
+			external
+		};
 	}
 	scrollTo(
 		position,
@@ -84,19 +89,27 @@ class ScrollAnimationManager {
 export class Scroller {
 	private verticalScroller: ScrollAnimationManager;
 	private horizontalScroller: ScrollAnimationManager;
+	public duration = 1000;
+	public easing: EasingFunction = defaultEasing;
+	public onScroll: (props: {
+		current: number;
+		previous: number;
+		external: boolean;
+	}) => any = () => null;
 
 	constructor(
 		public element: ElementOrQuery = window,
-		public duration = 1000,
-		public easing: EasingFunction = defaultEasing,
-		public onScroll = () => null
+		options: { duration?: number; easing?: EasingFunction; onScroll? } = {}
 	) {
+		this.duration = options.duration ?? this.duration;
+		this.easing = options.easing ?? this.easing;
+		this.onScroll = options.onScroll ?? this.onScroll;
 		this.verticalScroller = new ScrollAnimationManager(this, false);
 		this.horizontalScroller = new ScrollAnimationManager(this, true);
 		const updateScroller = (scroller, time, horizontal) => {
-			const { diff } = scroller.update(time);
-			if (onScroll && diff) {
-				onScroll({ diff, external });
+			const { current, previous, external } = scroller.update(time);
+			if (this.onScroll && current - previous) {
+				this.onScroll({ current, previous, external });
 			}
 		};
 		const update = () =>
