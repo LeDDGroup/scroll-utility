@@ -5,7 +5,7 @@ export type EasingFunction = (
 	totalSteps: number
 ) => number;
 
-function maxMin(value: number, max: number, min: number = 0) {
+export function maxMin(value: number, max: number, min: number = 0) {
 	return Math.max(Math.min(value, max), min);
 }
 
@@ -15,45 +15,44 @@ class Animation {
 		public distance: number,
 		public duration: number,
 		public easing: EasingFunction
-	);
+	) {}
 
 	public getPosition(time) {
 		const currentDuration = maxMin(time - this.initialTime, this.duration, 0);
-		return easingFunction(currentDuration, 0, distance, duration);
+		return this.easing(currentDuration, 0, this.distance, this.duration);
 	}
 
 	get finalTime() {
-		return this.intialTime + this.duration;
+		return this.initialTime + this.duration;
 	}
 }
 
 export class AnimationManager {
-	constructor(private setPosition);
+	constructor(private setPosition) {}
 	private animations: Animation[] = [];
 	private previousTime: number = 0;
-	public virtualPosition: number = 0;
+	public position: number = 0;
 	public finalPosition: number = 0;
 
 	adjust(offset) {
-		this.virtualPosition += offset;
+		this.position += offset;
 		this.finalPosition += offset;
 	}
 
 	update(currentTime: number) {
 		this.animations = this.animations.filter(animation => {
-			this.virtualPosition +=
-				anmation.getPosition(currentTime) -
-				anmation.getPosition(this.previousTime);
+			this.position +=
+				animation.getPosition(currentTime) -
+				animation.getPosition(this.previousTime);
 
 			return currentTime < animation.finalTime;
 		});
 
 		this.previousTime = currentTime;
-		this.setPosition(this.virtualPosition);
-		return initialPosition;
+		this.setPosition(this.position);
 	}
 
-	animate(initialTime, distance, duration, easingFunction) {
+	push(initialTime, distance, duration, easingFunction) {
 		this.finalPosition += distance;
 		const animation = new Animation(
 			initialTime,
@@ -67,6 +66,6 @@ export class AnimationManager {
 
 	stop() {
 		this.animations = [];
-		this.finalPosition = this.virtualPosition;
+		this.finalPosition = this.position;
 	}
 }
