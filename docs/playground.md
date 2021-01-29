@@ -2,7 +2,7 @@
 name: Playground
 ---
 import { Playground } from 'docz'
-import { distTo } from "scroll-utility";
+import { getOffset, getDiff, getRelativePosition } from "scroll-utility";
 import { usePlayground } from './usePlayground'
 
 # Playground
@@ -10,6 +10,7 @@ import { usePlayground } from './usePlayground'
 <Playground>
 {() => {
 	const [scroller, playground, innerElement, scrollDistance] = usePlayground();
+	const get = (fn) => fn(scroller.element, innerElement);
 	return (
 		<>
 			<button onClick={() => (scroller.top -= scrollDistance)}>
@@ -21,7 +22,11 @@ import { usePlayground } from './usePlayground'
 			<button onClick={() => (scroller.top += scroller.getTop(distTo(innerElement)))}>
 				center element
 			</button>
-			<button onClick={() => console.log(scroller.getTop(distTo(innerElement)))}>
+			<button onClick={() => console.log({
+				offset: get(getOffset),
+				diff: get(getDiff),
+				relativePosition: get(getRelativePosition),
+			})}>
 				get top dist to center element
 			</button>
 			{playground}

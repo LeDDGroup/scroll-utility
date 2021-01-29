@@ -15,15 +15,6 @@ function easeInOutQuad(t: number, b: number, c: number, d: number) {
 }
 const defaultEasing = easeInOutQuad;
 
-function getScrollContainer(element, horizontal, onScroll) {
-	return new ScrollContainer(
-		() => getScrollPosition(element, horizontal),
-		() => getScrollSize(element, horizontal),
-		value => scroll(element, value, horizontal),
-		onScroll || (() => null)
-	);
-}
-
 export class ScrollUtility {
 	private scrollElement: ScrollElement;
 	private verticalScrollContainer: ScrollContainer;
@@ -41,6 +32,18 @@ export class ScrollUtility {
 		this.element = element;
 		this.duration = options.duration ?? 1000;
 		this.easing = options.easing ?? defaultEasing;
+
+		function getScrollContainer(horizontal) {
+			return new ScrollContainer(
+				() => getScrollPosition(this.scrollElement, horizontal),
+				() => getScrollSize(this.scrollElement, horizontal),
+				value => scroll(this.scrollEle, value, horizontal),
+				onScroll || (() => null)
+			);
+		}
+
+		this.verticalScrollContainer = getScrollContainer(false);
+		this.horizontalScrollContainer = getScrollContainer(true);
 	}
 	stop() {
 		this.verticalScrollContainer.stop();
@@ -52,16 +55,6 @@ export class ScrollUtility {
 	}
 	set element(element: ElementOrQuery) {
 		this.scrollElement = getElementFromQuery(element);
-		this.verticalScrollContainer = getScrollContainer(
-			this.scrollElement,
-			false,
-			this.options.onScroll
-		);
-		this.horizontalScrollContainer = getScrollContainer(
-			this.scrollElement,
-			true,
-			this.options.onScroll
-		);
 	}
 
 	getTop(fn) {
@@ -75,17 +68,8 @@ export class ScrollUtility {
 		return this.verticalScrollContainer.getFinalPosition();
 	}
 	set left(left: number) {}
-	set top(top: number | (() => number)) {
-		console.log(top)
-		const distToScroll =
-			typeof top === "function"
-				? top({ element: this.element, horizontal: false })
-				: top;
-		this.verticalScrollContainer.scrollTo(
-			distToScroll,
-			this.duration,
-			this.easing
-		);
+	set top(top: number) {
+		this.verticalScrollContainer.scrollTo(top, this.duration, this.easing);
 	}
 }
 

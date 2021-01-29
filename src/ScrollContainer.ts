@@ -58,7 +58,9 @@ export class ScrollContainer {
 		);
 		this.previousTime = currentTime;
 
-		this.scrollBy(Math.round(this.virtualPosition - currentPosition));
+		const distToScroll = Math.round(this.virtualPosition - currentPosition);
+		console.log(distToScroll);
+		distToScroll && this.scrollBy(distToScroll);
 
 		if (this.animations.length) {
 			window.requestAnimationFrame(this.update);

@@ -157,19 +157,19 @@ export const scroll = (el, value, horizontal) =>
 
 export const getOffset = (
 	container: ScrollElement,
-	el: ScrollElement,
+	element: ScrollElement,
 	horizontal: boolean
 ) =>
-	getPosition(el, horizontal) -
+	getPosition(element, horizontal) -
 	getPosition(container, horizontal) -
 	getBorder(container, horizontal);
 
-function getDiff(
+export function getDiff(
 	container: ScrollElement,
-	el: ScrollElement,
+	element: ScrollElement,
 	horizontal: boolean
 ) {
-	return getSize(container, horizontal) - getPosition(el, horizontal);
+	return getSize(container, horizontal) - getPosition(element, horizontal);
 }
 
 export function getRelativePosition(
