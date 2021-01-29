@@ -9,7 +9,7 @@ import { usePlayground } from './usePlayground'
 
 <Playground>
 {() => {
-	const [scroller, playground, innerElement, scrollDistance] = usePlayground();
+	const [scroller, playground, innerElement, scrollDistance, scrollPosition, externalCount] = usePlayground();
 	const get = (fn) => fn(scroller.element, innerElement);
 	return (
 		<>
@@ -29,6 +29,8 @@ import { usePlayground } from './usePlayground'
 			})}>
 				get top dist to center element
 			</button>
+			Scroll Position: {scrollPosition}{' '}
+			External Count: {externalCount}
 			{playground}
 		</>
 	);

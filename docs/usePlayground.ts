@@ -53,13 +53,23 @@ export function usePlayground() {
 	const scrollDistance = 150;
 	const lineCount = Math.round((scrollSize / scrollDistance) * 2);
 
+	const [finalPosition, setFinalPosition] = React.useState(0);
+	const [scrollPosition, setScrollPosition] = React.useState(0);
+	const [externalCount, setExternalCount] = React.useState(0);
+
 	// scroller react setup
-	const onScroll = React.useCallback(props => {
-		console.log(props);
-	}, []);
-	const scroller = React.useMemo(() => new Scroller(window, { onScroll }), [
-		onScroll
-	]);
+	const scroller = React.useMemo(
+		() =>
+			new Scroller(window, {
+				onScroll: ({ current, external }) => {
+					setScrollPosition(current);
+					if (external) {
+						setExternalCount(p => p + 1);
+					}
+				}
+			}),
+		[]
+	);
 	const scrollContainerRef = React.useRef();
 	React.useEffect(() => {
 		scroller.element = scrollContainerRef.current;
@@ -75,5 +85,12 @@ export function usePlayground() {
 		</Container>
 	);
 
-	return [scroller, container, innerElementRef.current, scrollDistance];
+	return [
+		scroller,
+		container,
+		innerElementRef.current,
+		scrollDistance,
+		scrollPosition,
+		externalCount
+	];
 }
