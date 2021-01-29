@@ -2,9 +2,9 @@
 name: Options
 ---
 
-ScrollUtility constructor
+Scroller constructor
 
 ```js
-import ScrollUtility from 'scroll-utility'
+import Scroller from 'scroll-utility'
 ```
 

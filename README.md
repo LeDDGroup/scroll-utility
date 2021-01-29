@@ -31,9 +31,9 @@ From a [cdn](https://www.jsdelivr.com/package/npm/scroll-utility):
 # Usage
 
 ```js
-import ScrollUtility from 'scroll-utility'
+import Scroller from 'scroll-utility'
 
-const scroller = new ScrollUtility();
+const scroller = new Scroller();
 
 scroller.top += 100; // scrolls 100px down
 

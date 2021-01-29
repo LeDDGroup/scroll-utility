@@ -1,5 +1,5 @@
-import { ScrollUtility } from "./ScrollUtility";
+import { Scroller } from "./Scroller";
 export { getOffset, distTo, getDiff, getRelativePosition } from "./misc";
 
-export { ScrollUtility };
-export default ScrollUtility;
+export { Scroller };
+export default Scroller;

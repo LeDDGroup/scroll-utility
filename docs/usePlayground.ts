@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollUtility } from "scroll-utility";
+import { Scroller } from "scroll-utility";
 
 const Container = React.forwardRef(({ height, ...props }, ref) => (
 	<div
@@ -54,7 +54,7 @@ export function usePlayground() {
 	const lineCount = Math.round((scrollSize / scrollDistance) * 2);
 
 	// scroller react setup
-	const scroller = React.useMemo(() => new ScrollUtility(), []);
+	const scroller = React.useMemo(() => new Scroller(), []);
 	const scrollContainerRef = React.useRef();
 	React.useEffect(() => {
 		scroller.element = scrollContainerRef.current;
