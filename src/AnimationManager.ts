@@ -28,7 +28,6 @@ class Animation {
 }
 
 export class AnimationManager {
-	constructor(private setPosition) {}
 	private animations: Animation[] = [];
 	private previousTime: number = 0;
 	public position: number = 0;
@@ -37,6 +36,10 @@ export class AnimationManager {
 	adjust(offset) {
 		this.position += offset;
 		this.finalPosition += offset;
+	}
+
+	get isIdle() {
+		return !this.animations.length;
 	}
 
 	update(currentTime: number) {
@@ -49,7 +52,6 @@ export class AnimationManager {
 		});
 
 		this.previousTime = currentTime;
-		this.setPosition(this.position);
 	}
 
 	push(initialTime, distance, duration, easingFunction) {

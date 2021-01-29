@@ -17,9 +17,7 @@ const defaultEasing = easeInOutQuad;
 class ScrollAnimationManager {
 	private animationManager: AnimationManager;
 	constructor(private scroller: Scroller, private horizontal) {
-		this.animationManager = new AnimationManager(value =>
-			scroll(this.element, value, horizontal)
-		);
+		this.animationManager = new AnimationManager();
 	}
 
 	get element() {
@@ -31,24 +29,42 @@ class ScrollAnimationManager {
 	get scrollSize() {
 		return getScrollSize(this.element, this.horizontal);
 	}
-	update(time) {
-		const diff =
+
+	get diff() {
+		return (
 			Math.round(this.scrollPosition) -
-			Math.round(maxMin(this.animationManager.position, this.scrollSize));
+			Math.round(maxMin(this.animationManager.position, this.scrollSize))
+		);
+	}
 
-		this.animationManager.adjust(diff);
-		this.animationManager.update(time);
+	update(time) {
+		const isIdle = this.animationManager.isIdle;
+		const externalScroll = !!this.diff;
+		if (externalScroll) {
+			this.animationManager.adjust(this.diff);
+		}
+		if (!isIdle) {
+			this.animationManager.update(time);
 
-		return !!diff; // external scroll detected!
+			if (this.diff) {
+				scroll(
+					this.element,
+					Math.round(this.animationManager.position - this.scrollPosition),
+					this.horizontal
+				);
+			}
+		}
+
+		return externalScroll;
 	}
 	scrollTo(
 		position,
 		duration = this.scroller.duration,
-		easing = this.scroller.duration
+		easing = this.scroller.easing
 	) {
 		this.animationManager.push(
 			performance.now(),
-			position - this.scrollPosition,
+			maxMin(position, this.scrollSize) - this.animationManager.finalPosition,
 			duration,
 			easing
 		);
