@@ -1,7 +1,0 @@
-.cache
-BrowserStackLocal
-dist
-makefile
-node_modules
-npm-debug.log
-.vscode
