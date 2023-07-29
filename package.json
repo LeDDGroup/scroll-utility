@@ -1,0 +1,14 @@
+{
+  "name": "scroll-utility",
+  "version": "1.0.0",
+  "description": "Smooth scrolling utilities",
+  "main": "dist/index.js",
+  "sideEffects": false,
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
