@@ -4,18 +4,13 @@ Smooth scrolling utilities
 
 ## Installation
 
-### From CDN
-
-TODO docs for using from cdn
-
 ### From npm
 
-```
+```sh
 npm install scroll-utility
 ```
 
-
-TODO docs for usage
+```ts
 import { smoothScroll } from "scroll-utility";
 
 smoothScroll(document.getElementById("main-content"));
